@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald'); 
+html{
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+     overflow: hidden;
+}
+body{
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+
+/*GREEN PART OF BACKGROUND*/
+.green_dia{
+    position: absolute;
+    margin-top: 38px;
+    background-color: #3fb14e;
+    -webkit-transform: rotate(-25.7deg);
+    -moz-transform: rotate(-25.7deg);
+    -ms-transform: rotate(-25.7deg);
+    -o-transform: rotate(-25.7deg);
+    transform: rotate(-25.7deg);
+    height: 1800px;
+    width: 1900px;
+}
+
+/*STAR8 LOGO*/
+.comp_logo{
+    margin: 100px 0 0 90px;
+    max-width: 320px;
+    border-right: solid #b9b9b9;
+}
+
+/*TEXT BESIDE LOGO*/
+.info_text{
+    font-family: 'Oswald', sans-serif;
+    margin: -160px 0 0 440px;
+    font-size: 35px;
+    line-height: 37px;
+    color: #3b582c;
+}
+
+/*TO NEGATE THE EFFECT OF THE GREEN BACKGROUND TO ITS CONTENT*/
+.neg_rotate{
+    margin-top: -100px;
+    padding-left: 1120px;
+    -webkit-transform: rotate(25.7deg);
+    -moz-transform: rotate(25.7deg);
+    -ms-transform: rotate(25.7deg);
+    -o-transform: rotate(25.7deg);
+    transform: rotate(25.7deg);
+}
+
+/*LOGIN TEXT*/
+.sign_p{
+    padding; 20px 0 0 0px;
+    margin: 40px 0 5px 510px;
+    font-family: 'Oswald', sans-serif;   
+    font-size: 25px;
+    color: white;
+}
+
+/*LOGIN FORM STYLE*/
+.user_form{
+    width: 280px;
+    font-family: 'Oswald', sans-serif; 
+    padding: 10px 7px 10px 7px;
+    font-size: 17px;
+    color: white;
+    background-color: #3fb14e;
+    border: 2.5px solid white;
+    margin-bottom: 13px;
+}
+
+/*RESET BUTTON STYLE*/
+.resetlabel{
+    font-family: 'Oswald', sans-serif; 
+    cursor: pointer;
+    font-size: 18px;
+    padding: 7px 27px 7px 27px;
+    opacity: .8;
+    transition:opacity linear 0.15s;
+    color: white;
+    background-color: #3b582c;
+    border: none;
+}
+.resetlabel:hover{
+    font-family: 'Oswald', sans-serif; 
+    cursor: pointer;
+    font-size: 18px;
+    padding: 7px 27px 7px 27px;
+    opacity: 1;
+    color: white;
+    background-color: #3b582c;
+}
+
+/*LOGIN BUTTON STYLE*/
+.loginlabel{
+    font-family: 'Oswald', sans-serif; 
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 333px;
+    padding: 7px 27px 7px 27px;
+    opacity: .8;
+    transition:opacity linear 0.15s;
+    color: white;
+    background-color: #3b582c;
+    border: none;
+}
+.loginlabel:hover{
+    font-family: 'Oswald', sans-serif; 
+    cursor: pointer;
+    font-size: 18px;
+    padding: 7px 27px 7px 27px;
+    opacity: 1;
+    color: white;
+    background-color: #3b582c;
+}
+
+/*CHANGE BORDER COLOR ON FORMS*/
+input[type=text]:focus{
+    border-color:#ddd;
+}
+input[type=password]:focus{
+    border-color:#ddd;
+}
+input[type=email]:focus{
+    border-color:#338c3e;
+}
+
+/*FORGOT PASSWORD STYLE*/
+.pass_text{
+    font-family: 'Oswald', sans-serif; 
+    color: #92fca0;
+    font-size: 16px;
+    text-decoration: none;
+    opacity: .7;
+    transition:opacity linear 0.15s;
+}
+.pass_text:hover{
+    font-family: 'Oswald', sans-serif; 
+    color: #92fca0;
+    font-size: 16px;
+    text-decoration: none;
+    opacity: 1;
+}
+
+/*MODAL EFFECT*/
+.modal_effect{
+    position: fixed;
+	font-family: 'Oswald', sans-serif; 
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.6);
+	z-index: 999;
+	opacity:0;
+	-webkit-transition: opacity 250ms ease-in;
+	-moz-transition: opacity 250ms ease-in;
+	transition: opacity 250ms ease-in;
+	pointer-events: none;
+}
+.modal_effect:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+/*MODAL STYLE*/
+.modal_content {
+	width: 400px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 0px 13px 20px;
+	border-radius: 3px;
+    border-top: 6px solid #3fb14e;
+	background: #fff;
+    color: #333;
+}
+
+/*RESET FORM STYLE*/
+.reset_form{
+    width: 380px;
+    font-family: 'Oswald', sans-serif; 
+    padding: 10px 7px 10px 7px;
+    margin-bottom: 20px;
+    font-size: 17px;
+    color: #333;
+    background-color: white;
+    border: 2.5px solid #b9b9b9;
+}
+
+/*HIDES SUBMIT BUTTON FOR STYLING*/
+#resetbutton{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+/*HIDES SUBMIT BUTTON FOR STYLING*/
+#loginbutton{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+/*MODAL CLOSE BUTTON STYLE*/
+.closebtn{
+    background: #4c4c4c;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: 5px;
+	text-align: center;
+	top: 5px;
+	width: 25px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+}
+.closebtn:hover{
+    background: #ff4242;
+}
+
+/*SETS PLACEHOLDER COLOR*/
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #c5c5c5;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #c5c5c5;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #c5c5c5;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #c5c5c5;
+}
