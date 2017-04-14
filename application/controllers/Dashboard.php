@@ -9,6 +9,8 @@
 		public function __construct()
 		{
 			parent::__construct();
+			$this->load->model('User');
+			$this->load->model('Role');
 		}
 
 		// Checks if the user is logged out
@@ -24,7 +26,23 @@
 		public function index()
 		{
 			$this->logged_out_check();
-			$this->load->view("dashboard");
+
+			$data['title']='Dashboard';
+
+			$current_user_role = $this->Role->current_Role($this->session->userdata("user_role"));
+			$data['role'] = $current_user_role;
+			// $bus_type_data = $this->Bus_type->show_Bus_Type();
+			// $data['bustype'] = array();
+			// foreach ($bus_type_data as $rows) {
+			// 	array_push($data['bustype'],
+			// 		array(
+			// 			$rows['bus_type_id'],
+			// 			$rows['bus_type_name'],
+			// 		)
+			// 	);
+			// }
+
+			$this->load->view("dashboard", $data);
 		}
 
 	}
