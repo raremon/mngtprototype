@@ -223,13 +223,36 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li><a href="#">Per Route</a></li>
-                    <li><a href="#">Per Bus</a></li>
+                    <li><a href="#">Create Program Schedule</a></li>
+                    <li><a href="#">Browse Program Schedules</a></li>
+                    <li><a href="#">Assign Per Route</a></li>
+                    <li><a href="#">Assign Per Bus</a></li>
                   </ul>
                 </li>
-                <li><a href="#"><i class="fa fa-upload"></i> <span>Upload Ads</span></a></li>
                 <li class="treeview">
-                  <a href="#"><i class="fa fa-users"></i> <span>Manage Users</span>
+					<a href="#"><i class="fa fa-upload"></i> <span>Ads Management</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>					
+					</a>
+                  <ul class="treeview-menu">
+                    <li><a href="#">Upload New Ad</a></li>
+                    <li><a href="#">Browse Ads</a></li>
+                  </ul>				
+				</li>
+                <li class="treeview">
+					<a href="#"><i class="fa fa-upload"></i> <span>Ad Companies</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>					
+					</a>
+                  <ul class="treeview-menu">
+                    <li><a href="#">New Advertiser</a></li>
+                    <li><a href="#">Browse Ad Companies </a></li>
+                  </ul>				
+				</li>				
+                <li class="treeview">
+                  <a href="#"><i class="fa fa-users"></i> <span>Users Management</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -240,7 +263,7 @@
                   </ul>
                 </li>
                 <li class="treeview">
-                  <a href="#"><i class="fa fa-bus"></i> <span>Manage Buses</span>
+                  <a href="#"><i class="fa fa-bus"></i> <span>Bus Management</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -250,6 +273,16 @@
                     <li><a href="#">Bus Tables</a></li>
                   </ul>
                 </li>
+                <li class="treeview">
+                  <a href="#"><i class="fa fa-bus"></i> <span>Live Monitoring</span> <!-- change icon -->
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                  <ul class="treeview-menu">
+                    <li><a href="#">Active Buses</a></li>
+                  </ul>
+                </li>				
               </ul>
               <!-- /.sidebar-menu -->
             </section>
