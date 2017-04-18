@@ -9,7 +9,7 @@ class User_model_test extends TestCase
         $this->obj = $this->CI->User;
     }
 	
-	public function test_validate() {
+	public function testValidateSuccessLogin() {
 		
 		$_POST['username'] = 'admin';
 		$_POST['password'] = 'admin';
@@ -19,4 +19,32 @@ class User_model_test extends TestCase
         $this->assertEquals($expected, $actual);
 	}
 	
+	public function testValidateNoEntry() {
+		
+		$_POST['username'] = '';
+		$_POST['password'] = '';
+		
+		$actual = $this->obj->validate();
+        $expected = 'ERR_INVALID_USERNAME';
+        $this->assertEquals($expected, $actual);
+	}
+	
+	public function testValidateIncorrectUsername() {
+		
+		$_POST['username'] = 'asdf';
+		$_POST['password'] = 'admin';
+		
+		$actual = $this->obj->validate();
+        $expected = 'ERR_INVALID_USERNAME';
+        $this->assertEquals($expected, $actual);
+	}
+	
+	public function testValidateIncorrectPassword() {
+		$_POST['username'] = 'admin';
+		$_POST['password'] = 'qasdf';
+		
+		$actual = $this->obj->validate();
+        $expected = 'ERR_INVALID_PASSWORD';
+        $this->assertEquals($expected, $actual);
+	}
 }
