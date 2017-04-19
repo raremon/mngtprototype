@@ -15,6 +15,7 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/AdminLTE.min.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-green.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
+      <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
 
       <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -293,6 +294,8 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
+                    <li id="add_bus"><a href="<?php echo base_url('buses/add') ?>">Add Bus</a></li>
+                    <li id="delete_bus"><a href="<?php echo base_url('buses/delete') ?>">Delete Bus</a></li>
                     <li id="bus_routes"><a href="#">Bus Routes</a></li>
                     <li id="bus_tables"><a href="#">Bus Tables</a></li>
                   </ul>
@@ -315,3 +318,10 @@
             </section>
             <!-- /.sidebar -->
           </aside>
+
+          <script type="text/javascript">
+            $(document).ready(function() {
+               $('#<?php echo $treeActive; ?>').addClass('active');
+               $('#<?php echo $childActive; ?>').addClass('active');
+            });
+          </script>

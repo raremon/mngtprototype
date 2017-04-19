@@ -20,17 +20,18 @@
 
     <div class="row">
       <div class="container-fluid">
-        <div id="user-message"></div>
+
         <div class="col-md-12">
-          <table id="user_data" class="table table-hover">
+          <div id="bus-message"></div>
+          <h3 class="page-header">Bus Data</h3>
+          <table id="bus_data" class="table table-hover">
             <thead>
               <tr>
-                <th>USER ID</th>
-                <th>FIRST NAME</th>
-                <th>LAST NAME</th>
-                <th>ROLE</th>
-                <th>USERNAME</th>
-                <th>LAST LOGIN</th>
+                <th>BUS ID</th>
+                <th>BUS NAME</th>
+                <th>PLATE NUMBER</th>
+                <th>BUS DESCRIPTION</th>
+                <th>BUS TYPE</th>
                 <th></th>
               </tr>
             </thead>
@@ -54,29 +55,29 @@
   ////////////////////////////////////////////////////////////////
 
   // R E A D
-  $("#user_data").DataTable({
+  $("#bus_data").DataTable({
     "ajax":{
-      "url":"<?php echo site_url('users/showUserDelete') ?>",
+      "url":"<?php echo site_url('buses/show_Bus_Delete') ?>",
       "type":"POST"
     }
   })
 
   // D E L E T E
-  function delete_user(user_id) {
-    if(confirm('Do you really want to delete this User Record ??')){
+  function delete_bus(bus_id) {
+    if(confirm('Do you really want to delete this Bus Record ??')){
       $.ajax({
-        url: "<?php echo site_url('users/delete_User/') ?>",
+        url: "<?php echo site_url('buses/delete_Bus/') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'user_id='+user_id,
+        data: 'bus_id='+bus_id,
         encode:true,
         success:function(data) {
           if(!data.success){
             if(data.errors){
-              $('#user-message').html(data.errors).addClass('alert alert-danger');
+              $('#bus-message').html(data.errors).addClass('alert alert-danger');
             }
           }else {
-            $('#user-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
+            $('#bus-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
             setTimeout(function() {
               window.location.reload();
             }, 1000);
@@ -90,5 +91,5 @@
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
 
-  // END OF USER DELETE JAVASCRIPT
+  // END OF BUS ADD JAVASCRIPT
 </script>

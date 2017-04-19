@@ -22,24 +22,28 @@
       <div class="container">
 
         <div class="col-md-12">
-          <div id="user-message"></div>
-          <?php echo form_open('welcome', array('id'=>'user')); ?>
+          <div id="bus-message"></div>
+          <?php echo form_open('welcome', array('id'=>'bus')); ?>
           <div class="form-group hidden">
-            <input type="text" name="user_id" class="form-control"/>
+            <input type="text" name="bus_id" class="form-control"/>
           </div>
           <div class="form-group">
-            <label>First Name</label>
-            <input type="text" name="user_fname" class="form-control" placeholder="Cee Jay"/>
+            <label>Bus Name</label>
+            <input type="text" name="bus_name" class="form-control" placeholder="Star-8 Bus 1"/>
           </div>
           <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" name="user_lname" class="form-control" placeholder="Reyes"/>
+            <label>Plate Number</label>
+            <input type="text" name="plate_number" class="form-control" placeholder="3D-3382"/>
           </div>
           <div class="form-group">
-            <label>User Role</label>
-            <select name="user_role" class="form-control">
+            <label>Description</label>
+            <textarea name="bus_desc" class="form-control" cols="30" rows="7" placeholder="The SunBus carries 30 people (incl. driver) with a range of approx 120km from a single battery charge.  Available with full airconditioning and strong suspension it is designed to give the passenger a smooth, comfortible ride that will greatly enhance the commuting experience."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Bus Type</label>
+            <select name="bus_type" class="form-control">
               <?php 
-                foreach($roles as $row)
+                foreach($bustype as $row)
                 {
               ?>
                 <option value= <?php echo $row[0];?> >
@@ -49,22 +53,11 @@
                 }
               ?>
             </select>
+            <a class="btn btn-link pull-right" href="<?php echo site_url('terminals') ?>">Add Terminals</a>
+            <a class="btn btn-link pull-right" href="<?php echo site_url('buses/bus_type') ?>">Add Bus Types</a>
           </div>
-          <div class="form-group">
-            <label>Username</label>
-            <input type="text" name="user_name" class="form-control" placeholder="masterofdeCEEption"/>
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="user_password" class="form-control" placeholder="***********"/>
-          </div>
-          <div class="form-group">
-            <label>Confirm Password</label>
-            <input type="password" name="confirm_password" class="form-control" placeholder="***********"/>
-          </div>
-
-          <button type="button" class="btn btn-primary save" onclick="save_User()">Save</button>
-          <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_User()">Update</button>
+          <button type="button" class="btn btn-primary save" onclick="save_Bus()">Save</button>
+          <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Bus()">Update</button>
           <?php echo form_close(); ?>
         </div>
 
@@ -73,16 +66,15 @@
       <div class="container-fluid">
 
         <div class="col-md-12">
-          <h3 class="page-header">User Data</h3>
-          <table id="user_data" class="table table-hover">
+          <h3 class="page-header">Bus Data</h3>
+          <table id="bus_data" class="table table-hover">
             <thead>
               <tr>
-                <th>USER ID</th>
-                <th>FIRST NAME</th>
-                <th>LAST NAME</th>
-                <th>ROLE</th>
-                <th>USERNAME</th>
-                <th>LAST LOGIN</th>
+                <th>BUS ID</th>
+                <th>BUS NAME</th>
+                <th>PLATE NUMBER</th>
+                <th>BUS DESCRIPTION</th>
+                <th>BUS TYPE</th>
                 <th></th>
               </tr>
             </thead>
@@ -106,17 +98,17 @@
   ////////////////////////////////////////////////////////////////
 
   // C R E A T E
-  function save_User() {
+  function save_Bus() {
     $.ajax({
-      url: "<?php echo site_url('users/saveUser') ?>",
+      url: "<?php echo site_url('buses/saveBus') ?>",
       type: 'POST',
       dataType: 'json',
-      data: $('#user').serialize(),
+      data: $('#bus').serialize(),
       encode:true,
       success:function(data) {
         if(!data.success){
           if(data.errors){
-            $('#user-message').html(data.errors).addClass('alert alert-danger');
+            $('#bus-message').html(data.errors).addClass('alert alert-danger');
           }
         }else {
           alert(data.message);
@@ -129,43 +121,43 @@
   }
 
   // R E A D
-  $("#user_data").DataTable({
+  $("#bus_data").DataTable({
     "ajax":{
-      "url":"<?php echo site_url('users/showUser') ?>",
+      "url":"<?php echo site_url('buses/show_Bus') ?>",
       "type":"POST"
     }
   })
 
   // U P D A T E
-  function edit_user(user_id) {
+  function edit_bus(bus_id) {
     $.ajax({
-      url: "<?php echo site_url('users/editUser') ?>",
+      url: "<?php echo site_url('buses/edit_Bus') ?>",
       type: 'POST',
       dataType: 'json',
-      data: 'user_id='+user_id,
+      data: 'bus_id='+bus_id,
       encode:true,
       success:function (data) {
         $('.save').attr('disabled', true);
         $('.update').removeAttr('disabled');
-        $('input[name="user_id"]').val(data.user_id);
-        $('input[name="user_fname"]').val(data.user_fname);
-        $('input[name="user_lname"]').val(data.user_lname);
-        $('select[name="user_role"]').val(data.user_role);
-        $('input[name="user_name"]').val(data.user_name);
+        $('input[name="bus_id"]').val(data.bus_id);
+        $('input[name="bus_name"]').val(data.bus_name);
+        $('input[name="plate_number"]').val(data.plate_number);
+        $('textarea[name="bus_desc"]').val(data.bus_desc);
+        $('select[name="bus_type"]').val(data.bus_type);
       }
     })
   }
 
-  function update_User() {
+  function update_Bus() {
     $.ajax({
-      url: "<?php echo site_url('users/updateUser') ?>",
+      url: "<?php echo site_url('buses/updateBus') ?>",
       type: 'POST',
       dataType: 'json',
-      data: $('#user').serialize(),
+      data: $('#bus').serialize(),
       encode:true,
       success:function (data) {
         if(!data.success){
-          $('#user-message').html(data.errors).addClass('alert alert-danger');
+          $('#bus-message').html(data.errors).addClass('alert alert-danger');
         }else {
           alert(data.message);
           setTimeout(function () {
@@ -180,5 +172,5 @@
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
 
-  // END OF USER ADD JAVASCRIPT
+  // END OF BUS ADD JAVASCRIPT
 </script>

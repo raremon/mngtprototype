@@ -18,6 +18,10 @@ class Users extends MY_Controller {
 		$data = array();
 		$data['role'] = $this->logged_out_check();
 		$data['title']='Add User';
+		$data['breadcrumbs']=array
+		(
+			array('Add User','users/add'),
+		);
 		$data['page_description']='Add and Update User Accounts';
 
 		$role_data = $this->Role->show_Roles();
@@ -44,6 +48,10 @@ class Users extends MY_Controller {
 	{
 		$data['role'] = $this->logged_out_check();
 		$data['title']='Delete User';
+		$data['breadcrumbs']=array
+		(
+			array('Delete User','users/delete'),
+		);
 		$data['page_description']='Delete User Accounts';
 
 		$data['treeActive'] = 'users_management';
