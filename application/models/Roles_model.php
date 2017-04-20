@@ -2,7 +2,7 @@
 
 	defined('BASEPATH') OR exit('No direct script access allowed');
 
-	class Role extends CI_Model
+	class Roles_model extends CI_Model
 	{
 		//Constructor
 		public function __construct()
@@ -30,14 +30,14 @@
 		// 	return TRUE;
 		// }
 
-		// // R E A D
-		// public function show_Bus()
-		// {
-		// 	$this->db->select("*");
-		// 	$this->db->from('buses');
-		// 	$query=$this->db->get();
-		// 	return $query->result_array();
-		// }
+		// R E A D
+		public function show_Roles()
+		{
+			$this->db->select("*");
+			$this->db->from('roles');
+			$query=$this->db->get();
+			return $query->result_array();
+		}
 
 		// // U P D A T E
 		// public function edit_Bus_Data($bus_id)

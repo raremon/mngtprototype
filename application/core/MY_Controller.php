@@ -31,6 +31,18 @@
 			// }
 		}
 
+		// Checks if the user is logged out
+		// If so, redirects the user to the login page
+		public function logged_out_check()
+		{
+			if (!($this->session->userdata("logged_in"))) {
+				redirect("login");
+			}
+			else{
+				return $this->Role->current_Role($this->session->userdata("user_role"));
+			}
+		}
+
 		public function permission_check()
 		{
 			if ($this->access == "@") {
