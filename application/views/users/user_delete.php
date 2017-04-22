@@ -7,7 +7,7 @@
       <small><?php echo $page_description; ?></small>
     </h1>
     <ol class="breadcrumb">
-      <i class="fa fa-dashboard"></i>&nbsp;
+      <i class="fa fa-user-times"></i>&nbsp;
       <?php foreach($breadcrumbs as $row) { ?>
         <li><a href="<?php echo base_url($row[1]) ?>"><?php echo $row[0]; ?></a></li>
       <?php } ?>
@@ -17,30 +17,48 @@
 
   <!-- Main content -->
   <section class="content">
-
-    <div class="row">
-      <div class="container-fluid">
-        <div id="user-message"></div>
-        <div class="col-md-12">
-          <table id="user_data" class="table table-hover">
-            <thead>
-              <tr>
-                <th>USER ID</th>
-                <th>FIRST NAME</th>
-                <th>LAST NAME</th>
-                <th>ROLE</th>
-                <th>USERNAME</th>
-                <th>LAST LOGIN</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
+    <div class="box box-danger">
+      <div class="box-header with-border">
+        <h3 class="box-title">User List</h3>
+        <div class="box-tools pull-right">
+          <!-- Buttons, labels, and many other things can be placed here! -->
+        </div><!-- /.box-tools -->
+      </div><!-- /.box-header -->
+      <div class="box-body">
+        <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+          This action will permanently delete the user and will no longer have access to the site.
         </div>
+        <div class="row">
+          <div class="container-fluid">
+            <div id="user-message"></div>
+            <div class="col-md-12">
+              <table id="user_data" class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>USER ID</th>
+                    <th>FIRST NAME</th>
+                    <th>LAST NAME</th>
+                    <th>ROLE</th>
+                    <th>USERNAME</th>
+                    <th>LAST LOGIN</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
 
-      </div>
-    </div>
+          </div>
+        </div>
+      </div><!-- /.box-body -->
+      <div class="box-footer">
+
+      </div><!-- box-footer -->
+    </div><!-- /.box -->
+
 
   </section>
   <!-- /.content -->

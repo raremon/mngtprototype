@@ -16,6 +16,15 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-green.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
+      <link rel="stylesheet" href="<?php echo base_url('assets/css/video_thumbnail.css') ?>"/>
+      <!-- daterange picker -->
+      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/daterangepicker/daterangepicker.css') ?>"/>
+      <!-- bootstrap datepicker -->
+      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/datepicker/datepicker3.css') ?>"/>
+      <!-- Select2 -->
+      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/select2/select2.min.css') ?>"/>
+      <!-- iCheck for checkboxes and radio inputs -->
+      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/all.css') ?>"/>
 
       <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -33,6 +42,26 @@
       <!-- Data Tables JS -->
       <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/dataTables.bootstrap.min.js') ?>"></script>
+      <!-- jQuery UI 1.11.4 -->
+      <script src="<?php echo base_url('assets/plugins/jQueryUI/jquery-ui.min.js') ?>"></script>
+      <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+      <script>
+        $.widget.bridge('uibutton', $.ui.button);
+      </script>
+      <script src="<?php echo base_url('assets/js/program_sched.js') ?>"></script>
+      <!-- InputMask -->
+      <script src="<?php echo base_url('assets/plugins/input-mask/jquery.inputmask.js') ?>"></script>
+      <script src="<?php echo base_url('assets/plugins/input-mask/jquery.inputmask.date.extensions.js') ?>"></script>
+      <script src="<?php echo base_url('assets/plugins/input-mask/jquery.inputmask.extensions.js') ?>"></script>
+      <!-- date-range-picker -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+      <script src="<?php echo base_url('assets/plugins/daterangepicker/daterangepicker.js') ?>"></script>
+      <!-- bootstrap datepicker -->
+      <script src="<?php echo base_url('assets/plugins/datepicker/bootstrap-datepicker.js') ?>"></script>
+      <!-- Select2 -->
+      <script src="<?php echo base_url('assets/plugins/select2/select2.full.min.js') ?>"></script>
+      <!-- iCheck 1.0.1 -->
+      <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js') ?>"></script>
     
     </head>
 
@@ -244,7 +273,7 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="create_program_schedule"><a href="#">Create Program Schedule</a></li>
+                    <li id="create_program_schedule"><a href="<?php echo base_url('program/create') ?>">Create Program Schedule</a></li>
                     <li id="browse_program_schedule"><a href="#">Browse Program Schedules</a></li>
                     <li id="assign_per_route"><a href="#">Assign Per Route</a></li>
                     <li id="assign_per_bus"><a href="#">Assign Per Bus</a></li>
@@ -264,7 +293,7 @@
         				</li>
 
                 <li id="ad_companies" class="treeview">
-        					<a href="#"><i class="fa fa-upload"></i> <span>Ad Companies</span>
+        					<a href="#"><i class="fa fa-briefcase"></i> <span>Ad Companies</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>					
@@ -302,7 +331,7 @@
                 </li>
 
                 <li id="live_monitoring" class="treeview">
-                  <a href="#"><i class="fa fa-bus"></i> <span>Live Monitoring</span> <!-- change icon -->
+                  <a href="#"><i class="fa fa-eye"></i> <span>Live Monitoring</span> <!-- change icon -->
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
