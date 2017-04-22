@@ -17,6 +17,7 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/video_thumbnail.css') ?>"/>
+      <link rel="stylesheet" href="<?php echo base_url('assets/css/browse_style.css') ?>"/>
       <!-- daterange picker -->
       <link rel="stylesheet" href="<?php echo base_url('assets/plugins/daterangepicker/daterangepicker.css') ?>"/>
       <!-- bootstrap datepicker -->
@@ -26,7 +27,6 @@
       <!-- iCheck for checkboxes and radio inputs -->
       <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/all.css') ?>"/>
 
-      <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
@@ -55,6 +55,7 @@
       <script src="<?php echo base_url('assets/plugins/input-mask/jquery.inputmask.extensions.js') ?>"></script>
       <!-- date-range-picker -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+      <!--daterange picker-->
       <script src="<?php echo base_url('assets/plugins/daterangepicker/daterangepicker.js') ?>"></script>
       <!-- bootstrap datepicker -->
       <script src="<?php echo base_url('assets/plugins/datepicker/bootstrap-datepicker.js') ?>"></script>
@@ -62,7 +63,6 @@
       <script src="<?php echo base_url('assets/plugins/select2/select2.full.min.js') ?>"></script>
       <!-- iCheck 1.0.1 -->
       <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js') ?>"></script>
-    
     </head>
 
     <body class="hold-transition skin-green sidebar-mini">
@@ -287,7 +287,7 @@
                     </span>					
         					</a>
                   <ul class="treeview-menu">
-                    <li id="upload_new_ad"><a href="#">Upload New Ad</a></li>
+                    <li id="upload_new_ad"><a href="<?php echo base_url('ads_mngt/upload') ?>">Upload New Ad</a></li>
                     <li id="browse_ads"><a href="#">Browse Ads</a></li>
                   </ul>				
         				</li>
