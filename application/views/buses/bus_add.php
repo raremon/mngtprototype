@@ -53,7 +53,6 @@
                 }
               ?>
             </select>
-            <a class="btn btn-link pull-right" href="<?php echo site_url('terminals') ?>">Add Terminals</a>
             <a class="btn btn-link pull-right" href="<?php echo site_url('buses/bus_type') ?>">Add Bus Types</a>
           </div>
           <button type="button" class="btn btn-primary save" onclick="save_Bus()">Save</button>

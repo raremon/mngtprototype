@@ -88,7 +88,7 @@
   // C R E A T E
   function save_terminal() {
     $.ajax({
-      url: "<?php echo site_url('terminals/saveTerminal') ?>",
+      url: "<?php echo site_url('routes/saveTerminal') ?>",
       type: 'POST',
       dataType: 'json',
       data: $('#terminal').serialize(),
@@ -111,7 +111,7 @@
   // R E A D
   $("#terminal_data").DataTable({
     "ajax":{
-      "url":"<?php echo site_url('terminals/show_Terminal') ?>",
+      "url":"<?php echo site_url('routes/show_Terminal') ?>",
       "type":"POST"
     }
   })
@@ -119,7 +119,7 @@
   // U P D A T E
   function edit_terminal(terminal_id) {
     $.ajax({
-      url: "<?php echo site_url('terminals/edit_Terminal') ?>",
+      url: "<?php echo site_url('routes/edit_Terminal') ?>",
       type: 'POST',
       dataType: 'json',
       data: 'terminal_id='+terminal_id,
@@ -145,7 +145,7 @@
 
   function update_terminal() {
     $.ajax({
-      url: "<?php echo site_url('terminals/updateTerminal') ?>",
+      url: "<?php echo site_url('routes/updateTerminal') ?>",
       type: 'POST',
       dataType: 'json',
       data: $('#terminal').serialize(),
@@ -167,7 +167,7 @@
   function delete_terminal(terminal_id) {
     if(confirm('Do you really want to delete this Terminal Record ??')){
       $.ajax({
-        url: "<?php echo site_url('terminals/delete_Terminal/') ?>",
+        url: "<?php echo site_url('routes/delete_Terminal/') ?>",
         type: 'POST',
         dataType: 'json',
         data: 'terminal_id='+terminal_id,
