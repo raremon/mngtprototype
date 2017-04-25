@@ -46,4 +46,9 @@ $(function () {
       radioClass: 'iradio_minimal-blue'
     });
     
+    //Timepicker
+    $("#timepicker").timepicker({
+      showInputs: false
+    });
+    
 });

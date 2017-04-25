@@ -26,7 +26,8 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/plugins/select2/select2.min.css') ?>"/>
       <!-- iCheck for checkboxes and radio inputs -->
       <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/all.css') ?>"/>
-
+      <!--timepicker-->
+      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/timepicker/bootstrap-timepicker.min.css') ?>"/>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
@@ -63,6 +64,8 @@
       <script src="<?php echo base_url('assets/plugins/select2/select2.full.min.js') ?>"></script>
       <!-- iCheck 1.0.1 -->
       <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js') ?>"></script>
+      <!--timepicker-->
+      <script src="<?php echo base_url('assets/plugins/timepicker/bootstrap-timepicker.min.js') ?>"></script>
     </head>
 
     <body class="hold-transition skin-green sidebar-mini">
@@ -326,7 +329,7 @@
                     <li id="add_bus"><a href="<?php echo base_url('buses/add') ?>">Add Bus</a></li>
                     <li id="delete_bus"><a href="<?php echo base_url('buses/delete') ?>">Delete Bus</a></li>
                     <li id="routes"><a href="<?php echo base_url('routes') ?>">Routes</a></li>
-                    <li id="bus_routes"><a href="#">Bus Routes</a></li>
+                    <li id="bus_routes"><a href="<?php echo base_url('routes/terminals') ?>">Bus Routes</a></li>
                     <li id="bus_tables"><a href="#">Bus Tables</a></li>
                   </ul>
                 </li>

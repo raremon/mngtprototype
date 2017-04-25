@@ -26,9 +26,9 @@
       </div><!-- /.box-header -->
       <div class="box-body">
         <div class="row">
-          <div class="container">
+          <div class="container-fluid">
 
-            <div class="col-md-11   ">
+            <div class="col-md-12   ">
               <div id="bus-message"></div>
               <?php echo form_open('welcome', array('id'=>'bus')); ?>
               <div class="form-group hidden">
