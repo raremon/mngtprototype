@@ -79,12 +79,22 @@
           </div> 
       </div><!-- /.box-body -->
       <div class="box-footer">
+
+      </div><!-- box-footer -->
+    </div><!-- /.box -->
+    
+    <div class="box box-success">
+      <div class="box-header with-border">
+        <h3 class="box-title">User Data</h3>
+        <div class="box-tools pull-right">
+          <!-- Buttons, labels, and many other things can be placed here! -->
+        </div><!-- /.box-tools -->
+      </div><!-- /.box-header -->
+      <div class="box-body">
         <div class="row">
           <div class="container-fluid">
-
             <div class="col-md-12">
-              <h3 class="page-header">User Data</h3>
-              <table id="user_data" class="table table-hover">
+              <table id="user_data" class="table table-hover table-bordered">
                 <thead>
                   <tr>
                     <th>USER ID</th>
@@ -102,11 +112,11 @@
             </div>
           </div>
         </div>
+      </div><!-- /.box-body -->
+      <div class="box-footer">
       </div><!-- box-footer -->
     </div><!-- /.box -->
-    
-
-
+      
   </section>
   <!-- /.content -->
 </div>

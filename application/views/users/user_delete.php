@@ -34,7 +34,7 @@
           <div class="container-fluid">
             <div id="user-message"></div>
             <div class="col-md-12">
-              <table id="user_data" class="table table-hover">
+              <table id="user_data" class="table table-hover table-bordered">
                 <thead>
                   <tr>
                     <th>USER ID</th>
