@@ -59,7 +59,7 @@ class Routes extends MY_Controller {
 		$data['page_description']='Add, Update, and Delete Terminals';
 
 		$data['treeActive'] = 'bus_management';
-		$data['childActive'] = 'routes' ;
+		$data['childActive'] = 'bus_routes' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("routes/terminals", $data);

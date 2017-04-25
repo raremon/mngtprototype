@@ -17,32 +17,41 @@
 
   <!-- Main content -->
   <section class="content">
+    <div class="box box-danger">
+      <div class="box-header with-border">
+        <h3 class="box-title">Delete Bus Data</h3>
+        <div class="box-tools pull-right">
+          <!-- Buttons, labels, and many other things can be placed here! -->
+        </div><!-- /.box-tools -->
+      </div><!-- /.box-header -->
+      <div class="box-body">
+        <div class="row">
+          <div class="container-fluid">
 
-    <div class="row">
-      <div class="container-fluid">
+            <div class="col-md-12">
+              <div id="bus-message"></div>
+              <table id="bus_data" class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>BUS ID</th>
+                    <th>BUS NAME</th>
+                    <th>PLATE NUMBER</th>
+                    <th>BUS DESCRIPTION</th>
+                    <th>BUS TYPE</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
 
-        <div class="col-md-12">
-          <div id="bus-message"></div>
-          <h3 class="page-header">Bus Data</h3>
-          <table id="bus_data" class="table table-hover">
-            <thead>
-              <tr>
-                <th>BUS ID</th>
-                <th>BUS NAME</th>
-                <th>PLATE NUMBER</th>
-                <th>BUS DESCRIPTION</th>
-                <th>BUS TYPE</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
+          </div>
         </div>
-
-      </div>
-    </div>
-
+      </div><!-- /.box-body -->
+      <div class="box-footer">
+      </div><!-- box-footer -->
+    </div><!-- /.box -->
   </section>
   <!-- /.content -->
 </div>

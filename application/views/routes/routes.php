@@ -20,90 +20,113 @@
   <!-- Main content -->
   <section class="content">
 
-    <div id="main-cont" class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div id="route-message"></div>
-
-          <div id="map-canvas"> </div>
-          <?php echo form_open('welcome', array('id'=>'route')); ?>
-          <div class="form-group hidden">
-            <input type="text" name="route_id" class="form-control"/>
-          </div>
-
+    <div class="box box-success">
+      <div class="box-header with-border">
+        <h3 class="box-title">Route Details</h3>
+        <div class="box-tools pull-right">
+        </div><!-- /.box-tools -->
+      </div><!-- /.box-header -->
+      <div class="box-body">
+        <div id="main-cont" class="container-fluid">
           <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Terminal From</label>
-                <select id="terminal_from" name="terminal_from" class="form-control">
-                  <?php 
-                    foreach($terminal as $row)
-                    {
-                  ?>
-                    <option value= "<?php echo $row[0];?>" data-lat= "<?php echo $row[2];?>" data-long="<?php echo $row[3];?>">
-                      <?php echo $row[1]; ?>
-                    </option>
-                  <?php 
-                    }
-                  ?>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Terminal To</label>
-                <select id="terminal_to" name="terminal_to" class="form-control">
-                  <?php 
-                    foreach($terminal as $row)
-                    {
-                  ?>
-                    <option value= "<?php echo $row[0];?>" data-lat= "<?php echo $row[2];?>" data-long="<?php echo $row[3];?>">
-                      <?php echo $row[1]; ?>
-                    </option>
-                  <?php 
-                    }
-                  ?>
-                </select>
-                <a class="btn btn-link pull-right" href="<?php echo site_url('routes/terminals') ?>">Add Terminals</a>
-              </div>
-            </div>
-          </div>
+            <div class="col-md-12">
+              <div id="route-message"></div>
 
-          <div class="form-group">
-            <label>Route Name</label>
-            <input type="text" name="route_name" class="form-control" placeholder="Manila to Batanggas Route"/>
-          </div>
-          <div class="form-group">
-            <label>Route Description</label>
-            <textarea name="route_description" class="form-control" cols="30" rows="7" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."></textarea>
-          </div>
-          <button type="button" class="btn btn-primary save" onclick="save_route()">Save</button>
-          <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_route()">Update</button>
-          <?php echo form_close(); ?>
-        </div>
-      </div>
-      <div class="row">
-        <div class="container">
-          <div class="col-md-12">
-            <h3 class="page-header">Route Data</h3>
-            <table id="route_data" class="table table-hover">
-              <thead>
-                <tr>
-                  <th>ROUTE ID</th>
-                  <th>ROUTE NAME</th>
-                  <th>ROUTE DESCRIPTION</th>
-                  <th>ROUTE</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
+              <div id="map-canvas"> </div>
+              <?php echo form_open('welcome', array('id'=>'route')); ?>
+              <div class="form-group hidden">
+                <input type="text" name="route_id" class="form-control"/>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Terminal From</label>
+                    <select id="terminal_from" name="terminal_from" class="form-control">
+                      <?php 
+                        foreach($terminal as $row)
+                        {
+                      ?>
+                        <option value= "<?php echo $row[0];?>" data-lat= "<?php echo $row[2];?>" data-long="<?php echo $row[3];?>">
+                          <?php echo $row[1]; ?>
+                        </option>
+                      <?php 
+                        }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Terminal To</label>
+                    <select id="terminal_to" name="terminal_to" class="form-control">
+                      <?php 
+                        foreach($terminal as $row)
+                        {
+                      ?>
+                        <option value= "<?php echo $row[0];?>" data-lat= "<?php echo $row[2];?>" data-long="<?php echo $row[3];?>">
+                          <?php echo $row[1]; ?>
+                        </option>
+                      <?php 
+                        }
+                      ?>
+                    </select>
+                    <a class="btn btn-link pull-right" href="<?php echo site_url('routes/terminals') ?>">Add Terminals</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Route Name</label>
+                <input type="text" name="route_name" class="form-control" placeholder="Manila to Batanggas Route"/>
+              </div>
+              <div class="form-group">
+                <label>Route Description</label>
+                <textarea name="route_description" class="form-control" cols="30" rows="7" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."></textarea>
+              </div>
+              <button type="button" class="btn btn-primary save" onclick="save_route()">Save</button>
+              <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_route()">Update</button>
+              <?php echo form_close(); ?>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div><!-- /.box-body -->
+      <div class="box-footer">
 
+      </div><!-- box-footer -->
+    </div><!-- /.box -->
+      
+    <div class="box box-success">
+      <div class="box-header with-border">
+        <h3 class="box-title">Route Data</h3>
+        <div class="box-tools pull-right">
+        </div><!-- /.box-tools -->
+      </div><!-- /.box-header -->
+      <div class="box-body">
+
+      </div><!-- /.box-body -->
+      <div class="box-footer">
+          <div class="row">
+            <div class="container-fluid">
+              <div class="col-md-12">
+                <table id="route_data" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>ROUTE ID</th>
+                      <th>ROUTE NAME</th>
+                      <th>ROUTE DESCRIPTION</th>
+                      <th>ROUTE</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+      </div><!-- box-footer -->
+    </div><!-- /.box -->
   </section>
   <!-- /.content -->
 </div>
