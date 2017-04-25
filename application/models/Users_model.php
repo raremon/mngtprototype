@@ -10,6 +10,9 @@
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
 
+			// Set status to online
+			$is_online = true;
+
 			$this->db->where("user_name", $username);
 			$query = $this->db->get($this->table);
 
@@ -20,6 +23,10 @@
 				// Checks the password
 				if ($row['user_password'] == sha1($password)) 
 				{
+					// Sets status to online after logging in
+					$row['is_online']=$is_online;
+					$this->db->where("user_id", $row['user_id']);
+					$this->db->update( 'users' , $row);
 					// Unsets the password from the array
 					unset($row['user_password']);
 					$this->_data = $row;
@@ -45,11 +52,14 @@
 
 			// Get Current Time
 			$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
+			// Set status to offline
+			$is_online = false;
 
 			// Find User in DB
 			$user_id = $this->session->userdata("user_id");
 			$this->db->where("user_id", $user_id);
 			$data=array(
+				'is_online'=>$is_online,
 				'user_lastlogin'=>$lastlogin->format('Y-m-d H:i:s'),
 			);
 
@@ -100,6 +110,14 @@
 		{
 			$this->db->where(array('user_id'=>$data['user_id']));
 			$this->db->delete('users');
+			return TRUE;
+		}
+
+		// O N L I N E   T O G G L I N G
+		public function onlineStatus($data)
+		{
+			$this->db->where(array('user_id'=>$data['user_id']));
+			$this->db->update('users', $data);
 			return TRUE;
 		}
 

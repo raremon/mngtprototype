@@ -62,6 +62,27 @@ class Users extends MY_Controller {
 		$this->load->view("template/footer", $data);
 	}
 
+	public function toggleStatus()
+	{
+		$validate=array(
+			array('field'=>'is_online','rules'=>'required')
+		);
+		$this->form_validation->set_rules($validate);
+		if ($this->form_validation->run()===FALSE) {
+			$info['success']=FALSE;
+			$info['errors']=validation_errors();
+		}else{
+			$info['success']=TRUE;
+			$data=array(
+				'is_online'=>$this->input->post('is_online'),
+				'user_id'=>$this->session->userdata("user_id"),
+			);
+			$this->User->onlineStatus($data);
+			$info['message']='Data Successfully Deleted';
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($info));
+	}
+
 // 	// Index Function
 // 	public function index()
 // 	{

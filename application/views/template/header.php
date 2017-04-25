@@ -243,7 +243,7 @@
                     ?>
                   </p>
                   <!-- Status -->
-                  <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                  <a id="userStat" href="#" onclick="toggleStatus()" data-stat="1"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
               </div>
 
@@ -325,6 +325,7 @@
                   <ul class="treeview-menu">
                     <li id="add_bus"><a href="<?php echo base_url('buses/add') ?>">Add Bus</a></li>
                     <li id="delete_bus"><a href="<?php echo base_url('buses/delete') ?>">Delete Bus</a></li>
+                    <li id="routes"><a href="<?php echo base_url('routes') ?>">Routes</a></li>
                     <li id="bus_routes"><a href="#">Bus Routes</a></li>
                     <li id="bus_tables"><a href="#">Bus Tables</a></li>
                   </ul>
@@ -353,4 +354,34 @@
                $('#<?php echo $treeActive; ?>').addClass('active');
                $('#<?php echo $childActive; ?>').addClass('active');
             });
+
+            function toggleStatus() {
+              var user_status = $('#userStat').data("stat");
+              switch(user_status)
+              {
+                case 0: 
+                  $('#userStat').data("stat", 1);
+                  $('#userStat').html("<i class='fa fa-circle'></i> Online");
+                  $('#userStat i').addClass('text-success');
+                  $('#userStat i').removeClass('text-danger');
+                  break;
+                case 1: 
+                  $('#userStat').data("stat", 0);
+                  $('#userStat').html("<i class='fa fa-circle'></i> Offline");
+                  $('#userStat i').addClass('text-danger');
+                  $('#userStat i').removeClass('text-success');
+                  break;
+              }
+              toggleStat($('#userStat').data("stat"));
+            }
+
+            function toggleStat(status) {
+              $.ajax({
+                url: "<?php echo site_url('users/toggleStatus') ?>",
+                type: 'POST',
+                dataType: 'json',
+                data: 'is_online='+status,
+                encode:true,
+              });
+            }
           </script>
