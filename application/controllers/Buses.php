@@ -12,7 +12,7 @@ class Buses extends MY_Controller {
 
 		$this->load->model('bustypes_model', 'Bus_type');
 		$this->load->model('buses_model', 'Bus');
-
+		$this->load->model('routes_model', 'Route');
 	}
 			
 	public function add()
@@ -24,6 +24,14 @@ class Buses extends MY_Controller {
 		(
 			array('Add Bus','buses/add'),
 		);
+		$data['css']=array
+		(
+
+		);
+		$data['script']=array
+		(
+			
+		);
 		$data['page_description']='Add and Update Buses';
 
 		$bus_type_data = $this->Bus_type->show_Bus_Type();
@@ -33,6 +41,17 @@ class Buses extends MY_Controller {
 				array(
 					$rows['bus_type_id'],
 					$rows['bus_type_name'],
+				)
+			);
+		}
+
+		$route_data = $this->Route->show_Route();
+		$data['busroute'] = array();
+		foreach ($route_data as $rows) {
+			array_push($data['busroute'],
+				array(
+					$rows['route_id'],
+					$rows['route_name'],
 				)
 			);
 		}
@@ -53,6 +72,14 @@ class Buses extends MY_Controller {
 		$data['breadcrumbs']=array
 		(
 			array('Delete Bus','buses/delete'),
+		);
+		$data['css']=array
+		(
+			
+		);
+		$data['script']=array
+		(
+			
 		);
 		$data['page_description']='Delete Buses';
 
@@ -84,6 +111,14 @@ class Buses extends MY_Controller {
 		(
 			array('Add Bus','buses/add'),
 			array('Bus Types','buses/bus_type'),
+		);
+		$data['css']=array
+		(
+			
+		);
+		$data['script']=array
+		(
+			
 		);
 		$data['page_description']='Add, Update, and Delete Bus Types';
 
@@ -123,6 +158,7 @@ class Buses extends MY_Controller {
 				'plate_number'=>$this->input->post('plate_number'),
 				'bus_desc'=>$this->input->post('bus_desc'),
 				'bus_type'=>$this->input->post('bus_type'),
+				'route_id'=>$this->input->post('bus_route'),
 			);
 			$this->Bus->save_Bus($data);
 			$info['message']="You have successfully saved your data!";
@@ -143,6 +179,7 @@ class Buses extends MY_Controller {
 					$rows['plate_number'],
 					$rows['bus_desc'],
 					$rows['bus_type'],
+					$rows['route_id'],
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="edit_bus('."'".$rows['bus_id']."'".')">Edit</a>'
 				)
 			);
@@ -162,6 +199,7 @@ class Buses extends MY_Controller {
 					$rows['plate_number'],
 					$rows['bus_desc'],
 					$rows['bus_type'],
+					$rows['route_id'],
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="delete_bus('."'".$rows['bus_id']."'".')">Delete</a>'
 				)
 			);
@@ -202,7 +240,8 @@ class Buses extends MY_Controller {
 				'bus_name'=>$this->input->post('bus_name'),
 				'plate_number'=>$this->input->post('plate_number'),
 				'bus_desc'=>$this->input->post('bus_desc'),
-				'bus_type'=>$this->input->post('bus_type')
+				'bus_type'=>$this->input->post('bus_type'),
+				'route_id'=>$this->input->post('bus_route'),
 			);
 			$this->Bus->update_Bus_Data($data);
 			$info['message']="You have successfully updated your data!";

@@ -22,6 +22,14 @@ class Users extends MY_Controller {
 		(
 			array('Add User','users/add'),
 		);
+		$data['css']=array
+		(
+			
+		);
+		$data['script']=array
+		(
+			
+		);
 		$data['page_description']='Add and Update User Accounts';
 
 		$role_data = $this->Role->show_Roles();
@@ -51,6 +59,14 @@ class Users extends MY_Controller {
 		$data['breadcrumbs']=array
 		(
 			array('Delete User','users/delete'),
+		);
+		$data['css']=array
+		(
+			
+		);
+		$data['script']=array
+		(
+			
 		);
 		$data['page_description']='Delete User Accounts';
 

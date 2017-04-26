@@ -23,6 +23,14 @@ class Routes extends MY_Controller {
 		(
 			array('Add Route','routes'),
 		);
+		$data['css']=array
+		(
+
+		);
+		$data['script']=array
+		(
+			'assets/js/maps.js',
+		);
 		$data['page_description']='Add, Update, and Delete Routes';
 
 		$terminal_data = $this->Terminal->show_Terminal();
@@ -55,6 +63,14 @@ class Routes extends MY_Controller {
 		(
 			array('Add Route','routes'),
 			array('Terminals','terminals'),
+		);
+		$data['css']=array
+		(
+			
+		);
+		$data['script']=array
+		(
+			'assets/js/maps.js',
 		);
 		$data['page_description']='Add, Update, and Delete Terminals';
 

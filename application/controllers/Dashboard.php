@@ -19,22 +19,16 @@
 			$data['role'] = $this->logged_out_check();
 			$data['title'] = 'Dashboard';
 			$data['page_description'] = 'Summary of Data';
-
+			$data['css']=array
+			(
+				
+			);
+			$data['script']=array
+			(
+				
+			);
 			$data['treeActive'] = 'dashboard';
 			$data['childActive'] = '' ;
-
-			// $data['role'] = $current_user_role;
-
-			// $bus_type_data = $this->Bus_type->show_Bus_Type();
-			// $data['bustype'] = array();
-			// foreach ($bus_type_data as $rows) {
-			// 	array_push($data['bustype'],
-			// 		array(
-			// 			$rows['bus_type_id'],
-			// 			$rows['bus_type_name'],
-			// 		)
-			// 	);
-			// }
 
 			$this->load->view("template/header", $data);
 			$this->load->view("dashboard", $data);

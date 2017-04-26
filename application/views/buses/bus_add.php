@@ -55,6 +55,22 @@
             </select>
             <a class="btn btn-link pull-right" href="<?php echo site_url('buses/bus_type') ?>">Add Bus Types</a>
           </div>
+          <div class="form-group">
+            <label>Bus Route</label>
+            <select name="bus_route" class="form-control">
+              <?php 
+                foreach($busroute as $row)
+                {
+              ?>
+                <option value= <?php echo $row[0];?> >
+                  <?php echo $row[1]; ?>
+                </option>
+              <?php 
+                }
+              ?>
+            </select>
+            <a class="btn btn-link pull-right" href="<?php echo site_url('routes') ?>">Add Routes</a>
+          </div>
           <button type="button" class="btn btn-primary save" onclick="save_Bus()">Save</button>
           <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Bus()">Update</button>
           <?php echo form_close(); ?>
@@ -74,6 +90,7 @@
                 <th>PLATE NUMBER</th>
                 <th>BUS DESCRIPTION</th>
                 <th>BUS TYPE</th>
+                <th>ROUTE ID</th>
                 <th></th>
               </tr>
             </thead>
@@ -143,6 +160,7 @@
         $('input[name="plate_number"]').val(data.plate_number);
         $('textarea[name="bus_desc"]').val(data.bus_desc);
         $('select[name="bus_type"]').val(data.bus_type);
+        $('select[name="bus_route"]').val(data.route_id);
       }
     })
   }

@@ -16,7 +16,14 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-green.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
-
+      <?php 
+        foreach($css as $rows)
+        {
+      ?>
+        <link rel="stylesheet" href="<?php echo base_url($rows) ?>"/>
+      <?php 
+        }
+      ?>
       <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -33,6 +40,14 @@
       <!-- Data Tables JS -->
       <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/dataTables.bootstrap.min.js') ?>"></script>
+      <?php 
+        foreach($script as $rows)
+        {
+      ?>
+        <script src="<?php echo base_url($rows) ?>"></script>
+      <?php 
+        }
+      ?>
     
     </head>
 
@@ -297,8 +312,6 @@
                     <li id="add_bus"><a href="<?php echo base_url('buses/add') ?>">Add Bus</a></li>
                     <li id="delete_bus"><a href="<?php echo base_url('buses/delete') ?>">Delete Bus</a></li>
                     <li id="routes"><a href="<?php echo base_url('routes') ?>">Routes</a></li>
-                    <li id="bus_routes"><a href="#">Bus Routes</a></li>
-                    <li id="bus_tables"><a href="#">Bus Tables</a></li>
                   </ul>
                 </li>
 

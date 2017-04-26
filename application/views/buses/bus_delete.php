@@ -32,6 +32,7 @@
                 <th>PLATE NUMBER</th>
                 <th>BUS DESCRIPTION</th>
                 <th>BUS TYPE</th>
+                <th>ROUTE ID</th>
                 <th></th>
               </tr>
             </thead>

@@ -1,5 +1,3 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZWe4gOwsSV0uNIKkrwvzjbVg15adxrvw&libraries=places" type="text/javascript"></script>
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
