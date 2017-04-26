@@ -329,7 +329,9 @@
         navigationControl: false,
         mapTypeControl: false,
         scaleControl: false,
+        scrollwheel: false,
         draggable: false,
+        disableDefaultUI: true,
     };
 
     var map = new google.maps.Map( document.getElementById('map-canvas'), mapOptions);

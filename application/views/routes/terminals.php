@@ -205,7 +205,8 @@
       lat: 14.58738368298855,
       lng: 120.98392539999998
     },
-    zoom:szoom
+    zoom:szoom,
+    disableDefaultUI: true,
   });
 
   // Marker
@@ -215,7 +216,7 @@
       lng: 120.98392539999998
     },
     map:map,
-    draggable: true
+    draggable: true,
   });
 
   // Marker Drag

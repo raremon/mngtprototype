@@ -132,8 +132,10 @@ class Routes extends MY_Controller {
 							    mapTypeId: 'roadmap',
 							    navigationControl: false,
 							    mapTypeControl: false,
+							    scrollwheel: false,
 							    scaleControl: false,
 							    draggable: false,
+							    disableDefaultUI: true,
 							};
 
 							var map = new google.maps.Map( document.getElementById('table-map-canvas-".$ctr."'), mapOptions);
@@ -284,6 +286,7 @@ class Routes extends MY_Controller {
 						    mapTypeControl: false,
 						    scaleControl: false,
 						    draggable: false,
+						    disableDefaultUI: true,
 						    mapTypeId: google.maps.MapTypeId.ROADMAP
 						});
 
