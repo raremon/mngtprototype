@@ -91,7 +91,7 @@ class Jschedule extends REST_Controller {
 		$terminalId = $this->post('terminal_id');
 
 		if(!isset($terminalId)) {
-			$this->response(array('success': false, 'message' => 'Error in terminal_id'));
+			$this->response(array('success' => false, 'message' => 'Error in terminal_id'));
 		} else {
 			$this->load->model('terminals_model', 'Terminal');
 			$data = $this->Terminal->edit_Terminal_Data($terminalId);	
