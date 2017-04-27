@@ -8,7 +8,7 @@
     margin: 10px 3px 3px 15px; 
     padding: 1px; 
     float: left; 
-    width: 252px; 
+    width: 242px; 
     height: 90px;
     box-shadow:0px 1px 3px rgba(0,0,0,0.2);
 }
@@ -16,6 +16,9 @@
 .margin_fix li{
     padding: 0;
     margin: 10px 18px 3px 0px; 
-    width: 249px; 
+    width: 236px; 
     height: 90px;
+}
+#button_pos{
+    margin: 30px 20px 20px 20px;
 }

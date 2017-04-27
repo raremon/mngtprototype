@@ -14,6 +14,8 @@ $(function () {
 
     //Date range picker
     $('#reservation').daterangepicker();
+    $('#reservation1').daterangepicker();
+    $('#reservation2').daterangepicker();
     //Date range picker with time picker
     $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
     //Date range as a button
@@ -48,6 +50,21 @@ $(function () {
     
     //Timepicker
     $("#timepicker").timepicker({
+      showInputs: false
+    });
+    $("#timepicker1").timepicker({
+      showInputs: false
+    });
+        $("#timepicker2").timepicker({
+      showInputs: false
+    });
+    $("#timepicker3").timepicker({
+      showInputs: false
+    });
+        $("#timepicker4").timepicker({
+      showInputs: false
+    });
+    $("#timepicker5").timepicker({
       showInputs: false
     });
     
