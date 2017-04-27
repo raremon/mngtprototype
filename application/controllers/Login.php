@@ -12,7 +12,7 @@
 			parent::__construct();
 
 			// Loads the User Model as Auth
-			$this->load->model('user', 'auth');
+			$this->load->model('users_model', 'auth');
 		}
 
 		// Checks if the user is logged in

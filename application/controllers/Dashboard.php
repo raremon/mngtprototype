@@ -9,28 +9,22 @@
 		public function __construct()
 		{
 			parent::__construct();
-			$this->load->model('User');
-			$this->load->model('Role');
-		}
-
-		// Checks if the user is logged out
-		// If so, redirects the user to the login page
-		public function logged_out_check()
-		{
-			if (!($this->session->userdata("logged_in"))) {
-				redirect("login");
-			}
+			$this->load->model('users_model', 'User');
+			$this->load->model('roles_model', 'Role');
 		}
 		
 		// Index Function
 		public function index()
 		{
-			$this->logged_out_check();
+			$data['role'] = $this->logged_out_check();
+			$data['title'] = 'Dashboard';
+			$data['page_description'] = 'Summary of Data';
 
-			$data['title']='Dashboard';
+			$data['treeActive'] = 'dashboard';
+			$data['childActive'] = '' ;
 
-			$current_user_role = $this->Role->current_Role($this->session->userdata("user_role"));
-			$data['role'] = $current_user_role;
+			// $data['role'] = $current_user_role;
+
 			// $bus_type_data = $this->Bus_type->show_Bus_Type();
 			// $data['bustype'] = array();
 			// foreach ($bus_type_data as $rows) {
@@ -42,7 +36,9 @@
 			// 	);
 			// }
 
+			$this->load->view("template/header", $data);
 			$this->load->view("dashboard", $data);
+			$this->load->view("template/footer", $data);
 		}
 
 	}
