@@ -162,12 +162,13 @@ class Users extends MY_Controller {
 		$user_table = $this->User->show_User();
 		$data = array();
 		foreach ($user_table as $rows) {
+			$userRole = $this->Role->edit_Role_Data($rows['user_role']);
 			array_push($data,
 				array(
 					$rows['user_id'],
 					$rows['user_fname'],
 					$rows['user_lname'],
-					$rows['user_role'],
+					$userRole['role_name'],
 					$rows['user_name'],
 					$rows['user_lastlogin'],
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="edit_user('."'".$rows['user_id']."'".')">Edit</a>'
@@ -182,12 +183,13 @@ class Users extends MY_Controller {
 		$user_table = $this->User->show_User();
 		$data = array();
 		foreach ($user_table as $rows) {
+			$userRole = $this->Role->edit_Role_Data($rows['user_role']);
 			array_push($data,
 				array(
 					$rows['user_id'],
 					$rows['user_fname'],
 					$rows['user_lname'],
-					$rows['user_role'],
+					$userRole['role_name'],
 					$rows['user_name'],
 					$rows['user_lastlogin'],
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="delete_user('."'".$rows['user_id']."'".')">Delete</a>'

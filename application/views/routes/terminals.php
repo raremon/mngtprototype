@@ -1,24 +1,11 @@
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <h1>
-      <?php echo $title; ?>
-      <small><?php echo $page_description; ?></small>
-    </h1>
-    <ol class="breadcrumb">
-      <i class="fa fa-dashboard"></i>&nbsp;
-      <?php foreach($breadcrumbs as $row) { ?>
-        <li><a href="<?php echo base_url($row[1]) ?>"><?php echo $row[0]; ?></a></li>
-      <?php } ?>
-      <li class="active">Here</li>
-    </ol>
-  </section>
-
-  <!-- Main content -->
-  <section class="content">
-
-    <div id="main-cont" class="container">
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">Terminal Details</h3>
+    <div class="box-tools pull-right">
+    </div><!-- /.box-tools -->
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    <div id="main-cont" class="container-fluid">
       <div class="row">
         <div class="col-md-12">
           <div class="form-group">
@@ -51,10 +38,22 @@
           <?php echo form_close(); ?>
         </div>
       </div>
+    </div>
+  </div><!-- /.box-body -->
+  <div class="box-footer">
+  </div><!-- box-footer -->
+</div><!-- /.box -->
+
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">Terminal Data</h3>
+    <div class="box-tools pull-right">
+    </div><!-- /.box-tools -->
+  </div><!-- /.box-header -->
+  <div class="box-body">
       <div class="row">
-        <div class="container">
+        <div class="container-fluid">
           <div class="col-md-12">
-            <h3 class="page-header">Terminal Data</h3>
             <table id="terminal_data" class="table table-hover">
               <thead>
                 <tr>
@@ -70,12 +69,10 @@
           </div>
         </div>
       </div>
-    </div>
-
-  </section>
-  <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
+  </div><!-- /.box-body -->
+  <div class="box-footer">
+  </div><!-- box-footer -->
+</div><!-- /.box -->
 
 <script type="text/javascript">
 
@@ -203,8 +200,7 @@
       lat: 14.58738368298855,
       lng: 120.98392539999998
     },
-    zoom:szoom,
-    disableDefaultUI: true,
+    zoom:szoom
   });
 
   // Marker
@@ -214,7 +210,7 @@
       lng: 120.98392539999998
     },
     map:map,
-    draggable: true,
+    draggable: true
   });
 
   // Marker Drag

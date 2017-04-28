@@ -1,0 +1,1 @@
+<section class="col-lg-6 connectedSortable">

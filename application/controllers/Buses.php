@@ -172,14 +172,16 @@ class Buses extends MY_Controller {
 		$bus_table = $this->Bus->show_Bus();
 		$data = array();
 		foreach ($bus_table as $rows) {
+			$bus_type_data = $this->Bus_type->edit_Bus_Type_Data($rows['bus_type']);
+			$route_data = $this->Route->edit_Route_Data($rows['route_id']);
 			array_push($data,
 				array(
 					$rows['bus_id'],
 					$rows['bus_name'],
 					$rows['plate_number'],
 					$rows['bus_desc'],
-					$rows['bus_type'],
-					$rows['route_id'],
+					$bus_type_data['bus_type_name'],
+					$route_data['route_name'],
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="edit_bus('."'".$rows['bus_id']."'".')">Edit</a>'
 				)
 			);
@@ -192,14 +194,16 @@ class Buses extends MY_Controller {
 		$bus_table = $this->Bus->show_Bus();
 		$data = array();
 		foreach ($bus_table as $rows) {
+			$bus_type_data = $this->Bus_type->edit_Bus_Type_Data($rows['bus_type']);
+			$route_data = $this->Route->edit_Route_Data($rows['route_id']);
 			array_push($data,
 				array(
 					$rows['bus_id'],
 					$rows['bus_name'],
 					$rows['plate_number'],
 					$rows['bus_desc'],
-					$rows['bus_type'],
-					$rows['route_id'],
+					$bus_type_data['bus_type_name'],
+					$route_data['route_name'],
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="delete_bus('."'".$rows['bus_id']."'".')">Delete</a>'
 				)
 			);

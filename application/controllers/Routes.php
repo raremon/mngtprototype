@@ -21,6 +21,7 @@ class Routes extends MY_Controller {
 		$data['title']='Routes';
 		$data['breadcrumbs']=array
 		(
+			array('Add Bus','buses/add'),
 			array('Add Route','routes'),
 		);
 		$data['css']=array
@@ -47,7 +48,7 @@ class Routes extends MY_Controller {
 		}
 
 		$data['treeActive'] = 'bus_management';
-		$data['childActive'] = 'routes' ;
+		$data['childActive'] = 'add_bus' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("routes/routes", $data);
@@ -61,6 +62,7 @@ class Routes extends MY_Controller {
 		$data['title']='Terminals';
 		$data['breadcrumbs']=array
 		(
+			array('Add Bus','buses/add'),
 			array('Add Route','routes'),
 			array('Terminals','terminals'),
 		);
@@ -75,7 +77,7 @@ class Routes extends MY_Controller {
 		$data['page_description']='Add, Update, and Delete Terminals';
 
 		$data['treeActive'] = 'bus_management';
-		$data['childActive'] = 'routes' ;
+		$data['childActive'] = 'add_bus' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("routes/terminals", $data);

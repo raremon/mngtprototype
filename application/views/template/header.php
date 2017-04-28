@@ -16,6 +16,7 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-green.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
+
       <?php 
         foreach($css as $rows)
         {
@@ -40,6 +41,15 @@
       <!-- Data Tables JS -->
       <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/dataTables.bootstrap.min.js') ?>"></script>
+      <!-- jQuery UI 1.11.4 -->
+      <script src="<?php echo base_url('assets/plugins/jQueryUI/jquery-ui.min.js') ?>"></script>
+      <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+      <script>
+        $.widget.bridge('uibutton', $.ui.button);
+      </script>
+
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <?php 
         foreach($script as $rows)
         {
@@ -259,7 +269,7 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="create_program_schedule"><a href="#">Create Program Schedule</a></li>
+                    <li id="create_program_schedule"><a href="<?php echo base_url('program/create') ?>">Create Program Schedule</a></li>
                     <li id="browse_program_schedule"><a href="#">Browse Program Schedules</a></li>
                     <li id="assign_per_route"><a href="#">Assign Per Route</a></li>
                     <li id="assign_per_bus"><a href="#">Assign Per Bus</a></li>
@@ -273,13 +283,13 @@
                     </span>					
         					</a>
                   <ul class="treeview-menu">
-                    <li id="upload_new_ad"><a href="#">Upload New Ad</a></li>
+                    <li id="upload_new_ad"><a href="<?php echo base_url('ads_mngt/upload') ?>">Upload New Ad</a></li>
                     <li id="browse_ads"><a href="#">Browse Ads</a></li>
                   </ul>				
         				</li>
 
                 <li id="ad_companies" class="treeview">
-        					<a href="#"><i class="fa fa-upload"></i> <span>Ad Companies</span>
+        					<a href="#"><i class="fa fa-briefcase"></i> <span>Ad Companies</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>					
@@ -311,12 +321,11 @@
                   <ul class="treeview-menu">
                     <li id="add_bus"><a href="<?php echo base_url('buses/add') ?>">Add Bus</a></li>
                     <li id="delete_bus"><a href="<?php echo base_url('buses/delete') ?>">Delete Bus</a></li>
-                    <li id="routes"><a href="<?php echo base_url('routes') ?>">Routes</a></li>
                   </ul>
                 </li>
 
                 <li id="live_monitoring" class="treeview">
-                  <a href="#"><i class="fa fa-bus"></i> <span>Live Monitoring</span> <!-- change icon -->
+                  <a href="#"><i class="fa fa-eye"></i> <span>Live Monitoring</span> <!-- change icon -->
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -333,39 +342,59 @@
             <!-- /.sidebar -->
           </aside>
 
-          <script type="text/javascript">
-            $(document).ready(function() {
-               $('#<?php echo $treeActive; ?>').addClass('active');
-               $('#<?php echo $childActive; ?>').addClass('active');
-            });
+          <!-- Content Wrapper. Contains page content -->
+          <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+              <h1>
+                <?php echo $title; ?>
+                <small><?php echo $page_description; ?></small>
+              </h1>
+              <ol class="breadcrumb">
+                <i class="fa fa-user-plus"></i>&nbsp;
+                <?php foreach($breadcrumbs as $row) { ?>
+                  <li><a href="<?php echo base_url($row[1]) ?>"><?php echo $row[0]; ?></a></li>
+                <?php } ?>
+                <li class="active">Here</li>
+              </ol>
+            </section>
 
-            function toggleStatus() {
-              var user_status = $('#userStat').data("stat");
-              switch(user_status)
-              {
-                case 0: 
-                  $('#userStat').data("stat", 1);
-                  $('#userStat').html("<i class='fa fa-circle'></i> Online");
-                  $('#userStat i').addClass('text-success');
-                  $('#userStat i').removeClass('text-danger');
-                  break;
-                case 1: 
-                  $('#userStat').data("stat", 0);
-                  $('#userStat').html("<i class='fa fa-circle'></i> Offline");
-                  $('#userStat i').addClass('text-danger');
-                  $('#userStat i').removeClass('text-success');
-                  break;
-              }
-              toggleStat($('#userStat').data("stat"));
-            }
+            <!-- Main content -->
+            <section class="content">
 
-            function toggleStat(status) {
-              $.ajax({
-                url: "<?php echo site_url('users/toggleStatus') ?>",
-                type: 'POST',
-                dataType: 'json',
-                data: 'is_online='+status,
-                encode:true,
+            <script type="text/javascript">
+              $(document).ready(function() {
+                 $('#<?php echo $treeActive; ?>').addClass('active');
+                 $('#<?php echo $childActive; ?>').addClass('active');
               });
-            }
-          </script>
+
+              function toggleStatus() {
+                var user_status = $('#userStat').data("stat");
+                switch(user_status)
+                {
+                  case 0: 
+                    $('#userStat').data("stat", 1);
+                    $('#userStat').html("<i class='fa fa-circle'></i> Online");
+                    $('#userStat i').addClass('text-success');
+                    $('#userStat i').removeClass('text-danger');
+                    break;
+                  case 1: 
+                    $('#userStat').data("stat", 0);
+                    $('#userStat').html("<i class='fa fa-circle'></i> Offline");
+                    $('#userStat i').addClass('text-danger');
+                    $('#userStat i').removeClass('text-success');
+                    break;
+                }
+                toggleStat($('#userStat').data("stat"));
+              }
+
+              function toggleStat(status) {
+                $.ajax({
+                  url: "<?php echo site_url('users/toggleStatus') ?>",
+                  type: 'POST',
+                  dataType: 'json',
+                  data: 'is_online='+status,
+                  encode:true,
+                });
+              }
+            </script>
