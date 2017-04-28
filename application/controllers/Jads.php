@@ -12,6 +12,7 @@ class Jads extends MY_Controller {
 
 		// $this->load->model('Terminal');
 		$this->load->model('terminals_model', 'Terminal');
+		$this->load->model('ads_model','Ads');
 	}
 
 
@@ -26,13 +27,9 @@ class Jads extends MY_Controller {
 		
 		if( isset($advertiser) && is_numeric($advertiser) ){
 			
-			// echo json_encode($busID.'.'.$today);
-			
-			$this->load->model('ads_model');
-			
 			$where = array('advertisers.advertiser_id'=>$advertiser);
 			
-			$ads = $this->ads_model->getAds($where);
+			$ads = $this->Ads->getAds($where);
 		
 			echo json_encode($ads);
 			
