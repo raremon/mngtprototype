@@ -5,15 +5,18 @@ class Jschedule extends REST_Controller {
 	
 	public function __construct() {
         parent::__construct();
+		$this->load->model('schedules_model','Schedule');
     }
 		
 	public function index_get() {
+		
+		// http://[::1]/star8/api/jschedule/get/busID/1/today/2017-04-29
 		$data = $this->get();
 		
 		if( isset($data['busID']) && isset($data['today']) && is_numeric($data['busID']) && $data['today']!='' ){
-			$this->load->model('schedule_model');
+			// $this->load->model('schedule_model');
 			
-			$response = $this->schedule_model->getSchedule($data['busID'],$data['today']);
+			$response = $this->Schedule->getScheduleAds($data['busID'],$data['today']);
 		}
 		else{
 			$response = array('message' => 'No schedule to retrieve.');
@@ -23,14 +26,15 @@ class Jschedule extends REST_Controller {
 	}
 	
 	public function scheduledads_get() {
+		
 		$data = $this->get();
 		
 		if( isset($data['busID']) && isset($data['today']) && is_numeric($data['busID']) && $data['today']!='' ){
-			$this->load->model('schedule_model');
+			// $this->load->model('schedule_model');
 			
-			$schedule = $this->schedule_model->getScheduleAds($data['busID'],$data['today']);
+			$schedule = $this->Schedule->getScheduleAds($data['busID'],$data['today']);
 		
-			$response = $this->schedule_model->getSchedule($data['busID'],$data['today']);
+			// $response = $this->Schedule->getSchedule($data['busID'],$data['today']);
 		}
 		else{
 			$response = array('message' => 'No schedule to retrieve.');
