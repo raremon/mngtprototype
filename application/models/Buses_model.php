@@ -10,6 +10,13 @@
 			parent::__construct();
 		}
 
+		public function count_Bus()
+		{
+			$this->db->select('bus_id');
+			$this->db->from('buses');
+			return $this->db->count_all_results();
+		}
+		
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////

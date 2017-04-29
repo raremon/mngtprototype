@@ -39,15 +39,15 @@
 			return $query->result_array();
 		}
 
-		// // U P D A T E
-		// public function edit_Bus_Data($bus_id)
-		// {
-		// 	$this->db->select("*");
-		// 	$this->db->from('buses');
-		// 	$this->db->where('bus_id', $bus_id);
-		// 	$query = $this->db->get();
-		// 	return $query->row_array();
-		// }
+		// U P D A T E
+		public function edit_Role_Data($role_id)
+		{
+			$this->db->select("*");
+			$this->db->from('roles');
+			$this->db->where('role_id', $role_id);
+			$query = $this->db->get();
+			return $query->row_array();
+		}
 
 		// public function update_Bus_Data($data)
 		// {
