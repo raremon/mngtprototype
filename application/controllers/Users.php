@@ -22,6 +22,14 @@ class Users extends MY_Controller {
 		(
 			array('Add User','users/add'),
 		);
+		$data['css']=array
+		(
+			
+		);
+		$data['script']=array
+		(
+			
+		);
 		$data['page_description']='Add and Update User Accounts';
 
 		$role_data = $this->Role->show_Roles();
@@ -52,6 +60,14 @@ class Users extends MY_Controller {
 		(
 			array('Delete User','users/delete'),
 		);
+		$data['css']=array
+		(
+			
+		);
+		$data['script']=array
+		(
+			
+		);
 		$data['page_description']='Delete User Accounts';
 
 		$data['treeActive'] = 'users_management';
@@ -62,24 +78,26 @@ class Users extends MY_Controller {
 		$this->load->view("template/footer", $data);
 	}
 
-// 	// Index Function
-// 	public function index()
-// 	{
-// 		$data['title']='BUS CRUD';
-
-// 		$bus_type_data = $this->Bus_type->show_Bus_Type();
-// 		$data['bustype'] = array();
-// 		foreach ($bus_type_data as $rows) {
-// 			array_push($data['bustype'],
-// 				array(
-// 					$rows['bus_type_id'],
-// 					$rows['bus_type_name'],
-// 				)
-// 			);
-// 		}
-
-// 		$this->load->view('bus_crud', $data);
-// 	}
+	public function toggleStatus()
+	{
+		$validate=array(
+			array('field'=>'is_online','rules'=>'required')
+		);
+		$this->form_validation->set_rules($validate);
+		if ($this->form_validation->run()===FALSE) {
+			$info['success']=FALSE;
+			$info['errors']=validation_errors();
+		}else{
+			$info['success']=TRUE;
+			$data=array(
+				'is_online'=>$this->input->post('is_online'),
+				'user_id'=>$this->session->userdata("user_id"),
+			);
+			$this->User->onlineStatus($data);
+			$info['message']='Data Successfully Deleted';
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($info));
+	}
 
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
@@ -125,12 +143,13 @@ class Users extends MY_Controller {
 		$user_table = $this->User->show_User();
 		$data = array();
 		foreach ($user_table as $rows) {
+			$userRole = $this->Role->edit_Role_Data($rows['user_role']);
 			array_push($data,
 				array(
 					$rows['user_id'],
 					$rows['user_fname'],
 					$rows['user_lname'],
-					$rows['user_role'],
+					$userRole['role_name'],
 					$rows['user_name'],
 					$rows['user_lastlogin'],
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="edit_user('."'".$rows['user_id']."'".')">Edit</a>'
@@ -145,12 +164,13 @@ class Users extends MY_Controller {
 		$user_table = $this->User->show_User();
 		$data = array();
 		foreach ($user_table as $rows) {
+			$userRole = $this->Role->edit_Role_Data($rows['user_role']);
 			array_push($data,
 				array(
 					$rows['user_id'],
 					$rows['user_fname'],
 					$rows['user_lname'],
-					$rows['user_role'],
+					$userRole['role_name'],
 					$rows['user_name'],
 					$rows['user_lastlogin'],
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="delete_user('."'".$rows['user_id']."'".')">Delete</a>'
