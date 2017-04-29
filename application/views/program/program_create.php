@@ -23,11 +23,17 @@
 
               <div class="form-group">
                 <label for="route_list">Select Ad Owner:</label>
-                <select class="form-control select2" id="route_list">
-                  <option>Mcdonalds PH</option>
-                  <option>Mang Inasal</option>
-                  <option>Unilever</option>
-                  <option>YKK Zipper</option>
+                <select name="advertiser_id" class="form-control select2" id="route_list">
+                  <?php 
+                    foreach($advertiser as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
                 </select>
               </div>
 
@@ -43,11 +49,17 @@
 
               <div class="form-group">
                 <label for="route_list">Select Route:</label>
-                <select class="form-control select2" id="route_list">
-                  <option>Manila-Tagaytay</option>
-                  <option>Batangas-Manila</option>
-                  <option>Pasay-Fairview</option>
-                  <option>Buendia-North Edsa</option>
+                <select name="route_id" class="form-control select2" id="route_list">
+                  <?php 
+                    foreach($route as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
                 </select>
               </div>
 
@@ -134,11 +146,17 @@
             <form role="form">
               <div class="form-group">
                 <label for="route_list">Select Ad Owner:</label>
-                <select class="form-control select2" id="route_list">
-                  <option>Mcdonalds PH</option>
-                  <option>Mang Inasal</option>
-                  <option>Unilever</option>
-                  <option>YKK Zipper</option>
+                <select name="advertiser_id" class="form-control select2" id="route_list">
+                  <?php 
+                    foreach($advertiser as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
                 </select>
               </div>
               <div class="form-group">
@@ -152,11 +170,17 @@
               </div>               
               <div class="form-group">
                 <label for="route_list">Select Route:</label>
-                <select class="form-control select2" id="route_list">
-                  <option>Manila-Tagaytay</option>
-                  <option>Batangas-Manila</option>
-                  <option>Pasay-Fairview</option>
-                  <option>Buendia-North Edsa</option>
+                <select name="route_id" class="form-control select2" id="route_list">
+                  <?php 
+                    foreach($route as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
                 </select>
               </div>
               <div class="form-group">
@@ -239,11 +263,17 @@
             <form role="form">
               <div class="form-group">
                 <label for="route_list">Select Ad Owner:</label>
-                <select class="form-control select2" id="route_list">
-                  <option>Mcdonalds PH</option>
-                  <option>Mang Inasal</option>
-                  <option>Unilever</option>
-                  <option>YKK Zipper</option>
+                <select name="advertiser_id" class="form-control select2" id="route_list">
+                  <?php 
+                    foreach($advertiser as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
                 </select>
               </div>
               <div class="form-group">
@@ -257,11 +287,17 @@
               </div>               
               <div class="form-group">
                 <label for="route_list">Select Route:</label>
-                <select class="form-control select2" id="route_list">
-                  <option>Manila-Tagaytay</option>
-                  <option>Batangas-Manila</option>
-                  <option>Pasay-Fairview</option>
-                  <option>Buendia-North Edsa</option>
+                <select name="route_id" class="form-control select2" id="route_list">
+                  <?php 
+                    foreach($route as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
                 </select>
               </div>
               <div class="form-group">

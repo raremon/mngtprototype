@@ -4,6 +4,8 @@
 
 	class Ads_model extends CI_Model
 	{
+		private $table = 'ads';
+		
 		//Constructor
 		public function __construct()
 		{
@@ -17,6 +19,27 @@
 			return $this->db->count_all_results();
 		}
 
+		public function getAds($where=null){
+
+			$this->db->select('*')
+				->from($this->table)
+				->join('advertisers','ads.advertiser_id=advertisers.advertiser_id','inner');				
+
+			if( isset($where) )
+				$this->db->where($where);
+
+			if( isset($orwhere) )
+				$this->db->or_where($orwhere);
+				
+			$query = $this->db->get();
+			
+			// echo $this->db->last_query();
+			// exit;
+			
+			return $query->result_array();
+		
+		}
+
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
@@ -28,14 +51,14 @@
 			return TRUE;
 		}
 
-		// // R E A D
-		// public function show_Ad()
-		// {
-		// 	$this->db->select("*");
-		// 	$this->db->from('ads');
-		// 	$query=$this->db->get();
-		// 	return $query->result_array();
-		// }
+		// R E A D
+		public function show_Ad()
+		{
+			$this->db->select("*");
+			$this->db->from('ads');
+			$query=$this->db->get();
+			return $query->result_array();
+		}
 
 		// // U P D A T E
 		// public function edit_Ad_Data($ad_id)

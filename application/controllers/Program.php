@@ -11,6 +11,10 @@
 			parent::__construct();
 			$this->load->model('users_model', 'User');
 			$this->load->model('roles_model', 'Role');
+
+			$this->load->model('advertisers_model', 'Advertiser');
+			$this->load->model('routes_model', 'Route');
+			$this->load->model('ads_model', 'Ad');
 		}
 		
 		// Index Function
@@ -46,6 +50,40 @@
             );
 			$data['treeActive'] = 'program_schedule';
 			$data['childActive'] = 'create_program_schedule' ;
+
+			$advertiser_data = $this->Advertiser->show_Advertiser();
+			$data['advertiser'] = array();
+			foreach ($advertiser_data as $rows) {
+				array_push($data['advertiser'],
+					array(
+						$rows['advertiser_id'],
+						$rows['advertiser_name'],
+					)
+				);
+			}
+
+			$route_data = $this->Route->show_Route();
+			$data['route'] = array();
+			foreach ($route_data as $rows) {
+				array_push($data['route'],
+					array(
+						$rows['route_id'],
+						$rows['route_name'],
+					)
+				);
+			}
+
+			$ad_data = $this->Ad->show_Ad();
+			$data['ad'] = array();
+			foreach ($ad_data as $rows) {
+				array_push($data['ad'],
+					array(
+						$rows['ad_id'],
+						$rows['ad_name'],
+						$rows['ad_filename'],
+					)
+				);
+			}
 
 			$this->load->view("template/header", $data);
 			$this->load->view("program/program_create", $data);
