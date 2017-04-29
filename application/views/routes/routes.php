@@ -1,3 +1,5 @@
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJAq_K8XorLcD2nKKsrmB7BserF3Wh3Ss" type="text/javascript"></script>
+
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Route Details</h3>
@@ -195,10 +197,10 @@
             $('#route-message').html(data.errors).addClass('alert alert-danger');
           }
         }else {
-          alert(data.message);
+          $('#route-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function() {
             window.location.reload()
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -254,10 +256,10 @@
         if(!data.success){
           $('#route-message').html(data.errors).addClass('alert alert-danger');
         }else {
-          alert(data.message);
+          $('#route-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function () {
             window.location.reload();
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -281,7 +283,7 @@
             $('#route-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
             setTimeout(function() {
               window.location.reload();
-            }, 400);
+            }, 1000);
           }
         }
       });
@@ -325,8 +327,10 @@
         mapTypeId: 'roadmap',
         navigationControl: false,
         mapTypeControl: false,
+        scrollwheel: false,
         scaleControl: false,
         draggable: false,
+        disableDefaultUI: true,
     };
 
     var map = new google.maps.Map( document.getElementById('map-canvas'), mapOptions);
