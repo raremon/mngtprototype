@@ -321,6 +321,7 @@
                   <ul class="treeview-menu">
                     <li id="add_bus"><a href="<?php echo base_url('buses/add') ?>">Add Bus</a></li>
                     <li id="delete_bus"><a href="<?php echo base_url('buses/delete') ?>">Delete Bus</a></li>
+                    <li id="bus_routes"><a href="<?php echo base_url('routes') ?>">Bus Routes</a></li>
                   </ul>
                 </li>
 

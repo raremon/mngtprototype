@@ -48,7 +48,7 @@ class Routes extends MY_Controller {
 		}
 
 		$data['treeActive'] = 'bus_management';
-		$data['childActive'] = 'add_bus' ;
+		$data['childActive'] = 'bus_routes' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("routes/routes", $data);

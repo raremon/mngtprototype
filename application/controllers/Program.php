@@ -73,23 +73,54 @@
 				);
 			}
 
-			$ad_data = $this->Ad->show_Ad();
-			$data['ad'] = array();
-			foreach ($ad_data as $rows) {
-				array_push($data['ad'],
-					array(
-						$rows['ad_id'],
-						$rows['ad_name'],
-						$rows['ad_filename'],
-					)
-				);
-			}
+			// $ad_data = $this->Ad->show_Ad();
+			// $data['ad'] = array();
+			// foreach ($ad_data as $rows) {
+			// 	array_push($data['ad'],
+			// 		array(
+			// 			$rows['ad_id'],
+			// 			$rows['ad_name'],
+			// 			$rows['ad_filename'],
+			// 		)
+			// 	);
+			// }
 
 			$this->load->view("template/header", $data);
 			$this->load->view("program/program_create", $data);
 			$this->load->view("template/footer", $data);
 		}
 
+		// R E A D
+		public function showAd()
+		{
+			$ad_table = $this->Ad->show_Ad();
+			$data = array();
+			foreach ($ad_table as $rows) {
+				array_push($data,
+					array(
+						$rows['ad_id'],
+						'
+							<video controls id="v'.$rows["ad_id"].'" width="500px">
+					  			<source src="'.base_url("assets/ads/".$rows["ad_filename"]).'" type="video/mp4">
+					  			Your browser does not support HTML5 video.
+							</video>
+						',
+						$rows['ad_filename'],
+						'
+							<p id="p'.$rows["ad_id"].'"></p>
+							<script>	
+								$("#v'.$rows["ad_id"].'").ready(function() {
+								  $("#p'.$rows["ad_id"].'").text(document.getElementById("#v'.$rows["ad_id"].'").duration);
+								});
+
+							</script>
+						',
+						$rows['ad_name'],
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+		}
 	}
 
 // END OF PROGRAM SCHEDULE CONTROLLER

@@ -76,6 +76,8 @@
 				}
 				else
 				{	
+					$ext = pathinfo($_FILES["ad_file"]["name"], PATHINFO_EXTENSION);
+
 					$config['upload_path'] = "./assets/ads/";
 					$config['allowed_types'] = 'mp4|mpeg|m4v|mkv';
 
@@ -97,7 +99,7 @@
 
 						$data=array(
 							'ad_name'=>$this->input->post('ad_name'),
-							'ad_filename'=>$config['file_name'],
+							'ad_filename'=> str_replace(' ', '_', preg_replace("/ {2,}/", " ", $config['file_name'].".".$ext) ),
 							'advertiser_id'=>$this->input->post('advertiser_id'),
 						);
 						$this->Ad->save_Ad($data);
