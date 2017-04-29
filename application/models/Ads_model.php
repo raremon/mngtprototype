@@ -10,16 +10,23 @@
 			parent::__construct();
 		}
 
+		public function count_Ad()
+		{
+			$this->db->select('ad_id');
+			$this->db->from('ads');
+			return $this->db->count_all_results();
+		}
+
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
 
-		// // C R E A T E
-		// public function save_Ad($data)
-		// {
-		// 	$this->db->insert('ads', $data);
-		// 	return TRUE;
-		// }
+		// C R E A T E
+		public function save_Ad($data)
+		{
+			$this->db->insert('ads', $data);
+			return TRUE;
+		}
 
 		// // R E A D
 		// public function show_Ad()

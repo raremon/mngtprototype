@@ -58,7 +58,7 @@
       <?php 
         }
       ?>
-    
+
     </head>
 
     <body class="hold-transition skin-green sidebar-mini">
@@ -295,8 +295,8 @@
                     </span>					
         					</a>
                   <ul class="treeview-menu">
-                    <li id="new_advertiser"><a href="#">New Advertiser</a></li>
-                    <li id="browse_ad_companies"><a href="#">Browse Ad Companies </a></li>
+                    <li id="new_advertiser"><a href="<?php echo base_url('advertisers/add') ?>">New Advertiser</a></li>
+                    <li id="browse_ad_companies"><a href="<?php echo base_url('advertisers/show') ?>">Browse Ad Companies </a></li>
                   </ul>				
         				</li>	
 

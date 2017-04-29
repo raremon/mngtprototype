@@ -11,6 +11,11 @@
 			parent::__construct();
 			$this->load->model('users_model', 'User');
 			$this->load->model('roles_model', 'Role');
+
+			$this->load->model('buses_model', 'Bus');
+			$this->load->model('ads_model', 'Ad');
+			$this->load->model('advertisers_model', 'Advertiser');
+			$this->load->model('schedules_model', 'Schedule');
 		}
 		
 		// Index Function
@@ -45,6 +50,7 @@
 				'assets/plugins/select2/select2.full.min.js',
 				'assets/plugins/iCheck/icheck.min.js',
 				'assets/plugins/timepicker/bootstrap-timepicker.min.js',
+				'assets/js/jquery.form.js',
 			);
 			$data['treeActive'] = 'dashboard';
 			$data['childActive'] = '' ;
@@ -60,6 +66,22 @@
 					)
 				);
 			}
+
+			$advertiser_data = $this->Advertiser->show_Advertiser();
+			$data['advertiser'] = array();
+			foreach ($advertiser_data as $rows) {
+				array_push($data['advertiser'],
+					array(
+						$rows['advertiser_id'],
+						$rows['advertiser_name'],
+					)
+				);
+			}
+
+			$data['bus_count'] = $this->Bus->count_Bus();
+			$data['ad_count'] = $this->Ad->count_Ad();
+			$data['advertiser_count'] = $this->Advertiser->count_Advertiser();
+			$data['schedule_count'] = $this->Schedule->count_Schedule();
 
 			$firstSection = array
 			(

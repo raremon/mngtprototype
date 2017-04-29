@@ -6,23 +6,44 @@
     </div><!-- /.box-tools -->
   </div><!-- /.box-header -->
   <div class="box-body">
-      <form role="form">
+    <div id="ad-message"></div>
+    <?php echo form_open_multipart('ads_mngt/saveAd', array('id'=>'ads')); ?>
+      <div class="form-group">
+        <label for="video_title">Title:</label>
+        <input name="ad_name" type="text" class="form-control" id="video_title" placeholder="Title">
+      </div>
+      <div class="form-group">
         <div class="form-group">
-          <label for="video_title">Title:</label>
-          <input type="text" class="form-control" id="video_title" placeholder="Title">
+          <label>Advertiser</label>
+          <select name="advertiser_id" class="form-control">
+            <?php 
+              foreach($advertiser as $row)
+              {
+            ?>
+              <option value= <?php echo $row[0];?> >
+                <?php echo $row[1]; ?>
+              </option>
+            <?php 
+              }
+            ?>
+          </select>
+          <a class="btn btn-link pull-right" href="#">Add Advertisers</a>
         </div>
-        <div class="form-group">
-          <input type="file" name="#" class="file">
-          <div class="input-group col-xs-12">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
-            <input type="text" class="form-control input-md" disabled placeholder="Upload Video">
-            <span class="input-group-btn">
-              <button class="browse btn btn-success input-md" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
-            </span>
-          </div>
+      </div>
+      <div class="form-group">
+        <progress value="0" max="100" id="prog" style="display:none;"></progress>
+        <input name="ad_file" id="ad_file" type="file" class="file">
+        <div class="input-group col-xs-12">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+          <input type="text" class="form-control input-md" disabled placeholder="Upload Video">
+          <input name="ad_filename" type="text" class="form-control input-md hidden">
+          <span class="input-group-btn">
+            <button class="browse btn btn-success input-md" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+          </span>
         </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
-      </form>
+      </div>
+      <button type="submit" class="btn btn-primary" name="upload" id="upload" value="upload">Upload</button>
+    <?php echo form_close(); ?>
   </div><!-- /.box-body -->
   <div class="box-footer">
   </div><!-- box-footer -->
@@ -37,5 +58,83 @@
   //Placeholder Text End
   $(document).on('change', '.file', function(){
     $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-  });    
+  });
+
+  ////////////////////////////////////////////////////////////////
+  //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
+  ////////////////////////////////////////////////////////////////
+
+  // // C R E A T E
+  // function save_Ad() {
+  //   $.ajaxFileUpload({
+  //     url       :'<?php echo site_url("ads_mngt/saveAd")?>', 
+  //     type: 'POST',
+  //     // secureuri   : false,
+  //     // fileElementId :'ad_file',
+  //     dataType    : 'json',
+  //     data: $('#ads').serialize(),
+  //     encode: true,
+  //     success:function(data) {
+  //       if(!data.success){
+  //         if(data.errors){
+  //           $('#ad-message').html(data.errors).addClass('alert alert-danger');
+  //         }
+  //       }else {
+  //         alert(data.message);
+  //         setTimeout(function() {
+  //           window.location.reload()
+  //         }, 400);
+  //       }
+  //     }
+  //   });
+  // }
+
+  $(document).ready(function(){
+    $('#ads').on('submit', function(e){
+      e.preventDefault();
+      if($('#ad_file').val() == '')
+      {
+        $('#ad-message').html("The file upload cannot be empty!").addClass('alert alert-danger');
+      }
+      else
+      {
+        $.ajax({
+          url: "<?php echo site_url('ads_mngt/saveAd') ?>",
+          method: 'POST',
+          data: new FormData(this),
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend: function()
+          {
+            $("#prog").show();
+            $("#prog").attr('value','0');
+          },
+          uploadProgress: function(event,position,total,percentCompelete)
+          {
+            $("#prog").attr('value', percentCompelete);
+          },
+          success:function(data) {
+            if(!data.success){
+              if(data.errors){
+                $('#ad-message').html(data.errors).addClass('alert alert-danger');
+              }
+            }else {
+              $('#ad-message').html(data.message).addClass('alert alert-success');
+              setTimeout(function() {
+                window.location.reload()
+              }, 1000);
+            }
+          }
+        });
+      }
+    });
+  });
+
+  ////////////////////////////////////////////////////////////////
+  // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
+  ////////////////////////////////////////////////////////////////
+
+  // END OF ADS JAVASCRIPT
+
 </script>

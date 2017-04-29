@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2017 at 10:13 AM
+-- Generation Time: Apr 29, 2017 at 01:36 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -27,8 +27,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `ads` (
-  `ad_id` int(11) NOT NULL COMMENT 'Ad''s Id',
-  `ad_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ad''s File Name',
+  `ad_id` int(11) NOT NULL COMMENT 'Ad''s Id ( Primary )',
+  `ad_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ad''s Name',
+  `ad_filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ad''s File Name',
+  `advertiser_id` int(11) NOT NULL COMMENT 'Advertiser''s Id ( Foreign )',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -37,22 +39,22 @@ CREATE TABLE `ads` (
 -- Dumping data for table `ads`
 --
 
-INSERT INTO `ads` (`ad_id`, `ad_name`, `created_at`, `updated`) VALUES
-(1, 'ad_1.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(2, 'ad_2.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(3, 'ad_3.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(4, 'ad_4.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(5, 'ad_5.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(6, 'ad_6.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(7, 'ad_7.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(8, 'ad_8.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(9, 'ad_9.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(10, 'ad_10.mp4', '2017-04-24 18:34:35', '2017-04-24 18:34:35'),
-(11, 'ad_11.mp4', '2017-04-24 18:44:42', '2017-04-24 18:44:42'),
-(12, 'ad_12.mp4', '2017-04-24 18:44:42', '2017-04-24 18:44:42'),
-(13, 'ad_13.mp4', '2017-04-24 18:44:42', '2017-04-24 18:44:42'),
-(14, 'ad_14.mp4', '2017-04-24 18:44:42', '2017-04-24 18:44:42'),
-(15, 'ad_15.mp4', '2017-04-24 18:44:42', '2017-04-24 18:44:42');
+INSERT INTO `ads` (`ad_id`, `ad_name`, `ad_filename`, `advertiser_id`, `created_at`, `updated`) VALUES
+(1, 'burgerdesal', '1-burgerdesal', 1, '2017-04-29 11:28:52', '2017-04-29 11:28:52'),
+(2, 'kayamokayako', '1-kayamokayako', 1, '2017-04-29 11:29:09', '2017-04-29 11:29:09'),
+(3, 'tatay ko magaling', '1-tatay ko magaling', 1, '2017-04-29 11:29:21', '2017-04-29 11:29:21'),
+(4, 'nakaraan', '1-nakaraan', 1, '2017-04-29 11:29:32', '2017-04-29 11:29:32'),
+(5, 'move on na day', '1-move on na day', 1, '2017-04-29 11:29:44', '2017-04-29 11:29:44'),
+(6, 'natulala sa sarap', '2-natulala sa sarap', 2, '2017-04-29 11:30:00', '2017-04-29 11:30:00'),
+(7, 'patay na ang pizza', '2-patay na ang pizza', 2, '2017-04-29 11:30:15', '2017-04-29 11:30:57'),
+(8, 'sisig rice', '2-sisig rice', 2, '2017-04-29 11:30:26', '2017-04-29 11:30:57'),
+(9, 'namigay ng sarap', '2-namigay ng sarap', 2, '2017-04-29 11:31:58', '2017-04-29 11:31:58'),
+(10, 'discount', '2-discount', 2, '2017-04-29 11:32:09', '2017-04-29 11:33:09'),
+(11, 'the toppings are on top', '3-the toppings are on top', 3, '2017-04-29 11:32:25', '2017-04-29 11:33:09'),
+(12, 'naghanap si angel', '3-naghanap si angel', 3, '2017-04-29 11:33:57', '2017-04-29 11:33:57'),
+(13, 'galit galit muna', '3-galit galit muna', 3, '2017-04-29 11:34:13', '2017-04-29 11:34:13'),
+(14, 'pagtapos ng gera', '3-pagtapos ng gera', 3, '2017-04-29 11:34:28', '2017-04-29 11:34:28'),
+(15, 'matatakaw sa mang inasal', '3-matatakaw sa mang inasal', 3, '2017-04-29 11:34:42', '2017-04-29 11:34:42');
 
 -- --------------------------------------------------------
 
@@ -61,7 +63,7 @@ INSERT INTO `ads` (`ad_id`, `ad_name`, `created_at`, `updated`) VALUES
 --
 
 CREATE TABLE `advertisers` (
-  `advertiser_id` int(11) NOT NULL COMMENT 'Advertiser''s Id',
+  `advertiser_id` int(11) NOT NULL COMMENT 'Advertiser''s Id ( Primary )',
   `advertiser_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Advertiser''s Name',
   `advertiser_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Advertiser''s Address',
   `advertiser_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Advertiser''s Contact Details',
@@ -76,9 +78,37 @@ CREATE TABLE `advertisers` (
 --
 
 INSERT INTO `advertisers` (`advertiser_id`, `advertiser_name`, `advertiser_address`, `advertiser_contact`, `advertiser_email`, `advertiser_description`, `created_at`, `updated_at`) VALUES
-(1, 'McDonalds', '16th Floor Citibank Center Bldg. 8741 Paseo de Roxas St. ,Makati City', '02-8635490', 'writeus@ph.mcd.com', 'Our Chairman and Founder, George T. Yang, built the first Golden Arches in the Philippines in 1981. From our first restaurant along Morayta in Manila, we are happy to welcome you in our 375 restaurants nationwide. \r\n\r\nWith Kenneth S. Yang as the President & CEO and with over 27,000 dedicated employees and crew members, we remain committed in growing and innovating products and services for you.\r\n\r\nAnd with our Chief Happiness Officer, Ronald McDonald, we always aim to spread happiness to communities and to have fun with you guys!', '2017-04-24 17:27:58', '2017-04-24 17:27:58'),
+(1, 'McDonalds', '16th Floor Citibank Center Bldg. 8741 Paseo de Roxas St. ,Makati City', '02-8635490', 'writeus@ph.mcd.com', 'Our Chairman and Founder, George T. Yang, built the first Golden Arches in the Philippines in 1981. From our first restaurant along Morayta in Manila, we are happy to welcome you in our 375 restaurants nationwide. \r\n\r\nWith Kenneth S. Yang as the President & CEO and with over 27,000 dedicated employees and crew members, we remain committed in growing and innovating products and services for you.\r\n\r\nAnd with our Chief Happiness Officer, Ronald McDonald, we always aim to spread happiness to communities and to have fun with you guys!!', '2017-04-24 17:27:58', '2017-04-29 11:21:54'),
 (2, 'KFC', '80-82 A Ramcar Roces Avenue\r\nQuezon City, Philippines', '887-8888', 'contactus@kfc.com', 'entucky Fried Chicken owes its delicious history to Harland David Sanders, its founder who is fondly referred to as “The Colonel”. Upon perfection of the Original Recipe that makes use of 11 secret herbs and spices, Colonel Sanders has brought the ultimate delight of chicken lovers to the world.\r\n\r\nKFC Corporation Philippines is the home of finger lickin’ goodness in the country, serving its range of world-famous dishes and sides to Filipinos.', '2017-04-24 17:29:19', '2017-04-24 17:29:19'),
 (3, 'Mang Inasal', 'Mandaluyong City 1550, Philippines', '724 1111', 'feedback@manginasal.com', 'It is our aim not just to deliver high-quality meals but to serve the Alagang Pinoy way. We serve our customers with puso - by always making them our first priority in ways that connect to our customers. \r\n\r\nIn Mang Inasal, FSC is our way of life. And it is the reason why we are still in business today.', '2017-04-24 17:35:14', '2017-04-24 17:35:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ad_schedules`
+--
+
+CREATE TABLE `ad_schedules` (
+  `ad_id` int(11) NOT NULL COMMENT 'Ad''s Id ( Foreign )',
+  `schedule_id` int(11) NOT NULL COMMENT 'Schedule''s Id ( Foreign )',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `airtimes`
+--
+
+CREATE TABLE `airtimes` (
+  `airtime_id` int(11) NOT NULL COMMENT 'Airtime''s Id ( Primary )',
+  `time_start` time NOT NULL COMMENT 'Time Start',
+  `time_end` time NOT NULL COMMENT 'Time End',
+  `schedule_id` int(11) NOT NULL COMMENT 'Schedule''s Id ( Foreign )',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -111,7 +141,7 @@ INSERT INTO `buses` (`bus_id`, `bus_name`, `plate_number`, `bus_desc`, `bus_type
 --
 
 CREATE TABLE `bus_type` (
-  `bus_type_id` int(7) UNSIGNED NOT NULL COMMENT 'Bus Type''s Id',
+  `bus_type_id` int(7) UNSIGNED NOT NULL COMMENT 'Bus Type''s Id ( Primary )',
   `bus_type_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Bus Type''s Name',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -180,34 +210,6 @@ INSERT INTO `privileges` (`role_id`, `feature_id`, `created_at`, `updated_at`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `programs`
---
-
-CREATE TABLE `programs` (
-  `program_id` int(11) NOT NULL COMMENT 'Program''s Id',
-  `ad_id` int(11) NOT NULL COMMENT 'Ad''s Id ( Foreign )',
-  `route_id` int(11) NOT NULL COMMENT 'Route''s Id ( Foreign )',
-  `advertiser_id` int(11) NOT NULL COMMENT 'Advertiser''s Id ( Foreign )',
-  `air_time` time DEFAULT NULL COMMENT 'Air Time of Ad ( if scheduled, otherwise none )',
-  `program_start` date NOT NULL COMMENT 'Date of the start of program',
-  `program_end` date NOT NULL COMMENT 'Date of the end of program',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `programs`
---
-
-INSERT INTO `programs` (`program_id`, `ad_id`, `route_id`, `advertiser_id`, `air_time`, `program_start`, `program_end`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 1, '17:28:00', '2017-04-25', '2017-04-29', '2017-04-24 18:47:10', '2017-04-24 18:47:10'),
-(2, 2, 2, 1, NULL, '2017-04-21', '2017-04-26', '2017-04-24 18:47:10', '2017-04-24 18:47:10'),
-(3, 6, 2, 2, NULL, '2017-04-24', '2017-05-26', '2017-04-24 18:47:10', '2017-04-24 18:47:10'),
-(4, 2, 2, 1, NULL, '2017-04-24', '2017-04-27', '2017-04-24 18:47:10', '2017-04-24 18:47:10');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `roles`
 --
 
@@ -234,11 +236,11 @@ INSERT INTO `roles` (`role_id`, `role_name`, `role_description`, `created_at`, `
 --
 
 CREATE TABLE `routes` (
-  `route_id` int(7) UNSIGNED NOT NULL COMMENT 'Route''s Id',
+  `route_id` int(7) UNSIGNED NOT NULL COMMENT 'Route''s Id ( Primary )',
   `route_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Route''s Name',
   `route_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Route''s Description',
-  `terminal_from` int(7) UNSIGNED NOT NULL COMMENT 'Id of first terminal',
-  `terminal_to` int(7) UNSIGNED NOT NULL COMMENT 'Id of second terminal',
+  `terminal_from` int(7) UNSIGNED NOT NULL COMMENT 'Id of first terminal ( Foreign )',
+  `terminal_to` int(7) UNSIGNED NOT NULL COMMENT 'Id of second terminal ( Foreign )',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -257,11 +259,27 @@ INSERT INTO `routes` (`route_id`, `route_name`, `route_description`, `terminal_f
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `schedules`
+--
+
+CREATE TABLE `schedules` (
+  `schedule_id` int(11) NOT NULL COMMENT 'Schedule''s Id ( Primary )',
+  `route_id` int(11) NOT NULL COMMENT 'Route''s Id ( Foreign )',
+  `date_start` date NOT NULL COMMENT 'Date Start',
+  `date_end` date NOT NULL COMMENT 'Date End',
+  `schedule_type` int(11) NOT NULL COMMENT 'Schedule''s Type ( 1:Normal ; 2:Scheduled ; 3:Blocked )',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `terminals`
 --
 
 CREATE TABLE `terminals` (
-  `terminal_id` int(7) UNSIGNED NOT NULL COMMENT 'Terminal ID',
+  `terminal_id` int(7) UNSIGNED NOT NULL COMMENT 'Terminal ID ( Primary )',
   `terminal_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Terminal Name',
   `latitude` decimal(27,20) NOT NULL COMMENT 'Latitude Value on Google Map',
   `longitude` decimal(27,20) NOT NULL COMMENT 'Longitude Value on Google Map',
@@ -290,12 +308,12 @@ INSERT INTO `terminals` (`terminal_id`, `terminal_name`, `latitude`, `longitude`
 --
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL COMMENT 'User''s Id',
+  `user_id` int(11) NOT NULL COMMENT 'User''s Id ( Primary )',
   `user_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Username',
   `user_fname` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'First Name',
   `user_lname` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Last Name',
   `user_password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Password',
-  `user_role` int(11) NOT NULL COMMENT 'Role Id',
+  `user_role` int(11) NOT NULL COMMENT 'Role Id ( Foreign )',
   `is_online` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = False (default) ; 1 = True',
   `user_lastlogin` timestamp NULL DEFAULT NULL COMMENT 'Last Login Timestamp',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -307,8 +325,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_fname`, `user_lname`, `user_password`, `user_role`, `is_online`, `user_lastlogin`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'cee jay', 'reyes', 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, 1, '2017-04-23 22:20:58', '2017-04-09 17:17:02', '2017-04-23 22:20:58'),
-(2, 'hexxableyd', 'Dennis', 'de Leon', '88ea39439e74fa27c09a4fc0bc8ebe6d00978392', 2, 0, '2017-04-21 10:43:32', '2017-04-09 17:17:02', '2017-04-21 10:43:32');
+(1, 'admin', 'cee jay', 'reyes', 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, 1, '2017-04-28 12:41:55', '2017-04-09 17:17:02', '2017-04-28 12:41:55'),
+(2, 'hexxableyd', 'Dennis', 'de Leon', '88ea39439e74fa27c09a4fc0bc8ebe6d00978392', 2, 0, '2017-04-28 12:40:29', '2017-04-09 17:17:02', '2017-04-28 12:40:29');
 
 --
 -- Indexes for dumped tables
@@ -329,6 +347,12 @@ ALTER TABLE `advertisers`
   ADD PRIMARY KEY (`advertiser_id`),
   ADD UNIQUE KEY `advertiser_id` (`advertiser_id`),
   ADD KEY `advertiser_id_2` (`advertiser_id`);
+
+--
+-- Indexes for table `airtimes`
+--
+ALTER TABLE `airtimes`
+  ADD PRIMARY KEY (`airtime_id`);
 
 --
 -- Indexes for table `buses`
@@ -363,12 +387,6 @@ ALTER TABLE `privileges`
   ADD KEY `feature_id` (`feature_id`);
 
 --
--- Indexes for table `programs`
---
-ALTER TABLE `programs`
-  ADD PRIMARY KEY (`program_id`);
-
---
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
@@ -384,6 +402,12 @@ ALTER TABLE `routes`
   ADD PRIMARY KEY (`route_id`),
   ADD UNIQUE KEY `route_id` (`route_id`),
   ADD KEY `route_id_2` (`route_id`);
+
+--
+-- Indexes for table `schedules`
+--
+ALTER TABLE `schedules`
+  ADD PRIMARY KEY (`schedule_id`);
 
 --
 -- Indexes for table `terminals`
@@ -408,12 +432,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `ads`
 --
 ALTER TABLE `ads`
-  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ad''s Id', AUTO_INCREMENT=16;
+  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ad''s Id ( Primary )', AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `advertisers`
 --
 ALTER TABLE `advertisers`
-  MODIFY `advertiser_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Advertiser''s Id', AUTO_INCREMENT=4;
+  MODIFY `advertiser_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Advertiser''s Id ( Primary )', AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `airtimes`
+--
+ALTER TABLE `airtimes`
+  MODIFY `airtime_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Airtime''s Id ( Primary )';
 --
 -- AUTO_INCREMENT for table `buses`
 --
@@ -423,17 +452,12 @@ ALTER TABLE `buses`
 -- AUTO_INCREMENT for table `bus_type`
 --
 ALTER TABLE `bus_type`
-  MODIFY `bus_type_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Bus Type''s Id', AUTO_INCREMENT=21;
+  MODIFY `bus_type_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Bus Type''s Id ( Primary )', AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `features`
 --
 ALTER TABLE `features`
   MODIFY `feature_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Feature''s Id', AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `programs`
---
-ALTER TABLE `programs`
-  MODIFY `program_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Program''s Id', AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `roles`
 --
@@ -443,17 +467,22 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `route_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Route''s Id', AUTO_INCREMENT=7;
+  MODIFY `route_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Route''s Id ( Primary )', AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `schedules`
+--
+ALTER TABLE `schedules`
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Schedule''s Id ( Primary )';
 --
 -- AUTO_INCREMENT for table `terminals`
 --
 ALTER TABLE `terminals`
-  MODIFY `terminal_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Terminal ID', AUTO_INCREMENT=9;
+  MODIFY `terminal_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Terminal ID ( Primary )', AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'User''s Id', AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'User''s Id ( Primary )', AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

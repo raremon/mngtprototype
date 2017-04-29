@@ -10,6 +10,13 @@
 			parent::__construct();
 		}
 
+		public function count_Schedule()
+		{
+			$this->db->select('schedule_id');
+			$this->db->from('schedules');
+			return $this->db->count_all_results();
+		}
+
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////

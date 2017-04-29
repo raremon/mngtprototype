@@ -99,25 +99,6 @@ class Users extends MY_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
 
-// 	// Index Function
-// 	public function index()
-// 	{
-// 		$data['title']='BUS CRUD';
-
-// 		$bus_type_data = $this->Bus_type->show_Bus_Type();
-// 		$data['bustype'] = array();
-// 		foreach ($bus_type_data as $rows) {
-// 			array_push($data['bustype'],
-// 				array(
-// 					$rows['bus_type_id'],
-// 					$rows['bus_type_name'],
-// 				)
-// 			);
-// 		}
-
-// 		$this->load->view('bus_crud', $data);
-// 	}
-
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
