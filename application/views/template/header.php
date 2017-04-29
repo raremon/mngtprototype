@@ -25,31 +25,18 @@
       <?php 
         }
       ?>
-      <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-      <![endif]-->
 
       <!-- REQUIRED JS SCRIPTS -->
-
-      <!-- jQuery 2.2.3 -->
       <script src="<?php echo base_url('assets/js/jquery-2.2.3.min.js') ?>"></script>
-      <!-- Bootstrap 3.3.6 -->
       <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
-      <!-- AdminLTE App -->
       <script src="<?php echo base_url('assets/js/app.min.js') ?>"></script>
-      <!-- Data Tables JS -->
       <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/dataTables.bootstrap.min.js') ?>"></script>
-      <!-- jQuery UI 1.11.4 -->
       <script src="<?php echo base_url('assets/plugins/jQueryUI/jquery-ui.min.js') ?>"></script>
-      <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
       <script>
         $.widget.bridge('uibutton', $.ui.button);
       </script>
 
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <?php 
         foreach($script as $rows)
         {
@@ -65,7 +52,6 @@
         <div class="wrapper">
           <header class="main-header">
               
-            <!-- Logo -->
             <a href="<?php  echo site_url('dashboard') ?>" class="logo">
               <span class="logo-mini"><img src="<?php echo base_url('assets/public/star8logo_sm.png') ?>"></span>
               <span class="logo-lg"><img src="<?php echo base_url('assets/public/star8logo_lg.png') ?>"></img></span>
@@ -176,28 +162,29 @@
                     </ul>
                   </li>
 
-                  <!-- User Account Menu -->
                   <li class="dropdown user user-menu">
-                    <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <!-- The user image in the navbar-->
                       <img src="<?php echo base_url('assets/public/user1.jpg') ?>" class="user-image" alt="User Image">
-                      <!-- hidden-xs hides the username on small devices so only the image appears. -->
                       <span class="hidden-xs"><?php echo $this->session->userdata("user_fname") . " " . $this->session->userdata("user_lname");?></span>
                     </a>
                     <ul class="dropdown-menu">
-                      <!-- The user image in the menu -->
                       <li class="user-header">
                         <img src="<?php echo base_url('assets/public/user1.jpg') ?>" class="img-circle" alt="User Image">
-
                         <p>
                           <?php 
                             echo $this->session->userdata("user_fname") . " " . $this->session->userdata("user_lname") . " - " . $role['role_name'];
                           ?>
-                          <small>
+                          <!-- <small>
                             Member since 
                             <?php 
                               $d = new DateTime($this->session->userdata("created_at"));
+                              echo $d->format('M / d / Y') 
+                            ?>
+                          </small> -->
+                          <small>
+                            Last logged-in  
+                            <?php 
+                              $d = new DateTime($this->session->userdata("last_login"));
                               echo $d->format('M / d / Y') 
                             ?>
                           </small>
@@ -222,12 +209,8 @@
             </nav>
           </header>
 
-          <!-- Left side column. contains the logo and sidebar -->
           <aside class="main-sidebar">
-            <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-
-              <!-- Sidebar user panel (optional) -->
               <div class="user-panel">
                 <div class="pull-left image">
                   <img src="<?php echo base_url('assets/public/user1.jpg') ?>" class="img-circle" alt="User Image">
@@ -238,8 +221,7 @@
                       echo $this->session->userdata("user_fname") . " " . $this->session->userdata("user_lname");
                     ?>
                   </p>
-                  <!-- Status -->
-                  <a id="userStat" href="#" onclick="toggleStatus()" data-stat="1"><i class="fa fa-circle text-success"></i> Online</a>
+                  <a id="userStat" href="javascript:void(0)" onclick="toggleStatus()" data-stat="1"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
               </div>
 
@@ -247,21 +229,16 @@
               <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
                   <input type="text" name="q" class="form-control" placeholder="Search...">
-                      <span class="input-group-btn">
-                        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                        </button>
-                      </span>
+                    <span class="input-group-btn">
+                      <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                      </button>
+                    </span>
                 </div>
               </form>
-              <!-- /.search form -->
 
-              <!-- Sidebar Menu -->
               <ul class="sidebar-menu">
                 <li class="header">Main Menu</li>
-
-                <!-- Optionally, you can add icons to the links -->
                 <li id="dashboard"><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
-
                 <li id="program_schedule" class="treeview">
                   <a href="#"><i class="fa fa-tv"></i> <span>Program Schedule</span>
                     <span class="pull-right-container">
@@ -275,7 +252,6 @@
                     <li id="assign_per_bus"><a href="#">Assign Per Bus</a></li>
                   </ul>
                 </li>
-
                 <li id="ads_management" class="treeview">
         					<a href="#"><i class="fa fa-upload"></i> <span>Ads Management</span>
                     <span class="pull-right-container">
@@ -284,10 +260,9 @@
         					</a>
                   <ul class="treeview-menu">
                     <li id="upload_new_ad"><a href="<?php echo base_url('ads_mngt/upload') ?>">Upload New Ad</a></li>
-                    <li id="browse_ads"><a href="#">Browse Ads</a></li>
+                    <li id="browse_ads"><a href="<?php echo base_url('ads_mngt/browse') ?>">Browse Ads</a></li>
                   </ul>				
         				</li>
-
                 <li id="ad_companies" class="treeview">
         					<a href="#"><i class="fa fa-briefcase"></i> <span>Ad Companies</span>
                     <span class="pull-right-container">
@@ -299,7 +274,6 @@
                     <li id="browse_ad_companies"><a href="<?php echo base_url('advertisers/show') ?>">Browse Ad Companies </a></li>
                   </ul>				
         				</li>	
-
                 <li id="users_management" class="treeview">
                   <a href="#"><i class="fa fa-users"></i> <span>Users Management</span>
                     <span class="pull-right-container">
@@ -311,7 +285,6 @@
                     <li id="delete_user"><a href="<?php echo base_url('users/delete') ?>">Delete User</a></li>
                   </ul>
                 </li>
-
                 <li id="bus_management" class="treeview">
                   <a href="#"><i class="fa fa-bus"></i> <span>Bus Management</span>
                     <span class="pull-right-container">
@@ -324,9 +297,8 @@
                     <li id="bus_routes"><a href="<?php echo base_url('routes') ?>">Bus Routes</a></li>
                   </ul>
                 </li>
-
                 <li id="live_monitoring" class="treeview">
-                  <a href="#"><i class="fa fa-eye"></i> <span>Live Monitoring</span> <!-- change icon -->
+                  <a href="#"><i class="fa fa-eye"></i> <span>Live Monitoring</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -335,17 +307,12 @@
                     <li id="active_buses"><a href="#">Active Buses</a></li>
                   </ul>
                 </li>
-
               </ul>
-              <!-- /.sidebar-menu -->
 
             </section>
-            <!-- /.sidebar -->
           </aside>
 
-          <!-- Content Wrapper. Contains page content -->
           <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <section class="content-header">
               <h1>
                 <?php echo $title; ?>
@@ -360,7 +327,6 @@
               </ol>
             </section>
 
-            <!-- Main content -->
             <section class="content">
 
             <script type="text/javascript">

@@ -30,7 +30,7 @@ class Routes extends MY_Controller {
 		);
 		$data['script']=array
 		(
-			'assets/js/maps.js',
+			
 		);
 		$data['page_description']='Add, Update, and Delete Routes';
 
@@ -72,7 +72,7 @@ class Routes extends MY_Controller {
 		);
 		$data['script']=array
 		(
-			'assets/js/maps.js',
+			
 		);
 		$data['page_description']='Add, Update, and Delete Terminals';
 

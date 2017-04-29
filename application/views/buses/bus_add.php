@@ -124,10 +124,10 @@
             $('#bus-message').html(data.errors).addClass('alert alert-danger');
           }
         }else {
-          alert(data.message);
+          $('#bus-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function() {
             window.location.reload()
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -172,10 +172,10 @@
         if(!data.success){
           $('#bus-message').html(data.errors).addClass('alert alert-danger');
         }else {
-          alert(data.message);
+          $('#bus-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function () {
             window.location.reload();
-          }, 400);
+          }, 1000);
         }
       }
     })

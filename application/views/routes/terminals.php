@@ -1,3 +1,5 @@
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJAq_K8XorLcD2nKKsrmB7BserF3Wh3Ss&libraries=places" type="text/javascript"></script>
+
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Terminal Details</h3>
@@ -94,10 +96,10 @@
             $('#terminal-message').html(data.errors).addClass('alert alert-danger');
           }
         }else {
-          alert(data.message);
+          $('#terminal-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function() {
             window.location.reload()
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -149,10 +151,10 @@
         if(!data.success){
           $('#terminal-message').html(data.errors).addClass('alert alert-danger');
         }else {
-          alert(data.message);
+          $('#terminal-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function () {
             window.location.reload();
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -176,7 +178,7 @@
             $('#terminal-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
             setTimeout(function() {
               window.location.reload();
-            }, 400);
+            }, 1000);
           }
         }
       });

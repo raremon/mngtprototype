@@ -100,18 +100,39 @@
 					array(
 						$rows['ad_id'],
 						'
-							<video controls id="v'.$rows["ad_id"].'" width="500px">
-					  			<source src="'.base_url("assets/ads/".$rows["ad_filename"]).'" type="video/mp4">
-					  			Your browser does not support HTML5 video.
-							</video>
+							<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>
+
+							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog">
+							  <div class="modal-dialog modal-lg">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							        <h4 class="modal-title">'.$rows['ad_filename'].'</h4>
+							      </div>
+							      <div class="modal-body">
+							        <video id="v'.$rows["ad_id"].'" width="100%" controls>
+							  			<source src="'.base_url("assets/ads/".$rows["ad_filename"]).'" type="video/mp4">
+							  			Your browser does not support HTML5 video.
+									</video>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
 						',
 						$rows['ad_filename'],
 						'
 							<p id="p'.$rows["ad_id"].'"></p>
 							<script>	
-								$("#v'.$rows["ad_id"].'").ready(function() {
-								  $("#p'.$rows["ad_id"].'").text(document.getElementById("#v'.$rows["ad_id"].'").duration);
-								});
+								
+									var video'.$rows["ad_id"].' = document.getElementById("v'.$rows["ad_id"].'");
+									video'.$rows["ad_id"].'.addEventListener("durationchange", function() {
+									    $("#p'.$rows["ad_id"].'").text(video'.$rows["ad_id"].'.duration + " seconds");
+									});
+								  
+								
 
 							</script>
 						',
