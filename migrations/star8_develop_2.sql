@@ -358,11 +358,11 @@ INSERT INTO `routes` (`route_id`, `route_name`, `route_description`, `terminal_f
 -- --------------------------------------------------------
 
 --
--- Table structure for table `schedule`
+-- Table structure for table `schedules`
 --
 
-DROP TABLE IF EXISTS `schedule`;
-CREATE TABLE `schedule` (
+DROP TABLE IF EXISTS `schedules`;
+CREATE TABLE `schedules` (
   `schedID` int(15) NOT NULL,
   `route_id` int(10) NOT NULL,
   `date_start` date NOT NULL,
@@ -372,10 +372,10 @@ CREATE TABLE `schedule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
--- Dumping data for table `schedule`
+-- Dumping data for table `schedules`
 --
 
-INSERT INTO `schedule` (`schedID`, `route_id`, `date_start`, `date_end`, `advertiser_id`, `schedType`) VALUES
+INSERT INTO `schedules` (`schedID`, `route_id`, `date_start`, `date_end`, `advertiser_id`, `schedType`) VALUES
 (1, 7, '2017-04-24', '2017-05-24', 1, 3),
 (2, 7, '2017-04-25', '2017-05-31', 2, 2);
 
@@ -538,9 +538,9 @@ ALTER TABLE `routes`
   ADD KEY `route_id_2` (`route_id`);
 
 --
--- Indexes for table `schedule`
+-- Indexes for table `schedules`
 --
-ALTER TABLE `schedule`
+ALTER TABLE `schedules`
   ADD PRIMARY KEY (`schedID`);
 
 --
@@ -623,9 +623,9 @@ ALTER TABLE `roles`
 ALTER TABLE `routes`
   MODIFY `route_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Route''s Id', AUTO_INCREMENT=8;
 --
--- AUTO_INCREMENT for table `schedule`
+-- AUTO_INCREMENT for table `schedules`
 --
-ALTER TABLE `schedule`
+ALTER TABLE `schedules`
   MODIFY `schedID` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `terminals`
