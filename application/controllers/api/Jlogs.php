@@ -48,64 +48,55 @@ class Jlogs extends REST_Controller {
 			)
 		*/
 			
-		if($_SERVER['REQUEST_METHOD']=='POST'){
-			
-			if( isset($d['bus_id']) && isset($d['ad_id']) && isset($d['dateLog']) && isset($d['route_id']) ){
+		if( isset($d['bus_id']) && isset($d['ad_id']) && isset($d['dateLog']) && isset($d['route_id']) ){
 
-				//check if log for the day from this bus already exists
+			//check if log for the day from this bus already exists
 				
-				$where = array(
-								'date_log'=>$d['dateLog'],'bus_id'=>$d['bus_id'],'ad_logs.ad_id'=>$d['ad_id']
-								);
+			$where = array(
+							'date_log'=>$d['dateLog'],'bus_id'=>$d['bus_id'],'ad_logs.ad_id'=>$d['ad_id']
+							);
 				
-				$check = $this->AdLogs->getAdLogs($where);
+			$check = $this->AdLogs->getAdLogs($where);
 				
-				if( count($check)>0 ){ //update old log with new log
+			if( count($check)>0 ){ //update old log with new log
 
-					$record = array(
-								'amCount' => $d['amCount'],
-								'pmCount' => $d['pmCount'],
-								'eveCount' => $d['eveCount']
-								);
-					 
-					$result = $this->AdLogs->update_Adlogs($record,$where);
+				$record = array(
+							'amCount' => $d['amCount'],
+							'pmCount' => $d['pmCount'],
+							'eveCount' => $d['eveCount']
+							);
+				 
+				$result = $this->AdLogs->update_Adlogs($record,$where);
 					
-					// $msg = ($result>0)?'Logs successfully synched.':'Failed to synch updated logs ...';
-					// $msg = ($result>0)?1:0;
-					
-				}
-				else{ // save new log 
-					
-					$record = array(
-								'ad_id' => $d['ad_id'],
-								'date_log' => $d['dateLog'],
-								'bus_id' => $d['bus_id'],
-								'amCount' => $d['amCount'],
-								'pmCount' => $d['pmCount'],
-								'eveCount' => $d['eveCount'],
-								'route_id' => $d['route_id']	
-								);
-								
-					$result = $this->AdLogs->save_Adlogs($record);		
-
-					// $msg = ($result>0)?'Logs successfully synched.':'Failed to synch new logs ...';	
-					// $msg = ($result>0)?1:0;					
-				}
+				// $msg = ($result>0)?'Logs successfully synched.':'Failed to synch updated logs ...';
+				// $msg = ($result>0)?1:0;
 				
-				$msg = ($result>0)?1:0;	
-
-				$response = $msg;
-				
-			}else{				
-			
-				$response = false;
-
 			}
-		}else{
+			else{ // save new log 
+					
+				$record = array(
+							'ad_id' => $d['ad_id'],
+							'date_log' => $d['dateLog'],
+							'bus_id' => $d['bus_id'],
+							'amCount' => $d['amCount'],
+							'pmCount' => $d['pmCount'],
+							'eveCount' => $d['eveCount'],
+							'route_id' => $d['route_id']	
+							);
+								
+				$result = $this->AdLogs->save_Adlogs($record);		
+				// $msg = ($result>0)?'Logs successfully synched.':'Failed to synch new logs ...';	
+				// $msg = ($result>0)?1:0;					
+			}
+				
+			$msg = ($result>0)?1:0;	
+			$response = $msg;
 			
+		}else{				
+		
 			$response = false;
-			 
-		}	
+
+		}
 	
 		$this->response($response);		
 	}
