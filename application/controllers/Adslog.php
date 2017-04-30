@@ -12,8 +12,8 @@ class Adslog extends MY_Controller {
 			$this->load->model('users_model', 'User');
 			$this->load->model('roles_model', 'Role');
 
-			$this->load->model('advertisers_model', 'Advertiser');
-			$this->load->model('ads_model', 'Ad');
+			// $this->load->model('advertisers_model', 'Advertiser');
+			// $this->load->model('ads_model', 'Ad');
 			$this->load->model('adlogs_model', 'Adlogs');
 	}
 		
@@ -36,11 +36,15 @@ class Adslog extends MY_Controller {
 				$where = array('advertiser_id'=>$d['advertiser']);
 				
 				if( isset($d['from']) && isset($d['to']) ){
-					$period = array('date_log>="'.$d['from'].'" OR date_log<="'.$d['to'].'"'=>NULL);
-					$where = array_merge($where,$period);
+					// $period = array('date_log>="'.$d['from'].'" OR date_log<="'.$d['to'].'"'=>NULL);
+					// $where = array_merge($where,$period);
+					$from = $data['from'];
+					$to = $data['to'];	
+					$custom_condition = '(date_log>="$from" || date_log<="$to")';	
+					
 				}
 				
-				$report = $this->Adlogs->getAdLogsTotal($where);
+				$report = $this->Adlogs->getAdLogsTotal($where,NULL,$custom_condition);
 				
 				//load the view to show report stats with option for printable and export to PDF
 				//graph can also be used to show stats

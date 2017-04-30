@@ -69,7 +69,7 @@ class Adlogs_model extends CI_Model
 	
 	}	
 
-	public function getAdLogsTotal($where=null,$orwhere=null){
+	public function getAdLogsTotal($where=null,$orwhere=null,$custom=null){
 
 		// SELECT *
 		// FROM `ad_logs`
@@ -89,7 +89,11 @@ class Adlogs_model extends CI_Model
 		if( isset($where) ){
 			$this->db->where($where);
 		}
-
+	
+		if( isset($custom) ){
+			$this->db->where("$custom");
+		}
+		
 		if( isset($orwhere) )
 			$this->db->or_where($orwhere,FALSE);
 			
