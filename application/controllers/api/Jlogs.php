@@ -13,6 +13,7 @@ class Jlogs extends REST_Controller {
 		
 		/* JSON method to return list of ads owned by selected Advertiser */
 		//http://[::1]/star8/api/jlogs/get/advertiser/1
+		//http://180.232.67.229/api/jlogs/get/advertiser/1
 		
 		$data = $this->get();
 		
@@ -106,6 +107,7 @@ class Jlogs extends REST_Controller {
 		/* JSON method to return stats of all ads played for selected Advertiser 
 			group by route_id, ad_id, total for AM, PM, EVENING */
 		// http://[::1]/star8/api/jlogs/adstatsowner/advertiser/1/from/2017-04-20/to/2017-04-30
+		// http://180.232.67.229/api/jlogs/adstatsowner/advertiser/1/from/2017-04-20/to/2017-04-30
 		
 		$data = $this->get();
 		
@@ -114,11 +116,14 @@ class Jlogs extends REST_Controller {
 			$where = array('advertiser_id'=>$data['advertiser']);
 			
 			if( isset($data['from']) && isset($data['to']) ){
-				$period = array('date_log>="'.$data['from'].'" OR date_log<="'.$data['to'].'"'=>NULL);
-				$where = array_merge($where,$period);
+				
+				$from = $data['from'];
+				$to = $data['to'];
+				$custom_condition = '(date_log>="$from" || date_log<="$to")';
+
 			}
 			
-			$response = $this->AdLogs->getAdLogsTotal($where);
+			$response = $this->AdLogs->getAdLogsTotal($where,NULL,$custom_condition);
 		
 		}
 		else{			
@@ -138,11 +143,13 @@ class Jlogs extends REST_Controller {
 		$where = array(); //conditions to be determined later
 		
 		if( isset($data['from']) && isset($data['to']) ){
-			$period = array('date_log>="'.$data['from'].'" OR date_log<="'.$data['to'].'"'=>NULL);
-			$where = array_merge($where,$period);
+			$from = $data['from'];
+			$to = $data['to'];	
+			$custom_condition = '(date_log>="$from" || date_log<="$to")';			
 		}
 			
-		$response = $this->AdLogs->getAdLogsTotal($where);
+		// $response = $this->AdLogs->getAdLogsTotal($where);
+		$response = $this->AdLogs->getAdLogsTotal($where,NULL,$custom_condition);
 		
 		$this->response($response);	
 		
