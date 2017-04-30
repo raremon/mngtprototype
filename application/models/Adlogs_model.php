@@ -86,17 +86,15 @@ class Adlogs_model extends CI_Model
 				->group_by('ad_logs.ad_id')	
 				->group_by('ad_logs.route_id');		
 
-		if( isset($where) ){
+		if( isset($where) )
 			$this->db->where($where);
-		}
-	
-		if( isset($custom) ){
-			$this->db->where("$custom");
-		}
 		
 		if( isset($orwhere) )
 			$this->db->or_where($orwhere,FALSE);
-			
+
+		if( isset($custom) )
+			$this->db->where("$custom");
+				
 		$query = $this->db->get();
 		
 		// echo $this->db->last_query();

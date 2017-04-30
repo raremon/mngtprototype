@@ -119,7 +119,6 @@ class Jlogs extends REST_Controller {
 				
 				$from = $data['from'];
 				$to = $data['to'];
-				
 				$custom_condition = '(date_log>="$from" || date_log<="$to")';
 
 			}
@@ -144,9 +143,6 @@ class Jlogs extends REST_Controller {
 		$where = array(); //conditions to be determined later
 		
 		if( isset($data['from']) && isset($data['to']) ){
-			// $period = array('date_log>="'.$data['from'].'" OR date_log<="'.$data['to'].'"'=>NULL);
-			// $where = array_merge($where,$period);
-			
 			$from = $data['from'];
 			$to = $data['to'];	
 			$custom_condition = '(date_log>="$from" || date_log<="$to")';			
