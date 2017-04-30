@@ -14,12 +14,16 @@
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
 
-		// // C R E A T E
-		// public function save_Ad_Schedule($data)
-		// {
-		// 	$this->db->insert('ad_schedules', $data);
-		// 	return TRUE;
-		// }
+		// C R E A T E
+		public function save_Ad_Schedule($ad_id, $schedule_id)
+		{
+			$data = array(
+				'ad_id'=>$ad_id,
+				'schedule_id'=>$schedule_id,
+			);
+			$this->db->insert('ad_schedules', $data);
+			return TRUE;
+		}
 
 		// // R E A D
 		// public function show_Ad_Schedule()
