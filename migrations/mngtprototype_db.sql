@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2017 at 01:36 PM
+-- Generation Time: Apr 29, 2017 at 10:58 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -40,21 +40,18 @@ CREATE TABLE `ads` (
 --
 
 INSERT INTO `ads` (`ad_id`, `ad_name`, `ad_filename`, `advertiser_id`, `created_at`, `updated`) VALUES
-(1, 'burgerdesal', '1-burgerdesal', 1, '2017-04-29 11:28:52', '2017-04-29 11:28:52'),
-(2, 'kayamokayako', '1-kayamokayako', 1, '2017-04-29 11:29:09', '2017-04-29 11:29:09'),
-(3, 'tatay ko magaling', '1-tatay ko magaling', 1, '2017-04-29 11:29:21', '2017-04-29 11:29:21'),
-(4, 'nakaraan', '1-nakaraan', 1, '2017-04-29 11:29:32', '2017-04-29 11:29:32'),
-(5, 'move on na day', '1-move on na day', 1, '2017-04-29 11:29:44', '2017-04-29 11:29:44'),
-(6, 'natulala sa sarap', '2-natulala sa sarap', 2, '2017-04-29 11:30:00', '2017-04-29 11:30:00'),
-(7, 'patay na ang pizza', '2-patay na ang pizza', 2, '2017-04-29 11:30:15', '2017-04-29 11:30:57'),
-(8, 'sisig rice', '2-sisig rice', 2, '2017-04-29 11:30:26', '2017-04-29 11:30:57'),
-(9, 'namigay ng sarap', '2-namigay ng sarap', 2, '2017-04-29 11:31:58', '2017-04-29 11:31:58'),
-(10, 'discount', '2-discount', 2, '2017-04-29 11:32:09', '2017-04-29 11:33:09'),
-(11, 'the toppings are on top', '3-the toppings are on top', 3, '2017-04-29 11:32:25', '2017-04-29 11:33:09'),
-(12, 'naghanap si angel', '3-naghanap si angel', 3, '2017-04-29 11:33:57', '2017-04-29 11:33:57'),
-(13, 'galit galit muna', '3-galit galit muna', 3, '2017-04-29 11:34:13', '2017-04-29 11:34:13'),
-(14, 'pagtapos ng gera', '3-pagtapos ng gera', 3, '2017-04-29 11:34:28', '2017-04-29 11:34:28'),
-(15, 'matatakaw sa mang inasal', '3-matatakaw sa mang inasal', 3, '2017-04-29 11:34:42', '2017-04-29 11:34:42');
+(1, 'burgerdesalo', '1-burgerdesal.mp4', 1, '2017-04-29 11:28:52', '2017-04-29 20:48:41'),
+(2, 'kayamokayako', '1-kayamokayako.mp4', 1, '2017-04-29 11:29:09', '2017-04-29 14:10:37'),
+(3, 'tatay ko magaling', '1-tatay_ko_magaling.mp4', 1, '2017-04-29 11:29:21', '2017-04-29 14:10:37'),
+(4, 'nakaraan', '1-nakaraan.mp4', 1, '2017-04-29 11:29:32', '2017-04-29 14:10:37'),
+(5, 'move on na day', '1-move_on_na_day.mp4', 1, '2017-04-29 11:29:44', '2017-04-29 14:10:37'),
+(6, 'natulala sa sarap', '2-natulala_sa_sarap.mp4', 2, '2017-04-29 11:30:00', '2017-04-29 14:10:37'),
+(7, 'patay na ang pizza', '2-patay_na_ang_pizza.mp4', 2, '2017-04-29 11:30:15', '2017-04-29 14:10:37'),
+(8, 'sisig rice', '2-sisig_rice.mp4', 2, '2017-04-29 11:30:26', '2017-04-29 14:10:37'),
+(9, 'namigay ng sarap', '2-namigay_ng_sarap.mp4', 2, '2017-04-29 11:31:58', '2017-04-29 14:10:37'),
+(10, 'discount', '2-discount.mp4', 2, '2017-04-29 11:32:09', '2017-04-29 14:10:37'),
+(11, 'the toppings are on top', '3-the_toppings_are_on_top.mp4', 3, '2017-04-29 11:32:25', '2017-04-29 14:10:37'),
+(12, 'naghanap si angel', '3-naghanap_si_angel.mp4', 3, '2017-04-29 11:33:57', '2017-04-29 14:10:37');
 
 -- --------------------------------------------------------
 
@@ -81,6 +78,25 @@ INSERT INTO `advertisers` (`advertiser_id`, `advertiser_name`, `advertiser_addre
 (1, 'McDonalds', '16th Floor Citibank Center Bldg. 8741 Paseo de Roxas St. ,Makati City', '02-8635490', 'writeus@ph.mcd.com', 'Our Chairman and Founder, George T. Yang, built the first Golden Arches in the Philippines in 1981. From our first restaurant along Morayta in Manila, we are happy to welcome you in our 375 restaurants nationwide. \r\n\r\nWith Kenneth S. Yang as the President & CEO and with over 27,000 dedicated employees and crew members, we remain committed in growing and innovating products and services for you.\r\n\r\nAnd with our Chief Happiness Officer, Ronald McDonald, we always aim to spread happiness to communities and to have fun with you guys!!', '2017-04-24 17:27:58', '2017-04-29 11:21:54'),
 (2, 'KFC', '80-82 A Ramcar Roces Avenue\r\nQuezon City, Philippines', '887-8888', 'contactus@kfc.com', 'entucky Fried Chicken owes its delicious history to Harland David Sanders, its founder who is fondly referred to as “The Colonel”. Upon perfection of the Original Recipe that makes use of 11 secret herbs and spices, Colonel Sanders has brought the ultimate delight of chicken lovers to the world.\r\n\r\nKFC Corporation Philippines is the home of finger lickin’ goodness in the country, serving its range of world-famous dishes and sides to Filipinos.', '2017-04-24 17:29:19', '2017-04-24 17:29:19'),
 (3, 'Mang Inasal', 'Mandaluyong City 1550, Philippines', '724 1111', 'feedback@manginasal.com', 'It is our aim not just to deliver high-quality meals but to serve the Alagang Pinoy way. We serve our customers with puso - by always making them our first priority in ways that connect to our customers. \r\n\r\nIn Mang Inasal, FSC is our way of life. And it is the reason why we are still in business today.', '2017-04-24 17:35:14', '2017-04-24 17:35:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ad_logs`
+--
+
+CREATE TABLE `ad_logs` (
+  `log_id` bigint(20) NOT NULL,
+  `ad_id` int(10) NOT NULL,
+  `date_log` date NOT NULL,
+  `bus_id` int(10) NOT NULL,
+  `route_id` int(11) NOT NULL,
+  `amCount` int(11) NOT NULL,
+  `pmCount` int(11) NOT NULL,
+  `eveCount` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -264,6 +280,7 @@ INSERT INTO `routes` (`route_id`, `route_name`, `route_description`, `terminal_f
 
 CREATE TABLE `schedules` (
   `schedule_id` int(11) NOT NULL COMMENT 'Schedule''s Id ( Primary )',
+  `advertiser_id` int(11) NOT NULL COMMENT 'Advertiser''s Id ( Foreign )',
   `route_id` int(11) NOT NULL COMMENT 'Route''s Id ( Foreign )',
   `date_start` date NOT NULL COMMENT 'Date Start',
   `date_end` date NOT NULL COMMENT 'Date End',
@@ -325,8 +342,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_fname`, `user_lname`, `user_password`, `user_role`, `is_online`, `user_lastlogin`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'cee jay', 'reyes', 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, 1, '2017-04-28 12:41:55', '2017-04-09 17:17:02', '2017-04-28 12:41:55'),
-(2, 'hexxableyd', 'Dennis', 'de Leon', '88ea39439e74fa27c09a4fc0bc8ebe6d00978392', 2, 0, '2017-04-28 12:40:29', '2017-04-09 17:17:02', '2017-04-28 12:40:29');
+(1, 'admin', 'cee jay', 'reyes', 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, 0, '2017-04-29 20:57:44', '2017-04-09 17:17:02', '2017-04-29 20:57:44'),
+(2, 'hexxableyd', 'Dennis', 'de Leon', '88ea39439e74fa27c09a4fc0bc8ebe6d00978392', 2, 0, '2017-04-28 12:40:29', '2017-04-09 17:17:02', '2017-04-28 12:40:29'),
+(3, 'sendreykkk', 'Cendrick', 'Pascual', '88ea39439e74fa27c09a4fc0bc8ebe6d00978392', 2, 0, NULL, '2017-04-29 19:22:27', '2017-04-29 19:22:27');
 
 --
 -- Indexes for dumped tables
@@ -437,7 +455,7 @@ ALTER TABLE `ads`
 -- AUTO_INCREMENT for table `advertisers`
 --
 ALTER TABLE `advertisers`
-  MODIFY `advertiser_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Advertiser''s Id ( Primary )', AUTO_INCREMENT=6;
+  MODIFY `advertiser_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Advertiser''s Id ( Primary )', AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `airtimes`
 --
@@ -482,7 +500,7 @@ ALTER TABLE `terminals`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'User''s Id ( Primary )', AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'User''s Id ( Primary )', AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

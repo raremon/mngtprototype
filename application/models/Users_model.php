@@ -42,6 +42,44 @@
 			}
 		}
 
+		public function validate_mobile($data)
+		{
+			//retrieval of data from controller
+			$username = $data["user"];
+			$password = $data["pass"];
+			
+			// Set status to online
+			$is_online = true;
+
+			$this->db->where("user_name", $username);
+			$query = $this->db->get($this->table);
+
+			if ($query->num_rows()) 
+			{	
+				$row = $query->row_array();
+
+				// Checks the password
+				if ($row['user_password'] == sha1($password)) 
+				{
+					// Sets status to online after logging in
+					$row['is_online']=$is_online;
+					$this->db->where("user_id", $row['user_id']);
+					$this->db->update( 'users' , $row);
+					// Unsets the password from the array
+					unset($row['user_password']);
+					$this->_data = $row;
+					return 1;
+				}
+
+				// Password not match
+				return 0;
+			}
+			else {
+				// Password not found
+				return 0;
+			}
+		}
+
 		public function get_data()
 		{
 			return $this->_data;

@@ -70,7 +70,7 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
             $('#advertiser-message').html(data.errors).addClass('alert alert-danger');
           }
         }else {
-          $('#advertiser-message').html(data.message).addClass('alert alert-success');
+          $('#advertiser-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function() {
             window.location.reload()
           }, 1000);

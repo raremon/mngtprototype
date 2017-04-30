@@ -64,31 +64,6 @@
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
 
-  // // C R E A T E
-  // function save_Ad() {
-  //   $.ajaxFileUpload({
-  //     url       :'<?php echo site_url("ads_mngt/saveAd")?>', 
-  //     type: 'POST',
-  //     // secureuri   : false,
-  //     // fileElementId :'ad_file',
-  //     dataType    : 'json',
-  //     data: $('#ads').serialize(),
-  //     encode: true,
-  //     success:function(data) {
-  //       if(!data.success){
-  //         if(data.errors){
-  //           $('#ad-message').html(data.errors).addClass('alert alert-danger');
-  //         }
-  //       }else {
-  //         alert(data.message);
-  //         setTimeout(function() {
-  //           window.location.reload()
-  //         }, 400);
-  //       }
-  //     }
-  //   });
-  // }
-
   $(document).ready(function(){
     $('#ads').on('submit', function(e){
       e.preventDefault();
@@ -120,7 +95,7 @@
                 $('#ad-message').html(data.errors).addClass('alert alert-danger');
               }
             }else {
-              $('#ad-message').html(data.message).addClass('alert alert-success');
+              $('#ad-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
               setTimeout(function() {
                 window.location.reload()
               }, 1000);

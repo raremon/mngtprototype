@@ -73,23 +73,75 @@
 				);
 			}
 
-			$ad_data = $this->Ad->show_Ad();
-			$data['ad'] = array();
-			foreach ($ad_data as $rows) {
-				array_push($data['ad'],
-					array(
-						$rows['ad_id'],
-						$rows['ad_name'],
-						$rows['ad_filename'],
-					)
-				);
-			}
+			// $ad_data = $this->Ad->show_Ad();
+			// $data['ad'] = array();
+			// foreach ($ad_data as $rows) {
+			// 	array_push($data['ad'],
+			// 		array(
+			// 			$rows['ad_id'],
+			// 			$rows['ad_name'],
+			// 			$rows['ad_filename'],
+			// 		)
+			// 	);
+			// }
 
 			$this->load->view("template/header", $data);
 			$this->load->view("program/program_create", $data);
 			$this->load->view("template/footer", $data);
 		}
 
+		// R E A D
+		public function showAd()
+		{
+			$ad_table = $this->Ad->show_Ad();
+			$data = array();
+			foreach ($ad_table as $rows) {
+				array_push($data,
+					array(
+						$rows['ad_id'],
+						'
+							<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>
+
+							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog">
+							  <div class="modal-dialog modal-lg">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							        <h4 class="modal-title">'.$rows['ad_filename'].'</h4>
+							      </div>
+							      <div class="modal-body">
+							        <video id="v'.$rows["ad_id"].'" width="100%" controls>
+							  			<source src="'.base_url("assets/ads/".$rows["ad_filename"]).'" type="video/mp4">
+							  			Your browser does not support HTML5 video.
+									</video>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						',
+						$rows['ad_filename'],
+						'
+							<p id="p'.$rows["ad_id"].'"></p>
+							<script>	
+								
+									var video'.$rows["ad_id"].' = document.getElementById("v'.$rows["ad_id"].'");
+									video'.$rows["ad_id"].'.addEventListener("durationchange", function() {
+									    $("#p'.$rows["ad_id"].'").text(video'.$rows["ad_id"].'.duration + " seconds");
+									});
+								  
+								
+
+							</script>
+						',
+						$rows['ad_name'],
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+		}
 	}
 
 // END OF PROGRAM SCHEDULE CONTROLLER
