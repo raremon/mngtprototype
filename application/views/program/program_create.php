@@ -111,9 +111,10 @@
             <div class="row">
               <div class="container-fluid">
                 <div class="col-md-12">
-                  <table id="#" class="table table-hover">
+                  <table id="ad_table_1" class="table table-hover">
                     <thead>
                       <tr>
+                        <th>Id</th>
                         <th>Thumbnail If Possible</th>
                         <th>Video Link</th>
                         <th>Video Length</th>
@@ -229,9 +230,10 @@
             <div class="row">
               <div class="container-fluid">
                 <div class="col-md-12">
-                  <table id="#" class="table table-hover">
+                  <table id="ad_table_2" class="table table-hover">
                     <thead>
                       <tr>
+                        <th>Id</th>
                         <th>Thumbnail If Possible</th>
                         <th>Video Link</th>
                         <th>Video Length</th>
@@ -359,9 +361,10 @@
             <div class="row">
               <div class="container-fluid">
                 <div class="col-md-12">
-                  <table id="#" class="table table-hover">
+                  <table id="ad_table_3" class="table table-hover">
                     <thead>
                       <tr>
+                        <th>Id</th>
                         <th>Thumbnail If Possible</th>
                         <th>Video Link</th>
                         <th>Video Length</th>
@@ -382,3 +385,48 @@
   <!-- /.tab-content -->
 </div>
 <!-- nav-tabs-custom -->
+
+<script type="text/javascript">
+  // R E A D
+  $("#ad_table_1").DataTable({
+    "ajax":{
+      "url":"<?php echo site_url('program/showAd') ?>",
+      "type":"POST"
+    },
+
+    "columns": [
+      null,
+      { "width": "45%" },
+      null,
+      null
+    ]
+  })
+
+  $("#ad_table_2").DataTable({
+    "ajax":{
+      "url":"<?php echo site_url('program/showAd') ?>",
+      "type":"POST"
+    },
+
+    "columns": [
+      null,
+      { "width": "45%" },
+      null,
+      null
+    ]
+  })
+
+  $("#ad_table_3").DataTable({
+    "ajax":{
+      "url":"<?php echo site_url('program/showAd') ?>",
+      "type":"POST"
+    },
+
+    "columns": [
+      null,
+      { "width": "45%" },
+      null,
+      null
+    ]
+  })
+</script>
