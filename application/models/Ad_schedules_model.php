@@ -25,6 +25,15 @@
 			return TRUE;
 		}
 
+		public function get_Ad_Schedule($schedule_id)
+		{
+			$this->db->select("*");
+			$this->db->from('ad_schedules');
+			$this->db->where('schedule_id', $schedule_id);
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+
 		// // R E A D
 		// public function show_Ad_Schedule()
 		// {

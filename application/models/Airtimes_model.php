@@ -31,6 +31,15 @@
 			return TRUE;
 		}
 
+		public function get_Airtime($schedule_id)
+		{
+			$this->db->select("*");
+			$this->db->from('airtimes');
+			$this->db->where('schedule_id', $schedule_id);
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+
 		// // R E A D
 		// public function show_Airtime()
 		// {

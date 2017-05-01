@@ -126,7 +126,7 @@
               <div class="row">
                 <div class="container-fluid">
                   <div class="col-md-12">
-                    <table id="selected_table_1" class="table table-hover">
+                    <table id="selected_table_1" class="table table-hover" width="100%">
                       <thead>
                         <tr>
                           <th>Id</th>
@@ -150,7 +150,7 @@
             <div class="row">
               <div class="container-fluid">
                 <div class="col-md-12">
-                  <table id="ad_table_1" class="table table-hover">
+                  <table id="ad_table_1" class="table table-hover" width="100%">
                     <thead>
                       <tr>
                         <th>Id</th>
@@ -293,7 +293,7 @@
               <div class="row">
                 <div class="container-fluid">
                   <div class="col-md-12">
-                    <table id="selected_table_2" class="table table-hover">
+                    <table id="selected_table_2" class="table table-hover" width="100%">
                       <thead>
                         <tr>
                           <th>Id</th>
@@ -318,7 +318,7 @@
             <div class="row">
               <div class="container-fluid">
                 <div class="col-md-12">
-                  <table id="ad_table_2" class="table table-hover">
+                  <table id="ad_table_2" class="table table-hover" width="100%">
                     <thead>
                       <tr>
                         <th>Id</th>
@@ -452,7 +452,7 @@
               </div>
 
               <div class="col-md-12">
-                <table id="timeBlocks" class="table table-hover table-bordered">
+                <table id="timeBlocks" class="table table-hover table-bordered" >
                   <thead>
                     <tr>
                       <th>START TIME</th>
@@ -473,7 +473,7 @@
 
               <div class="form-group">
                 <div class="input-group">
-                  <input id="all_block" name="all_time_block" type="text" class="form-control">
+                <input id="all_block" name="all_time_block" type="text" class="form-control">
                 </div>
               </div> 
 
@@ -493,7 +493,7 @@
               <div class="row">
                 <div class="container-fluid">
                   <div class="col-md-12">
-                    <table id="selected_table_3" class="table table-hover">
+                    <table id="selected_table_3" class="table table-hover" width="100%">
                       <thead>
                         <tr>
                           <th>Id</th>
@@ -518,7 +518,7 @@
             <div class="row">
               <div class="container-fluid">
                 <div class="col-md-12">
-                  <table id="ad_table_3" class="table table-hover">
+                  <table id="ad_table_3" class="table table-hover" width="100%">
                     <thead>
                       <tr>
                         <th>Id</th>
@@ -561,13 +561,18 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
+            $("#regular-message").fadeIn("slow");
             $('#regular-message').html(data.errors).addClass('alert alert-danger');
+            setTimeout(function() {
+                $('#regular-message').fadeOut('slow');
+            }, 3000);
           }
         }else {
-          $('#regular-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
-          // setTimeout(function() {
-          //   window.location.reload()
-          // }, 1000);
+            $("#regular-message").fadeIn("slow");
+            $('#regular-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
+            setTimeout(function() {
+                $('#regular-message').fadeOut('slow');
+            }, 3000);
         }
       }
     })
@@ -583,13 +588,18 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
+            $("#schedule-message").fadeIn("slow");
             $('#schedule-message').html(data.errors).addClass('alert alert-danger');
+            setTimeout(function() {
+                $('#schedule-message').fadeOut('slow');
+            }, 3000);
           }
         }else {
-          $('#schedule-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
-          // setTimeout(function() {
-          //   window.location.reload()
-          // }, 1000);
+            $("#schedule-message").fadeIn("slow");
+            $('#schedule-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
+            setTimeout(function() {
+                $('#schedule-message').fadeOut('slow');
+            }, 3000);
         }
       }
     })
@@ -605,13 +615,18 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
+            $("#block-message").fadeIn("slow");
             $('#block-message').html(data.errors).addClass('alert alert-danger');
+            setTimeout(function() {
+                $('#block-message').fadeOut('slow');
+            }, 3000);
           }
         }else {
-          $('#block-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
-          // setTimeout(function() {
-          //   window.location.reload()
-          // }, 1000);
+            $("#block-message").fadeIn("slow");
+            $('#block-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
+            setTimeout(function() {
+                $('#block-message').fadeOut('slow');
+            }, 3000);
         }
       }
     })
@@ -939,7 +954,7 @@
       {
         $("#start_block").val("");
         $("#end_block").val(""); 
-        $("#all_block").val(""); 
+        $("#all_block").val("");  
       }
     }
     else
@@ -978,7 +993,7 @@
     else
     {
       $("#start_block").val("");
-      $("#end_block").val(""); 
+      $("#end_block").val("");  
       $("#all_block").val("");   
     }
   }

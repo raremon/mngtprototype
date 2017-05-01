@@ -82,6 +82,53 @@
 			$this->load->view("template/footer", $data);
 		}
 
+		public function browse()
+        {
+            $data = array();
+            $data['role'] = $this->logged_out_check();
+            $data['title']='Browse Program Schedule';
+            $data['page_description'] = 'Browse Created Program Schedule';
+            $data['breadcrumbs']=array
+            (
+                array('Browse Program Schedule','program/browse'),
+            );
+            $data['css']=array
+            (
+
+            );
+            $data['script']=array
+            (
+
+            );
+			$advertiser_data = $this->Advertiser->show_Advertiser();
+			$data['advertiser'] = array();
+			foreach ($advertiser_data as $rows) {
+				array_push($data['advertiser'],
+					array(
+						$rows['advertiser_id'],
+						$rows['advertiser_name'],
+					)
+				);
+			}
+
+			$route_data = $this->Route->show_Route();
+			$data['route'] = array();
+			foreach ($route_data as $rows) {
+				array_push($data['route'],
+					array(
+						$rows['route_id'],
+						$rows['route_name'],
+					)
+				);
+			}
+            $data['treeActive'] = 'program_schedule';
+            $data['childActive'] = 'browse_program_schedule' ;
+
+            $this->load->view("template/header", $data);
+            $this->load->view("program/program_browse", $data);
+            $this->load->view("template/footer", $data);
+        }
+
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                     R  E  G  U  L  A  R     F  U  N  C  T  I  O  N  S                          //
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -517,6 +564,259 @@
 		//         E  N  D     O  F     B  L  O  C  K  E  D     F  U  N  C  T  I  O  N  S           //
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		//                     B  R  O  W  S  E     F  U  N  C  T  I  O  N  S                          //
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+
+		public function advertiser_Table($advertiser_id)
+		{
+			$ad_table = $this->Schedule->get_Schedule_Data($advertiser_id);
+			$data = array();
+			$data = $this->advertisementShowPush($ad_table);
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+		}
+
+		public function route_Table($route_id)
+		{
+			$ad_table = $this->Schedule->get_Schedule_Route($route_id);
+			$data = array();
+			$data = $this->routeShowPush($ad_table);
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+		}
+
+		public function type_Table($type_id)
+		{
+			$type_table = $this->Schedule->get_Schedule_Type($type_id);
+			$data = array();
+			$data = $this->typeShowPush($type_table);
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+		}
+
+		public function advertisementShowPush($table)
+		{
+			$pushdata = array();
+			foreach ($table as $rows) {
+				$routeData = $this->Route->edit_Route_Data($rows['route_id']);
+				$scheduledAds = $this->Ad_Schedule->get_Ad_Schedule($rows['schedule_id']);
+
+				$text = '<h3>LIST OF ADS IN SCHEDULE</h3><ul>';
+				foreach($scheduledAds as $ads)
+				{
+					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
+					$text=$text.'<li>'.$ad_Data['ad_name'].'</li>';
+				}
+				$text = $text.'</ul>';
+				if($rows['schedule_type'] == 1)
+				{
+					$scheduleData = 'Regular';
+				}
+				else if($rows['schedule_type'] == 2)
+				{
+					$scheduleData = 'Scheduled';
+					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
+					$text = $text.'<ul>';
+					foreach($airtimeData as $at)
+					{
+						$text = $text.'<li> Time Start : '.$at['time_start'].'</li>';
+					}
+					$text = $text.'</ul>';
+				}
+				else
+				{
+					$scheduleData = 'Block';
+					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
+					$text = $text.'<ul>';
+					foreach($airtimeData as $at)
+					{
+						$text = $text.'<li> Time Start : '.$at['time_start'].'  &   Time End : '.$at['time_end'].'</li>';
+					}
+					$text = $text.'</ul>';
+				}
+				array_push($pushdata,
+					array(
+						'
+							<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal'.$rows['schedule_id'].'">Play</button>
+
+							<div id="modal'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+							  <div class="modal-dialog modal-lg">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							        <h4 class="modal-title">SCHEDULE #'.$rows['schedule_id'].'</h4>
+							      </div>
+							      <div class="modal-body">
+							        '.$text.'
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						',
+						$routeData['route_name'],
+						$rows['date_start'],
+						$rows['date_end'],
+						$scheduleData,
+					)
+				);
+			}
+			return $pushdata;
+		}
+
+		public function routeShowPush($table)
+		{
+			$pushdata = array();
+			foreach ($table as $rows) {
+				$advertiserData = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
+				$scheduledAds = $this->Ad_Schedule->get_Ad_Schedule($rows['schedule_id']);
+
+				$text = '<h3>LIST OF ADS IN SCHEDULE</h3><ul>';
+				foreach($scheduledAds as $ads)
+				{
+					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
+					$text=$text.'<li>'.$ad_Data['ad_name'].'</li>';
+				}
+				$text = $text.'</ul>';
+				if($rows['schedule_type'] == 1)
+				{
+					$scheduleData = 'Regular';
+				}
+				else if($rows['schedule_type'] == 2)
+				{
+					$scheduleData = 'Scheduled';
+					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
+					$text = $text.'<ul>';
+					foreach($airtimeData as $at)
+					{
+						$text = $text.'<li> Time Start : '.$at['time_start'].'</li>';
+					}
+					$text = $text.'</ul>';
+				}
+				else
+				{
+					$scheduleData = 'Block';
+					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
+					$text = $text.'<ul>';
+					foreach($airtimeData as $at)
+					{
+						$text = $text.'<li> Time Start : '.$at['time_start'].'  &   Time End : '.$at['time_end'].'</li>';
+					}
+					$text = $text.'</ul>';
+				}
+				array_push($pushdata,
+					array(
+						'
+							<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal'.$rows['schedule_id'].'">Play</button>
+
+							<div id="modal'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+							  <div class="modal-dialog modal-lg">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							        <h4 class="modal-title">SCHEDULE #'.$rows['schedule_id'].'</h4>
+							      </div>
+							      <div class="modal-body">
+							        '.$text.'
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						',
+						$advertiserData['advertiser_name'],
+						$rows['date_start'],
+						$rows['date_end'],
+						$scheduleData,
+					)
+				);
+			}
+			return $pushdata;
+		}
+
+		public function typeShowPush($table)
+		{
+			$pushdata = array();
+			foreach ($table as $rows) {
+				$advertiserData = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
+				$routeData = $this->Route->edit_Route_Data($rows['route_id']);
+				$scheduledAds = $this->Ad_Schedule->get_Ad_Schedule($rows['schedule_id']);
+
+				$text = '<h3>LIST OF ADS IN SCHEDULE</h3><ul>';
+				foreach($scheduledAds as $ads)
+				{
+					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
+					$text=$text.'<li>'.$ad_Data['ad_name'].'</li>';
+				}
+				$text = $text.'</ul>';
+				if($rows['schedule_type'] == 1)
+				{
+					$scheduleData = 'Regular';
+				}
+				else if($rows['schedule_type'] == 2)
+				{
+					$scheduleData = 'Scheduled';
+					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
+					$text = $text.'<ul>';
+					foreach($airtimeData as $at)
+					{
+						$text = $text.'<li> Time Start : '.$at['time_start'].'</li>';
+					}
+					$text = $text.'</ul>';
+				}
+				else
+				{
+					$scheduleData = 'Block';
+					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
+					$text = $text.'<ul>';
+					foreach($airtimeData as $at)
+					{
+						$text = $text.'<li> Time Start : '.$at['time_start'].'  &   Time End : '.$at['time_end'].'</li>';
+					}
+					$text = $text.'</ul>';
+				}
+				array_push($pushdata,
+					array(
+						'
+							<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal'.$rows['schedule_id'].'">Play</button>
+
+							<div id="modal'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+							  <div class="modal-dialog modal-lg">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							        <h4 class="modal-title">SCHEDULE #'.$rows['schedule_id'].'</h4>
+							      </div>
+							      <div class="modal-body">
+							        '.$text.'
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						',
+						$routeData['route_name'],
+						$advertiserData['advertiser_name'],
+						$rows['date_start'],
+						$rows['date_end'],
+					)
+				);
+			}
+			return $pushdata;
+		}
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		//            E  N  D     O  F     B  R  O  W  S  E    F  U  N  C  T  I  O  N  S               //
+		/////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 
 // END OF PROGRAM SCHEDULE CONTROLLER
