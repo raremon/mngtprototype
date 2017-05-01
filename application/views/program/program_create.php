@@ -388,12 +388,12 @@
 
               <div class="form-group">
                 <div class="input-group">
-                  <input id="start_3" name="start_block" type="text" class="form-control">
+                  <input id="start_3" name="start_block" type="text" class="form-control hidden">
                 </div>
               </div> 
               <div class="form-group">
                 <div class="input-group">
-                  <input id="end_3" name="end_block" type="text" class="form-control">
+                  <input id="end_3" name="end_block" type="text" class="form-control hidden">
                 </div>
               </div> 
 
@@ -467,26 +467,26 @@
 
               <div class="form-group">
                 <div class="input-group">
-                  <input id="start_block" name="start_time_block" type="text" class="form-control">
+                  <input id="start_block" name="start_time_block" type="text" class="form-control hidden">
                 </div>
               </div> 
 
               <div class="form-group">
                 <div class="input-group">
-                <input id="all_block" name="all_time_block" type="text" class="form-control">
+                <input id="all_block" name="all_time_block" type="text" class="form-control hidden">
                 </div>
               </div> 
 
               <div class="form-group">
                 <div class="input-group">
-                  <input id="end_block" name="end_time_block" type="text" class="form-control">
+                  <input id="end_block" name="end_time_block" type="text" class="form-control hidden">
                 </div>
               </div> 
 
               <span>Selected Ad:</span>
               <div class="form-group">
                 <div class="input-group">
-                  <input id="selected_ads_3" name="selected_ads_block" type="text" class="form-control">
+                  <input id="selected_ads_3" name="selected_ads_block" type="text" class="form-control hidden">
                 </div>
               </div> 
 

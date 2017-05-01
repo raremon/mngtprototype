@@ -15,6 +15,8 @@
 			$this->load->model('routes_model', 'Route');
 			$this->load->model('advertisers_model', 'Advertiser');
 			$this->load->model('ads_model', 'Ad');
+
+			$this->load->model('adlogs_model', 'Ad_Log');
 		}
 		
 		public function upload()
@@ -107,7 +109,7 @@
             $data['script']=array
             (
             	'assets/js/jquery.form.js',
-                'assets/plugins/chartjs/Chart.min.js'
+                'assets/js/Chart.min.js'
             );
 
             $advertiser_data = $this->Advertiser->show_Advertiser();
@@ -242,6 +244,52 @@
 				);
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+		}
+
+		public function get_Report()
+		{
+			$report_data = $this->Ad_Log->get_logs();
+			$amCount = 0;
+			$pmCount = 0;
+			$eveCount = 0;
+			foreach($report_data as $report)
+			{
+				$amCount += $report['amCount'];
+				$pmCount += $report['pmCount'];
+				$eveCount += $report['eveCount'];
+			}
+			$total=$amCount + $pmCount + $eveCount;
+			$data = array(
+				$amCount, $pmCount, $eveCount, $total
+			);
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+		}
+
+		public function getCompanyReport($advertiser_id, $route_id)
+		{
+			$amCount = 0;
+			$pmCount = 0;
+			$eveCount = 0;
+			// HANAPIN YUNG AD ID FROM AD TABLE GAMIT ADVERTISER ID
+			$ad_data = $this->Ad->get_Ad_Data($advertiser_id);
+			// THEN HANAPIN YUNG AD ID && ROUTE ID SA AD LOGS TABLE
+			foreach($ad_data as $ad)
+			{
+				$report_data = $this->Ad_Log->get_logs_company($ad['ad_id'], $route_id);
+				foreach($report_data as $report)
+				{
+					$amCount += $report['amCount'];
+					$pmCount += $report['pmCount'];
+					$eveCount += $report['eveCount'];
+				}
+			}
+			$total=$amCount + $pmCount + $eveCount;
+			$data = array(
+				$amCount, $pmCount, $eveCount, $total
+			);
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+			// THEN RETURN VALUES
+			// $report_route = $this->Ad_Log->get_log_route($route_id);
 		}
 
 		// U P D A T E

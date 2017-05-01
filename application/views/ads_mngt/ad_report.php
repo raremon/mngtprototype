@@ -8,7 +8,7 @@
   <div class="box-body">
       <div class="form-group">
           <label>Select Advertiser:</label>
-          <select name="advertiser_id" class="form-control">
+          <select name="advertiser_id" id="advertiser_id" class="form-control">
             <?php 
               foreach($advertiser as $row)
               {
@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
           <label for="route_list">Select Route:</label>
-          <select name="route_id" class="form-control">
+          <select name="route_id" id="route_id" class="form-control">
             <?php 
               foreach($route as $row)
               {
@@ -66,7 +66,7 @@
 $(function () {
 var canvas = document.getElementById('adChart1');
 var data = {
-    labels: ["AM", "PM", "TOTAL"],
+    labels: ["AM", "PM", "EVENING" , "TOTAL"],
     datasets: [
         {
             label: "ADS PLAYED",
@@ -87,15 +87,25 @@ var data = {
             pointHoverBorderWidth: 2,
             pointRadius: 5,
             pointHitRadius: 10,
-            data: [0, 0, 0],
+            data: [0, 0, 0, 0],
         }
     ]
 };
-window.addEventListener('load', updateData);
-function updateData(){               
-  ad_Chart1.data.datasets[0].data[0] = 0;// for am
-  ad_Chart1.data.datasets[0].data[1] = 2;// for pm
-  ad_Chart1.data.datasets[0].data[2] = 0;// total
+
+var selectedAdvertiser = $('#advertiser_id').val();
+var selectedRoute = $('#route_id').val();
+
+$.get("<?php echo site_url('ads_mngt/getCompanyReport/" + selectedAdvertiser + "/" + selectedRoute + "') ?>", function(data){
+  var report_tbl = $.map(data, function(el) { return el; });
+  // console.log(report_tbl);
+  updateData(report_tbl);
+});
+
+function updateData(tbl){               
+  ad_Chart1.data.datasets[0].data[0] = tbl[0];// for am
+  ad_Chart1.data.datasets[0].data[1] = tbl[1];// for pm
+  ad_Chart1.data.datasets[0].data[2] = tbl[2];// eve
+  ad_Chart1.data.datasets[0].data[3] = tbl[3];// total
                                      //^ yung zero yan ung papalitan ng magiging bagong value nung data
   ad_Chart1.update();
 }
@@ -106,7 +116,7 @@ var ad_Chart1 = Chart.Line(canvas,{
 //CHART FOR OVERALL AD STATISTICS
 var canvas2 = document.getElementById('adChart2');
 var data2 = {
-    labels: ["AM", "PM", "TOTAL"],
+    labels: ["AM", "PM", "EVENING" ,"TOTAL"],
     datasets: [
         {
             label: "ADS PLAYED",
@@ -127,20 +137,49 @@ var data2 = {
             pointHoverBorderWidth: 2,
             pointRadius: 5,
             pointHitRadius: 10,
-            data: [0, 0, 0],
+            data: [0, 0, 0, 0],
         }
     ]
 };
-window.addEventListener('load', updateData2);
-function updateData2(){               
-  ad_Chart2.data.datasets[0].data[0] = 2;// for am
-  ad_Chart2.data.datasets[0].data[1] = 0;// for pm
-  ad_Chart2.data.datasets[0].data[2] = 0;// total
+
+$.get("<?php echo site_url('ads_mngt/get_Report') ?>", function(data){
+  var report_tbl = $.map(data, function(el) { return el; });
+  // console.log(report_tbl);
+  updateData2(report_tbl);
+});
+
+function updateData2(tbl){               
+  ad_Chart2.data.datasets[0].data[0] = tbl[0];// for am
+  ad_Chart2.data.datasets[0].data[1] = tbl[1];// for pm
+  ad_Chart2.data.datasets[0].data[2] = tbl[2];// for eve
+  ad_Chart2.data.datasets[0].data[3] = tbl[3];// total
                                      //^ yung zero yan ung papalitan ng magiging bagong value nung data
   ad_Chart2.update();
 }
 var ad_Chart2 = Chart.Line(canvas2,{
   data:data2,
+});
+
+$("#route_id").change(function() {
+  var sAdvertiser = $('#advertiser_id').val();
+  var sRoute = $('#route_id').val();
+
+  $.get("<?php echo site_url('ads_mngt/getCompanyReport/" + sAdvertiser + "/" + sRoute + "') ?>", function(data){
+    var report_tbl = $.map(data, function(el) { return el; });
+    // console.log(report_tbl);
+    updateData(report_tbl);
+  });    
+});
+
+$("#advertiser_id").change(function() {
+  var sAdvertiser = $('#advertiser_id').val();
+  var sRoute = $('#route_id').val();
+
+  $.get("<?php echo site_url('ads_mngt/getCompanyReport/" + sAdvertiser + "/" + sRoute + "') ?>", function(data){
+    var report_tbl = $.map(data, function(el) { return el; });
+    // console.log(report_tbl);
+    updateData(report_tbl);
+  });    
 });
 
 
