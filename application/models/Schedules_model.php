@@ -117,6 +117,33 @@
 		// 	return $query->result_array();
 		// }
 
+		public function get_Schedule_Data($advertiser_id)
+		{
+			$this->db->select("*");
+			$this->db->from('schedules');
+			$this->db->where('advertiser_id', $advertiser_id);
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
+		public function get_Schedule_Route($route_id)
+		{
+			$this->db->select("*");
+			$this->db->from('schedules');
+			$this->db->where('route_id', $route_id);
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
+		public function get_Schedule_Type($type_id)
+		{
+			$this->db->select("*");
+			$this->db->from('schedules');
+			$this->db->where('schedule_type', $type_id);
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
 		// // U P D A T E
 		// public function edit_Schedule_Data($ad_id)
 		// {

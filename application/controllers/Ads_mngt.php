@@ -12,6 +12,7 @@
 			$this->load->model('users_model', 'User');
 			$this->load->model('roles_model', 'Role');
 
+			$this->load->model('routes_model', 'Route');
 			$this->load->model('advertisers_model', 'Advertiser');
 			$this->load->model('ads_model', 'Ad');
 		}
@@ -87,6 +88,55 @@
 
 			$this->load->view("template/header", $data);
 			$this->load->view("ads_mngt/ad_browse", $data);
+			$this->load->view("template/footer", $data);
+		}
+
+		public function report()
+		{
+			$data['role'] = $this->logged_out_check();
+			$data['title'] = 'Ad Report';
+			$data['page_description'] = 'View Ad Statistics';
+            $data['breadcrumbs']=array
+			(
+				array('Ad Report','ads_mngt/report'),
+			);
+            $data['css']=array
+            (
+            	'assets/css/browse_style.css',
+            );
+            $data['script']=array
+            (
+            	'assets/js/jquery.form.js',
+                'assets/plugins/chartjs/Chart.min.js'
+            );
+
+            $advertiser_data = $this->Advertiser->show_Advertiser();
+			$data['advertiser'] = array();
+			foreach ($advertiser_data as $rows) {
+				array_push($data['advertiser'],
+					array(
+						$rows['advertiser_id'],
+						$rows['advertiser_name'],
+					)
+				);
+			}
+            
+			$route_data = $this->Route->show_Route();
+			$data['route'] = array();
+			foreach ($route_data as $rows) {
+				array_push($data['route'],
+					array(
+						$rows['route_id'],
+						$rows['route_name'],
+					)
+				);
+			}
+
+			$data['treeActive'] = 'ads_management';
+			$data['childActive'] = 'ad_report' ;
+
+			$this->load->view("template/header", $data);
+			$this->load->view("ads_mngt/ad_report", $data);
 			$this->load->view("template/footer", $data);
 		}
 

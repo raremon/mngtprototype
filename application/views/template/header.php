@@ -247,7 +247,7 @@
                   </a>
                   <ul class="treeview-menu">
                     <li id="create_program_schedule"><a href="<?php echo base_url('program/create') ?>">Create Program Schedule</a></li>
-                    <li id="browse_program_schedule"><a href="#">Browse Program Schedules</a></li>
+                    <li id="browse_program_schedule"><a href="<?php echo base_url('program/browse') ?>">Browse Program Schedules</a></li>
                     <li id="assign_per_route"><a href="#">Assign Per Route</a></li>
                     <li id="assign_per_bus"><a href="#">Assign Per Bus</a></li>
                   </ul>
@@ -261,6 +261,7 @@
                   <ul class="treeview-menu">
                     <li id="upload_new_ad"><a href="<?php echo base_url('ads_mngt/upload') ?>">Upload New Ad</a></li>
                     <li id="browse_ads"><a href="<?php echo base_url('ads_mngt/browse') ?>">Browse Ads</a></li>
+                    <li id="ad_report"><a href="<?php echo base_url('ads_mngt/report') ?>">Ad Report</a></li>
                   </ul>				
         				</li>
                 <li id="ad_companies" class="treeview">

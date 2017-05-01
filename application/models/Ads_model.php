@@ -79,6 +79,7 @@
 			$query = $this->db->get();
 			return $query->result_array();
 		}
+		
 		public function find_Ad_Data($ad_id)
 		{
 			$this->db->select("*");
