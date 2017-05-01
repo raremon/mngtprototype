@@ -15,6 +15,7 @@
 			$this->load->model('routes_model', 'Route');
 			$this->load->model('advertisers_model', 'Advertiser');
 			$this->load->model('ads_model', 'Ad');
+			$this->load->model('buses_model', 'Bus');
 
 			$this->load->model('adlogs_model', 'Ad_Log');
 		}
@@ -263,6 +264,59 @@
 				$amCount, $pmCount, $eveCount, $total
 			);
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+		}
+
+		public function displayReport()
+		{
+			$report_data = $this->Ad_Log->get_full_logs();
+			$data = array();
+			foreach ($report_data as $rows) {
+				$ad = $this->Ad->edit_Ad_Data($rows['ad_id']);
+				$bus = $this->Bus->edit_Bus_Data($rows['bus_id']);
+				$route = $this->Route->edit_Route_Data($rows['route_id']);
+				array_push($data,
+					array(
+						$rows['log_id'],
+						$ad['ad_filename'],
+						$rows['date_log'],
+						$bus['bus_name'],
+						$route['route_name'],
+						$rows['amCount'],
+						$rows['pmCount'],
+						$rows['eveCount'],
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+		}
+
+		public function displayCompanyReport($advertiser_id, $route_id)
+		{
+			$data = array();
+			$ad_data = $this->Ad->get_Ad_Data($advertiser_id);
+			foreach($ad_data as $ad)
+			{
+				$report_data = $this->Ad_Log->get_full_logs_company($ad['ad_id'], $route_id);
+				foreach($report_data as $rows)
+				{
+					$ad = $this->Ad->edit_Ad_Data($rows['ad_id']);
+					$bus = $this->Bus->edit_Bus_Data($rows['bus_id']);
+					$route = $this->Route->edit_Route_Data($rows['route_id']);
+					array_push($data,
+						array(
+							$rows['log_id'],
+							$ad['ad_filename'],
+							$rows['date_log'],
+							$bus['bus_name'],
+							$route['route_name'],
+							$rows['amCount'],
+							$rows['pmCount'],
+							$rows['eveCount'],
+						)
+					);
+				}
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
 
 		public function getCompanyReport($advertiser_id, $route_id)
