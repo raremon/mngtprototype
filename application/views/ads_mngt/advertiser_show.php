@@ -2,9 +2,8 @@
   <div class="box-header with-border">
     <h3 class="box-title">Advertiser Details</h3>
     <div class="box-tools pull-right">
-      <!-- Buttons, labels, and many other things can be placed here! -->
-    </div><!-- /.box-tools -->
-  </div><!-- /.box-header -->
+    </div>
+  </div>
   <div class="box-body">
     <div class="row">
       <div class="container-fluid">
@@ -47,16 +46,15 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
     </div>
   </div>
   <div class="box-footer">      
-    </div><!-- box-footer -->
-</div><!-- /.box -->
+  </div>
+</div>
 
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Advertiser Data</h3>
     <div class="box-tools pull-right">
-      <!-- Buttons, labels, and many other things can be placed here! -->
-    </div><!-- /.box-tools -->
-  </div><!-- /.box-header -->
+    </div>
+  </div>
   <div class="box-body">
       <div class="container-fluid">
         <div class="col-md-12">
@@ -80,9 +78,8 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
     </div>
  </div>
   <div class="box-footer">
-  
-  </div><!-- box-footer -->
-</div><!-- /.box -->
+  </div>
+</div>
 
 <script type="text/javascript">
 
@@ -140,7 +137,7 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
         if(!data.success){
           $('#advertiser-message').html(data.errors).addClass('alert alert-danger');
         }else {
-          $('#advertiser-message').html(data.message).addClass('alert alert-success');
+          $('#advertiser-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function () {
             window.location.reload();
           }, 1000);
@@ -164,7 +161,7 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
               $('#advertiser-message-2').html(data.errors).addClass('alert alert-danger');
             }
           }else {
-            $('#advertiser-message-2').html(data.message).addClass('alert alert-success');
+            $('#advertiser-message-2').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
             setTimeout(function() {
               window.location.reload();
             }, 1000);
