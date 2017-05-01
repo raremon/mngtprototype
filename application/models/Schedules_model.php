@@ -102,7 +102,7 @@
 		////////////////////////////////////////////////////////////////
 
 		// C R E A T E
-		public function save_Regular_Schedule($data)
+		public function save_Schedule($data)
 		{
 			$this->db->insert('schedules', $data);
 			return $this->db->insert_id();

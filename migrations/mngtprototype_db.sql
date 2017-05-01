@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2017 at 10:58 PM
+-- Generation Time: May 01, 2017 at 11:11 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -120,7 +120,7 @@ CREATE TABLE `ad_schedules` (
 CREATE TABLE `airtimes` (
   `airtime_id` int(11) NOT NULL COMMENT 'Airtime''s Id ( Primary )',
   `time_start` time NOT NULL COMMENT 'Time Start',
-  `time_end` time NOT NULL COMMENT 'Time End',
+  `time_end` time DEFAULT NULL COMMENT 'Time End',
   `schedule_id` int(11) NOT NULL COMMENT 'Schedule''s Id ( Foreign )',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -321,6 +321,34 @@ INSERT INTO `terminals` (`terminal_id`, `terminal_name`, `latitude`, `longitude`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `time_blocks`
+--
+
+CREATE TABLE `time_blocks` (
+  `time_block_id` int(11) NOT NULL COMMENT 'Time Block Id ( Primary )',
+  `time_start` time NOT NULL COMMENT 'Time Start',
+  `time_end` time NOT NULL COMMENT 'Time End',
+  `advertiser_id` int(11) NOT NULL COMMENT 'Advertiser Id ( Foreign )',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `time_blocks`
+--
+
+INSERT INTO `time_blocks` (`time_block_id`, `time_start`, `time_end`, `advertiser_id`, `created_at`, `updated_at`) VALUES
+(1, '12:00:00', '18:00:00', 1, '2017-05-01 07:42:58', '2017-05-01 07:42:58'),
+(8, '16:45:00', '18:30:00', 1, '2017-05-01 07:55:25', '2017-05-01 07:55:25'),
+(9, '16:45:00', '18:30:00', 2, '2017-05-01 08:04:26', '2017-05-01 08:04:26'),
+(10, '16:00:00', '16:00:00', 1, '2017-05-01 08:11:33', '2017-05-01 08:11:33'),
+(11, '17:00:00', '16:00:00', 1, '2017-05-01 08:14:16', '2017-05-01 08:14:16'),
+(12, '15:00:00', '16:00:00', 1, '2017-05-01 08:14:37', '2017-05-01 08:14:37'),
+(13, '18:00:00', '16:00:00', 1, '2017-05-01 08:14:46', '2017-05-01 08:14:46');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -342,7 +370,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_fname`, `user_lname`, `user_password`, `user_role`, `is_online`, `user_lastlogin`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'cee jay', 'reyes', 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, 0, '2017-04-29 20:57:44', '2017-04-09 17:17:02', '2017-04-29 20:57:44'),
+(1, 'admin', 'cee jay', 'reyes', 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, 1, '2017-04-29 20:57:44', '2017-04-09 17:17:02', '2017-04-29 20:57:44'),
 (2, 'hexxableyd', 'Dennis', 'de Leon', '88ea39439e74fa27c09a4fc0bc8ebe6d00978392', 2, 0, '2017-04-28 12:40:29', '2017-04-09 17:17:02', '2017-04-28 12:40:29'),
 (3, 'sendreykkk', 'Cendrick', 'Pascual', '88ea39439e74fa27c09a4fc0bc8ebe6d00978392', 2, 0, NULL, '2017-04-29 19:22:27', '2017-04-29 19:22:27');
 
@@ -434,6 +462,12 @@ ALTER TABLE `terminals`
   ADD PRIMARY KEY (`terminal_id`);
 
 --
+-- Indexes for table `time_blocks`
+--
+ALTER TABLE `time_blocks`
+  ADD PRIMARY KEY (`time_block_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -450,7 +484,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `ads`
 --
 ALTER TABLE `ads`
-  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ad''s Id ( Primary )', AUTO_INCREMENT=16;
+  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ad''s Id ( Primary )', AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `advertisers`
 --
@@ -496,6 +530,11 @@ ALTER TABLE `schedules`
 --
 ALTER TABLE `terminals`
   MODIFY `terminal_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Terminal ID ( Primary )', AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `time_blocks`
+--
+ALTER TABLE `time_blocks`
+  MODIFY `time_block_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Time Block Id ( Primary )', AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `users`
 --
