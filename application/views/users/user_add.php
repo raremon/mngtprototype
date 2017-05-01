@@ -1,126 +1,102 @@
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <h1>
-      <?php echo $title; ?>
-      <small><?php echo $page_description; ?></small>
-    </h1>
-    <ol class="breadcrumb">
-      <i class="fa fa-user-plus"></i>&nbsp;
-      <?php foreach($breadcrumbs as $row) { ?>
-        <li><a href="<?php echo base_url($row[1]) ?>"><?php echo $row[0]; ?></a></li>
-      <?php } ?>
-      <li class="active">Here</li>
-    </ol>
-  </section>
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">User Details</h3>
+    <div class="box-tools pull-right">
+      <!-- Buttons, labels, and many other things can be placed here! -->
+    </div><!-- /.box-tools -->
+  </div><!-- /.box-header -->
+  <div class="box-body">
+      <div class="container-fluid">
 
-  <!-- Main content -->
-
-  <section class="content">
-    
-    <div class="box box-success">
-      <div class="box-header with-border">
-        <h3 class="box-title">User Details</h3>
-        <div class="box-tools pull-right">
-          <!-- Buttons, labels, and many other things can be placed here! -->
-        </div><!-- /.box-tools -->
-      </div><!-- /.box-header -->
-      <div class="box-body">
-          <div class="container-fluid">
-
-            <div class="col-md-12">
-              <div id="user-message"></div>
-              <?php echo form_open('welcome', array('id'=>'user')); ?>
-              <div class="form-group hidden">
-                <input type="text" name="user_id" class="form-control"/>
-              </div>
-              <div class="form-group">
-                <label>First Name</label>
-                <input type="text" name="user_fname" class="form-control" placeholder="Cee Jay"/>
-              </div>
-              <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" name="user_lname" class="form-control" placeholder="Reyes"/>
-              </div>
-              <div class="form-group">
-                <label>User Role</label>
-                <select name="user_role" class="form-control">
-                  <?php 
-                    foreach($roles as $row)
-                    {
-                  ?>
-                    <option value= <?php echo $row[0];?> >
-                      <?php echo $row[1]; ?>
-                    </option>
-                  <?php 
-                    }
-                  ?>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Username</label>
-                <input type="text" name="user_name" class="form-control" placeholder="masterofdeCEEption"/>
-              </div>
-              <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="user_password" class="form-control" placeholder="***********"/>
-              </div>
-              <div class="form-group">
-                <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control" placeholder="***********"/>
-              </div>
-
-              <button type="button" class="btn btn-primary save" onclick="save_User()">Save</button>
-              <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_User()">Update</button>
-              <?php echo form_close(); ?>
-            </div>
-
-          </div> 
-      </div><!-- /.box-body -->
-      <div class="box-footer">
-
-      </div><!-- box-footer -->
-    </div><!-- /.box -->
-    
-    <div class="box box-success">
-      <div class="box-header with-border">
-        <h3 class="box-title">User Data</h3>
-        <div class="box-tools pull-right">
-          <!-- Buttons, labels, and many other things can be placed here! -->
-        </div><!-- /.box-tools -->
-      </div><!-- /.box-header -->
-      <div class="box-body">
-        <div class="row">
-          <div class="container-fluid">
-            <div class="col-md-12">
-              <table id="user_data" class="table table-hover table-bordered">
-                <thead>
-                  <tr>
-                    <th>USER ID</th>
-                    <th>FIRST NAME</th>
-                    <th>LAST NAME</th>
-                    <th>ROLE</th>
-                    <th>USERNAME</th>
-                    <th>LAST LOGIN</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
+        <div class="col-md-12">
+          <div id="user-message"></div>
+          <?php echo form_open('welcome', array('id'=>'user')); ?>
+          <div class="form-group hidden">
+            <input type="text" name="user_id" class="form-control"/>
           </div>
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" name="user_fname" class="form-control" placeholder="Cee Jay"/>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="user_lname" class="form-control" placeholder="Reyes"/>
+          </div>
+          <div class="form-group">
+            <label>User Role</label>
+            <select name="user_role" class="form-control">
+              <?php 
+                foreach($roles as $row)
+                {
+              ?>
+                <option value= <?php echo $row[0];?> >
+                  <?php echo $row[1]; ?>
+                </option>
+              <?php 
+                }
+              ?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="user_name" class="form-control" placeholder="masterofdeCEEption"/>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="user_password" class="form-control" placeholder="***********"/>
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" name="confirm_password" class="form-control" placeholder="***********"/>
+          </div>
+
+          <button type="button" class="btn btn-primary save" onclick="save_User()">Save</button>
+          <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_User()">Update</button>
+          <?php echo form_close(); ?>
         </div>
-      </div><!-- /.box-body -->
-      <div class="box-footer">
-      </div><!-- box-footer -->
-    </div><!-- /.box -->
+
+      </div> 
+  </div><!-- /.box-body -->
+  <div class="box-footer">
+
+  </div><!-- box-footer -->
+</div><!-- /.box -->
+
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">User Data</h3>
+    <div class="box-tools pull-right">
+      <!-- Buttons, labels, and many other things can be placed here! -->
+    </div><!-- /.box-tools -->
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    <div class="row">
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <table id="user_data" class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>USER ID</th>
+                <th>FIRST NAME</th>
+                <th>LAST NAME</th>
+                <th>ROLE</th>
+                <th>USERNAME</th>
+                <th>LAST LOGIN</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.box-body -->
+  <div class="box-footer">
+  </div><!-- box-footer -->
+</div><!-- /.box -->
       
-  </section>
-  <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
+  
 
 <script type="text/javascript">
 
@@ -142,10 +118,10 @@
             $('#user-message').html(data.errors).addClass('alert alert-danger');
           }
         }else {
-          alert(data.message);
+          $('#user-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function() {
             window.location.reload()
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -190,10 +166,10 @@
         if(!data.success){
           $('#user-message').html(data.errors).addClass('alert alert-danger');
         }else {
-          alert(data.message);
+          $('#user-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function () {
             window.location.reload();
-          }, 400);
+          }, 1000);
         }
       }
     })

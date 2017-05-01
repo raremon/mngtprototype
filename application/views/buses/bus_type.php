@@ -1,67 +1,42 @@
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <h1>
-      <?php echo $title; ?>
-      <small><?php echo $page_description; ?></small>
-    </h1>
-    <ol class="breadcrumb">
-      <i class="fa fa-dashboard"></i>&nbsp;
-      <?php foreach($breadcrumbs as $row) { ?>
-        <li><a href="<?php echo base_url($row[1]) ?>"><?php echo $row[0]; ?></a></li>
-      <?php } ?>
-      <li class="active">Here</li>
-    </ol>
-  </section>
+<div class="row">
+  <div class="container">
 
-  <!-- Main content -->
-  <section class="content">
-
-    <div class="row">
-      <div class="container">
-
-        <div class="col-md-12">
-          <div id="bus-message"></div>
-          <?php echo form_open('welcome', array('id'=>'bus_type')); ?>
-          <div class="form-group hidden">
-            <input type="text" name="bus_type_id" class="form-control"/>
-          </div>
-          <div class="form-group">
-            <label>Bus Type Name</label>
-            <input type="text" name="bus_type_name" class="form-control" placeholder="Sun Bus ( 30 pax )"/>
-          </div>
-          <button type="button" class="btn btn-primary save" onclick="save_bus_type()">Save</button>
-          <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_bus_type()">Update</button>
-          <?php echo form_close(); ?>
-        </div>
-
-      </div> 
-
-      <div class="container-fluid">
-
-        <div class="col-md-12">
-          <h3 class="page-header">Bus Type Data</h3>
-          <table id="bus_type_data" class="table table-hover">
-            <thead>
-              <tr>
-                <th>BUS ID</th>
-                <th>BUS TYPE NAME</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-
+    <div class="col-md-12">
+      <div id="bus-message"></div>
+      <?php echo form_open('welcome', array('id'=>'bus_type')); ?>
+      <div class="form-group hidden">
+        <input type="text" name="bus_type_id" class="form-control"/>
       </div>
+      <div class="form-group">
+        <label>Bus Type Name</label>
+        <input type="text" name="bus_type_name" class="form-control" placeholder="Sun Bus ( 30 pax )"/>
+      </div>
+      <button type="button" class="btn btn-primary save" onclick="save_bus_type()">Save</button>
+      <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_bus_type()">Update</button>
+      <?php echo form_close(); ?>
     </div>
 
-  </section>
-  <!-- /.content -->
+  </div> 
+
+  <div class="container-fluid">
+
+    <div class="col-md-12">
+      <h3 class="page-header">Bus Type Data</h3>
+      <table id="bus_type_data" class="table table-hover">
+        <thead>
+          <tr>
+            <th>BUS ID</th>
+            <th>BUS TYPE NAME</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </div>
-<!-- /.content-wrapper -->
 
 <script type="text/javascript">
 
@@ -83,10 +58,10 @@
             $('#bus-message').html(data.errors).addClass('alert alert-danger');
           }
         }else {
-          alert(data.message);
+          $('#bus-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function() {
             window.location.reload()
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -128,10 +103,10 @@
         if(!data.success){
           $('#bus-message').html(data.errors).addClass('alert alert-danger');
         }else {
-          alert(data.message);
+          $('#bus-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function () {
             window.location.reload();
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -155,7 +130,7 @@
             $('#bus-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
             setTimeout(function() {
               window.location.reload();
-            }, 400);
+            }, 1000);
           }
         }
       });

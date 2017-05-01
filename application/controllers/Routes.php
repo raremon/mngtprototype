@@ -21,7 +21,16 @@ class Routes extends MY_Controller {
 		$data['title']='Routes';
 		$data['breadcrumbs']=array
 		(
+			array('Add Bus','buses/add'),
 			array('Add Route','routes'),
+		);
+		$data['css']=array
+		(
+
+		);
+		$data['script']=array
+		(
+			
 		);
 		$data['page_description']='Add, Update, and Delete Routes';
 
@@ -39,7 +48,7 @@ class Routes extends MY_Controller {
 		}
 
 		$data['treeActive'] = 'bus_management';
-		$data['childActive'] = 'routes' ;
+		$data['childActive'] = 'bus_routes' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("routes/routes", $data);
@@ -53,13 +62,22 @@ class Routes extends MY_Controller {
 		$data['title']='Terminals';
 		$data['breadcrumbs']=array
 		(
+			array('Add Bus','buses/add'),
 			array('Add Route','routes'),
 			array('Terminals','terminals'),
+		);
+		$data['css']=array
+		(
+			
+		);
+		$data['script']=array
+		(
+			
 		);
 		$data['page_description']='Add, Update, and Delete Terminals';
 
 		$data['treeActive'] = 'bus_management';
-		$data['childActive'] = 'bus_routes' ;
+		$data['childActive'] = 'add_bus' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("routes/terminals", $data);
@@ -67,7 +85,7 @@ class Routes extends MY_Controller {
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////
-	//          C  R  U  D    F  U  N  C  T  I  O  N  S    B  U  S  E  S           //
+	//          C  R  U  D    F  U  N  C  T  I  O  N  S    R  O  U  T  E           //
 	/////////////////////////////////////////////////////////////////////////////////
 
 	// C R E A T E
@@ -132,8 +150,10 @@ class Routes extends MY_Controller {
 							    mapTypeId: 'roadmap',
 							    navigationControl: false,
 							    mapTypeControl: false,
+							    scrollwheel: false,
 							    scaleControl: false,
 							    draggable: false,
+							    disableDefaultUI: true,
 							};
 
 							var map = new google.maps.Map( document.getElementById('table-map-canvas-".$ctr."'), mapOptions);
@@ -284,6 +304,7 @@ class Routes extends MY_Controller {
 						    mapTypeControl: false,
 						    scaleControl: false,
 						    draggable: false,
+						    disableDefaultUI: true,
 						    mapTypeId: google.maps.MapTypeId.ROADMAP
 						});
 

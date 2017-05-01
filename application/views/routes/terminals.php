@@ -1,103 +1,80 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZWe4gOwsSV0uNIKkrwvzjbVg15adxrvw&libraries=places" type="text/javascript"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJAq_K8XorLcD2nKKsrmB7BserF3Wh3Ss&libraries=places" type="text/javascript"></script>
 
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <h1>
-      <?php echo $title; ?>
-      <small><?php echo $page_description; ?></small>
-    </h1>
-    <ol class="breadcrumb">
-      <i class="fa fa-dashboard"></i>&nbsp;
-      <?php foreach($breadcrumbs as $row) { ?>
-        <li><a href="<?php echo base_url($row[1]) ?>"><?php echo $row[0]; ?></a></li>
-      <?php } ?>
-      <li class="active">Here</li>
-    </ol>
-  </section>
-
-  <!-- Main content -->
-  <section class="content">
-    <div class="box box-success">
-      <div class="box-header with-border">
-        <h3 class="box-title">Terminal Details</h3>
-        <div class="box-tools pull-right">
-        </div><!-- /.box-tools -->
-      </div><!-- /.box-header -->
-      <div class="box-body">
-        <div id="main-cont" class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label>Search Map</label>
-                <input type="text" id="mapsearch" name="mapsearch" class="form-control"/>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div id="map-canvas"> </div>
-
-              <div id="terminal-message"></div>
-              <?php echo form_open('welcome', array('id'=>'terminal')); ?>
-              <div class="form-group hidden">
-                <input type="text" name="terminal_id" class="form-control"/>
-              </div>
-              <div class="form-group hidden">
-                <input type="text" name="latitude" id="lat" value="14.58738368298855" class="form-control"/>
-              </div>
-              <div class="form-group hidden">
-                <input type="text" name="longitude" id="lng" value="120.98392539999998" class="form-control"/>
-              </div>
-              <div class="form-group">
-                <label>Terminal Name</label>
-                <input type="text" name="terminal_name" class="form-control" placeholder="Ayala, Manila Terminal"/>
-              </div>
-              <button type="button" class="btn btn-primary save" onclick="save_terminal()">Save</button>
-              <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_terminal()">Update</button>
-              <?php echo form_close(); ?>
-            </div>
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">Terminal Details</h3>
+    <div class="box-tools pull-right">
+    </div><!-- /.box-tools -->
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    <div id="main-cont" class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Search Map</label>
+            <input type="text" id="mapsearch" name="mapsearch" class="form-control"/>
           </div>
         </div>
-      </div><!-- /.box-body -->
-      <div class="box-footer">
-      </div><!-- box-footer -->
-    </div><!-- /.box -->
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="map-canvas"> </div>
 
-    <div class="box box-success">
-      <div class="box-header with-border">
-        <h3 class="box-title">Terminal Data</h3>
-        <div class="box-tools pull-right">
-        </div><!-- /.box-tools -->
-      </div><!-- /.box-header -->
-      <div class="box-body">
-          <div class="row">
-            <div class="container-fluid">
-              <div class="col-md-12">
-                <table id="terminal_data" class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>TERMINAL ID</th>
-                      <th>TERMINAL NAME</th>
-                      <th>TERMINAL LAT / LONG</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div id="terminal-message"></div>
+          <?php echo form_open('welcome', array('id'=>'terminal')); ?>
+          <div class="form-group hidden">
+            <input type="text" name="terminal_id" class="form-control"/>
           </div>
-      </div><!-- /.box-body -->
-      <div class="box-footer">
-      </div><!-- box-footer -->
-    </div><!-- /.box -->
-  </section>
-  <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
+          <div class="form-group hidden">
+            <input type="text" name="latitude" id="lat" value="14.58738368298855" class="form-control"/>
+          </div>
+          <div class="form-group hidden">
+            <input type="text" name="longitude" id="lng" value="120.98392539999998" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <label>Terminal Name</label>
+            <input type="text" name="terminal_name" class="form-control" placeholder="Ayala, Manila Terminal"/>
+          </div>
+          <button type="button" class="btn btn-primary save" onclick="save_terminal()">Save</button>
+          <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_terminal()">Update</button>
+          <?php echo form_close(); ?>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.box-body -->
+  <div class="box-footer">
+  </div><!-- box-footer -->
+</div><!-- /.box -->
+
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">Terminal Data</h3>
+    <div class="box-tools pull-right">
+    </div><!-- /.box-tools -->
+  </div><!-- /.box-header -->
+  <div class="box-body">
+      <div class="row">
+        <div class="container-fluid">
+          <div class="col-md-12">
+            <table id="terminal_data" class="table table-hover">
+              <thead>
+                <tr>
+                  <th>TERMINAL ID</th>
+                  <th>TERMINAL NAME</th>
+                  <th>TERMINAL LAT / LONG</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  </div><!-- /.box-body -->
+  <div class="box-footer">
+  </div><!-- box-footer -->
+</div><!-- /.box -->
 
 <script type="text/javascript">
 
@@ -119,10 +96,10 @@
             $('#terminal-message').html(data.errors).addClass('alert alert-danger');
           }
         }else {
-          alert(data.message);
+          $('#terminal-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function() {
             window.location.reload()
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -174,10 +151,10 @@
         if(!data.success){
           $('#terminal-message').html(data.errors).addClass('alert alert-danger');
         }else {
-          alert(data.message);
+          $('#terminal-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
           setTimeout(function () {
             window.location.reload();
-          }, 400);
+          }, 1000);
         }
       }
     })
@@ -201,7 +178,7 @@
             $('#terminal-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
             setTimeout(function() {
               window.location.reload();
-            }, 400);
+            }, 1000);
           }
         }
       });

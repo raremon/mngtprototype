@@ -16,63 +16,42 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-green.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
-      <link rel="stylesheet" href="<?php echo base_url('assets/css/video_thumbnail.css') ?>"/>
-      <link rel="stylesheet" href="<?php echo base_url('assets/css/browse_style.css') ?>"/>
-      <!-- daterange picker -->
-      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/daterangepicker/daterangepicker.css') ?>"/>
-      <!-- bootstrap datepicker -->
-      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/datepicker/datepicker3.css') ?>"/>
-      <!-- Select2 -->
-      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/select2/select2.min.css') ?>"/>
-      <!-- iCheck for checkboxes and radio inputs -->
-      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/all.css') ?>"/>
-      <!--timepicker-->
-      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/timepicker/bootstrap-timepicker.min.css') ?>"/>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-      <![endif]-->
+
+      <?php 
+        foreach($css as $rows)
+        {
+      ?>
+        <link rel="stylesheet" href="<?php echo base_url($rows) ?>"/>
+      <?php 
+        }
+      ?>
 
       <!-- REQUIRED JS SCRIPTS -->
-
-      <!-- jQuery 2.2.3 -->
       <script src="<?php echo base_url('assets/js/jquery-2.2.3.min.js') ?>"></script>
-      <!-- Bootstrap 3.3.6 -->
       <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
-      <!-- AdminLTE App -->
       <script src="<?php echo base_url('assets/js/app.min.js') ?>"></script>
-      <!-- Data Tables JS -->
       <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/dataTables.bootstrap.min.js') ?>"></script>
-      <!-- jQuery UI 1.11.4 -->
       <script src="<?php echo base_url('assets/plugins/jQueryUI/jquery-ui.min.js') ?>"></script>
-      <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
       <script>
         $.widget.bridge('uibutton', $.ui.button);
       </script>
-      <script src="<?php echo base_url('assets/js/program_sched.js') ?>"></script>
-      <!-- InputMask -->
-      <script src="<?php echo base_url('assets/plugins/input-mask/jquery.inputmask.js') ?>"></script>
-      <script src="<?php echo base_url('assets/plugins/input-mask/jquery.inputmask.date.extensions.js') ?>"></script>
-      <script src="<?php echo base_url('assets/plugins/input-mask/jquery.inputmask.extensions.js') ?>"></script>
-      <!-- date-range-picker -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-      <!--daterange picker-->
-      <script src="<?php echo base_url('assets/plugins/daterangepicker/daterangepicker.js') ?>"></script>
-      <!-- bootstrap datepicker -->
-      <script src="<?php echo base_url('assets/plugins/datepicker/bootstrap-datepicker.js') ?>"></script>
-      <!-- Select2 -->
-      <script src="<?php echo base_url('assets/plugins/select2/select2.full.min.js') ?>"></script>
-      <!-- iCheck 1.0.1 -->
-      <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js') ?>"></script>
-      <!--timepicker-->
-      <script src="<?php echo base_url('assets/plugins/timepicker/bootstrap-timepicker.min.js') ?>"></script>
+
+      <?php 
+        foreach($script as $rows)
+        {
+      ?>
+        <script src="<?php echo base_url($rows) ?>"></script>
+      <?php 
+        }
+      ?>
+
     </head>
 
     <body class="hold-transition skin-green sidebar-mini">
         <div class="wrapper">
           <header class="main-header">
               
-            <!-- Logo -->
             <a href="<?php  echo site_url('dashboard') ?>" class="logo">
               <span class="logo-mini"><img src="<?php echo base_url('assets/public/star8logo_sm.png') ?>"></span>
               <span class="logo-lg"><img src="<?php echo base_url('assets/public/star8logo_lg.png') ?>"></img></span>
@@ -183,28 +162,29 @@
                     </ul>
                   </li>
 
-                  <!-- User Account Menu -->
                   <li class="dropdown user user-menu">
-                    <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <!-- The user image in the navbar-->
                       <img src="<?php echo base_url('assets/public/user1.jpg') ?>" class="user-image" alt="User Image">
-                      <!-- hidden-xs hides the username on small devices so only the image appears. -->
                       <span class="hidden-xs"><?php echo $this->session->userdata("user_fname") . " " . $this->session->userdata("user_lname");?></span>
                     </a>
                     <ul class="dropdown-menu">
-                      <!-- The user image in the menu -->
                       <li class="user-header">
                         <img src="<?php echo base_url('assets/public/user1.jpg') ?>" class="img-circle" alt="User Image">
-
                         <p>
                           <?php 
                             echo $this->session->userdata("user_fname") . " " . $this->session->userdata("user_lname") . " - " . $role['role_name'];
                           ?>
-                          <small>
+                          <!-- <small>
                             Member since 
                             <?php 
                               $d = new DateTime($this->session->userdata("created_at"));
+                              echo $d->format('M / d / Y') 
+                            ?>
+                          </small> -->
+                          <small>
+                            Last logged-in  
+                            <?php 
+                              $d = new DateTime($this->session->userdata("last_login"));
                               echo $d->format('M / d / Y') 
                             ?>
                           </small>
@@ -229,12 +209,8 @@
             </nav>
           </header>
 
-          <!-- Left side column. contains the logo and sidebar -->
           <aside class="main-sidebar">
-            <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-
-              <!-- Sidebar user panel (optional) -->
               <div class="user-panel">
                 <div class="pull-left image">
                   <img src="<?php echo base_url('assets/public/user1.jpg') ?>" class="img-circle" alt="User Image">
@@ -245,8 +221,7 @@
                       echo $this->session->userdata("user_fname") . " " . $this->session->userdata("user_lname");
                     ?>
                   </p>
-                  <!-- Status -->
-                  <a id="userStat" href="#" onclick="toggleStatus()" data-stat="1"><i class="fa fa-circle text-success"></i> Online</a>
+                  <a id="userStat" href="javascript:void(0)" onclick="toggleStatus()" data-stat="1"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
               </div>
 
@@ -254,21 +229,16 @@
               <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
                   <input type="text" name="q" class="form-control" placeholder="Search...">
-                      <span class="input-group-btn">
-                        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                        </button>
-                      </span>
+                    <span class="input-group-btn">
+                      <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                      </button>
+                    </span>
                 </div>
               </form>
-              <!-- /.search form -->
 
-              <!-- Sidebar Menu -->
               <ul class="sidebar-menu">
                 <li class="header">Main Menu</li>
-
-                <!-- Optionally, you can add icons to the links -->
                 <li id="dashboard"><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
-
                 <li id="program_schedule" class="treeview">
                   <a href="#"><i class="fa fa-tv"></i> <span>Program Schedule</span>
                     <span class="pull-right-container">
@@ -282,7 +252,6 @@
                     <li id="assign_per_bus"><a href="#">Assign Per Bus</a></li>
                   </ul>
                 </li>
-
                 <li id="ads_management" class="treeview">
         					<a href="#"><i class="fa fa-upload"></i> <span>Ads Management</span>
                     <span class="pull-right-container">
@@ -291,10 +260,10 @@
         					</a>
                   <ul class="treeview-menu">
                     <li id="upload_new_ad"><a href="<?php echo base_url('ads_mngt/upload') ?>">Upload New Ad</a></li>
-                    <li id="browse_ads"><a href="#">Browse Ads</a></li>
+                    <li id="browse_ads"><a href="<?php echo base_url('ads_mngt/browse') ?>">Browse Ads</a></li>
+                    <li id="ad_report"><a href="<?php echo base_url('ads_mngt/report') ?>">Ad Report</a></li>
                   </ul>				
         				</li>
-
                 <li id="ad_companies" class="treeview">
         					<a href="#"><i class="fa fa-briefcase"></i> <span>Ad Companies</span>
                     <span class="pull-right-container">
@@ -302,11 +271,10 @@
                     </span>					
         					</a>
                   <ul class="treeview-menu">
-                    <li id="new_advertiser"><a href="#">New Advertiser</a></li>
-                    <li id="browse_ad_companies"><a href="#">Browse Ad Companies </a></li>
+                    <li id="new_advertiser"><a href="<?php echo base_url('advertisers/add') ?>">New Advertiser</a></li>
+                    <li id="browse_ad_companies"><a href="<?php echo base_url('advertisers/show') ?>">Browse Ad Companies </a></li>
                   </ul>				
         				</li>	
-
                 <li id="users_management" class="treeview">
                   <a href="#"><i class="fa fa-users"></i> <span>Users Management</span>
                     <span class="pull-right-container">
@@ -318,7 +286,6 @@
                     <li id="delete_user"><a href="<?php echo base_url('users/delete') ?>">Delete User</a></li>
                   </ul>
                 </li>
-
                 <li id="bus_management" class="treeview">
                   <a href="#"><i class="fa fa-bus"></i> <span>Bus Management</span>
                     <span class="pull-right-container">
@@ -328,14 +295,11 @@
                   <ul class="treeview-menu">
                     <li id="add_bus"><a href="<?php echo base_url('buses/add') ?>">Add Bus</a></li>
                     <li id="delete_bus"><a href="<?php echo base_url('buses/delete') ?>">Delete Bus</a></li>
-                    <li id="routes"><a href="<?php echo base_url('routes') ?>">Routes</a></li>
-                    <li id="bus_routes"><a href="<?php echo base_url('routes/terminals') ?>">Bus Routes</a></li>
-                    <li id="bus_tables"><a href="#">Bus Tables</a></li>
+                    <li id="bus_routes"><a href="<?php echo base_url('routes') ?>">Bus Routes</a></li>
                   </ul>
                 </li>
-
                 <li id="live_monitoring" class="treeview">
-                  <a href="#"><i class="fa fa-eye"></i> <span>Live Monitoring</span> <!-- change icon -->
+                  <a href="#"><i class="fa fa-eye"></i> <span>Live Monitoring</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -344,47 +308,61 @@
                     <li id="active_buses"><a href="#">Active Buses</a></li>
                   </ul>
                 </li>
-
               </ul>
-              <!-- /.sidebar-menu -->
 
             </section>
-            <!-- /.sidebar -->
           </aside>
 
-          <script type="text/javascript">
-            $(document).ready(function() {
-               $('#<?php echo $treeActive; ?>').addClass('active');
-               $('#<?php echo $childActive; ?>').addClass('active');
-            });
+          <div class="content-wrapper">
+            <section class="content-header">
+              <h1>
+                <?php echo $title; ?>
+                <small><?php echo $page_description; ?></small>
+              </h1>
+              <ol class="breadcrumb">
+                <i class="fa fa-user-plus"></i>&nbsp;
+                <?php foreach($breadcrumbs as $row) { ?>
+                  <li><a href="<?php echo base_url($row[1]) ?>"><?php echo $row[0]; ?></a></li>
+                <?php } ?>
+                <li class="active">Here</li>
+              </ol>
+            </section>
 
-            function toggleStatus() {
-              var user_status = $('#userStat').data("stat");
-              switch(user_status)
-              {
-                case 0: 
-                  $('#userStat').data("stat", 1);
-                  $('#userStat').html("<i class='fa fa-circle'></i> Online");
-                  $('#userStat i').addClass('text-success');
-                  $('#userStat i').removeClass('text-danger');
-                  break;
-                case 1: 
-                  $('#userStat').data("stat", 0);
-                  $('#userStat').html("<i class='fa fa-circle'></i> Offline");
-                  $('#userStat i').addClass('text-danger');
-                  $('#userStat i').removeClass('text-success');
-                  break;
-              }
-              toggleStat($('#userStat').data("stat"));
-            }
+            <section class="content">
 
-            function toggleStat(status) {
-              $.ajax({
-                url: "<?php echo site_url('users/toggleStatus') ?>",
-                type: 'POST',
-                dataType: 'json',
-                data: 'is_online='+status,
-                encode:true,
+            <script type="text/javascript">
+              $(document).ready(function() {
+                 $('#<?php echo $treeActive; ?>').addClass('active');
+                 $('#<?php echo $childActive; ?>').addClass('active');
               });
-            }
-          </script>
+
+              function toggleStatus() {
+                var user_status = $('#userStat').data("stat");
+                switch(user_status)
+                {
+                  case 0: 
+                    $('#userStat').data("stat", 1);
+                    $('#userStat').html("<i class='fa fa-circle'></i> Online");
+                    $('#userStat i').addClass('text-success');
+                    $('#userStat i').removeClass('text-danger');
+                    break;
+                  case 1: 
+                    $('#userStat').data("stat", 0);
+                    $('#userStat').html("<i class='fa fa-circle'></i> Offline");
+                    $('#userStat i').addClass('text-danger');
+                    $('#userStat i').removeClass('text-success');
+                    break;
+                }
+                toggleStat($('#userStat').data("stat"));
+              }
+
+              function toggleStat(status) {
+                $.ajax({
+                  url: "<?php echo site_url('users/toggleStatus') ?>",
+                  type: 'POST',
+                  dataType: 'json',
+                  data: 'is_online='+status,
+                  encode:true,
+                });
+              }
+            </script>
