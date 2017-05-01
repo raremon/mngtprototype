@@ -388,12 +388,12 @@
 
               <div class="form-group">
                 <div class="input-group">
-                  <input id="start_3" name="start_block" type="text" class="form-control hidden">
+                  <input id="start_3" name="start_block" type="text" class="form-control">
                 </div>
               </div> 
               <div class="form-group">
                 <div class="input-group">
-                  <input id="end_3" name="end_block" type="text" class="form-control hidden">
+                  <input id="end_3" name="end_block" type="text" class="form-control">
                 </div>
               </div> 
 
@@ -455,7 +455,6 @@
                 <table id="timeBlocks" class="table table-hover table-bordered">
                   <thead>
                     <tr>
-                      <th></th>
                       <th>START TIME</th>
                       <th>END TIME</th>
                       <th>EDIT/DELETE</th>
@@ -468,14 +467,26 @@
 
               <div class="form-group">
                 <div class="input-group">
-                  <input id="selected_block" name="selected_block" type="text" class="form-control hidden">
+                  <input id="start_block" name="start_time_block" type="text" class="form-control">
+                </div>
+              </div> 
+
+              <div class="form-group">
+                <div class="input-group">
+                  <input id="all_block" name="all_time_block" type="text" class="form-control">
+                </div>
+              </div> 
+
+              <div class="form-group">
+                <div class="input-group">
+                  <input id="end_block" name="end_time_block" type="text" class="form-control">
                 </div>
               </div> 
 
               <span>Selected Ad:</span>
               <div class="form-group">
                 <div class="input-group">
-                  <input id="selected_ads_3" name="selected_ads_block" type="text" class="form-control hidden">
+                  <input id="selected_ads_3" name="selected_ads_block" type="text" class="form-control">
                 </div>
               </div> 
 
@@ -539,7 +550,6 @@
   ///////////////////////////////////////////////////////////////////////////////////////
   //                     C  R  U  D    F  U  N  C  T  I  O  N  S                       //
   ///////////////////////////////////////////////////////////////////////////////////////
-
   // C R E A T E
   function save_Regular_Program() {
     $.ajax({
@@ -606,50 +616,6 @@
       }
     })
   }
-
-  function addBlock() {
-    $.ajax({
-      url: "<?php echo site_url('program/addBlock') ?>",
-      type: 'POST',
-      dataType: 'json',
-      data: $('#block').serialize(),
-      encode:true,
-      success:function(data) {
-        if(!data.success){
-          if(data.errors){
-            alert(data.errors);
-          }
-        }else {
-          $("#advertiser_list_block").change();
-          // setTimeout(function() {
-          //   window.location.reload()
-          // }, 1000);
-        }
-      }
-    })
-  }
-
-  // D E L E T E
-  function remove_time_block(time_block_id) {
-    if(confirm('Do you really want to delete this Time Block ??')){
-      $.ajax({
-        url: "<?php echo site_url('program/delete_Time_Block/') ?>",
-        type: 'POST',
-        dataType: 'json',
-        data: 'time_block_id='+time_block_id,
-        encode:true,
-        success:function(data) {
-          if(!data.success){
-            if(data.errors){
-              alert(data.errors)
-            }
-          }else {
-            $("#advertiser_list_block").change();
-          }
-        }
-      });
-    }
-  }
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
@@ -706,14 +672,34 @@
   var selected_table_1 = [];
   var selected_id_1 = [];
   function get_ad(ad_id) {
-    $.get("<?php echo site_url('program/appendAd/" + ad_id + "') ?>", function(data){
-      var basic = $.map(data, function(el) { return el; });
-      selected_table_1.push(basic[0]);
-      selected_id_1.push(basic[0][0]);
-      $('#selected_table_1').dataTable().fnClearTable();
-      $('#selected_table_1').dataTable().fnAddData(selected_table_1);
-      $("#selected_ads_1").val(JSON.stringify(selected_id_1));
-    }); 
+    if(!find_ad(ad_id))
+    {
+      $.get("<?php echo site_url('program/appendAd/" + ad_id + "') ?>", function(data){
+        var basic = $.map(data, function(el) { return el; });
+        selected_table_1.push(basic[0]);
+        selected_id_1.push(basic[0][0]);
+        $('#selected_table_1').dataTable().fnClearTable();
+        $('#selected_table_1').dataTable().fnAddData(selected_table_1);
+        $("#selected_ads_1").val(JSON.stringify(selected_id_1));
+      }); 
+    }
+    else
+    {
+      alert("Ad Already Selected !");
+    }
+  }
+
+  function find_ad(ad_id) {
+    var confirm = false;
+
+    for(var a = 0; a < selected_table_1.length ; a++)
+    {
+      if(selected_table_1[a][0] == ad_id)
+      {
+        confirm = true;
+      }
+    }
+    return confirm;
   }
 
   function remove_ad(ad_id) {
@@ -750,7 +736,6 @@
   /////////////////////////////////////////////////
   // S E C O N D   T A B L E   D A T A T A B L E //
   /////////////////////////////////////////////////
-  
   $( document ).ready(function() {
     $('#start_2').val($("input[name='date_sched']").val().split(' - ')[0]);
     $('#end_2').val($("input[name='date_sched']").val().split(' - ')[1]);
@@ -799,14 +784,34 @@
   var selected_table_2 = [];
   var selected_id_2 = [];
   function get_ad_sched(ad_id) {
-    $.get("<?php echo site_url('program/appendAdSched/" + ad_id + "') ?>", function(data){
-      var basic = $.map(data, function(el) { return el; });
-      selected_table_2.push(basic[0]);
-      selected_id_2.push(basic[0][0]);
-      $('#selected_table_2').dataTable().fnClearTable();
-      $('#selected_table_2').dataTable().fnAddData(selected_table_2);
-      $("#selected_ads_2").val(JSON.stringify(selected_id_2));
-    }); 
+    if(!find_ad_sched(ad_id))
+    {
+      $.get("<?php echo site_url('program/appendAdSched/" + ad_id + "') ?>", function(data){
+        var basic = $.map(data, function(el) { return el; });
+        selected_table_2.push(basic[0]);
+        selected_id_2.push(basic[0][0]);
+        $('#selected_table_2').dataTable().fnClearTable();
+        $('#selected_table_2').dataTable().fnAddData(selected_table_2);
+        $("#selected_ads_2").val(JSON.stringify(selected_id_2));
+      }); 
+    }
+    else
+    {
+      alert("Ad Already Selected !");
+    }
+  }
+
+  function find_ad_sched(ad_id) {
+    var confirm = false;
+
+    for(var a = 0; a < selected_table_2.length ; a++)
+    {
+      if(selected_table_2[a][0] == ad_id)
+      {
+        confirm = true;
+      }
+    }
+    return confirm;
   }
 
   function remove_ad_sched(ad_id) {
@@ -844,6 +849,7 @@
   // T H I R D   T A B L E   D A T A T A B L E //
   ///////////////////////////////////////////////
   $( document ).ready(function() {
+    // Data of date
     $('#start_3').val($("input[name='date_block']").val().split(' - ')[0]);
     $('#end_3').val($("input[name='date_block']").val().split(' - ')[1]);
     $("input[name='date_block']").change(function() {
@@ -851,22 +857,14 @@
       $('#end_3').val($("input[name='date_block']").val().split(' - ')[1]);
     });
 
+    // Selected Advertiser
     var selected3 = $('#advertiser_list_block').val();
 
+    // Table of Time Blocks
     $("#timeBlocks").DataTable({
-      "ajax":{
-        "url":"<?php echo site_url('program/showTimeBlock/" + selected3 + "') ?>",
-        "type":"POST"
-      },
-
-      "columns": [
-        null,
-        null,
-        null,
-        null
-      ]
     })
 
+    // Ad Table
     $("#ad_table_3").DataTable({
       ajax:{
         url:"<?php echo site_url('program/showAdBlock/" + selected3 + "') ?>",
@@ -883,9 +881,11 @@
       ]
     })
 
+    // Selected Ads Table
     $("#selected_table_3").DataTable({
     })
 
+    // When Advertiser is Changed, Adapt the page
     $("#advertiser_list_block").change(function() {
       var advertiser = $('#advertiser_list_block').val();
       $('#selected_table_3').dataTable().fnClearTable();
@@ -900,31 +900,169 @@
         {
           $('#ad_table_3').dataTable().fnAddData(ads_tbl_3);
         }
-      }); 
-      $.get("<?php echo site_url('program/showTimeBlock/" + advertiser + "') ?>", function(data){
-        var time_tbl_3 = $.map(data, function(el) { return el; });
-        $('#timeBlocks').dataTable().fnClearTable();
-        if(time_tbl_3.length > 0)
-        {
-          $('#timeBlocks').dataTable().fnAddData(time_tbl_3);
-        }
-      });    
+      });     
     });
   });
 
+  // Adding Blocks
+  var counter = 0;
+  var ctrs = [];
+  var time_block = [];
+  var start_block = [];
+  var end_block = [];
+  function addBlock() {
+    var start_time = $('#timepicker4').val();
+    var end_time = $('#timepicker5').val();
+    if(compare_time_block(start_time, end_time))
+      {
+      console.log(start_time+" "+end_time);
+      console.log(time_block.length);
+      time_block.push([
+        start_time, 
+        end_time,
+        '<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="remove_time_block('+"'"+counter+"'"+')">Remove</a>',
+      ]);
+
+      start_block.push(start_time);
+      end_block.push(end_time);
+      ctrs.push(counter);
+      counter++;
+      $('#timeBlocks').dataTable().fnClearTable();
+      if(time_block.length > 0)
+      {
+        $('#timeBlocks').dataTable().fnAddData(time_block);
+        $("#start_block").val(JSON.stringify(start_block));
+        $("#end_block").val(JSON.stringify(end_block));
+        $("#all_block").val(JSON.stringify(time_block));
+      }
+      else
+      {
+        $("#start_block").val("");
+        $("#end_block").val(""); 
+        $("#all_block").val(""); 
+      }
+    }
+    else
+    {
+      alert("Time Error Restrictions");
+    }
+  }
+
+  // Deleting Blocks
+  function remove_time_block(counter_num) {
+    var ctr = 0;
+    var confirm = false;
+    while( !confirm )
+    {
+      if(ctrs[ctr] == counter_num)
+      {
+        time_block.splice(ctr, 1);
+        start_block.splice(ctr, 1);
+        end_block.splice(ctr, 1);
+        ctrs.splice(ctr, 1);
+        confirm = true;
+      }
+      else
+      {
+        ctr++;
+      }
+    }
+    $('#timeBlocks').dataTable().fnClearTable();
+    if(time_block.length > 0)
+    {
+      $('#timeBlocks').dataTable().fnAddData(time_block);
+      $("#start_block").val(JSON.stringify(start_block));
+      $("#end_block").val(JSON.stringify(end_block));
+      $("#all_block").val(JSON.stringify(time_block));
+    }
+    else
+    {
+      $("#start_block").val("");
+      $("#end_block").val(""); 
+      $("#all_block").val("");   
+    }
+  }
+
+  // Compare Time Blocks to avoid overlapping restrictions
+  function compare_time_block(start, end) {
+    var t = new Date();
+    d = t.getDate();
+    m = t.getMonth() + 1;
+    y = t.getFullYear();
+
+    var o1 = new Date(m + " " + d + " " + y + " " + start);
+    var o2 = new Date(m + " " + d + " " + y + " " + end);
+
+    var d1;
+    var d2;
+
+    if(o1.getTime()>=o2.getTime())
+    {
+      return false;
+    }
+    
+    for(var a = 0; a < ctrs.length; a++)
+    {
+      d1 = new Date(m + " " + d + " " + y + " " + start_block[a]);
+      d2 = new Date(m + " " + d + " " + y + " " + end_block[a]);
+      if(o1.getTime()==d1.getTime() && o2.getTime()==d2.getTime())
+      {
+        return false;
+      }
+      if(o1.getTime()>d1.getTime())
+      {
+        if(o1.getTime()<d2.getTime())
+        {
+          return false;
+        }
+      }
+      if(o2.getTime()>d1.getTime())
+      {
+        if(o2.getTime()<d2.getTime())
+        {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // Adding advertisments to selected
   var selected_table_3 = [];
   var selected_id_3 = [];
   function get_ad_block(ad_id) {
-    $.get("<?php echo site_url('program/appendAdBlock/" + ad_id + "') ?>", function(data){
-      var basic = $.map(data, function(el) { return el; });
-      selected_table_3.push(basic[0]);
-      selected_id_3.push(basic[0][0]);
-      $('#selected_table_3').dataTable().fnClearTable();
-      $('#selected_table_3').dataTable().fnAddData(selected_table_3);
-      $("#selected_ads_3").val(JSON.stringify(selected_id_3));
-    }); 
+    if(!find_ad_block(ad_id))
+    {
+      $.get("<?php echo site_url('program/appendAdBlock/" + ad_id + "') ?>", function(data){
+        var basic = $.map(data, function(el) { return el; });
+        selected_table_3.push(basic[0]);
+        selected_id_3.push(basic[0][0]);
+        $('#selected_table_3').dataTable().fnClearTable();
+        $('#selected_table_3').dataTable().fnAddData(selected_table_3);
+        $("#selected_ads_3").val(JSON.stringify(selected_id_3));
+      });
+    }
+    else
+    {
+      alert("Ad Already Selected !");
+    }
   }
 
+  // Finding Ad Blocks to avoid restrictions
+  function find_ad_block(ad_id) {
+    var confirm = false;
+
+    for(var a = 0; a < selected_table_3.length ; a++)
+    {
+      if(selected_table_3[a][0] == ad_id)
+      {
+        confirm = true;
+      }
+    }
+    return confirm;
+  }
+
+  // Remove Ad Block
   function remove_ad_block(ad_id) {
     var ctr = 0;
     var confirm = false;
@@ -953,25 +1091,8 @@
     }
   }
 
-  function triggered(){
-    var selected = [];
-    $(".timeblockcheck:checked").each(function() {
-        selected.push(this.value);
-    });
-    if(selected.length > 0)
-    {
-      $('#selected_block').val(JSON.stringify(selected));
-    }
-    else
-    {
-      $('#selected_block').val("");
-    }
-  }
-
   /////////////////////////////////////////////////////////////
   // E N D   O F   T H I R D   T A B L E   D A T A T A B L E //
   /////////////////////////////////////////////////////////////
-
-  
 
 </script>

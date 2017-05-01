@@ -19,7 +19,6 @@
 			$this->load->model('schedules_model', 'Schedule');
 			$this->load->model('ad_schedules_model', 'Ad_Schedule');
 			$this->load->model('airtimes_model', 'Airtime');
-			$this->load->model('time_blocks_model', 'Time_Block');
 		}
 		
 		// Index Function
@@ -81,59 +80,6 @@
 			$this->load->view("template/header", $data);
 			$this->load->view("program/program_create", $data);
 			$this->load->view("template/footer", $data);
-		}
-
-		// R E A D
-		public function showAd()
-		{
-			$ad_table = $this->Ad->show_Ad();
-			$data = array();
-			foreach ($ad_table as $rows) {
-				array_push($data,
-					array(
-						$rows['ad_id'],
-						'
-							<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>
-
-							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog">
-							  <div class="modal-dialog modal-lg">
-							    <div class="modal-content">
-							      <div class="modal-header">
-							        <button type="button" class="close" data-dismiss="modal">&times;</button>
-							        <h4 class="modal-title">'.$rows['ad_filename'].'</h4>
-							      </div>
-							      <div class="modal-body">
-							        <video id="v'.$rows["ad_id"].'" width="100%" controls>
-							  			<source src="'.base_url("assets/ads/".$rows["ad_filename"]).'" type="video/mp4">
-							  			Your browser does not support HTML5 video.
-									</video>
-							      </div>
-							      <div class="modal-footer">
-							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							      </div>
-							    </div>
-							  </div>
-							</div>
-						',
-						$rows['ad_filename'],
-						'
-							<p id="p'.$rows["ad_id"].'"></p>
-							<script>	
-								
-									var video'.$rows["ad_id"].' = document.getElementById("v'.$rows["ad_id"].'");
-									video'.$rows["ad_id"].'.addEventListener("durationchange", function() {
-									    $("#p'.$rows["ad_id"].'").text(video'.$rows["ad_id"].'.duration + " seconds");
-									});
-								  
-								
-
-							</script>
-						',
-						$rows['ad_name'],
-					)
-				);
-			}
-			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -504,34 +450,6 @@
 			}
 			return $pushdata;
 		}
-
-		public function showTimeBlock($advertiser_id)
-		{
-			$time_block_table = $this->Time_Block->get_Time_Block_Data($advertiser_id);
-			$data = array();
-			$data = $this->timeBlockPush($time_block_table);
-			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-		}
-
-		public function timeBlockPush($table)
-		{
-			$pushdata = array();
-			foreach ($table as $rows) {
-				array_push($pushdata,
-					array(
-						'
-							<div class="checkbox">
-							  <label><input type="checkbox" class="timeblockcheck" onchange="triggered()" value="'.$rows["time_block_id"].'"></label>
-							</div>
-						',
-						$rows['time_start'],
-						$rows['time_end'],
-						'<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="remove_time_block('."'".$rows['time_block_id']."'".')">Remove</a>',
-					)
-				);
-			}
-			return $pushdata;
-		}
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
@@ -540,7 +458,8 @@
 		{
 			$validate = array (
 				array('field'=>'selected_ads_block','label'=>'Selected Ads','rules'=>'required'),
-				array('field'=>'selected_block','label'=>'Selected Block Time','rules'=>'required'),
+				array('field'=>'start_time_block','label'=>'Block Time','rules'=>'required'),
+				array('field'=>'end_time_block','label'=>'Block Time','rules'=>'required'),
 			);
 
 			$this->form_validation->set_rules($validate);
@@ -571,66 +490,22 @@
 					$this->Ad_Schedule->save_Ad_Schedule($row, $schedule_id);
 				}
 
-				$selected_block = json_decode($this->input->post('selected_block'), TRUE);
-				foreach($selected_block as $row)
+				$selected_start = json_decode($this->input->post('start_time_block'), TRUE);
+				$selected_end = json_decode($this->input->post('end_time_block'), TRUE);
+				$allBlock = json_decode($this->input->post('all_time_block'), TRUE);
+				$test = array($selected_start, $selected_end);
+
+				foreach($allBlock as $row)
 				{
-					$time = $this->Time_Block->get_Airtimes($row);
 					$block_data=array(
-						'schedule_id' => $schedule_id,
-						'time_start'=> $time['time_start'],
-						'time_end'=> $time['time_end'],
+						'time_start'=> $row[0],
+						'time_end'=> $row[1],
+						'schedule_id'=> $schedule_id,
 					);
 					$this->Airtime->save_Airtime_Block($block_data);
 				}
 
 				$info['message']="You have successfully saved your data!";
-			}
-			$this->output->set_content_type('application/json')->set_output(json_encode($info));
-		}
-
-		public function addBlock()
-		{
-			$start = date("H:i", strtotime($this->input->post('start_time_block')));
-			$end = date("H:i", strtotime($this->input->post('end_time_block')));
-			$advertiser_id = $this->input->post('advertiser_id_block');
-			if( $this->Time_Block->get_Record($advertiser_id, $start, $end) )
-			{
-				$info['success']=FALSE;
-				$info['errors']="There is already a record existing!";
-			}
-			else
-			{
-				$info['success']=TRUE;
-				$data=array(
-					'time_start'=>$start,
-					'time_end'=>$end,
-					'advertiser_id'=>$advertiser_id,
-				);
-
-				$this->Time_Block->save_Time_Block($data);
-
-				$info['message']="You have successfully saved your data!";
-			}
-			$this->output->set_content_type('application/json')->set_output(json_encode($info));
-		}
-
-		// D E L E T E
-		public function delete_Time_Block()
-		{
-			$validate=array(
-				array('field'=>'time_block_id','rules'=>'required')
-			);
-			$this->form_validation->set_rules($validate);
-			if ($this->form_validation->run()===FALSE) {
-				$info['success']=FALSE;
-				$info['errors']=validation_errors();
-			}else{
-				$info['success']=TRUE;
-				$data=array(
-					'time_block_id'=>$this->input->post('time_block_id')
-				);
-				$this->Time_Block->delete_Time_Block_Data($data);
-				$info['message']='Data Successfully Deleted';
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode($info));
 		}
