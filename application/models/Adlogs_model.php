@@ -113,9 +113,29 @@ class Adlogs_model extends CI_Model
 		return $query->result_array();
 	}
 
+	public function get_full_logs()
+	{
+		$this->db->select('*');
+		// $this->db->select('*');
+		$this->db->from('ad_logs');
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
 	public function get_logs_company($ad_id, $route_id)
 	{
 		$this->db->select('amCount,pmCount,eveCount');
+		// $this->db->select('*');
+		$this->db->from('ad_logs');
+		$this->db->where('ad_id', $ad_id);
+		$this->db->where('route_id', $route_id);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
+	public function get_full_logs_company($ad_id, $route_id)
+	{
+		$this->db->select('*');
 		// $this->db->select('*');
 		$this->db->from('ad_logs');
 		$this->db->where('ad_id', $ad_id);
