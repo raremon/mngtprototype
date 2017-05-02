@@ -19,7 +19,8 @@
 
 			$this->load->model('adlogs_model', 'Ad_Log');
 		}
-		
+
+
 		public function upload()
 		{
 			$data['role'] = $this->logged_out_check();
@@ -168,7 +169,7 @@
 					$ext = pathinfo($_FILES["ad_file"]["name"], PATHINFO_EXTENSION);
 
 					$config['upload_path'] = "./assets/ads/";
-					$config['allowed_types'] = 'mp4|mpeg|m4v|mkv';
+					$config['allowed_types'] = 'mp4|mpeg4|m4v|mkv';
 
 					$config['max_size'] = '100000000';
 					$config['file_name'] = $this->input->post('advertiser_id')."-".$this->input->post('ad_name');
@@ -186,21 +187,51 @@
 					{
 						$info['success']=TRUE;
 
-						$data=array(
-							'ad_name'=>$this->input->post('ad_name'),
-							'ad_filename'=> str_replace(' ', '_', preg_replace("/ {2,}/", " ", $config['file_name'].".".$ext) ),
-							'advertiser_id'=>$this->input->post('advertiser_id'),
-						);
-						$this->Ad->save_Ad($data);
-						$info['message']="You have successfully saved your data!";
+						// $data=array(
+						// 	'ad_name'=>$this->input->post('ad_name'),
+						// 	'ad_filename'=> str_replace(' ', '_', preg_replace("/ {2,}/", " ", $config['file_name'].".".$ext) ),
+						// 	'ad_duration' => '',
+						// 	'advertiser_id'=>$this->input->post('advertiser_id'),
+						// );
+						// $this->Ad->save_Ad($data);
+
+						// $info['message']="You have successfully saved your data!";
+						$ad_filename = str_replace(' ', '_', preg_replace("/ {2,}/", " ", $config['file_name'].".".$ext) );
+
+						$info['message']='<video id="Xvideo" width="100%" controls>
+					  						<source src="'.base_url("assets/ads/".$ad_filename).'" type="video/mp4">
+					  						Your browser does not support HTML5 video.
+											</video>
+											<script>	
+													var video = document.getElementById("Xvideo");
+													video.addEventListener("durationchange", function() {
+													    $("#video_duration").val(Math.ceil(video.duration));
+													    $("#video_filename").val("'.$ad_filename.'");
+													});
+											</script>';
+						
 					}
 				}
 			}
 			else
 			{
 				$info['success']=FALSE;
-				$info['errors']="There's nothing on the file bruh";
+				$info['errors']="The file is invalid";
 			}
+			$this->output->set_content_type('application/json')->set_output(json_encode($info));
+		}
+
+		public function saveAdRecord()
+		{
+			$info['success']=TRUE;
+			$data=array(
+				'ad_name'=>$this->input->post('ad_name'),
+				'ad_filename'=> $this->input->post('video_filename'),
+				'ad_duration' => (int)$this->input->post('ad_duration'),
+				'advertiser_id'=>$this->input->post('advertiser_id'),
+			);
+			$this->Ad->save_Ad($data);
+			$info['message']="You have successfully saved your data!";
 			$this->output->set_content_type('application/json')->set_output(json_encode($info));
 		}
 
