@@ -157,7 +157,9 @@
 					array(
 						$rows['ad_id'],
 						'
-							<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#regmodal'.$rows['ad_id'].'">Play</button>
+
+							<button class="btn btn-info btn-md btn-block" data-toggle="modal" data-target="#regmodal'.$rows['ad_id'].'">Play</button>
+
 
 							<div id="regmodal'.$rows['ad_id'].'" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-lg">
@@ -194,7 +196,9 @@
 
 							</script>
 						',
-						'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="get_ad('."'".$rows['ad_id']."'".')">Get Ad</a>',
+
+						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad('."'".$rows['ad_id']."'".')">Get Ad</a>',
+
 					)
 				);
 			}
@@ -297,7 +301,9 @@
 					array(
 						$rows['ad_id'],
 						'
-							<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#schedmodal'.$rows['ad_id'].'">Play</button>
+
+							<button class="btn btn-info btn-md btn-block" data-toggle="modal" data-target="#schedmodal'.$rows['ad_id'].'">Play</button>
+
 
 							<div id="schedmodal'.$rows['ad_id'].'" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-lg">
@@ -334,7 +340,9 @@
 
 							</script>
 						',
-						'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="get_ad_sched('."'".$rows['ad_id']."'".')">Get Ad</a>',
+
+						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad_sched('."'".$rows['ad_id']."'".')">Get Ad</a>',
+
 					)
 				);
 			}
@@ -438,7 +446,9 @@
 					array(
 						$rows['ad_id'],
 						'
-							<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#blockmodal'.$rows['ad_id'].'">Play</button>
+
+							<button class="btn btn-info btn-md btn-block" data-toggle="modal" data-target="#blockmodal'.$rows['ad_id'].'">Play</button>
+
 
 							<div id="blockmodal'.$rows['ad_id'].'" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-lg">
@@ -475,7 +485,9 @@
 
 							</script>
 						',
-						'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="get_ad_block('."'".$rows['ad_id']."'".')">Get Ad</a>',
+
+						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad_block('."'".$rows['ad_id']."'".')">Get Ad</a>',
+
 					)
 				);
 			}
@@ -572,7 +584,9 @@
 		{
 			$ad_table = $this->Schedule->get_Schedule_Data($advertiser_id);
 			$data = array();
-			$data = $this->advertisementShowPush($ad_table);
+
+			$data = $this->advertisementShowPush($ad_table, $advertiser_id);
+
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
 
@@ -580,7 +594,9 @@
 		{
 			$ad_table = $this->Schedule->get_Schedule_Route($route_id);
 			$data = array();
-			$data = $this->routeShowPush($ad_table);
+
+			$data = $this->routeShowPush($ad_table, $route_id);
+
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
 
@@ -592,20 +608,45 @@
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
 
-		public function advertisementShowPush($table)
+		public function advertisementShowPush($table, $advertiser)
 		{
 			$pushdata = array();
+            $ctr1=0;
+            $ctr2=0;
+            $advertiserData = $this->Advertiser->edit_Advertiser_Data($advertiser);
 			foreach ($table as $rows) {
 				$routeData = $this->Route->edit_Route_Data($rows['route_id']);
 				$scheduledAds = $this->Ad_Schedule->get_Ad_Schedule($rows['schedule_id']);
-
-				$text = '<h3>LIST OF ADS IN SCHEDULE</h3><ul>';
+                $text = '';
+                $text = $text . '<h3>ADVERTISER : '.$advertiserData["advertiser_name"].'</h3>';
+                $text = $text . '<h3>ROUTE : '.$routeData["route_name"].'</h3>';
+				$text = $text . '<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">LIST OF ADS IN SCHEDULE</h3>';
+                $text = $text . '<table class="table table-hover table-bordered"><thead><th style="text-align:center;">THUMBNAIL</th><th style="text-align:center;">AD NAME</th><th style="text-align:center;">DURATION</th></thead><tbody>';
 				foreach($scheduledAds as $ads)
 				{
 					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
-					$text=$text.'<li>'.$ad_Data['ad_name'].'</li>';
+                    $text=$text.'<tr>
+                                <td width="20%">
+                                    <video id="v'.$ctr1.$ctr2.'" width="100%" controls>
+							  			<source src="'.base_url("assets/ads/".$ad_Data["ad_filename"]).'" type="video/mp4">
+							  			Your browser does not support HTML5 video.
+									</video>
+                                </td>
+                                <td style="text-align:center;font-size:20px;vertical-align: middle;">'.$ad_Data['ad_name'].'</td>
+                                <td id="schedtd'.$ctr1.$ctr2.'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
+                                <script>	
+                                        var schedvideo'.$ctr1.$ctr2.' = document.getElementById("v'.$ctr1.$ctr2.'");
+                                        schedvideo'.$ctr1.$ctr2.'.addEventListener("durationchange", function() {
+                                            $("#schedtd'.$ctr1.$ctr2.'").html(schedvideo'.$ctr1.$ctr2.'.duration + " seconds");
+                                        });
+                                </script>
+                                </tr>';
+//					$text=$text.'<li>'.$ad_Data['ad_name'].'</li>';
+                    $ctr2++;
 				}
-				$text = $text.'</ul>';
+                $ctr1++;
+				$text = $text.'</tbody></table>';
+
 				if($rows['schedule_type'] == 1)
 				{
 					$scheduleData = 'Regular';
@@ -613,38 +654,46 @@
 				else if($rows['schedule_type'] == 2)
 				{
 					$scheduleData = 'Scheduled';
-					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+
+					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
-					$text = $text.'<ul>';
+					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th></thead><tbody>';
 					foreach($airtimeData as $at)
 					{
-						$text = $text.'<li> Time Start : '.$at['time_start'].'</li>';
+						$text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td></tr>';
 					}
-					$text = $text.'</ul>';
+					$text = $text.'</tbody></table>';
+
 				}
 				else
 				{
 					$scheduleData = 'Block';
-					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+
+					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
-					$text = $text.'<ul>';
+					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th><th style="text-align:center;">TIME END</th></thead><tbody>';
 					foreach($airtimeData as $at)
 					{
-						$text = $text.'<li> Time Start : '.$at['time_start'].'  &   Time End : '.$at['time_end'].'</li>';
+                        $text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td><td style="text-align:center;font-size:16px;">'.$at['time_end'].'</td></tr>';
 					}
-					$text = $text.'</ul>';
+					$text = $text.'</tbody></table>';
+
 				}
 				array_push($pushdata,
 					array(
 						'
-							<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal'.$rows['schedule_id'].'">Play</button>
 
-							<div id="modal'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modaladv'.$rows['schedule_id'].'">Summary</button>
+
+							<div id="modaladv'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+
 							  <div class="modal-dialog modal-lg">
 							    <div class="modal-content">
 							      <div class="modal-header">
 							        <button type="button" class="close" data-dismiss="modal">&times;</button>
-							        <h4 class="modal-title">SCHEDULE #'.$rows['schedule_id'].'</h4>
+
+							        <h4 class="modal-title"><i class="fa fa-calendar"></i>&nbsp;SCHEDULE ID:'.$rows['schedule_id'].'</h4>
+
 							      </div>
 							      <div class="modal-body">
 							        '.$text.'
@@ -657,8 +706,10 @@
 							</div>
 						',
 						$routeData['route_name'],
-						$rows['date_start'],
-						$rows['date_end'],
+
+						date('m/d/Y', strtotime($rows['date_start'])),
+						date('m/d/Y', strtotime($rows['date_end'])),
+
 						$scheduleData,
 					)
 				);
@@ -666,20 +717,47 @@
 			return $pushdata;
 		}
 
-		public function routeShowPush($table)
+		public function routeShowPush($table, $route)
 		{
 			$pushdata = array();
+            $ctr1=0;
+            $ctr2=0;
+            $routeData = $this->Route->edit_Route_Data($route);
+
 			foreach ($table as $rows) {
 				$advertiserData = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
 				$scheduledAds = $this->Ad_Schedule->get_Ad_Schedule($rows['schedule_id']);
 
-				$text = '<h3>LIST OF ADS IN SCHEDULE</h3><ul>';
+				$text = '';
+                $text = $text . '<h3>ADVERTISER : '.$advertiserData["advertiser_name"].'</h3>';
+                $text = $text . '<h3>ROUTE : '.$routeData["route_name"].'</h3>';
+				$text = $text . '<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">LIST OF ADS IN SCHEDULE</h3>';
+                $text = $text . '<table class="table table-hover table-bordered"><thead><th style="text-align:center;">THUMBNAIL</th><th style="text-align:center;">AD NAME</th><th style="text-align:center;">DURATION</th></thead><tbody>';
+                
 				foreach($scheduledAds as $ads)
 				{
 					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
-					$text=$text.'<li>'.$ad_Data['ad_name'].'</li>';
+                    $text=$text.'<tr>
+                                <td width="20%">
+                                    <video id="s'.$ctr1.$ctr2.'" width="100%" controls>
+							  			<source src="'.base_url("assets/ads/".$ad_Data["ad_filename"]).'" type="video/mp4">
+							  			Your browser does not support HTML5 video.
+									</video>
+                                </td>
+                                <td style="text-align:center;font-size:20px;vertical-align: middle;">'.$ad_Data['ad_name'].'</td>
+                                <td id="schedxtd'.$ctr1.$ctr2.'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
+                                <script>	
+                                        var schedvideo'.$ctr1.$ctr2.' = document.getElementById("s'.$ctr1.$ctr2.'");
+                                        schedvideo'.$ctr1.$ctr2.'.addEventListener("durationchange", function() {
+                                            $("#schedxtd'.$ctr1.$ctr2.'").html(schedvideo'.$ctr1.$ctr2.'.duration + " seconds");
+                                        });
+                                </script>
+                                </tr>';
+                                $ctr2++;
 				}
-				$text = $text.'</ul>';
+                $ctr1++;
+				$text = $text.'</tbody></table>';
+
 				if($rows['schedule_type'] == 1)
 				{
 					$scheduleData = 'Regular';
@@ -687,33 +765,39 @@
 				else if($rows['schedule_type'] == 2)
 				{
 					$scheduleData = 'Scheduled';
-					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+
+					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
-					$text = $text.'<ul>';
+					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th></thead><tbody>';
 					foreach($airtimeData as $at)
 					{
-						$text = $text.'<li> Time Start : '.$at['time_start'].'</li>';
+						$text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td></tr>';
 					}
-					$text = $text.'</ul>';
+					$text = $text.'</tbody></table>';
+
 				}
 				else
 				{
 					$scheduleData = 'Block';
-					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+
+					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
-					$text = $text.'<ul>';
+					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th><th style="text-align:center;">TIME END</th></thead><tbody>';
 					foreach($airtimeData as $at)
 					{
-						$text = $text.'<li> Time Start : '.$at['time_start'].'  &   Time End : '.$at['time_end'].'</li>';
+                        $text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td><td style="text-align:center;font-size:16px;">'.$at['time_end'].'</td></tr>';
 					}
-					$text = $text.'</ul>';
+					$text = $text.'</tbody></table>';
+
 				}
 				array_push($pushdata,
 					array(
 						'
-							<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal'.$rows['schedule_id'].'">Play</button>
 
-							<div id="modal'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modalrou'.$rows['schedule_id'].'">Summary</button>
+
+							<div id="modalrou'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+
 							  <div class="modal-dialog modal-lg">
 							    <div class="modal-content">
 							      <div class="modal-header">
@@ -731,8 +815,10 @@
 							</div>
 						',
 						$advertiserData['advertiser_name'],
-						$rows['date_start'],
-						$rows['date_end'],
+
+						date('m/d/Y', strtotime($rows['date_start'])),
+						date('m/d/Y', strtotime($rows['date_end'])),
+
 						$scheduleData,
 					)
 				);
@@ -743,18 +829,46 @@
 		public function typeShowPush($table)
 		{
 			$pushdata = array();
+
+            $ctr1=0;
+            $ctr2=0;
+
 			foreach ($table as $rows) {
 				$advertiserData = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
 				$routeData = $this->Route->edit_Route_Data($rows['route_id']);
 				$scheduledAds = $this->Ad_Schedule->get_Ad_Schedule($rows['schedule_id']);
 
-				$text = '<h3>LIST OF ADS IN SCHEDULE</h3><ul>';
+
+				$text = '';
+                $text = $text . '<h3>ADVERTISER : '.$advertiserData["advertiser_name"].'</h3>';
+                $text = $text . '<h3>ROUTE : '.$routeData["route_name"].'</h3>';
+				$text = $text . '<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">LIST OF ADS IN SCHEDULE</h3>';
+                $text = $text . '<table class="table table-hover table-bordered"><thead><th style="text-align:center;">THUMBNAIL</th><th style="text-align:center;">AD NAME</th><th style="text-align:center;">DURATION</th></thead><tbody>';
+                
 				foreach($scheduledAds as $ads)
 				{
 					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
-					$text=$text.'<li>'.$ad_Data['ad_name'].'</li>';
+                    $text=$text.'<tr>
+                                <td width="20%">
+                                    <video id="y'.$ctr1.$ctr2.'" width="100%" controls>
+							  			<source src="'.base_url("assets/ads/".$ad_Data["ad_filename"]).'" type="video/mp4">
+							  			Your browser does not support HTML5 video.
+									</video>
+                                </td>
+                                <td style="text-align:center;font-size:20px;vertical-align: middle;">'.$ad_Data['ad_name'].'</td>
+                                <td id="schedytd'.$ctr1.$ctr2.'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
+                                <script>	
+                                        var schedvideo'.$ctr1.$ctr2.' = document.getElementById("y'.$ctr1.$ctr2.'");
+                                        schedvideo'.$ctr1.$ctr2.'.addEventListener("durationchange", function() {
+                                            $("#schedytd'.$ctr1.$ctr2.'").html(schedvideo'.$ctr1.$ctr2.'.duration + " seconds");
+                                        });
+                                </script>
+                                </tr>';
+                                $ctr2++;
 				}
-				$text = $text.'</ul>';
+                $ctr1++;
+				$text = $text.'</tbody></table>';
+
 				if($rows['schedule_type'] == 1)
 				{
 					$scheduleData = 'Regular';
@@ -762,33 +876,39 @@
 				else if($rows['schedule_type'] == 2)
 				{
 					$scheduleData = 'Scheduled';
-					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+
+					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
-					$text = $text.'<ul>';
+					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th></thead><tbody>';
 					foreach($airtimeData as $at)
 					{
-						$text = $text.'<li> Time Start : '.$at['time_start'].'</li>';
+						$text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td></tr>';
 					}
-					$text = $text.'</ul>';
+					$text = $text.'</tbody></table>';
+
 				}
 				else
 				{
 					$scheduleData = 'Block';
-					$text = $text.'<h3>SCHEDULE AIRTIME</h3>';
+
+					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
-					$text = $text.'<ul>';
+					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th><th style="text-align:center;">TIME END</th></thead><tbody>';
 					foreach($airtimeData as $at)
 					{
-						$text = $text.'<li> Time Start : '.$at['time_start'].'  &   Time End : '.$at['time_end'].'</li>';
+                        $text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td><td style="text-align:center;font-size:16px;">'.$at['time_end'].'</td></tr>';
 					}
-					$text = $text.'</ul>';
+					$text = $text.'</tbody></table>';
+
 				}
 				array_push($pushdata,
 					array(
 						'
-							<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal'.$rows['schedule_id'].'">Play</button>
 
-							<div id="modal'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modalty'.$rows['schedule_id'].'">Summary</button>
+
+							<div id="modalty'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+
 							  <div class="modal-dialog modal-lg">
 							    <div class="modal-content">
 							      <div class="modal-header">
@@ -807,8 +927,10 @@
 						',
 						$routeData['route_name'],
 						$advertiserData['advertiser_name'],
-						$rows['date_start'],
-						$rows['date_end'],
+
+						date('m/d/Y', strtotime($rows['date_start'])),
+						date('m/d/Y', strtotime($rows['date_end'])),
+
 					)
 				);
 			}

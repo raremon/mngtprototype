@@ -5,6 +5,7 @@ class Mobileapp extends REST_Controller {
 	public function __construct() {
         parent::__construct();
 		$this->load->model('users_model', 'users');
+
 		$this->load->model('adowneraccounts_model', 'Owners');
 	}
 
@@ -32,6 +33,7 @@ class Mobileapp extends REST_Controller {
 			$response = 0;
 		}
 		$this->response($response);	
+
 	}
 	
 	public function login($user,$pass){
