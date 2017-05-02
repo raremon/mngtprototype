@@ -62,8 +62,10 @@
                     <th>BUS NAME</th>
                     <th>ROUTE NAME</th>
                     <th>TIMES AD PLAYED ( AM )</th>
-                    <th>TIMES AD PLAYED ( AM )</th>
-                    <th>TIMES AD PLAYED ( AM )</th>
+
+                    <th>TIMES AD PLAYED ( PM )</th>
+                    <th>TIMES AD PLAYED ( TOTAL )</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -103,8 +105,10 @@
             <th>BUS NAME</th>
             <th>ROUTE NAME</th>
             <th>TIMES AD PLAYED ( AM )</th>
-            <th>TIMES AD PLAYED ( AM )</th>
-            <th>TIMES AD PLAYED ( AM )</th>
+
+            <th>TIMES AD PLAYED ( PM )</th>
+            <th>TIMES AD PLAYED ( TOTAL )</th>
+
           </tr>
         </thead>
         <tbody>
