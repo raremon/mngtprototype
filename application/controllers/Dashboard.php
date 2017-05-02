@@ -12,10 +12,13 @@
 			$this->load->model('users_model', 'User');
 			$this->load->model('roles_model', 'Role');
 
+			$this->load->model('routes_model', 'Route');
+
 			$this->load->model('buses_model', 'Bus');
 			$this->load->model('ads_model', 'Ad');
 			$this->load->model('advertisers_model', 'Advertiser');
 			$this->load->model('schedules_model', 'Schedule');
+			$this->load->model('ad_schedules_model', 'Ad Schedule');
 		}
 		
 		// Index Function
@@ -63,6 +66,17 @@
 						$rows['role_id'],
 						$rows['role_name'],
 						$rows['role_description'],
+					)
+				);
+			}
+
+			$route_data = $this->Route->show_Route();
+			$data['route'] = array();
+			foreach ($route_data as $rows) {
+				array_push($data['route'],
+					array(
+						$rows['route_id'],
+						$rows['route_name'],
 					)
 				);
 			}

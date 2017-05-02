@@ -70,6 +70,25 @@
 			return $query->row_array();
 		}
 
+		// G E T
+		public function get_Ad_Data($advertiser_id)
+		{
+			$this->db->select("*");
+			$this->db->from('ads');
+			$this->db->where('advertiser_id', $advertiser_id);
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+		
+		public function find_Ad_Data($ad_id)
+		{
+			$this->db->select("*");
+			$this->db->from('ads');
+			$this->db->where('ad_id', $ad_id);
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
 		public function update_Ad_Data($data)
 		{
 			$this->db->where(array('ad_id'=>$data['ad_id']));

@@ -14,12 +14,31 @@
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
 
-		// // C R E A T E
-		// public function save_Airtime($data)
-		// {
-		// 	$this->db->insert('airtimes', $data);
-		// 	return TRUE;
-		// }
+		// C R E A T E
+		public function save_Airtime($time_start, $schedule_id)
+		{
+			$data = array(
+				'time_start'=>$time_start,
+				'schedule_id'=>$schedule_id,
+			);
+			$this->db->insert('airtimes', $data);
+			return TRUE;
+		}
+
+		public function save_Airtime_Block($data)
+		{
+			$this->db->insert('airtimes', $data);
+			return TRUE;
+		}
+
+		public function get_Airtime($schedule_id)
+		{
+			$this->db->select("*");
+			$this->db->from('airtimes');
+			$this->db->where('schedule_id', $schedule_id);
+			$query=$this->db->get();
+			return $query->result_array();
+		}
 
 		// // R E A D
 		// public function show_Airtime()
