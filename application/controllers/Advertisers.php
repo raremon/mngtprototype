@@ -44,7 +44,9 @@ class Advertisers extends MY_Controller {
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
+
 		$data['title']='Show Advertiser';
+
 		$data['breadcrumbs']=array
 		(
 			array('Show Advertiser','advertisers/show'),
@@ -118,8 +120,10 @@ class Advertisers extends MY_Controller {
 					$rows['advertiser_contact'],
 					$rows['advertiser_email'],
 					$rows['advertiser_description'],
+
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_advertiser('."'".$rows['advertiser_id']."'".')">Edit</a>'.
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_advertiser('."'".$rows['advertiser_id']."'".')">Delete</a>'
+
 				)
 			);
 		}

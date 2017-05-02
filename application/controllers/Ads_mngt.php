@@ -217,7 +217,9 @@
 						$rows['ad_name'],
 						$advertiser['advertiser_name'],
 						'
+
 							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>
+
 
 							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-lg">
@@ -239,8 +241,10 @@
 							  </div>
 							</div>
 						',
+
 						'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="edit_ad('."'".$rows['ad_id']."'".')">Edit</a>'.
 						'<a href="javascript:void(0)" class="btn btn-danger btn-sm pull-right" onclick="delete_ad('."'".$rows['ad_id']."'".')">Delete</a>'
+
 					)
 				);
 			}

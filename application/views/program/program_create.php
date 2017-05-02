@@ -154,7 +154,9 @@
                     <thead>
                       <tr>
                         <th>Id</th>
+
                         <th>Play</th>
+
                         <th>Ad Name</th>
                         <th>Video Link</th>
                         <th>Video Length</th>
@@ -322,7 +324,9 @@
                     <thead>
                       <tr>
                         <th>Id</th>
+
                         <th>Play</th>
+
                         <th>Ad Name</th>
                         <th>Video Link</th>
                         <th>Video Length</th>
@@ -522,7 +526,9 @@
                     <thead>
                       <tr>
                         <th>Id</th>
+
                         <th>Play</th>
+
                         <th>Ad Name</th>
                         <th>Video Link</th>
                         <th>Video Length</th>
@@ -561,22 +567,28 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
+
             $(window).scrollTop(0);
+
             $("#regular-message").fadeIn("slow");
             $('#regular-message').html(data.errors).addClass('alert alert-danger');
             setTimeout(function() {
                 $('#regular-message').fadeOut('slow');
             }, 3000);
+
             
           }
         }else {
             $(window).scrollTop(0);
+
             $("#regular-message").fadeIn("slow");
             $('#regular-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
             setTimeout(function() {
                 $('#regular-message').fadeOut('slow');
+
                 window.location.reload();
             }, 2000);
+
         }
       }
     })
@@ -592,7 +604,9 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
+
             $(window).scrollTop(0);
+
             $("#schedule-message").fadeIn("slow");
             $('#schedule-message').html(data.errors).addClass('alert alert-danger');
             setTimeout(function() {
@@ -600,13 +614,17 @@
             }, 3000);
           }
         }else {
+
             $(window).scrollTop(0);
+
             $("#schedule-message").fadeIn("slow");
             $('#schedule-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
             setTimeout(function() {
                 $('#schedule-message').fadeOut('slow');
+
                 window.location.reload();
             }, 2000);
+
         }
       }
     })
@@ -622,7 +640,9 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
+
             $(window).scrollTop(0);
+
             $("#block-message").fadeIn("slow");
             $('#block-message').html(data.errors).addClass('alert alert-danger');
             setTimeout(function() {
@@ -630,13 +650,17 @@
             }, 3000);
           }
         }else {
+
             $(window).scrollTop(0);
+
             $("#block-message").fadeIn("slow");
             $('#block-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
             setTimeout(function() {
                 $('#block-message').fadeOut('slow');
+
                 window.location.reload();
             }, 2000);
+
         }
       }
     })

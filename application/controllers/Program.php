@@ -157,7 +157,9 @@
 					array(
 						$rows['ad_id'],
 						'
+
 							<button class="btn btn-info btn-md btn-block" data-toggle="modal" data-target="#regmodal'.$rows['ad_id'].'">Play</button>
+
 
 							<div id="regmodal'.$rows['ad_id'].'" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-lg">
@@ -194,7 +196,9 @@
 
 							</script>
 						',
+
 						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad('."'".$rows['ad_id']."'".')">Get Ad</a>',
+
 					)
 				);
 			}
@@ -297,7 +301,9 @@
 					array(
 						$rows['ad_id'],
 						'
+
 							<button class="btn btn-info btn-md btn-block" data-toggle="modal" data-target="#schedmodal'.$rows['ad_id'].'">Play</button>
+
 
 							<div id="schedmodal'.$rows['ad_id'].'" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-lg">
@@ -334,7 +340,9 @@
 
 							</script>
 						',
+
 						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad_sched('."'".$rows['ad_id']."'".')">Get Ad</a>',
+
 					)
 				);
 			}
@@ -438,7 +446,9 @@
 					array(
 						$rows['ad_id'],
 						'
+
 							<button class="btn btn-info btn-md btn-block" data-toggle="modal" data-target="#blockmodal'.$rows['ad_id'].'">Play</button>
+
 
 							<div id="blockmodal'.$rows['ad_id'].'" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-lg">
@@ -475,7 +485,9 @@
 
 							</script>
 						',
+
 						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad_block('."'".$rows['ad_id']."'".')">Get Ad</a>',
+
 					)
 				);
 			}
@@ -572,7 +584,9 @@
 		{
 			$ad_table = $this->Schedule->get_Schedule_Data($advertiser_id);
 			$data = array();
+
 			$data = $this->advertisementShowPush($ad_table, $advertiser_id);
+
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
 
@@ -580,7 +594,9 @@
 		{
 			$ad_table = $this->Schedule->get_Schedule_Route($route_id);
 			$data = array();
+
 			$data = $this->routeShowPush($ad_table, $route_id);
+
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
 
@@ -630,6 +646,7 @@
 				}
                 $ctr1++;
 				$text = $text.'</tbody></table>';
+
 				if($rows['schedule_type'] == 1)
 				{
 					$scheduleData = 'Regular';
@@ -637,6 +654,7 @@
 				else if($rows['schedule_type'] == 2)
 				{
 					$scheduleData = 'Scheduled';
+
 					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
 					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th></thead><tbody>';
@@ -645,10 +663,12 @@
 						$text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td></tr>';
 					}
 					$text = $text.'</tbody></table>';
+
 				}
 				else
 				{
 					$scheduleData = 'Block';
+
 					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
 					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th><th style="text-align:center;">TIME END</th></thead><tbody>';
@@ -657,18 +677,23 @@
                         $text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td><td style="text-align:center;font-size:16px;">'.$at['time_end'].'</td></tr>';
 					}
 					$text = $text.'</tbody></table>';
+
 				}
 				array_push($pushdata,
 					array(
 						'
+
 							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modaladv'.$rows['schedule_id'].'">Summary</button>
 
 							<div id="modaladv'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+
 							  <div class="modal-dialog modal-lg">
 							    <div class="modal-content">
 							      <div class="modal-header">
 							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
 							        <h4 class="modal-title"><i class="fa fa-calendar"></i>&nbsp;SCHEDULE ID:'.$rows['schedule_id'].'</h4>
+
 							      </div>
 							      <div class="modal-body">
 							        '.$text.'
@@ -681,8 +706,10 @@
 							</div>
 						',
 						$routeData['route_name'],
+
 						date('m/d/Y', strtotime($rows['date_start'])),
 						date('m/d/Y', strtotime($rows['date_end'])),
+
 						$scheduleData,
 					)
 				);
@@ -696,6 +723,7 @@
             $ctr1=0;
             $ctr2=0;
             $routeData = $this->Route->edit_Route_Data($route);
+
 			foreach ($table as $rows) {
 				$advertiserData = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
 				$scheduledAds = $this->Ad_Schedule->get_Ad_Schedule($rows['schedule_id']);
@@ -729,6 +757,7 @@
 				}
                 $ctr1++;
 				$text = $text.'</tbody></table>';
+
 				if($rows['schedule_type'] == 1)
 				{
 					$scheduleData = 'Regular';
@@ -736,6 +765,7 @@
 				else if($rows['schedule_type'] == 2)
 				{
 					$scheduleData = 'Scheduled';
+
 					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
 					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th></thead><tbody>';
@@ -744,10 +774,12 @@
 						$text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td></tr>';
 					}
 					$text = $text.'</tbody></table>';
+
 				}
 				else
 				{
 					$scheduleData = 'Block';
+
 					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
 					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th><th style="text-align:center;">TIME END</th></thead><tbody>';
@@ -756,13 +788,16 @@
                         $text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td><td style="text-align:center;font-size:16px;">'.$at['time_end'].'</td></tr>';
 					}
 					$text = $text.'</tbody></table>';
+
 				}
 				array_push($pushdata,
 					array(
 						'
+
 							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modalrou'.$rows['schedule_id'].'">Summary</button>
 
 							<div id="modalrou'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+
 							  <div class="modal-dialog modal-lg">
 							    <div class="modal-content">
 							      <div class="modal-header">
@@ -780,8 +815,10 @@
 							</div>
 						',
 						$advertiserData['advertiser_name'],
+
 						date('m/d/Y', strtotime($rows['date_start'])),
 						date('m/d/Y', strtotime($rows['date_end'])),
+
 						$scheduleData,
 					)
 				);
@@ -792,12 +829,15 @@
 		public function typeShowPush($table)
 		{
 			$pushdata = array();
+
             $ctr1=0;
             $ctr2=0;
+
 			foreach ($table as $rows) {
 				$advertiserData = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
 				$routeData = $this->Route->edit_Route_Data($rows['route_id']);
 				$scheduledAds = $this->Ad_Schedule->get_Ad_Schedule($rows['schedule_id']);
+
 
 				$text = '';
                 $text = $text . '<h3>ADVERTISER : '.$advertiserData["advertiser_name"].'</h3>';
@@ -828,6 +868,7 @@
 				}
                 $ctr1++;
 				$text = $text.'</tbody></table>';
+
 				if($rows['schedule_type'] == 1)
 				{
 					$scheduleData = 'Regular';
@@ -835,6 +876,7 @@
 				else if($rows['schedule_type'] == 2)
 				{
 					$scheduleData = 'Scheduled';
+
 					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
 					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th></thead><tbody>';
@@ -843,10 +885,12 @@
 						$text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td></tr>';
 					}
 					$text = $text.'</tbody></table>';
+
 				}
 				else
 				{
 					$scheduleData = 'Block';
+
 					$text = $text.'<h3 style="text-align:center;background-color:#339440;color:white;padding:10px 0 10px 0;">SCHEDULE AIRTIME</h3>';
 					$airtimeData = $this->Airtime->get_Airtime($rows['schedule_id']);
 					$text = $text.'<table class="table table-hover table-bordered"><thead><th style="text-align:center;">TIME START</th><th style="text-align:center;">TIME END</th></thead><tbody>';
@@ -855,13 +899,16 @@
                         $text = $text.'<tr><td style="text-align:center;font-size:16px;">'.$at['time_start'].'</td><td style="text-align:center;font-size:16px;">'.$at['time_end'].'</td></tr>';
 					}
 					$text = $text.'</tbody></table>';
+
 				}
 				array_push($pushdata,
 					array(
 						'
+
 							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modalty'.$rows['schedule_id'].'">Summary</button>
 
 							<div id="modalty'.$rows['schedule_id'].'" class="modal fade" role="dialog">
+
 							  <div class="modal-dialog modal-lg">
 							    <div class="modal-content">
 							      <div class="modal-header">
@@ -880,8 +927,10 @@
 						',
 						$routeData['route_name'],
 						$advertiserData['advertiser_name'],
+
 						date('m/d/Y', strtotime($rows['date_start'])),
 						date('m/d/Y', strtotime($rows['date_end'])),
+
 					)
 				);
 			}
