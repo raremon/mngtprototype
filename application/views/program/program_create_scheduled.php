@@ -4,11 +4,8 @@
           <div class="box-header with-border">
             <h3 class="box-title">Arrange by routes</h3>
             <div class="box-tools pull-right">
-            <!-- Buttons, labels, and many other things can be placed here! -->
-            <!-- Here is a label for example -->
-            </div><!-- /.box-tools -->
-          </div><!-- /.box-header -->
-
+            </div>
+          </div>
           <div class="box-body">
             <div id="schedule-message"></div>
             <?php echo form_open('', array('id'=>'schedule')); ?>
@@ -207,9 +204,7 @@
           success:function(data) {
             if(!data.success){
               if(data.errors){
-
                 $(window).scrollTop(0);
-
                 $("#schedule-message").fadeIn("slow");
                 $('#schedule-message').html(data.errors).addClass('alert alert-danger');
                 setTimeout(function() {
@@ -217,17 +212,8 @@
                 }, 3000);
               }
             }else {
-
-                $(window).scrollTop(0);
-
-                $("#schedule-message").fadeIn("slow");
-                $('#schedule-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
-                setTimeout(function() {
-                    $('#schedule-message').fadeOut('slow');
-
-                    window.location.reload();
-                }, 2000);
-
+              $('#message-text').html(data.message);
+              $('#successModal').modal('show');
             }
           }
         })
@@ -333,7 +319,8 @@
               var basic = $.map(data, function(el) { return el; });
               if((durationSumSched() + parseInt((basic[0][3].split(" "))[0]))>airtime_2)
               {
-                alert("Not Enough Airtime");
+                $('#error-text').html("Not Enough Airtime");
+                $('#errorModal').modal('show');
               }
               else
               {
@@ -351,12 +338,14 @@
           }
           else
           {
-            alert("Please set airtime first");
+            $('#error-text').html("Please set airtime first");
+            $('#errorModal').modal('show');
           }
         }
         else
         {
-          alert("Ad Already Selected !");
+          $('#error-text').html("Ad Already Selected !");
+          $('#errorModal').modal('show');
         }
       }
 

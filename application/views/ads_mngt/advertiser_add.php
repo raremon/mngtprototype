@@ -87,13 +87,16 @@
           success:function(data) {
             if(!data.success){
               if(data.errors){
+                $(window).scrollTop(0);
+                $("#advertiser-message").fadeIn("slow");
                 $('#advertiser-message').html(data.errors).addClass('alert alert-danger');
+                setTimeout(function() {
+                    $('#advertiser-message').fadeOut('slow');
+                }, 3000);
               }
             }else {
-              $('#advertiser-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
-              setTimeout(function() {
-                window.location.reload();
-              }, 1000);
+              $('#message-text').html(data.message);
+              $('#successModal').modal('show');
             }
           }
         });

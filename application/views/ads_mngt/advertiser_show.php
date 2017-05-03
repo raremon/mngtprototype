@@ -77,7 +77,6 @@
   <div class="box-footer">
   </div>
 </div>
-
 <script type="text/javascript">
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
@@ -88,7 +87,6 @@
       "url":"<?php echo site_url('advertisers/showAdvertiser') ?>",
       "type":"POST"
     },
-
     "columns": [
       null,
       null,
@@ -101,6 +99,7 @@
   })
   // U P D A T E
   function edit_advertiser(advertiser_id) {
+    $(window).scrollTop(0);
     $("#mainBox").show();
     $.ajax({
       url: "<?php echo site_url('advertisers/editAdvertiser') ?>",
@@ -120,7 +119,6 @@
       }
     })
   }
-
   function update_Advertiser() {
     $.ajax({
       url: "<?php echo site_url('advertisers/updateAdvertiser') ?>",
@@ -128,14 +126,17 @@
       dataType: 'json',
       data: $('#advertiser').serialize(),
       encode:true,
-      success:function (data) {
+      success:function(data) {
         if(!data.success){
+          $(window).scrollTop(0);
+          $("#advertiser-message").fadeIn("slow");
           $('#advertiser-message').html(data.errors).addClass('alert alert-danger');
+          setTimeout(function() {
+              $('#advertiser-message').fadeOut('slow');
+          }, 3000);
         }else {
-          $('#advertiser-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
-          setTimeout(function () {
-            window.location.reload();
-          }, 1000);
+          $('#message-text').html(data.message);
+          $('#successModal').modal('show');
         }
       }
     })
@@ -152,13 +153,16 @@
         success:function(data) {
           if(!data.success){
             if(data.errors){
-              $('#advertiser-message-2').html(data.errors).addClass('alert alert-danger');
+              $(window).scrollTop(0);
+              $("#advertiser-message").fadeIn("slow");
+              $('#advertiser-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#advertiser-message').fadeOut('slow');
+              }, 3000);
             }
           }else {
-            $('#advertiser-message-2').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-            setTimeout(function() {
-              window.location.reload();
-            }, 1000);
+            $('#message-text').html(data.message);
+            $('#successModal').modal('show');
           }
         }
       });

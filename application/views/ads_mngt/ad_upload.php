@@ -64,17 +64,20 @@
   $(document).on('change', '.file', function(){
     $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
   });
-
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-
   $(document).ready(function(){
     $('#ads').on('submit', function(e){
       e.preventDefault();
       if($('#ad_file').val() == '')
       {
+        $(window).scrollTop(0);
+        $("#ad-message").fadeIn("slow");
         $('#ad-message').html("The file upload cannot be empty!").addClass('alert alert-danger');
+        setTimeout(function() {
+            $('#ad-message').fadeOut('slow');
+        }, 3000);
       }
       else
       {
@@ -97,7 +100,12 @@
           success:function(data) {
             if(!data.success){
               if(data.errors){
-                $('#ad-message').html(data.errors).addClass('alert-danger');
+                $(window).scrollTop(0);
+                $("#ad-message").fadeIn("slow");
+                $('#ad-message').html(data.errors).addClass('alert alert-danger');
+                setTimeout(function() {
+                    $('#ad-message').fadeOut('slow');
+                }, 3000);
               }
             }else {
               $("#material").html(data.message);
@@ -107,7 +115,6 @@
       }
     });
   });
-
   function save() {
     $.ajax({
       url: "<?php echo site_url('ads_mngt/saveAdRecord') ?>",
@@ -118,13 +125,16 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
-            $("#ad-message").html(data.errors).addClass("alert alert-danger");
+            $(window).scrollTop(0);
+            $("#ad-message").fadeIn("slow");
+            $('#ad-message').html(data.errors).addClass('alert alert-danger');
+            setTimeout(function() {
+                $('#ad-message').fadeOut('slow');
+            }, 3000);
           }
         }else {
-          $("#ad-message").html(data.message).addClass("alert alert-success").removeClass("alert-danger");
-          setTimeout(function() {
-            window.location.reload()
-          }, 1500);
+          $('#message-text').html(data.message);
+          $('#successModal').modal('show');
         }
       }
     })
@@ -132,7 +142,5 @@
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-
   // END OF ADS JAVASCRIPT
-
 </script>

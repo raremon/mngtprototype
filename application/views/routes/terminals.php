@@ -4,8 +4,8 @@
   <div class="box-header with-border">
     <h3 class="box-title">Terminal Details</h3>
     <div class="box-tools pull-right">
-    </div><!-- /.box-tools -->
-  </div><!-- /.box-header -->
+    </div>
+  </div>
   <div class="box-body">
     <div id="main-cont" class="container-fluid">
       <div class="row">
@@ -19,7 +19,6 @@
       <div class="row">
         <div class="col-md-12">
           <div id="map-canvas"> </div>
-
           <div id="terminal-message"></div>
           <?php echo form_open('welcome', array('id'=>'terminal')); ?>
           <div class="form-group hidden">
@@ -41,17 +40,16 @@
         </div>
       </div>
     </div>
-  </div><!-- /.box-body -->
+  </div>
   <div class="box-footer">
-  </div><!-- box-footer -->
-</div><!-- /.box -->
-
+  </div>
+</div>
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Terminal Data</h3>
     <div class="box-tools pull-right">
-    </div><!-- /.box-tools -->
-  </div><!-- /.box-header -->
+    </div>
+  </div>
   <div class="box-body">
       <div class="row">
         <div class="container-fluid">
@@ -71,17 +69,14 @@
           </div>
         </div>
       </div>
-  </div><!-- /.box-body -->
+  </div>
   <div class="box-footer">
-  </div><!-- box-footer -->
-</div><!-- /.box -->
-
+  </div>
+</div>
 <script type="text/javascript">
-
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-
   // C R E A T E
   function save_terminal() {
     $.ajax({
@@ -93,18 +88,20 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
+            $(window).scrollTop(0);
+            $("#terminal-message").fadeIn("slow");
             $('#terminal-message').html(data.errors).addClass('alert alert-danger');
+            setTimeout(function() {
+                $('#terminal-message').fadeOut('slow');
+            }, 3000);
           }
         }else {
-          $('#terminal-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-          setTimeout(function() {
-            window.location.reload()
-          }, 1000);
+          $('#message-text').html(data.message);
+          $('#successModal').modal('show');
         }
       }
     })
   }
-
   // R E A D
   $("#terminal_data").DataTable({
     "ajax":{
@@ -112,9 +109,9 @@
       "type":"POST"
     }
   })
-
   // U P D A T E
   function edit_terminal(terminal_id) {
+    $(window).scrollTop(0);
     $.ajax({
       url: "<?php echo site_url('routes/edit_Terminal') ?>",
       type: 'POST',
@@ -126,20 +123,14 @@
         $('.update').removeAttr('disabled');
         $('input[name="terminal_id"]').val(data.terminal_id);
         $('input[name="terminal_name"]').val(data.terminal_name);
-
         var xlat = data.latitude;
         var ylng = data.longitude;
-
-        //location
         var location = new google.maps.LatLng(xlat, ylng);
-
         map.setCenter(location);
         marker.setPosition(location);
-
       }
     })
   }
-
   function update_terminal() {
     $.ajax({
       url: "<?php echo site_url('routes/updateTerminal') ?>",
@@ -147,19 +138,21 @@
       dataType: 'json',
       data: $('#terminal').serialize(),
       encode:true,
-      success:function (data) {
+      success:function(data) {
         if(!data.success){
+          $(window).scrollTop(0);
+          $("#terminal-message").fadeIn("slow");
           $('#terminal-message').html(data.errors).addClass('alert alert-danger');
+          setTimeout(function() {
+              $('#terminal-message').fadeOut('slow');
+          }, 3000);
         }else {
-          $('#terminal-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-          setTimeout(function () {
-            window.location.reload();
-          }, 1000);
+          $('#message-text').html(data.message);
+          $('#successModal').modal('show');
         }
       }
     })
   }
-
   // D E L E T E
   function delete_terminal(terminal_id) {
     if(confirm('Do you really want to delete this Terminal Record ??')){
@@ -172,30 +165,29 @@
         success:function(data) {
           if(!data.success){
             if(data.errors){
+              $(window).scrollTop(0);
+              $("#terminal-message").fadeIn("slow");
               $('#terminal-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#terminal-message').fadeOut('slow');
+              }, 3000);
             }
           }else {
-            $('#terminal-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-            setTimeout(function() {
-              window.location.reload();
-            }, 1000);
+            $('#message-text').html(data.message);
+            $('#successModal').modal('show');
           }
         }
       });
     }
   }
-
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-
   ////////////////////////////////////////////////////////////////
   //        G  O  O  G  L  E    M  A  P  S    A  P  I           //
   ////////////////////////////////////////////////////////////////
-
   // Zoom Level
   var szoom = 17;
-
   // Map
   var map = new google.maps.Map( document.getElementById('map-canvas'),{
     center:{
@@ -204,7 +196,6 @@
     },
     zoom:szoom
   });
-
   // Marker
   var marker = new google.maps.Marker({
     position:{
@@ -214,37 +205,26 @@
     map:map,
     draggable: true
   });
-
   // Marker Drag
   google.maps.event.addListener(marker,'dragend',function(){
     setMarker();
   });
-
   // Search function
   var searchBox = new google.maps.places.SearchBox(document.getElementById('mapsearch'));
-
   google.maps.event.addListener( searchBox, 'places_changed',function(){
-
     // console.log(searchBox.getPlaces());
     var places = searchBox.getPlaces();
-
     //bounds
     var bounds = new google.maps.LatLngBounds();
     var i,place;
-
     for( i=0; place = places[i]; i++ ){
-
       bounds.extend(place.geometry.location);
       marker.setPosition(place.geometry.location);
-
     }
-
     setMarker();
-
     map.fitBounds(bounds);
     map.setZoom(szoom);
   });
-
   // Set Marker function
   function setMarker()
   {
@@ -253,10 +233,8 @@
     $('#lat').val(xlatitude);
     $('#lng').val(ylongitude);
   }
-
   ////////////////////////////////////////////////////////////////
   //E  N  D    O  F    G  O  O  G  L  E    M  A  P  S    A  P  I//
   ////////////////////////////////////////////////////////////////
-
   // END OF TERMINAL JAVASCRIPT
 </script>

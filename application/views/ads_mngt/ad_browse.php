@@ -38,7 +38,6 @@
   </div>
   </div>
 </div>
-
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Advertisement Data</h3>
@@ -68,7 +67,6 @@
   <div class="box-footer">
   </div>
 </div>
-
 <script>
   //Placeholder Text
   $(document).on('click', '.browse', function(){
@@ -79,18 +77,15 @@
   $(document).on('change', '.file', function(){
     $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
   });
-
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-
   // R E A D
   $("#ad_data").DataTable({
     "ajax":{
       "url":"<?php echo site_url('ads_mngt/showAd') ?>",
       "type":"POST"
     },
-
     "columns": [
       null,
       null,
@@ -99,9 +94,9 @@
       {"width": "12%"},
     ]
   })
-
   // U P D A T E
   function edit_ad(ad_id) {
+    $(window).scrollTop(0);
     $("#mainBox").show();
     $.ajax({
       url: "<?php echo site_url('ads_mngt/editAd') ?>",
@@ -117,7 +112,6 @@
       }
     })
   }
-
   function update_Ad() {
     $.ajax({
       url: "<?php echo site_url('ads_mngt/updateAd') ?>",
@@ -125,19 +119,21 @@
       dataType: 'json',
       data: $('#ads').serialize(),
       encode:true,
-      success:function (data) {
+      success:function(data) {
         if(!data.success){
+          $(window).scrollTop(0);
+          $("#ad-message").fadeIn("slow");
           $('#ad-message').html(data.errors).addClass('alert alert-danger');
+          setTimeout(function() {
+              $('#ad-message').fadeOut('slow');
+          }, 3000);
         }else {
-          $('#ad-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-          setTimeout(function () {
-            window.location.reload();
-          }, 1000);
+          $('#message-text').html(data.message);
+          $('#successModal').modal('show');
         }
       }
     })
   }
-
   // D E L E T E
   function delete_ad(ad_id) {
     if(confirm('Do you really want to delete this Ad Record ??')){
@@ -150,23 +146,23 @@
         success:function(data) {
           if(!data.success){
             if(data.errors){
-              $('#ad-message-2').html(data.errors).addClass('alert alert-danger');
+              $(window).scrollTop(0);
+              $("#ad-message").fadeIn("slow");
+              $('#ad-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#ad-message').fadeOut('slow');
+              }, 3000);
             }
           }else {
-            $('#ad-message-2').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-            setTimeout(function() {
-              window.location.reload();
-            }, 1000);
+            $('#message-text').html(data.message);
+            $('#successModal').modal('show');
           }
         }
       });
     }
   }
-
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-
   // END OF ADS BROWSE JAVASCRIPT
-
 </script>
