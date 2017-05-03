@@ -41,6 +41,8 @@
                   <button class="browse btn btn-success input-md" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
                 </span>
               </div>
+              <!-- TAGGING PAUL -->
+              <img id="loading_img" src="<?php echo base_url('assets/public/loading.gif') ?>" class="hidden">
             </div>
             <div class="form-group">
               <label>Description</label>
@@ -77,6 +79,7 @@
       }
       else
       {
+        $('#loading_img').removeClass('hidden');
         $.ajax({
           url: "<?php echo site_url('advertisers/saveAdvertiser') ?>",
           method: 'POST',
@@ -95,6 +98,7 @@
                 }, 3000);
               }
             }else {
+              $('#loading_img').addClass('hidden');
               $('#message-text').html(data.message);
               $('#successModal').modal('show');
             }
