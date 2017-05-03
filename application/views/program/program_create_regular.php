@@ -4,21 +4,17 @@
           <div class="box-header with-border">
             <h3 class="box-title">Arrange by routes</h3>
             <div class="box-tools pull-right">
-            <!-- Buttons, labels, and many other things can be placed here! -->
-            <!-- Here is a label for example -->
-            </div><!-- /.box-tools -->
-          </div><!-- /.box-header -->
+            </div>
+          </div>
           <div class="box-body">
             <div id="regular-message"></div>
             <?php echo form_open('', array('id'=>'regular')); ?>
-
               <!-- SCHEDULE TYPE REGULAR -->
               <div class="form-group">
                 <div class="input-group">
                   <input name="schedule_type_reg" type="text" class="form-control hidden" value="1">
                 </div>
-              </div> 
-
+              </div>
               <!-- ADVERTISER ID REGULAR -->
               <div class="form-group">
                 <label for="advertiser_list_reg">Select Ad Owner:</label>
@@ -35,7 +31,6 @@
                   ?>
                 </select>
               </div>
-
               <div class="form-group">
                 <label>Select Duration:</label>
                 <div class="input-group">
@@ -45,7 +40,6 @@
                   <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
                 </div>
               </div>    
-
               <!-- DATE START REGULAR -->
               <div class="form-group">
                 <div class="input-group">
@@ -58,7 +52,6 @@
                   <input id="end_1" name="end_reg" type="text" class="form-control hidden">
                 </div>
               </div> 
-
               <!-- ROUTE ID REGULAR -->
               <div class="form-group">
                 <label for="route_list_reg">Select Route:</label>
@@ -75,7 +68,6 @@
                   ?>
                 </select>
               </div>
-
               <div class="form-group">
                 <div class="row">
                     <div class="col-lg-6">
@@ -83,7 +75,7 @@
                           <div class="form-group">
                             <label>Start Time:</label>
                             <div class="input-group">
-                              <input type="text" class="form-control" id="timepicker" disabled>
+                              <input type="text" class="form-control timepicker" id="timepicker" disabled>
                               <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                               </div>
@@ -97,7 +89,7 @@
                           <div class="form-group">
                             <label>End Time:</label>
                             <div class="input-group">
-                              <input type="text" class="form-control" id="timepicker1" disabled>
+                              <input type="text" class="form-control timepicker" id="timepicker1" disabled>
                               <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                               </div>
@@ -107,16 +99,19 @@
                     </div>  
                 </div>
               </div>
-
               <span>Selected Ad:</span>
-
+              <!-- TOTAL DURATION REGULAR -->
+              <div class="form-group">
+                <div class="input-group">
+                  <input name="schedule_duration_reg" id="selected_duration_1" type="text" class="form-control hidden">
+                </div>
+              </div> 
               <!-- SELECTED ADS REGULAR -->
               <div class="form-group">
                 <div class="input-group">
                   <input id="selected_ads_1" name="selected_ads_reg" type="text" class="form-control hidden">
                 </div>
               </div> 
-
               <div class="row">
                 <div class="container-fluid">
                   <div class="col-md-12">
@@ -126,6 +121,7 @@
                           <th>Id</th>
                           <th>Name</th>
                           <th>File Name</th>
+                          <th>Duration</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -135,7 +131,6 @@
                   </div>
                 </div>
               </div>
-
               </br><button type="button" class="btn btn-primary" id="button_pos" onclick="save_Regular_Program()">Save</button>
             <?php echo form_close(); ?>
           </div><!-- /.box-body -->
@@ -148,9 +143,7 @@
                     <thead>
                       <tr>
                         <th>Id</th>
-
                         <th>Play</th>
-
                         <th>Ad Name</th>
                         <th>Video Link</th>
                         <th>Video Length</th>
@@ -169,7 +162,6 @@
     </div>
 
     <script type="text/javascript">
-
     ///////////////////////////////////////////////////////////////////////////////////////
     //                     C  R  U  D    F  U  N  C  T  I  O  N  S                       //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -184,16 +176,12 @@
         success:function(data) {
           if(!data.success){
             if(data.errors){
-
               $(window).scrollTop(0);
-
               $("#regular-message").fadeIn("slow");
               $('#regular-message').html(data.errors).addClass('alert alert-danger');
               setTimeout(function() {
                   $('#regular-message').fadeOut('slow');
               }, 3000);
-
-              
             }
           }else {
               $(window).scrollTop(0);
@@ -205,7 +193,6 @@
 
                   window.location.reload();
               }, 2000);
-
           }
         }
       })
@@ -217,7 +204,6 @@
     ///////////////////////////////////////////////
     // F I R S T   T A B L E   D A T A T A B L E //
     ///////////////////////////////////////////////
-    
     $( document ).ready(function() {
       $('#start_1').val($("input[name='date_reg']").val().split(' - ')[0]);
       $('#end_1').val($("input[name='date_reg']").val().split(' - ')[1]);
@@ -250,8 +236,10 @@
         var advertiser = $('#advertiser_list_reg').val();
         $('#selected_table_1').dataTable().fnClearTable();
         $("#selected_ads_1").val('');
+        $('#selected_duration_1').val('');
         selected_table_1 = [];
         selected_id_1 = [];
+        selected_duration_1 = [];
         $.get("<?php echo site_url('program/showAdReg/" + advertiser + "') ?>", function(data){
           var ads_tbl_1 = $.map(data, function(el) { return el; });
           $('#ad_table_1').dataTable().fnClearTable();
@@ -262,7 +250,7 @@
         });    
       });
     });
-
+    var selected_duration_1 = [];
     var selected_table_1 = [];
     var selected_id_1 = [];
     function get_ad(ad_id) {
@@ -272,6 +260,8 @@
           var basic = $.map(data, function(el) { return el; });
           selected_table_1.push(basic[0]);
           selected_id_1.push(basic[0][0]);
+          selected_duration_1.push(parseInt((basic[0][3].split(" "))[0]));
+          $('#selected_duration_1').val(durationSum());
           $('#selected_table_1').dataTable().fnClearTable();
           $('#selected_table_1').dataTable().fnAddData(selected_table_1);
           $("#selected_ads_1").val(JSON.stringify(selected_id_1));
@@ -282,10 +272,8 @@
         alert("Ad Already Selected !");
       }
     }
-
     function find_ad(ad_id) {
       var confirm = false;
-
       for(var a = 0; a < selected_table_1.length ; a++)
       {
         if(selected_table_1[a][0] == ad_id)
@@ -295,7 +283,6 @@
       }
       return confirm;
     }
-
     function remove_ad(ad_id) {
       var ctr = 0;
       var confirm = false;
@@ -305,6 +292,7 @@
         {
           selected_table_1.splice(ctr, 1);
           selected_id_1.splice(ctr, 1);
+          selected_duration_1.splice(ctr, 1);
           confirm = true;
         }
         else
@@ -317,14 +305,23 @@
       {
         $('#selected_table_1').dataTable().fnAddData(selected_table_1);
         $("#selected_ads_1").val(JSON.stringify(selected_id_1));
+        $('#selected_duration_1').val(durationSum());
       }
       else
       {
         $("#selected_ads_1").val('');
+        $('#selected_duration_1').val('');
       }
+    }
+    function durationSum() {
+      var sum = 0;
+      for(var a = 0; a < selected_duration_1.length; a++)
+      {
+        sum = sum + selected_duration_1[a];
+      }
+      return sum;
     }
     /////////////////////////////////////////////////////////////
     // E N D   O F   F I R S T   T A B L E   D A T A T A B L E //
     /////////////////////////////////////////////////////////////
-
     </script>

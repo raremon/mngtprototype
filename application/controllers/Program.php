@@ -41,16 +41,16 @@
             );
             $data['script']=array
             (
-            	'assets/js/program_sched.js',
+            	'assets/js/moment.min.js',
 				'assets/plugins/input-mask/jquery.inputmask.js',
 				'assets/plugins/input-mask/jquery.inputmask.date.extensions.js',
 				'assets/plugins/input-mask/jquery.inputmask.extensions.js',
-				'assets/js/moment.min.js',
 				'assets/plugins/daterangepicker/daterangepicker.js',
 				'assets/plugins/datepicker/bootstrap-datepicker.js',
 				'assets/plugins/select2/select2.full.min.js',
 				'assets/plugins/iCheck/icheck.min.js',
-				'assets/plugins/timepicker/bootstrap-timepicker.min.js',
+
+            	'assets/js/program_sched.js',
             );
 			$data['treeActive'] = 'program_schedule';
 			$data['childActive'] = 'create_program_schedule' ;
@@ -78,7 +78,11 @@
 			}
 
 			$this->load->view("template/header", $data);
-			$this->load->view("program/program_create", $data);
+			$this->load->view("program/program_create_open", $data);
+			$this->load->view("program/program_create_regular", $data);
+			$this->load->view("program/program_create_scheduled", $data);
+			$this->load->view("program/program_create_block", $data);
+			$this->load->view("program/program_create_close", $data);
 			$this->load->view("template/footer", $data);
 		}
 
@@ -157,10 +161,7 @@
 					array(
 						$rows['ad_id'],
 						'
-
 							<button class="btn btn-info btn-md btn-block" data-toggle="modal" data-target="#regmodal'.$rows['ad_id'].'">Play</button>
-
-
 							<div id="regmodal'.$rows['ad_id'].'" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-lg">
 							    <div class="modal-content">
@@ -184,9 +185,7 @@
 						$rows['ad_name'],
 						$rows['ad_filename'],
 						$rows['ad_duration'].' Seconds',
-
 						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad('."'".$rows['ad_id']."'".')">Get Ad</a>',
-
 					)
 				);
 			}
@@ -202,17 +201,16 @@
 						$rows['ad_id'],
 						$rows['ad_name'],
 						$rows['ad_filename'],
+						$rows['ad_duration'].' sec',
 						'<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="remove_ad('."'".$rows['ad_id']."'".')">Remove Ad</a>',
 					)
 				);
 			}
 			return $pushdata;
 		}
-
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
-
 		// C R E A T E
 		public function saveRegularProgram()
 		{
@@ -236,6 +234,7 @@
 					'route_id'=>$this->input->post('route_id_reg'),
 					'date_start'=>$start->format('Y-m-d'),
 					'date_end'=>$end->format('Y-m-d'),
+					'schedule_duration'=>$this->input->post('schedule_duration_reg'),
 					'schedule_type'=>$this->input->post('schedule_type_reg'),
 				);
 
@@ -251,15 +250,9 @@
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode($info));
 		}
-
-		////////////////////////////////////////////////////////////////
-		// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
-		////////////////////////////////////////////////////////////////
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//            E  N  D     O  F     R  E  G  U  L  A  R     F  U  N  C  T  I  O  N  S              //
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                  S  C  H  E  D  U  L  E  D     F  U  N  C  T  I  O  N  S                       //
@@ -334,6 +327,7 @@
 						$rows['ad_id'],
 						$rows['ad_name'],
 						$rows['ad_filename'],
+						$rows['ad_duration'].' sec',
 						'<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="remove_ad_sched('."'".$rows['ad_id']."'".')">Remove Ad</a>',
 					)
 				);
@@ -350,13 +344,14 @@
 		{
 			$validate = array (
 				array('field'=>'selected_ads_sched','label'=>'Selected Ads','rules'=>'required'),
+				array('field'=>'airtime_sched','label'=>'Airtime','rules'=>'required'),
 			);
 
 			$this->form_validation->set_rules($validate);
 			if ($this->form_validation->run()===FALSE) 
 			{
 				$info['success']=FALSE;
-				$info['errors']="Please Select Ads before submitting";
+				$info['errors']=validation_errors();
 			}
 			else
 			{
@@ -366,6 +361,7 @@
 				$data=array(
 					'advertiser_id'=>$this->input->post('advertiser_id_sched'),
 					'route_id'=>$this->input->post('route_id_sched'),
+					'schedule_duration'=>$this->input->post('airtime_sched'),
 					'date_start'=>$start->format('Y-m-d'),
 					'date_end'=>$end->format('Y-m-d'),
 					'schedule_type'=>$this->input->post('schedule_type_sched'),
@@ -379,8 +375,9 @@
 					$this->Ad_Schedule->save_Ad_Schedule($row, $schedule_id);
 				}
 
-				$time_start = date("H:i", strtotime($this->input->post('start_time_sched')));
-				$this->Airtime->save_Airtime($time_start, $schedule_id);
+				$time_start = date("H:i:s", strtotime($this->input->post('start_time_sched')));
+				$time_end = date("H:i:s", strtotime($this->input->post('end_time_sched')));
+				$this->Airtime->save_Airtime($time_start,$time_end,$schedule_id);
 
 				$info['message']="You have successfully saved your data!";
 			}
@@ -591,21 +588,20 @@
 					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
                     $text=$text.'<tr>
                                 <td width="20%">
-                                    <video id="v'.$ctr1.$ctr2.'" width="100%" controls>
+                                    <video id="v'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'" width="100%" controls>
 							  			<source src="'.base_url("assets/ads/".$ad_Data["ad_filename"]).'" type="video/mp4">
 							  			Your browser does not support HTML5 video.
 									</video>
                                 </td>
                                 <td style="text-align:center;font-size:20px;vertical-align: middle;">'.$ad_Data['ad_name'].'</td>
-                                <td id="schedtd'.$ctr1.$ctr2.'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
+                                <td id="schedtd'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
                                 <script>	
-                                        var schedvideo'.$ctr1.$ctr2.' = document.getElementById("v'.$ctr1.$ctr2.'");
-                                        schedvideo'.$ctr1.$ctr2.'.addEventListener("durationchange", function() {
-                                            $("#schedtd'.$ctr1.$ctr2.'").html(schedvideo'.$ctr1.$ctr2.'.duration + " seconds");
+                                        var schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].' = document.getElementById("v'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'");
+                                        schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'.addEventListener("durationchange", function() {
+                                            $("#schedtd'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'").html(Math.ceil(schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'.duration) + " seconds");
                                         });
                                 </script>
                                 </tr>';
-//					$text=$text.'<li>'.$ad_Data['ad_name'].'</li>';
                     $ctr2++;
 				}
                 $ctr1++;
@@ -703,17 +699,17 @@
 					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
                     $text=$text.'<tr>
                                 <td width="20%">
-                                    <video id="s'.$ctr1.$ctr2.'" width="100%" controls>
+                                    <video id="s'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'" width="100%" controls>
 							  			<source src="'.base_url("assets/ads/".$ad_Data["ad_filename"]).'" type="video/mp4">
 							  			Your browser does not support HTML5 video.
 									</video>
                                 </td>
                                 <td style="text-align:center;font-size:20px;vertical-align: middle;">'.$ad_Data['ad_name'].'</td>
-                                <td id="schedxtd'.$ctr1.$ctr2.'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
+                                <td id="schedxtd'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
                                 <script>	
-                                        var schedvideo'.$ctr1.$ctr2.' = document.getElementById("s'.$ctr1.$ctr2.'");
-                                        schedvideo'.$ctr1.$ctr2.'.addEventListener("durationchange", function() {
-                                            $("#schedxtd'.$ctr1.$ctr2.'").html(schedvideo'.$ctr1.$ctr2.'.duration + " seconds");
+                                        var schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].' = document.getElementById("s'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'");
+                                        schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'.addEventListener("durationchange", function() {
+                                            $("#schedxtd'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'").html(Math.ceil(schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'.duration) + " seconds");
                                         });
                                 </script>
                                 </tr>';
@@ -814,17 +810,17 @@
 					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
                     $text=$text.'<tr>
                                 <td width="20%">
-                                    <video id="y'.$ctr1.$ctr2.'" width="100%" controls>
+                                    <video id="y'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'" width="100%" controls>
 							  			<source src="'.base_url("assets/ads/".$ad_Data["ad_filename"]).'" type="video/mp4">
 							  			Your browser does not support HTML5 video.
 									</video>
                                 </td>
                                 <td style="text-align:center;font-size:20px;vertical-align: middle;">'.$ad_Data['ad_name'].'</td>
-                                <td id="schedytd'.$ctr1.$ctr2.'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
+                                <td id="schedytd'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
                                 <script>	
-                                        var schedvideo'.$ctr1.$ctr2.' = document.getElementById("y'.$ctr1.$ctr2.'");
-                                        schedvideo'.$ctr1.$ctr2.'.addEventListener("durationchange", function() {
-                                            $("#schedytd'.$ctr1.$ctr2.'").html(schedvideo'.$ctr1.$ctr2.'.duration + " seconds");
+                                        var schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].' = document.getElementById("y'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'");
+                                        schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'.addEventListener("durationchange", function() {
+                                            $("#schedytd'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'").html(Math.ceil(schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'.duration) + " seconds");
                                         });
                                 </script>
                                 </tr>';

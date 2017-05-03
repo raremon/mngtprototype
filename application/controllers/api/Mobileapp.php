@@ -8,22 +8,17 @@ class Mobileapp extends REST_Controller {
 	}
 	public function login_post(){
 		
-		// echo sha1('admin');
-		
 		$d = $this->post();
 		/* JSON method to authenticate ad owner in Android app */
 		//http://[::1]/star8/api/mobileapp/login
 			
 		if( isset($d['user']) && isset($d['pass']) ){
-			//goes to model to validate username and password
+			//Goes to model to validate username and password
 			$result = $this->Owners->validate_mobile($d);
 			$response = $result;	
 			
-			//just in case datestamps are needed to be added
-			// $date = date_create();
-			// $response["datestamp"] = $date->format('Y-m-d H:i:s');	
-			
 		}else{
+			//If username or password is empty
 			$response = -1;
 		}
 		$this->response($response);	
@@ -36,11 +31,14 @@ class Mobileapp extends REST_Controller {
 		
 		if( isset($d['user']) && isset($d['pass']) ){
 			
-			//goes to model to get ad owner data
+			//Goes to model to get ad owner data
 			$result = $this->Owners->get_info($d['owner_id']);
 			
 		}else{
-			
+			//Response to get rid of other mobile sessions if ad owner changes password
+			//Or just a normal fail response :D
+			$result = -1;
 		}
+		$this->response($result);
 	}
 	}

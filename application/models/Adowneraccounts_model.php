@@ -48,6 +48,7 @@ class Adowneraccounts_model extends CI_Model
 		if ($query->num_rows()){
 			
 			$row = $query->row_array();
+			
 			// Checks the password
 			if ($row['owner_upass'] == sha1($password)){
 				
@@ -55,33 +56,42 @@ class Adowneraccounts_model extends CI_Model
 				$row['is_online']=$is_online;
 				$this->db->where("owner_id", $row['owner_id']);
 				$this->db->update($this->table, $row);
+				
 				// Unsets the password from the array
 				unset($row['owner_upass']);
 				$this->_data = $row;
 				return $row['owner_id'];
 			}
 			// Password not match
-			return 0;
+			return -1;
 		}
 		else {
 			// Password not found
-			return 0;
+			return -1;
 		}
 	}
 	public function get_info_mobile($data){
-		// Find User in DB
-			$user_id = $data;
-			$this->db->where("owner_id", $user_id);
-			$query = $this->db->get($this->table);
-			$row = $query->row_array();
-			return $row;
+		
+		//Gets data from controller
+		$user_id = $data['user_id'];
+		
+		//Queries the table for owner data
+		$this->db->where("owner_id", $user_id);
+		$query = $this->db->get($this->table);
+		
+		//Puts data into $row and returns it to controller
+		$row = $query->row_array();
+		return $row;
 	}
+	
 	public function logout_mobile($data)
 		{
 			// Get Current Time
 			$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
-			// Set status to offline
+			
+			// Set ad owner status to offline
 			$is_online = false;
+			
 			// Find User in DB
 			$user_id = $data;
 			$this->db->where("owner_id", $user_id);
@@ -89,6 +99,7 @@ class Adowneraccounts_model extends CI_Model
 				'is_online'=>$is_online,
 				'owner_lastlogin'=>$lastlogin->format('Y-m-d H:i:s'),
 			);
+			
 			// Update the Database
 			$this->db->update($this->table,$data);
 			return TRUE;
