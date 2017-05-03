@@ -100,28 +100,7 @@
                 $('#ad-message').html(data.errors).addClass('alert-danger');
               }
             }else {
-              $('#material').html(data.message);
-              setTimeout(function() {
-                $.ajax({
-                  url: "<?php echo site_url('ads_mngt/saveAdRecord') ?>",
-                  type: 'POST',
-                  dataType: 'json',
-                  data: $('#ads').serialize(),
-                  encode:true,
-                  success:function(data) {
-                    if(!data.success){
-                      if(data.errors){
-                        $('#ad-message').html(data.errors).addClass('alert alert-danger');
-                      }
-                    }else {
-                      $('#ad-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
-                      setTimeout(function() {
-                        window.location.reload()
-                      }, 1500);
-                    }
-                  }
-                })
-              }, 500);
+              $("#material").html(data.message);
             }
           }
         });
@@ -129,6 +108,27 @@
     });
   });
 
+  function save() {
+    $.ajax({
+      url: "<?php echo site_url('ads_mngt/saveAdRecord') ?>",
+      type: "POST",
+      dataType: "json",
+      data: $("#ads").serialize(),
+      encode:true,
+      success:function(data) {
+        if(!data.success){
+          if(data.errors){
+            $("#ad-message").html(data.errors).addClass("alert alert-danger");
+          }
+        }else {
+          $("#ad-message").html(data.message).addClass("alert alert-success").removeClass("alert-danger");
+          setTimeout(function() {
+            window.location.reload()
+          }, 1500);
+        }
+      }
+    })
+  }
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
