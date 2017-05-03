@@ -2,86 +2,106 @@
   <div class="box-header with-border">
     <h3 class="box-title">Advertiser Details</h3>
     <div class="box-tools pull-right">
-      <!-- Buttons, labels, and many other things can be placed here! -->
-    </div><!-- /.box-tools -->
-  </div><!-- /.box-header -->
+    </div>
+  </div>
   <div class="box-body">
     <div class="row">
       <div class="container-fluid">
-
         <div class="col-md-12">
           <div id="advertiser-message"></div>
-          <?php echo form_open('welcome', array('id'=>'advertiser')); ?>
-            <div class="form-group hidden">
-              <input type="text" name="advertiser_id" class="form-control"/>
-            </div>
+          <?php echo form_open_multipart('advertisers/saveAdvertiser', array('id'=>'advertiser')); ?>
             <div class="form-group">
               <label>Advertiser Name</label>
-              <input type="text" name="advertiser_name" class="form-control" placeholder="McDonalds"/>
+              <input type="text" name="advertiser_name" class="form-control" placeholder="Enter Name"/>
             </div>
             <div class="form-group">
-              <label>Advertiser Address</label>
-              <input type="text" name="advertiser_address" class="form-control" placeholder="16th Floor Citibank Center Bldg. 8741 Paseo de Roxas St. ,Makati City"/>
+              <label>Company Address</label>
+              <input type="text" name="advertiser_address" class="form-control" placeholder="Enter Address"/>
             </div>
             <div class="form-group">
-              <label>Advertiser Contact</label>
-              <input type="text" name="advertiser_contact" class="form-control" placeholder="02-8635490"/>
+              <label>Contact Information</label>
+              <input type="text" name="advertiser_contact" class="form-control" placeholder="Enter Contact Information"/>
             </div>
             <div class="form-group">
-              <label>Advertiser Email</label>
-              <input type="text" name="advertiser_email" class="form-control" placeholder="writeus@ph.mcd.com"/>
+              <label>Email Address</label>
+              <input type="text" name="advertiser_email" class="form-control" placeholder="Enter Email Address"/>
+            </div>
+            <div class="form-group">
+              <label>Company Website</label>
+              <input type="text" name="advertiser_website" class="form-control" placeholder="Enter Company Website"/>
+            </div>
+            <div class="form-group">
+              <label>Company Logo</label>
+              <input name="image_file" id="image_file" type="file" class="file">
+              <div class="input-group col-xs-12">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-camera"></i></span>
+                <input type="text" class="form-control input-md" disabled placeholder="Upload Image">
+                <input name="advertiser_image" type="text" class="form-control input-md hidden">
+                <span class="input-group-btn">
+                  <button class="browse btn btn-success input-md" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                </span>
+              </div>
             </div>
             <div class="form-group">
               <label>Description</label>
-              <textarea name="advertiser_description" class="form-control" cols="30" rows="7" placeholder="Our Chairman and Founder, George T. Yang, built the first Golden Arches in the Philippines in 1981. From our first restaurant along Morayta in Manila, we are happy to welcome you in our 375 restaurants nationwide.
-
-With Kenneth S. Yang as the President & CEO and with over 27,000 dedicated employees and crew members, we remain committed in growing and innovating products and services for you.
-
-And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread happiness to communities and to have fun with you guys!"></textarea>
+              <textarea name="advertiser_description" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
             </div>
-            <button type="button" class="btn btn-primary save" onclick="save_Advertiser()">Save</button>
+            <button type="submit" class="btn btn-primary save">Save</button>
           <?php echo form_close(); ?>
         </div>
-
       </div> 
       </div>
     </div>
   <div class="box-footer">      
-  </div><!-- box-footer -->
-</div><!-- /.box -->
-
+  </div>
+</div>
 <script type="text/javascript">
-
+  //Placeholder Text
+  $(document).on('click', '.browse', function(){
+    var file = $(this).parent().parent().parent().find('.file');
+    file.trigger('click');
+  });
+  //Placeholder Text End
+  $(document).on('change', '.file', function(){
+    $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+  });
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-
-  // C R E A T E
-  function save_Advertiser() {
-    $.ajax({
-      url: "<?php echo site_url('advertisers/saveAdvertiser') ?>",
-      type: 'POST',
-      dataType: 'json',
-      data: $('#advertiser').serialize(),
-      encode:true,
-      success:function(data) {
-        if(!data.success){
-          if(data.errors){
-            $('#advertiser-message').html(data.errors).addClass('alert alert-danger');
-          }
-        }else {
-          $('#advertiser-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-          setTimeout(function() {
-            window.location.reload()
-          }, 1000);
-        }
+  $(document).ready(function(){
+    $('#advertiser').on('submit', function(e){
+      e.preventDefault();
+      if($('#image_file').val() == '')
+      {
+        $('#advertiser-message').html("The file upload cannot be empty!").addClass('alert alert-danger');
       }
-    })
-  }
-
+      else
+      {
+        $.ajax({
+          url: "<?php echo site_url('advertisers/saveAdvertiser') ?>",
+          method: 'POST',
+          data: new FormData(this),
+          contentType: false,
+          cache: false,
+          processData: false,
+          success:function(data) {
+            if(!data.success){
+              if(data.errors){
+                $('#advertiser-message').html(data.errors).addClass('alert alert-danger');
+              }
+            }else {
+              $('#advertiser-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
+              setTimeout(function() {
+                window.location.reload();
+              }, 1000);
+            }
+          }
+        });
+      }
+    });
+  });
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-
   // END OF ADVERTISER ADD JAVASCRIPT
 </script>

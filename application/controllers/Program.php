@@ -183,19 +183,7 @@
 						',
 						$rows['ad_name'],
 						$rows['ad_filename'],
-						'
-							<p id="regp'.$rows["ad_id"].'"></p>
-							<script>	
-								
-									var regvideo'.$rows["ad_id"].' = document.getElementById("regv'.$rows["ad_id"].'");
-									regvideo'.$rows["ad_id"].'.addEventListener("durationchange", function() {
-									    $("#regp'.$rows["ad_id"].'").text(regvideo'.$rows["ad_id"].'.duration + " seconds");
-									});
-								  
-								
-
-							</script>
-						',
+						$rows['ad_duration'].' Seconds',
 
 						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad('."'".$rows['ad_id']."'".')">Get Ad</a>',
 
@@ -327,19 +315,7 @@
 						',
 						$rows['ad_name'],
 						$rows['ad_filename'],
-						'
-							<p id="schedp'.$rows["ad_id"].'"></p>
-							<script>	
-								
-									var schedvideo'.$rows["ad_id"].' = document.getElementById("schedv'.$rows["ad_id"].'");
-									schedvideo'.$rows["ad_id"].'.addEventListener("durationchange", function() {
-									    $("#schedp'.$rows["ad_id"].'").text(schedvideo'.$rows["ad_id"].'.duration + " seconds");
-									});
-								  
-								
-
-							</script>
-						',
+						$rows['ad_duration'].' Seconds',
 
 						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad_sched('."'".$rows['ad_id']."'".')">Get Ad</a>',
 
@@ -472,19 +448,7 @@
 						',
 						$rows['ad_name'],
 						$rows['ad_filename'],
-						'
-							<p id="blockp'.$rows["ad_id"].'"></p>
-							<script>	
-								
-									var blockvideo'.$rows["ad_id"].' = document.getElementById("blockv'.$rows["ad_id"].'");
-									blockvideo'.$rows["ad_id"].'.addEventListener("durationchange", function() {
-									    $("#blockp'.$rows["ad_id"].'").text(blockvideo'.$rows["ad_id"].'.duration + " seconds");
-									});
-								  
-								
-
-							</script>
-						',
+						$rows['ad_duration'].' Seconds',
 
 						'<a href="javascript:void(0)" class="btn btn-success btn-sm btn-block" onclick="get_ad_block('."'".$rows['ad_id']."'".')">Get Ad</a>',
 
