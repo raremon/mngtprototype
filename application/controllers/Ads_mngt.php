@@ -186,16 +186,6 @@
 					else
 					{
 						$info['success']=TRUE;
-
-						// $data=array(
-						// 	'ad_name'=>$this->input->post('ad_name'),
-						// 	'ad_filename'=> str_replace(' ', '_', preg_replace("/ {2,}/", " ", $config['file_name'].".".$ext) ),
-						// 	'ad_duration' => '',
-						// 	'advertiser_id'=>$this->input->post('advertiser_id'),
-						// );
-						// $this->Ad->save_Ad($data);
-
-						// $info['message']="You have successfully saved your data!";
 						$ad_filename = str_replace(' ', '_', preg_replace("/ {2,}/", " ", $config['file_name'].".".$ext) );
 
 						$info['message']='<video id="Xvideo" width="100%" controls>
@@ -207,6 +197,7 @@
 													video.addEventListener("durationchange", function() {
 													    $("#video_duration").val(Math.ceil(video.duration));
 													    $("#video_filename").val("'.$ad_filename.'");
+													    save();
 													});
 											</script>';
 						
