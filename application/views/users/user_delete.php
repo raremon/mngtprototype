@@ -2,9 +2,8 @@
   <div class="box-header with-border">
     <h3 class="box-title">User List</h3>
     <div class="box-tools pull-right">
-      <!-- Buttons, labels, and many other things can be placed here! -->
-    </div><!-- /.box-tools -->
-  </div><!-- /.box-header -->
+    </div>
+  </div>
   <div class="box-body">
     <div class="alert alert-danger alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -31,21 +30,16 @@
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
-  </div><!-- /.box-body -->
+  </div>
   <div class="box-footer">
-
-  </div><!-- box-footer -->
-</div><!-- /.box -->
-
+  </div>
+</div>
 <script type="text/javascript">
-
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-
   // R E A D
   $("#user_data").DataTable({
     "ajax":{
@@ -53,7 +47,6 @@
       "type":"POST"
     }
   })
-
   // D E L E T E
   function delete_user(user_id) {
     if(confirm('Do you really want to delete this User Record ??')){
@@ -66,22 +59,23 @@
         success:function(data) {
           if(!data.success){
             if(data.errors){
+              $(window).scrollTop(0);
+              $("#user-message").fadeIn("slow");
               $('#user-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#user-message').fadeOut('slow');
+              }, 3000);
             }
           }else {
-            $('#user-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-            setTimeout(function() {
-              window.location.reload();
-            }, 1000);
+            $('#message-text').html(data.message);
+            $('#successModal').modal('show');
           }
         }
       });
     }
   }
-
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-
   // END OF USER DELETE JAVASCRIPT
 </script>

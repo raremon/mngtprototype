@@ -184,15 +184,8 @@
               }, 3000);
             }
           }else {
-              $(window).scrollTop(0);
-
-              $("#regular-message").fadeIn("slow");
-              $('#regular-message').html(data.message).addClass('alert alert-success').removeClass('alert-danger');
-              setTimeout(function() {
-                  $('#regular-message').fadeOut('slow');
-
-                  window.location.reload();
-              }, 2000);
+            $('#message-text').html(data.message);
+            $('#successModal').modal('show');
           }
         }
       })
@@ -269,7 +262,8 @@
       }
       else
       {
-        alert("Ad Already Selected !");
+        $('#error-text').html("Ad Already Selected !");
+        $('#errorModal').modal('show');
       }
     }
     function find_ad(ad_id) {

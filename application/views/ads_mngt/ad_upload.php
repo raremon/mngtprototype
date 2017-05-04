@@ -47,7 +47,10 @@
             <button class="browse btn btn-success input-md" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
           </span>
         </div>
+        <!-- TAGGING PAUL -->
+        <img id="loading_img" src="<?php echo base_url('assets/public/loading.gif') ?>" class="hidden">
       </div>
+      
       <button type="submit" class="btn btn-primary" name="upload" id="upload" value="upload">Upload</button>
     <?php echo form_close(); ?>
   </div>
@@ -64,20 +67,24 @@
   $(document).on('change', '.file', function(){
     $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
   });
-
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-
   $(document).ready(function(){
     $('#ads').on('submit', function(e){
       e.preventDefault();
       if($('#ad_file').val() == '')
       {
+        $(window).scrollTop(0);
+        $("#ad-message").fadeIn("slow");
         $('#ad-message').html("The file upload cannot be empty!").addClass('alert alert-danger');
+        setTimeout(function() {
+            $('#ad-message').fadeOut('slow');
+        }, 3000);
       }
       else
       {
+        $('#loading_img').removeClass('hidden');
         $.ajax({
           url: "<?php echo site_url('ads_mngt/saveAd') ?>",
           method: 'POST',
@@ -97,7 +104,12 @@
           success:function(data) {
             if(!data.success){
               if(data.errors){
-                $('#ad-message').html(data.errors).addClass('alert-danger');
+                $(window).scrollTop(0);
+                $("#ad-message").fadeIn("slow");
+                $('#ad-message').html(data.errors).addClass('alert alert-danger');
+                setTimeout(function() {
+                    $('#ad-message').fadeOut('slow');
+                }, 3000);
               }
             }else {
               $("#material").html(data.message);
@@ -107,7 +119,6 @@
       }
     });
   });
-
   function save() {
     $.ajax({
       url: "<?php echo site_url('ads_mngt/saveAdRecord') ?>",
@@ -118,13 +129,17 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
-            $("#ad-message").html(data.errors).addClass("alert alert-danger");
+            $(window).scrollTop(0);
+            $("#ad-message").fadeIn("slow");
+            $('#ad-message').html(data.errors).addClass('alert alert-danger');
+            setTimeout(function() {
+                $('#ad-message').fadeOut('slow');
+            }, 3000);
           }
         }else {
-          $("#ad-message").html(data.message).addClass("alert alert-success").removeClass("alert-danger");
-          setTimeout(function() {
-            window.location.reload()
-          }, 1500);
+          $('#loading_img').addClass('hidden');
+          $('#message-text').html(data.message);
+          $('#successModal').modal('show');
         }
       }
     })
@@ -132,7 +147,5 @@
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-
   // END OF ADS JAVASCRIPT
-
 </script>

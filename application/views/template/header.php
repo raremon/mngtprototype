@@ -8,7 +8,7 @@
 
       <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-      <!--LINKS-->
+      <!--GLOBAL LINKS-->
       <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css') ?>">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -16,17 +16,11 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-green.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
+    <?php foreach($css as $rows){ ?>
+      <link rel="stylesheet" href="<?php echo base_url($rows) ?>"/>
+    <?php } ?>
 
-      <?php 
-        foreach($css as $rows)
-        {
-      ?>
-        <link rel="stylesheet" href="<?php echo base_url($rows) ?>"/>
-      <?php 
-        }
-      ?>
-
-      <!-- REQUIRED JS SCRIPTS -->
+      <!-- GLOBAL SCRIPTS -->
       <script src="<?php echo base_url('assets/js/jquery-2.2.3.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/app.min.js') ?>"></script>
@@ -36,15 +30,9 @@
       <script>
         $.widget.bridge('uibutton', $.ui.button);
       </script>
-
-      <?php 
-        foreach($script as $rows)
-        {
-      ?>
-        <script src="<?php echo base_url($rows) ?>"></script>
-      <?php 
-        }
-      ?>
+    <?php foreach($script as $rows){ ?>
+      <script src="<?php echo base_url($rows) ?>"></script>
+    <?php } ?>
 
     </head>
 
@@ -313,6 +301,43 @@
             </section>
           </aside>
 
+          <!-- TAGGING PAUL -->
+          <div class="modal fade" id="successModal" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Success!</h4>
+                </div>
+                <div class="modal-body">
+                  <p id="message-text"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script type="text/javascript">$('#successModal').on('hidden.bs.modal',function(){window.location.reload();})</script>
+
+          <!-- TAGGING PAUL -->
+          <div class="modal fade" id="errorModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Error!</h4>
+                </div>
+                <div class="modal-body">
+                  <p id="error-text"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div class="content-wrapper">
             <section class="content-header">
               <h1>

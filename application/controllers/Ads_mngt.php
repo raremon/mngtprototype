@@ -310,6 +310,7 @@
 						$rows['amCount'],
 						$rows['pmCount'],
 						$rows['eveCount'],
+						$rows['amCount'] + $rows['pmCount'] + $rows['eveCount'],
 					)
 				);
 			}
@@ -338,6 +339,7 @@
 							$rows['amCount'],
 							$rows['pmCount'],
 							$rows['eveCount'],
+							$rows['amCount'] + $rows['pmCount'] + $rows['eveCount'],
 						)
 					);
 				}
@@ -350,9 +352,7 @@
 			$amCount = 0;
 			$pmCount = 0;
 			$eveCount = 0;
-			// HANAPIN YUNG AD ID FROM AD TABLE GAMIT ADVERTISER ID
 			$ad_data = $this->Ad->get_Ad_Data($advertiser_id);
-			// THEN HANAPIN YUNG AD ID && ROUTE ID SA AD LOGS TABLE
 			foreach($ad_data as $ad)
 			{
 				$report_data = $this->Ad_Log->get_logs_company($ad['ad_id'], $route_id);
@@ -368,8 +368,6 @@
 				$amCount, $pmCount, $eveCount, $total
 			);
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
-			// THEN RETURN VALUES
-			// $report_route = $this->Ad_Log->get_log_route($route_id);
 		}
 
 		// U P D A T E
