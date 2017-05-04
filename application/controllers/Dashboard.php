@@ -99,7 +99,11 @@
 
 			$firstSection = array
 			(
-				"program/program_create",
+				"program/program_create_open",
+				"program/program_create_regular",
+				"program/program_create_scheduled",
+				"program/program_create_block",
+				"program/program_create_close",
 			);
 
 			$secondSection = array

@@ -68,10 +68,10 @@
 		$this->db->select('*')
 				->from($this->table)
 				->join('routes','schedules.route_id=routes.route_id','inner')
-				->join('airtime','schedules.schedID=airtime.schedID','inner')
+				->join('airtimes','schedules.schedID=airtimes.schedID','inner')
 				->join('buses','routes.route_id=buses.route_id','inner')
-				->join('ad_sched','schedules.schedID=ad_sched.schedID','inner')
-				->join('ads','ad_sched.ad_id=ads.ad_id','inner');
+				->join('ad_schedules','schedules.schedID=ad_schedules.schedID','inner')
+				->join('ads','ad_schedules.ad_id=ads.ad_id','inner');
 				
 		// $this->db->where('id <', $id);
 		// $where = array(

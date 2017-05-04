@@ -1,6 +1,5 @@
 <div class="row">
   <div class="container">
-
     <div class="col-md-12">
       <div id="bus-message"></div>
       <?php echo form_open('welcome', array('id'=>'bus_type')); ?>
@@ -9,17 +8,14 @@
       </div>
       <div class="form-group">
         <label>Bus Type Name</label>
-        <input type="text" name="bus_type_name" class="form-control" placeholder="Sun Bus ( 30 pax )"/>
+        <input type="text" name="bus_type_name" class="form-control" placeholder="Enter Bus Type Name"/>
       </div>
       <button type="button" class="btn btn-primary save" onclick="save_bus_type()">Save</button>
       <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_bus_type()">Update</button>
       <?php echo form_close(); ?>
     </div>
-
   </div> 
-
   <div class="container-fluid">
-
     <div class="col-md-12">
       <h3 class="page-header">Bus Type Data</h3>
       <table id="bus_type_data" class="table table-hover">
@@ -34,16 +30,12 @@
         </tbody>
       </table>
     </div>
-
   </div>
 </div>
-
 <script type="text/javascript">
-
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-
   // C R E A T E
   function save_bus_type() {
     $.ajax({
@@ -55,18 +47,20 @@
       success:function(data) {
         if(!data.success){
           if(data.errors){
+            $(window).scrollTop(0);
+            $("#bus-message").fadeIn("slow");
             $('#bus-message').html(data.errors).addClass('alert alert-danger');
+            setTimeout(function() {
+                $('#bus-message').fadeOut('slow');
+            }, 3000);
           }
         }else {
-          $('#bus-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-          setTimeout(function() {
-            window.location.reload()
-          }, 1000);
+          $('#message-text').html(data.message);
+          $('#successModal').modal('show');
         }
       }
     })
   }
-
   // R E A D
   $("#bus_type_data").DataTable({
     "ajax":{
@@ -74,7 +68,6 @@
       "type":"POST"
     }
   })
-
   // U P D A T E
   function edit_bus_type(bus_type_id) {
     $.ajax({
@@ -91,7 +84,6 @@
       }
     })
   }
-
   function update_bus_type() {
     $.ajax({
       url: "<?php echo site_url('buses/updateBusType') ?>",
@@ -99,19 +91,21 @@
       dataType: 'json',
       data: $('#bus_type').serialize(),
       encode:true,
-      success:function (data) {
+      success:function(data) {
         if(!data.success){
+          $(window).scrollTop(0);
+          $("#bus-message").fadeIn("slow");
           $('#bus-message').html(data.errors).addClass('alert alert-danger');
+          setTimeout(function() {
+              $('#bus-message').fadeOut('slow');
+          }, 3000);
         }else {
-          $('#bus-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-          setTimeout(function () {
-            window.location.reload();
-          }, 1000);
+          $('#message-text').html(data.message);
+          $('#successModal').modal('show');
         }
       }
     })
   }
-
   // D E L E T E
   function delete_bus_type(bus_type_id) {
     if(confirm('Do you really want to delete this Bus Type Record ??')){
@@ -124,22 +118,23 @@
         success:function(data) {
           if(!data.success){
             if(data.errors){
+              $(window).scrollTop(0);
+              $("#bus-message").fadeIn("slow");
               $('#bus-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#bus-message').fadeOut('slow');
+              }, 3000);
             }
           }else {
-            $('#bus-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-            setTimeout(function() {
-              window.location.reload();
-            }, 1000);
+            $('#message-text').html(data.message);
+            $('#successModal').modal('show');
           }
         }
       });
     }
   }
-
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-
   // END OF BUS ADD JAVASCRIPT
 </script>

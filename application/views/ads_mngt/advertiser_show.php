@@ -7,7 +7,6 @@
   <div class="box-body">
     <div class="row">
       <div class="container-fluid">
-
         <div class="col-md-12">
           <div id="advertiser-message"></div>
           <?php echo form_open('welcome', array('id'=>'advertiser')); ?>
@@ -16,39 +15,37 @@
             </div>
             <div class="form-group">
               <label>Advertiser Name</label>
-              <input type="text" name="advertiser_name" class="form-control" placeholder="McDonalds"/>
+              <input type="text" name="advertiser_name" class="form-control" placeholder="Enter Name"/>
             </div>
             <div class="form-group">
-              <label>Advertiser Address</label>
-              <input type="text" name="advertiser_address" class="form-control" placeholder="16th Floor Citibank Center Bldg. 8741 Paseo de Roxas St. ,Makati City"/>
+              <label>Company Address</label>
+              <input type="text" name="advertiser_address" class="form-control" placeholder="Enter Address"/>
             </div>
             <div class="form-group">
-              <label>Advertiser Contact</label>
-              <input type="text" name="advertiser_contact" class="form-control" placeholder="02-8635490"/>
+              <label>Contact Information</label>
+              <input type="text" name="advertiser_contact" class="form-control" placeholder="Enter Contact Information"/>
             </div>
             <div class="form-group">
-              <label>Advertiser Email</label>
-              <input type="text" name="advertiser_email" class="form-control" placeholder="writeus@ph.mcd.com"/>
+              <label>Email Address</label>
+              <input type="text" name="advertiser_email" class="form-control" placeholder="Enter Email Address"/>
+            </div>
+            <div class="form-group">
+              <label>Company Website</label>
+              <input type="text" name="advertiser_website" class="form-control" placeholder="Enter Company Website"/>
             </div>
             <div class="form-group">
               <label>Description</label>
-              <textarea name="advertiser_description" class="form-control" cols="30" rows="7" placeholder="Our Chairman and Founder, George T. Yang, built the first Golden Arches in the Philippines in 1981. From our first restaurant along Morayta in Manila, we are happy to welcome you in our 375 restaurants nationwide.
-
-With Kenneth S. Yang as the President & CEO and with over 27,000 dedicated employees and crew members, we remain committed in growing and innovating products and services for you.
-
-And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread happiness to communities and to have fun with you guys!"></textarea>
+              <textarea name="advertiser_description" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
             </div>
             <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Advertiser()">Update</button>
           <?php echo form_close(); ?>
         </div>
-
       </div> 
     </div>
   </div>
   <div class="box-footer">      
   </div>
 </div>
-
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Advertiser Data</h3>
@@ -62,11 +59,11 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
           <table id="advertiser_data" class="table table-hover table-bordered">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>ADDRESS</th>
-                <th>CONTACT</th>
-                <th>EMAIL</th>
+                <th>ADVERTISER NAME</th>
+                <th>COMPANY ADDRESS</th>
+                <th>CONTACT DETAILS</th>
+                <th>EMAIL ADDRESS</th>
+                <th>COMPANY WEBSITE</th>
                 <th>DESCRIPTION</th>
                 <th></th>
               </tr>
@@ -80,20 +77,16 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
   <div class="box-footer">
   </div>
 </div>
-
 <script type="text/javascript">
-
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-
   // R E A D
   $("#advertiser_data").DataTable({
     "ajax":{
       "url":"<?php echo site_url('advertisers/showAdvertiser') ?>",
       "type":"POST"
     },
-
     "columns": [
       null,
       null,
@@ -104,9 +97,9 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
       null,
     ]
   })
-
   // U P D A T E
   function edit_advertiser(advertiser_id) {
+    $(window).scrollTop(0);
     $("#mainBox").show();
     $.ajax({
       url: "<?php echo site_url('advertisers/editAdvertiser') ?>",
@@ -121,11 +114,11 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
         $('input[name="advertiser_address"]').val(data.advertiser_address);
         $('input[name="advertiser_contact"]').val(data.advertiser_contact);
         $('input[name="advertiser_email"]').val(data.advertiser_email);
+        $('input[name="advertiser_website"]').val(data.advertiser_website);
         $('textarea[name="advertiser_description"]').val(data.advertiser_description);
       }
     })
   }
-
   function update_Advertiser() {
     $.ajax({
       url: "<?php echo site_url('advertisers/updateAdvertiser') ?>",
@@ -133,19 +126,21 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
       dataType: 'json',
       data: $('#advertiser').serialize(),
       encode:true,
-      success:function (data) {
+      success:function(data) {
         if(!data.success){
+          $(window).scrollTop(0);
+          $("#advertiser-message").fadeIn("slow");
           $('#advertiser-message').html(data.errors).addClass('alert alert-danger');
+          setTimeout(function() {
+              $('#advertiser-message').fadeOut('slow');
+          }, 3000);
         }else {
-          $('#advertiser-message').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-          setTimeout(function () {
-            window.location.reload();
-          }, 1000);
+          $('#message-text').html(data.message);
+          $('#successModal').modal('show');
         }
       }
     })
   }
-
   // D E L E T E
   function delete_advertiser(advertiser_id) {
     if(confirm('Do you really want to delete this Advertiser Record ??')){
@@ -158,22 +153,23 @@ And with our Chief Happiness Officer, Ronald McDonald, we always aim to spread h
         success:function(data) {
           if(!data.success){
             if(data.errors){
-              $('#advertiser-message-2').html(data.errors).addClass('alert alert-danger');
+              $(window).scrollTop(0);
+              $("#advertiser-message").fadeIn("slow");
+              $('#advertiser-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#advertiser-message').fadeOut('slow');
+              }, 3000);
             }
           }else {
-            $('#advertiser-message-2').html(data.message).addClass('alert alert-success').removeClass('alert alert-danger');
-            setTimeout(function() {
-              window.location.reload();
-            }, 1000);
+            $('#message-text').html(data.message);
+            $('#successModal').modal('show');
           }
         }
       });
     }
   }
-
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-
   // END OF BUS ADD JAVASCRIPT
 </script>
