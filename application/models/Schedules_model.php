@@ -18,7 +18,7 @@
 			return $this->db->count_all_results();
 		}
 
-	public function getSchedule($busID,$date){
+	public function getSchedule($routeID,$date){
 
 		// SELECT * FROM schedule 
 		// INNER JOIN routes ON schedule.route_id=routes.route_id 
@@ -40,7 +40,7 @@
 						// );
 		
 		// if( isset($where) )
-			$this->db->where('bus_id',$busID);
+			$this->db->where('schedules.route_id',$routeID);
 			// $this->db->where('schedules.date_start <',$date);
 			$this->db->where('schedules.date_end >',$date);
 
@@ -56,7 +56,7 @@
 	
 	}
 	
-	public function getScheduleAds($busID,$date){
+	public function getScheduleAds($routeID,$date){
 		
 	// SELECT * FROM schedule INNER JOIN routes ON schedule.route_id=routes.route_id 
 	// INNER JOIN airtime ON schedule.schedID=airtime.schedID 
@@ -69,7 +69,7 @@
 				->from($this->table)
 				->join('routes','schedules.route_id=routes.route_id','inner')
 				->join('airtimes','schedules.schedule_id=airtimes.schedule_id','inner')
-				->join('buses','routes.route_id=buses.route_id','inner')
+				// ->join('buses','routes.route_id=buses.route_id','inner')
 				->join('ad_schedules','schedules.schedule_id=ad_schedules.schedule_id','inner')
 				->join('ads','ad_schedules.ad_id=ads.ad_id','inner');
 				
@@ -80,7 +80,7 @@
 						// );
 		
 		// if( isset($where) ){
-			$this->db->where('bus_id',$busID);
+			$this->db->where('schedules.route_id',$routeID);
 			// $this->db->where('schedules.date_start <',$date);
 			$this->db->where('schedules.date_end >',$date);
 		// }
