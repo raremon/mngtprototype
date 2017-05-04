@@ -603,14 +603,20 @@
 					$ad_Data = $this->Ad->edit_Ad_Data($ads['ad_id']);
                     $text=$text.'<tr>
                                 <td width="20%">
-                                    <video id="y'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'" width="100%" controls>
+                                    <video id="y'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$ads['ad_id'].'" width="100%" controls>
 							  			<source src="'.base_url("assets/ads/".$ad_Data["ad_filename"]).'" type="video/mp4">
 							  			Your browser does not support HTML5 video.
 									</video>
                                 </td>
                                 <td style="text-align:center;font-size:20px;vertical-align: middle;">'.$ad_Data['ad_name'].'</td>
-                                <td id="schedytd'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$rows['schedule_id'].'" style="text-align:center;font-size:20px;vertical-align: middle;">'.$ads['ad_duration'].'</td>
-                                </tr>';
+                                <td id="schedytd'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$ads['ad_id'].'" style="text-align:center;font-size:20px;vertical-align: middle;"></td>
+                                </tr>
+                                <script>	
+                                        var schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$ads['ad_id'].' = document.getElementById("y'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$ads['ad_id'].'");
+                                        schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$ads['ad_id'].'.addEventListener("durationchange", function() {
+                                            $("#schedytd'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$ads['ad_id'].'").html(Math.ceil(schedvideo'.$ctr1.$ctr2.$ads['ad_id'].$ads['ad_name'].$ads['ad_id'].'.duration) + " seconds");
+                                        });
+                                </script>';
                                 $ctr2++;
 				}
                 $ctr1++;
