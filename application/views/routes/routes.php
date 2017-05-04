@@ -55,11 +55,11 @@
           </div>
           <div class="form-group">
             <label>Route Name</label>
-            <input type="text" name="route_name" class="form-control" placeholder="Manila to Batanggas Route"/>
+            <input type="text" name="route_name" class="form-control" placeholder="Enter Route Name"/>
           </div>
           <div class="form-group">
             <label>Route Description</label>
-            <textarea name="route_description" class="form-control" cols="30" rows="7" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."></textarea>
+            <textarea name="route_description" class="form-control" cols="30" rows="7" placeholder="Enter Short Description"></textarea>
           </div>
           <button type="button" class="btn btn-primary save" onclick="save_route()">Save</button>
           <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_route()">Update</button>

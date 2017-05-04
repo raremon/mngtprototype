@@ -125,6 +125,14 @@
 			$query = $this->db->get();
 			return $query->result_array();
 		}
+        
+        public function get_Schedule_All()
+		{
+			$this->db->select("*");
+			$this->db->from('schedules');
+			$query = $this->db->get();
+			return $query->result_array();
+		}
 
 		public function get_Schedule_Route($route_id)
 		{
