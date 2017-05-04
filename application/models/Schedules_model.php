@@ -22,7 +22,7 @@
 
 		// SELECT * FROM schedule 
 		// INNER JOIN routes ON schedule.route_id=routes.route_id 
-		// INNER JOIN airtime ON schedule.schedID=airtime.schedID 
+		// INNER JOIN airtime ON schedule.schedule_id=airtime.schedule_id 
 		// INNER JOIN buses ON routes.route_id=buses.route_id
 		// WHERE buses.bus_id=1
 		// AND schedule.date_start<'2017-04-27' AND schedule.date_end>'2017-04-27'
@@ -30,7 +30,7 @@
 		$this->db->select('*')
 				->from($this->table)
 				->join('routes','schedules.route_id=routes.route_id','inner')
-				->join('airtime','schedules.schedID=airtime.schedID','inner')
+				->join('airtime','schedules.schedule_id=airtime.schedule_id','inner')
 				->join('buses','routes.route_id=buses.route_id','inner');
 				
 		// $this->db->where('id <', $id);
@@ -41,7 +41,7 @@
 		
 		// if( isset($where) )
 			$this->db->where('bus_id',$busID);
-			$this->db->where('schedules.date_start <',$date);
+			// $this->db->where('schedules.date_start <',$date);
 			$this->db->where('schedules.date_end >',$date);
 
 		if( isset($orwhere) )
@@ -68,9 +68,9 @@
 		$this->db->select('*')
 				->from($this->table)
 				->join('routes','schedules.route_id=routes.route_id','inner')
-				->join('airtimes','schedules.schedID=airtimes.schedID','inner')
+				->join('airtimes','schedules.schedule_id=airtimes.schedule_id','inner')
 				->join('buses','routes.route_id=buses.route_id','inner')
-				->join('ad_schedules','schedules.schedID=ad_schedules.schedID','inner')
+				->join('ad_schedules','schedules.schedule_id=ad_schedules.schedule_id','inner')
 				->join('ads','ad_schedules.ad_id=ads.ad_id','inner');
 				
 		// $this->db->where('id <', $id);
@@ -81,7 +81,7 @@
 		
 		// if( isset($where) ){
 			$this->db->where('bus_id',$busID);
-			$this->db->where('schedules.date_start <',$date);
+			// $this->db->where('schedules.date_start <',$date);
 			$this->db->where('schedules.date_end >',$date);
 		// }
 
