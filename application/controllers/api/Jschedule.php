@@ -13,6 +13,7 @@ class Jschedule extends REST_Controller {
 		// http://[::1]/star8/api/jschedule/get/busID/1/today/2017-04-29
 		// http://[::1]/star8/api/jschedule/get/routeID/1/today/2017-04-29
 		$data = $this->get();
+		// echo sha1('star8');
 		
 		if( isset($data['routeID']) && isset($data['today']) && is_numeric($data['routeID']) && $data['today']!='' ){
 			// $this->load->model('schedule_model');
