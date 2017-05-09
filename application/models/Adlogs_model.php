@@ -158,4 +158,4 @@ class Adlogs_model extends CI_Model
 
 }
 
-// END MODEL
+// END OF ADLOGS MODEL

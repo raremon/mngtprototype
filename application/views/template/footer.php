@@ -8,7 +8,7 @@
               Anything you want
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2017 <a href="#">Star8</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2016 <a href="#">Star8</a>.</strong> All rights reserved.
           </footer>
 
           <!-- Control Sidebar -->
@@ -24,7 +24,7 @@
               <div class="tab-pane active" id="control-sidebar-home-tab">
                 <h3 class="control-sidebar-heading">Recent Activity</h3>
                 <ul class="control-sidebar-menu">
-                  <!--<li>
+                  <li>
                     <a href="javascript:;">
                       <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
@@ -34,7 +34,7 @@
                         <p>Will be 23 on April 24th</p>
                       </div>
                     </a>
-                  </li>-->
+                  </li>
                 </ul>
                 <!-- /.control-sidebar-menu -->
 

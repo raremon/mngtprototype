@@ -105,4 +105,4 @@ class Adowneraccounts_model extends CI_Model
 			return 1;
 		}
 }
-// END OF MODEL
+// END OF AD OWNER MODEL
