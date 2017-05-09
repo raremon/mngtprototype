@@ -14,7 +14,7 @@
 
 			$this->load->model('routes_model', 'Route');
 
-			$this->load->model('buses_model', 'Bus');
+			$this->load->model('vehicles_model', 'Vehicle');
 			$this->load->model('ads_model', 'Ad');
 			$this->load->model('advertisers_model', 'Advertiser');
 			$this->load->model('schedules_model', 'Schedule');
@@ -92,7 +92,7 @@
 				);
 			}
 
-			$data['bus_count'] = $this->Bus->count_Bus();
+			$data['bus_count'] = $this->Vehicle->count_Vehicle();
 			$data['ad_count'] = $this->Ad->count_Ad();
 			$data['advertiser_count'] = $this->Advertiser->count_Advertiser();
 			$data['schedule_count'] = $this->Schedule->count_Schedule();

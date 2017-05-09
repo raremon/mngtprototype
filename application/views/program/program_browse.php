@@ -10,33 +10,14 @@
 
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_0" data-toggle="tab">Overall</a></li>
-        <li><a href="#tab_1" data-toggle="tab">By Advertiser</a></li>
+        <li class="active"><a href="#tab_1" data-toggle="tab">By Advertiser</a></li>
         <li><a href="#tab_2" data-toggle="tab">By Route</a></li>
         <li><a href="#tab_3" data-toggle="tab">By Schedule Type</a></li>
         <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
       </ul>
       <div class="tab-content">
 
-        <div class="tab-pane active" id="tab_0">
-          <div class="col-md-12">
-            <table id="overallTable" class="table table-hover table-bordered" width="100%">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>ROUTE</th>
-                  <th>STARTING DATE</th>
-                  <th>ENDING DATE</th>
-                  <th>SCHEDULE TYPE</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-        </div>
-          
-        <div class="tab-pane" id="tab_1">
+        <div class="tab-pane active" id="tab_1">
           <div class="form-group">
             <label>Select Advertiser:</label>
             <select id="advertiser_id" class="form-control">
@@ -140,23 +121,7 @@
 </div><!-- /.box -->
 
 <script type="text/javascript">
-  $( document ).ready(function() { 
-    $("#overallTable").DataTable({
-      ajax:{
-        url:"<?php echo site_url('program/overall_Table') ?>",
-        type:"POST",
-      },
-      "columns": [
-        null,
-        null,
-        null,
-        null,
-        null,
-      ]
-    })
-  });
-    
-  $( document ).ready(function() { 
+  $( document ).ready(function() {
     var selectedAdvertiser = $('#advertiser_id').val();
     $("#advertiserTable").DataTable({
       ajax:{
