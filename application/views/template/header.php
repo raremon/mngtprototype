@@ -270,20 +270,44 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="add_user"><a href="<?php echo base_url('users/add') ?>">Add User</a></li>
-                    <li id="delete_user"><a href="<?php echo base_url('users/delete') ?>">Delete User</a></li>
+                    <li id="new_user"><a href="<?php echo base_url('users/add') ?>">New User</a></li>
+                    <li id="browse_users"><a href="<?php echo base_url('users/browse') ?>">Browse Users</a></li>
+                    <li id="new_driver"><a href="<?php echo base_url('drivers/add') ?>">New Driver</a></li>
+                    <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Browse Drivers</a></li>
                   </ul>
                 </li>
                 <li id="bus_management" class="treeview">
-                  <a href="#"><i class="fa fa-bus"></i> <span>Bus Management</span>
+                  <a href="#"><i class="fa fa-bus"></i> <span>Vehicle Management</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="add_bus"><a href="<?php echo base_url('buses/add') ?>">Add Bus</a></li>
-                    <li id="delete_bus"><a href="<?php echo base_url('buses/delete') ?>">Delete Bus</a></li>
-                    <li id="bus_routes"><a href="<?php echo base_url('routes') ?>">Bus Routes</a></li>
+                    <li id="add_vehicle" class="alert alert-danger"><a href="#">Add Vehicle</a></li>
+                    <li id="browse_vehicles" class="alert alert-danger"><a href="#">Browse Vehicles</a></li>
+
+                    <li id="add_tv" class="alert alert-danger"><a href="#">Add TV</a></li>
+                    <li id="browse_tvs" class="alert alert-danger"><a href="#">Browse TVs</a></li>
+
+                    <li id="add_mediabox" class="alert alert-danger"><a href="#">Add Mediabox</a></li>
+                    <li id="browse_mediaboxes" class="alert alert-danger"><a href="#">Browse Mediaboxes</a></li>
+                  </ul>
+                </li>
+                <li id="route_management" class="treeview">
+                  <a href="#"><i class="fa fa-road"></i> <span>Route Management</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                  <ul class="treeview-menu">
+                    <li id="new_route"><a href="<?php echo base_url('routes/add') ?>">New Route</a></li>
+                    <li id="browse_routes"><a href="<?php echo base_url('routes/browse') ?>">Browse Routes</a></li>
+
+                    <li id="new_city"><a href="<?php echo base_url('cities/add') ?>">New City</a></li>
+                    <li id="browse_cities"><a href="<?php echo base_url('cities/browse') ?>">Browse Cities</a></li>
+
+                    <li id="new_region"><a href="<?php echo base_url('regions/add') ?>">New Region</a></li>
+                    <li id="browse_regions"><a href="<?php echo base_url('regions/browse') ?>">Browse Regions</a></li>
                   </ul>
                 </li>
                 <li id="live_monitoring" class="treeview">

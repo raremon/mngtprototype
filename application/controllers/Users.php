@@ -17,10 +17,10 @@ class Users extends MY_Controller {
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Add User';
+		$data['title']='New User';
 		$data['breadcrumbs']=array
 		(
-			array('Add User','users/add'),
+			array('New User','users/add'),
 		);
 		$data['css']=array
 		(
@@ -30,7 +30,7 @@ class Users extends MY_Controller {
 		(
 			
 		);
-		$data['page_description']='Add and Update User Accounts';
+		$data['page_description']='Add New User Accounts';
 
 		$role_data = $this->Role->show_Roles();
 		$data['roles'] = array();
@@ -45,20 +45,20 @@ class Users extends MY_Controller {
 		}
 
 		$data['treeActive'] = 'users_management';
-		$data['childActive'] = 'add_user' ;
+		$data['childActive'] = 'new_user' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("users/user_add", $data);
 		$this->load->view("template/footer", $data);
 	}
 
-	public function delete()
+	public function browse()
 	{
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Delete User';
+		$data['title']='Browse Users';
 		$data['breadcrumbs']=array
 		(
-			array('Delete User','users/delete'),
+			array('Browse Users','users/browse'),
 		);
 		$data['css']=array
 		(
@@ -68,13 +68,25 @@ class Users extends MY_Controller {
 		(
 			
 		);
-		$data['page_description']='Delete User Accounts';
+		$data['page_description']='Browse User Accounts';
+
+		$role_data = $this->Role->show_Roles();
+		$data['roles'] = array();
+		foreach ($role_data as $rows) {
+			array_push($data['roles'],
+				array(
+					$rows['role_id'],
+					$rows['role_name'],
+					$rows['role_description'],
+				)
+			);
+		}
 
 		$data['treeActive'] = 'users_management';
-		$data['childActive'] = 'delete_user' ;
+		$data['childActive'] = 'browse_users' ;
 
 		$this->load->view("template/header", $data);
-		$this->load->view("users/user_delete", $data);
+		$this->load->view("users/user_browse", $data);
 		$this->load->view("template/footer", $data);
 	}
 
@@ -137,6 +149,7 @@ class Users extends MY_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
 
+
 	// R E A D
 	public function showUser()
 	{
@@ -144,36 +157,16 @@ class Users extends MY_Controller {
 		$data = array();
 		foreach ($user_table as $rows) {
 			$userRole = $this->Role->edit_Role_Data($rows['user_role']);
+			$lastlogin = new DateTime($rows['user_lastlogin']); 
 			array_push($data,
 				array(
-					$rows['user_id'],
 					$rows['user_fname'],
 					$rows['user_lname'],
 					$userRole['role_name'],
 					$rows['user_name'],
-					$rows['user_lastlogin'],
-					'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="edit_user('."'".$rows['user_id']."'".')">Edit</a>'
-				)
-			);
-		}
-		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-	}
-
-	public function showUserDelete()
-	{
-		$user_table = $this->User->show_User();
-		$data = array();
-		foreach ($user_table as $rows) {
-			$userRole = $this->Role->edit_Role_Data($rows['user_role']);
-			array_push($data,
-				array(
-					$rows['user_id'],
-					$rows['user_fname'],
-					$rows['user_lname'],
-					$userRole['role_name'],
-					$rows['user_name'],
-					$rows['user_lastlogin'],
-					'<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="delete_user('."'".$rows['user_id']."'".')">Delete</a>'
+					$lastlogin->format('M / d / Y h:ia'),
+					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_user('."'".$rows['user_id']."'".')">Edit</a>'.
+					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_user('."'".$rows['user_id']."'".')">Delete</a>'
 				)
 			);
 		}
