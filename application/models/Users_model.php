@@ -9,17 +9,13 @@
 		{
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
-
 			// Set status to online
 			$is_online = true;
-
 			$this->db->where("user_name", $username);
 			$query = $this->db->get($this->table);
-
 			if ($query->num_rows()) 
 			{	
 				$row = $query->row_array();
-
 				// Checks the password
 				if ($row['user_password'] == sha1($password)) 
 				{
@@ -32,7 +28,6 @@
 					$this->_data = $row;
 					return ERR_NONE;
 				}
-
 				// Password not match
 				return ERR_INVALID_PASSWORD;
 			}
@@ -47,17 +42,13 @@
 			//retrieval of data from controller
 			$username = $data["user"];
 			$password = $data["pass"];
-			
 			// Set status to online
 			$is_online = true;
-
 			$this->db->where("user_name", $username);
 			$query = $this->db->get($this->table);
-
 			if ($query->num_rows()) 
 			{	
 				$row = $query->row_array();
-
 				// Checks the password
 				if ($row['user_password'] == sha1($password)) 
 				{
@@ -70,7 +61,6 @@
 					$this->_data = $row;
 					return 1;
 				}
-
 				// Password not match
 				return 0;
 			}
@@ -87,12 +77,10 @@
 
 		public function logout()
 		{
-
 			// Get Current Time
 			$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
 			// Set status to offline
 			$is_online = false;
-
 			// Find User in DB
 			$user_id = $this->session->userdata("user_id");
 			$this->db->where("user_id", $user_id);
@@ -100,7 +88,6 @@
 				'is_online'=>$is_online,
 				'user_lastlogin'=>$lastlogin->format('Y-m-d H:i:s'),
 			);
-
 			// Update the Database
 			$this->db->update( 'users' ,$data);
 			return TRUE;
@@ -109,7 +96,6 @@
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
-
 		// C R E A T E
 		public function save_User($data)
 		{
@@ -158,7 +144,6 @@
 			$this->db->update('users', $data);
 			return TRUE;
 		}
-
 		////////////////////////////////////////////////////////////////
 		// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 		////////////////////////////////////////////////////////////////		
