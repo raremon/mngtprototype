@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2017 at 02:04 AM
+-- Generation Time: May 12, 2017 at 11:23 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -32,8 +32,8 @@ DROP TABLE IF EXISTS `active_vehicles`;
 CREATE TABLE `active_vehicles` (
   `active_vehicle_id` int(11) NOT NULL COMMENT 'PRIMARY',
   `ready_vehicle_id` int(11) NOT NULL COMMENT 'FOREIGN',
-  `driver_id` int(11) NOT NULL COMMENT 'FOREIGN',
-  `route_id` int(11) NOT NULL COMMENT 'FOREIGN',
+  `driver_id` int(11) DEFAULT NULL COMMENT 'FOREIGN',
+  `route_id` int(11) DEFAULT NULL COMMENT 'FOREIGN',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -258,13 +258,6 @@ CREATE TABLE `drivers` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
---
--- Dumping data for table `drivers`
---
-
-INSERT INTO `drivers` (`driver_id`, `driver_fname`, `driver_mname`, `driver_lname`, `driver_contact`, `driver_address`, `created_at`, `updated_at`) VALUES
-(1, 'Clarice', 'Cordova', 'Orbeso', '09216319891', '1576 Soler St. Sta Cruz, Manila', '2017-05-07 09:58:36', '2017-05-07 09:58:36');
-
 -- --------------------------------------------------------
 
 --
@@ -290,9 +283,23 @@ DROP TABLE IF EXISTS `mediaboxes`;
 CREATE TABLE `mediaboxes` (
   `box_id` int(11) NOT NULL COMMENT 'PRIMARY',
   `box_tag` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `assigned_to` int(11) DEFAULT NULL COMMENT 'FOREIGN',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Dumping data for table `mediaboxes`
+--
+
+INSERT INTO `mediaboxes` (`box_id`, `box_tag`, `assigned_to`, `created_at`, `updated_at`) VALUES
+(1, 'Box 001', 11, '2017-05-12 20:01:15', '2017-05-12 21:17:14'),
+(2, 'Box 002', 12, '2017-05-12 20:01:19', '2017-05-12 21:17:16'),
+(3, 'Box 003', NULL, '2017-05-12 20:01:22', '2017-05-12 21:19:37'),
+(4, 'Box 004', NULL, '2017-05-12 20:01:26', '2017-05-12 21:15:14'),
+(5, 'Box 005', NULL, '2017-05-12 20:01:29', '2017-05-12 20:01:29'),
+(6, 'Box 006', NULL, '2017-05-12 20:01:32', '2017-05-12 21:15:22'),
+(7, 'Box 007', NULL, '2017-05-12 20:01:36', '2017-05-12 21:15:19');
 
 -- --------------------------------------------------------
 
@@ -318,11 +325,19 @@ DROP TABLE IF EXISTS `ready_vehicles`;
 CREATE TABLE `ready_vehicles` (
   `ready_vehicle_id` int(11) NOT NULL COMMENT 'PRIMARY',
   `vehicle_id` int(11) NOT NULL COMMENT 'FOREIGN',
-  `box_id` int(11) NOT NULL COMMENT 'FOREIGN',
-  `tv_id` int(11) NOT NULL COMMENT 'FOREIGN',
+  `box_id` int(11) DEFAULT NULL COMMENT 'FOREIGN',
+  `tv_id` int(11) DEFAULT NULL COMMENT 'FOREIGN',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Dumping data for table `ready_vehicles`
+--
+
+INSERT INTO `ready_vehicles` (`ready_vehicle_id`, `vehicle_id`, `box_id`, `tv_id`, `created_at`, `updated_at`) VALUES
+(11, 1, 1, 1, '2017-05-12 21:17:13', '2017-05-12 21:17:13'),
+(12, 2, 2, 2, '2017-05-12 21:17:16', '2017-05-12 21:17:16');
 
 -- --------------------------------------------------------
 
@@ -440,9 +455,19 @@ CREATE TABLE `tvs` (
   `tv_id` int(11) NOT NULL COMMENT 'PRIMARY',
   `tv_serial` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tv_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `assigned_to` int(11) DEFAULT NULL COMMENT 'FOREIGN',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Dumping data for table `tvs`
+--
+
+INSERT INTO `tvs` (`tv_id`, `tv_serial`, `tv_description`, `assigned_to`, `created_at`, `updated_at`) VALUES
+(1, '4A77825', 'Lenovo Tv', 11, '2017-05-12 19:57:30', '2017-05-12 21:17:14'),
+(2, '55854785', 'Predator 24 Inch QHD Monitor', 12, '2017-05-12 19:57:48', '2017-05-12 21:17:16'),
+(3, '252136985AAO', 'ASUS 40 Inch Monitor', NULL, '2017-05-12 19:58:10', '2017-05-12 21:19:37');
 
 -- --------------------------------------------------------
 
@@ -484,9 +509,24 @@ CREATE TABLE `vehicles` (
   `plate_number` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `vehicle_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `vehicle_type` int(11) NOT NULL COMMENT 'FOREIGN',
+  `assigned_to` int(11) DEFAULT NULL COMMENT 'FOREIGN',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Dumping data for table `vehicles`
+--
+
+INSERT INTO `vehicles` (`vehicle_id`, `vehicle_name`, `plate_number`, `vehicle_description`, `vehicle_type`, `assigned_to`, `created_at`, `updated_at`) VALUES
+(1, 'BUS 001', '252-14785', '40 Seater Bus', 1, 11, '2017-05-12 19:59:26', '2017-05-12 21:17:13'),
+(2, 'BUS 002', '12528-AE', 'Lorem Ipsum', 1, 12, '2017-05-12 19:59:41', '2017-05-12 21:17:16'),
+(3, 'BUS 003', '2529968', 'Lorem Ipsum', 1, NULL, '2017-05-12 19:59:50', '2017-05-12 21:19:37'),
+(4, 'BUS 004', 'ASDE-1123', 'Lorem Ipsum', 1, NULL, '2017-05-12 20:00:01', '2017-05-12 20:00:01'),
+(5, 'Trike 001', 'DDS-SPRT', 'Lorem Ipsum', 2, NULL, '2017-05-12 20:00:15', '2017-05-12 20:00:15'),
+(6, 'Trike 002', '02521', 'Lorem Ipsum', 2, NULL, '2017-05-12 20:00:30', '2017-05-12 20:00:30'),
+(7, 'Jeepney 001', 'JEEP1252', 'Lorem Ipsum', 3, NULL, '2017-05-12 20:00:46', '2017-05-12 21:15:14'),
+(8, 'Hummer 001', '025284', 'Lorem Ipsum', 4, NULL, '2017-05-12 20:00:57', '2017-05-12 21:15:19');
 
 -- --------------------------------------------------------
 
@@ -501,6 +541,16 @@ CREATE TABLE `vehicle_types` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Dumping data for table `vehicle_types`
+--
+
+INSERT INTO `vehicle_types` (`vehicle_type_id`, `vehicle_type_name`, `created_at`, `updated_at`) VALUES
+(1, 'Bus', '2017-05-12 19:58:29', '2017-05-12 19:58:29'),
+(2, 'Trike', '2017-05-12 19:58:34', '2017-05-12 19:58:34'),
+(3, 'Jeepney', '2017-05-12 19:58:49', '2017-05-12 19:58:49'),
+(4, 'Hummer', '2017-05-12 19:58:54', '2017-05-12 19:58:54');
 
 --
 -- Indexes for dumped tables
@@ -683,7 +733,7 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `drivers`
 --
 ALTER TABLE `drivers`
-  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY', AUTO_INCREMENT=2;
+  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY';
 --
 -- AUTO_INCREMENT for table `features`
 --
@@ -693,12 +743,12 @@ ALTER TABLE `features`
 -- AUTO_INCREMENT for table `mediaboxes`
 --
 ALTER TABLE `mediaboxes`
-  MODIFY `box_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY';
+  MODIFY `box_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY', AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `ready_vehicles`
 --
 ALTER TABLE `ready_vehicles`
-  MODIFY `ready_vehicle_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY';
+  MODIFY `ready_vehicle_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY', AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `regions`
 --
@@ -723,7 +773,7 @@ ALTER TABLE `schedules`
 -- AUTO_INCREMENT for table `tvs`
 --
 ALTER TABLE `tvs`
-  MODIFY `tv_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY';
+  MODIFY `tv_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY', AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -733,12 +783,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `vehicles`
 --
 ALTER TABLE `vehicles`
-  MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY';
+  MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY', AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `vehicle_types`
 --
 ALTER TABLE `vehicle_types`
-  MODIFY `vehicle_type_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY';
+  MODIFY `vehicle_type_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY', AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

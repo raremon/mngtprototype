@@ -22,9 +22,18 @@
 			$query=$this->db->get();
 			return $query->result_array();
 		}
+		
+		public function find_Tv()
+		{
+			$this->db->select("tv_id, tv_serial");
+			$this->db->from($this->table);
+			$this->db->where('assigned_to', NULL);
+			$query=$this->db->get();
+			return $query->result_array();
+		}
 
 		// U P D A T E
-		public function edit_Tv($box_id)
+		public function edit_Tv($tv_id)
 		{
 			$this->db->select("tv_id, tv_serial, tv_description");
 			$this->db->from($this->table);
@@ -38,6 +47,20 @@
 			$this->db->where(array('tv_id'=>$data['tv_id']));
 			$this->db->update($this->table, $data);
 			return TRUE;
+		}
+
+		public function assign_Media($media_id, $tv_id)
+		{
+				$this->db->where(array('tv_id'=>$tv_id));
+				$this->db->update($this->table, array('assigned_to'=>$media_id));
+				return TRUE;
+		}
+
+		public function unassign_Media($media_id, $tv_id)
+		{
+				$this->db->where(array('tv_id'=>$tv_id));
+				$this->db->update($this->table, array('assigned_to'=>NULL));
+				return TRUE;
 		}
 
 		// D E L E T E

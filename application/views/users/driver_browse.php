@@ -131,46 +131,60 @@
   }
   // D E L E T E
   function delete_driver(driver_id) {
-    if(confirm('Do you really want to delete this Driver Record ??')){
-      // DITO ILALAGAY YUNG CONDITION NA PAG MAY BUS PANG NAKAASSIGN DUN SA DRIVER, YUN MUNA YUNG IDIDELETE MO
-      if(false)
-      {
-        // $(window).scrollTop(0);
-        // $("#user-delete-message").fadeIn("slow");
-        // $('#user-delete-message').html("Cannot delete your own account!").addClass('alert alert-danger');
-        // setTimeout(function() {
-        //     $('#user-delete-message').fadeOut('slow');
-        // }, 3000);
-      }
-      else
-      {
-        $.ajax({
-          url: "<?php echo site_url('drivers/delete_Driver/') ?>",
-          type: 'POST',
-          dataType: 'json',
-          data: 'driver_id='+driver_id,
-          encode:true,
-          success:function(data) {
-            if(!data.success){
-              if(data.errors){
-                $(window).scrollTop(0);
-                $("#driver-message").fadeIn("slow");
-                $('#driver-message').html(data.errors).addClass('alert alert-danger');
-                setTimeout(function() {
-                    $('#driver-message').fadeOut('slow');
-                }, 3000);
-              }
-            }else {
-              $('#message-text').html(data.message);
-              $('#successModal').modal('show');
+  if(confirm('Do you really want to delete this Driver Record ??')){
+      $.ajax({
+        url: "<?php echo site_url('drivers/delete_Driver/') ?>",
+        type: 'POST',
+        dataType: 'json',
+        data: 'driver_id='+driver_id,
+        encode:true,
+        success:function(data) {
+          if(!data.success){
+            if(data.errors){
+              $(window).scrollTop(0);
+              $("#driver-delete-message").fadeIn("slow");
+              $('#driver-delete-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#driver-delete-message').fadeOut('slow');
+              }, 3000);
             }
+          }else {
+            $('#message-text').html(data.message);
+            $('#successModal').modal('show');
           }
-        });
-      }
+        }
+      });
+    }
+  }
+  // U N A S S I G N
+  function unassign_driver(driver_id) {
+    if(confirm('Do you really want to unassign this Driver Record ??')){
+      $.ajax({
+        url: "<?php echo site_url('drivers/unassign_Driver/') ?>",
+        type: 'POST',
+        dataType: 'json',
+        data: 'driver_id='+driver_id,
+        encode:true,
+        success:function(data) {
+          if(!data.success){
+            if(data.errors){
+              $(window).scrollTop(0);
+              $("#driver-delete-message").fadeIn("slow");
+              $('#driver-delete-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#driver-delete-message').fadeOut('slow');
+              }, 3000);
+            }
+          }else {
+            $('#message-text').html(data.message);
+            $('#successModal').modal('show');
+          }
+        }
+      });
     }
   }
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-  // END OF USER ADD JAVASCRIPT
+  // END OF DRIVER BROWSE JAVASCRIPT
 </script>
