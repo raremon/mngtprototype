@@ -10,6 +10,10 @@ class Ads extends REST_Controller {
         $this->load->model('programs_model', 'Program');
         $this->load->model('ads_model', 'Ad');
     }
+	
+	public function index_get(){
+		echo sha1('star8');
+	}
 		
 	public function bus_get()
 	{

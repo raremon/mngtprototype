@@ -15,7 +15,7 @@
 			$this->load->model('routes_model', 'Route');
 			$this->load->model('advertisers_model', 'Advertiser');
 			$this->load->model('ads_model', 'Ad');
-			$this->load->model('buses_model', 'Bus');
+			$this->load->model('vehicles_model', 'Bus');
 
 			$this->load->model('adlogs_model', 'Ad_Log');
 		}
