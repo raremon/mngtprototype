@@ -19,8 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `star8_develop`
 --
-CREATE DATABASE IF NOT EXISTS `star8_develop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
-USE `star8_develop`;
+-- CREATE DATABASE IF NOT EXISTS `star8_develop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+-- USE `star8_develop`;
 
 -- --------------------------------------------------------
 
