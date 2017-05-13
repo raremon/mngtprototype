@@ -31,51 +31,58 @@
         <section>
             <form>
                 <div class="form-group">
-                <label>Region</label>
-                <select name="region_id" class="form-control">
-                  <?php 
-                    foreach($region as $row)
-                    {
-                  ?>
-                    <option value= <?php echo $row[0];?> >
-                      <?php echo $row[1]; ?>
-                    </option>
-                  <?php 
-                    }
-                  ?>
-                </select>
-                <a class="btn btn-link pull-right" href="<?php echo site_url('regions/add') ?>">Add Region</a>
-                </div>          
+                  <label>City/Province</label>
+                  <select id="#" name="#" class="form-control">
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
+                </div>         
             </form>
         </section>
         <h3>Select Route<i class="fa fa-angle-double-right" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
             <form>
                 <div class="form-group">
-                <label>Region</label>
-                <select name="region_id" class="form-control">
-                  <?php 
-                    foreach($region as $row)
-                    {
-                  ?>
-                    <option value= <?php echo $row[0];?> >
-                      <?php echo $row[1]; ?>
-                    </option>
-                  <?php 
-                    }
-                  ?>
-                </select>
-                <a class="btn btn-link pull-right" href="<?php echo site_url('regions/add') ?>">Add Region</a>
+                  <label>Route</label>
+                  <select id="#" name="#" class="form-control">
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('routes/add') ?>">Add Routes</a>
                 </div>          
             </form>
         </section>
         <h3>Select Schedule<i class="fa fa-angle-double-right" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
-            <p>Schedule</p>
+          <div class="container-fluid">
+            <div class="col-md-12">
+              <table id="#" class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>TIME SLOT</th>
+                    <th>AVAILABLE</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </section>
         <h3>Selected Schedule<i class="fa fa-check" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
-            <p>Selected Schedule</p>
+          <div class="container-fluid">
+            <div class="col-md-12">
+              <table id="#" class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>SELECTED TIME SLOT</th>
+                    <th>AD FREQUENCY</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
         </section>
     </div>
   </div>
