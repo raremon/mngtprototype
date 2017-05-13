@@ -276,21 +276,24 @@
                     <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Browse Drivers</a></li>
                   </ul>
                 </li>
-                <li id="bus_management" class="treeview">
+                <li id="vehicle_management" class="treeview">
                   <a href="#"><i class="fa fa-bus"></i> <span>Vehicle Management</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="add_vehicle" class="alert alert-danger"><a href="#">Add Vehicle</a></li>
-                    <li id="browse_vehicles" class="alert alert-danger"><a href="#">Browse Vehicles</a></li>
+                    <li id="new_vehicle"><a href="<?php echo base_url('vehicles/add') ?>">New Vehicle</a></li>
+                    <li id="browse_vehicles"><a href="<?php echo base_url('vehicles/browse') ?>">Browse Vehicles</a></li>
 
-                    <li id="add_tv" class="alert alert-danger"><a href="#">Add TV</a></li>
-                    <li id="browse_tvs" class="alert alert-danger"><a href="#">Browse TVs</a></li>
+                    <li id="new_tv"><a href="<?php echo base_url('tvs/add') ?>">New TV</a></li>
+                    <li id="browse_tvs"><a href="<?php echo base_url('tvs/browse') ?>">Browse TVs</a></li>
 
-                    <li id="add_mediabox" class="alert alert-danger"><a href="#">Add Mediabox</a></li>
-                    <li id="browse_mediaboxes" class="alert alert-danger"><a href="#">Browse Mediaboxes</a></li>
+                    <li id="new_mediabox"><a href="<?php echo base_url('mediaboxes/add') ?>">New Mediabox</a></li>
+                    <li id="browse_mediaboxes"><a href="<?php echo base_url('mediaboxes/browse') ?>">Browse Mediaboxes</a></li>
+
+                    <li id="assign_media"><a href="<?php echo base_url('media/assign') ?>">Assign Media</a></li>
+                    <li id="browse_assignment"><a href="<?php echo base_url('media/browse') ?>">Browse Assignment</a></li>
                   </ul>
                 </li>
                 <li id="route_management" class="treeview">

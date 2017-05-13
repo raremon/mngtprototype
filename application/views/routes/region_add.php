@@ -21,33 +21,6 @@
   <div class="box-footer">
   </div>
 </div>
-<div class="box box-success">
-  <div class="box-header with-border">
-    <h3 class="box-title">Region Data</h3>
-    <div class="box-tools pull-right">
-    </div>
-  </div>
-  <div class="box-body">
-    <!-- <div id="driver-delete-message"></div> -->
-    <div class="row">
-      <div class="container-fluid">
-        <div class="col-md-12">
-          <table id="region_data" class="table table-hover table-bordered">
-            <thead>
-              <tr>
-                <th>REGION NAME</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="box-footer">
-  </div>
-</div>
 <script type="text/javascript">
 
   ////////////////////////////////////////////////////////////////
@@ -78,13 +51,6 @@
       }
     })
   }
-
-  $("#region_data").DataTable({
-    "ajax":{
-      "url":"<?php echo site_url('regions/showRegion') ?>",
-      "type":"POST"
-    }
-  })
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
