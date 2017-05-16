@@ -90,3 +90,23 @@ tbody > tr > td{
     text-align: center;
     vertical-align: middle;
 }
+
+.add-link{
+    
+}
+
+.add-link:link, .add-link:visited {
+    background-color: #339440;
+    color: white;
+    padding: 4px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+
+.add-link:hover, .add-link:active {
+    background-color: #44C755;
+    padding: 4px 15px;
+}

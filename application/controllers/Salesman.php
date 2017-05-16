@@ -35,8 +35,8 @@ class Salesman extends MY_Controller {
 		);
 		$data['page_description']='View Available Schedules';
 
-		$data['treeActive'] = 'salesman';
-		$data['childActive'] = '' ;
+		$data['treeActive'] = 'settings';
+		$data['childActive'] = 'salesman' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("salesman/salesman_sched", $data);

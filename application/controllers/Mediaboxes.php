@@ -33,7 +33,7 @@ class Mediaboxes extends MY_Controller {
 		);
 		$data['page_description']='Add New Mediabox Records';
 
-		$data['treeActive'] = 'vehicle_management';
+		$data['treeActive'] = 'settings';
 		$data['childActive'] = 'new_mediabox' ;
 
 		$this->load->view("template/header", $data);
@@ -60,7 +60,7 @@ class Mediaboxes extends MY_Controller {
 		);
 		$data['page_description']='Browse Mediabox Records';
 
-		$data['treeActive'] = 'vehicle_management';
+		$data['treeActive'] = 'settings';
 		$data['childActive'] = 'browse_mediaboxes' ;
 
 		$this->load->view("template/header", $data);

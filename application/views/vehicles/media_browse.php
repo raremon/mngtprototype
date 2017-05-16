@@ -74,6 +74,7 @@
   <div class="box-header with-border">
     <h3 class="box-title">Vehicle with Tv and Mediabox</h3>
     <div class="box-tools pull-right">
+        <a class="btn btn-link add-link" href="<?php echo base_url('media/assign') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>Assign Media</a>
     </div>
   </div>
   <div class="box-body">
