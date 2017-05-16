@@ -28,6 +28,7 @@
   <div class="box-header with-border">
     <h3 class="box-title">Mediabox Data</h3>
     <div class="box-tools pull-right">
+        <a class="btn btn-link add-link" href="<?php echo base_url('mediaboxes/add') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>New Mediabox</a>
     </div>
   </div>
   <div class="box-body">

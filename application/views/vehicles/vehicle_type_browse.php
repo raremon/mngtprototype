@@ -28,7 +28,7 @@
   <div class="box-header with-border">
     <h3 class="box-title">Vehicle Type Data</h3>
     <div class="box-tools pull-right">
-      <a class="btn btn-link pull-right" href="<?php echo site_url('vehicles/add_type') ?>">Add Vehicle Types</a>
+      <a class="btn btn-link add-link" href="<?php echo base_url('vehicles/add_type') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>Add Vehicle Types</a>
     </div>
   </div>
   <div class="box-body">

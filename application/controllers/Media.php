@@ -83,7 +83,7 @@ class Media extends MY_Controller {
 			);
 		}
 
-		$data['treeActive'] = 'vehicle_management';
+		$data['treeActive'] = 'settings';
 		$data['childActive'] = 'assign_media' ;
 
 		$this->load->view("template/header", $data);
@@ -155,7 +155,7 @@ class Media extends MY_Controller {
 			);
 		}
 
-		$data['treeActive'] = 'vehicle_management';
+		$data['treeActive'] = 'settings';
 		$data['childActive'] = 'browse_assignment' ;
 
 		$this->load->view("template/header", $data);
