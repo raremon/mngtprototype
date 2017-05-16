@@ -30,7 +30,7 @@
 		$this->db->select('*')
 				->from($this->table)
 				->join('routes','schedules.route_id=routes.route_id','inner')
-				->join('airtime','schedules.schedID=airtime.schedID','inner')
+				->join('airtime','schedules.schedule_id=airtime.schedule_id','inner')
 				->join('buses','routes.route_id=buses.route_id','inner');
 				
 		// $this->db->where('id <', $id);
@@ -68,9 +68,9 @@
 		$this->db->select('*')
 				->from($this->table)
 				->join('routes','schedules.route_id=routes.route_id','inner')
-				->join('airtimes','schedules.schedID=airtimes.schedID','inner')
+				->join('airtimes','schedules.schedule_id=airtimes.schedule_id','inner')
 				->join('buses','routes.route_id=buses.route_id','inner')
-				->join('ad_schedules','schedules.schedID=ad_schedules.schedID','inner')
+				->join('ad_schedules','schedules.schedule_id=ad_schedules.schedule_id','inner')
 				->join('ads','ad_schedules.ad_id=ads.ad_id','inner');
 				
 		// $this->db->where('id <', $id);
