@@ -11,7 +11,7 @@
           <?php echo form_open('welcome', array('id'=>'route')); ?>
             <div class="form-group">
               <label>Region From</label>
-              <select id="region_from" class="form-control">
+              <select id="region_from" class="form-control select2">
                 <?php 
                   foreach($region as $row)
                   {
@@ -27,13 +27,13 @@
             </div>
             <div class="form-group">
               <label>City From</label>
-              <select id="city_from" name="city_from" class="form-control">
+              <select id="city_from" name="city_from" class="form-control select2">
               </select>
               <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
             </div>
             <div class="form-group">
               <label>Region To</label>
-              <select id="region_to" class="form-control">
+              <select id="region_to" class="form-control select2">
                 <?php 
                   foreach($region as $row)
                   {
@@ -49,7 +49,7 @@
             </div>
             <div class="form-group">
               <label>City To</label>
-              <select id="city_to" name="city_to" class="form-control">
+              <select id="city_to" name="city_to" class="form-control select2">
               </select>
               <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
             </div>
@@ -71,6 +71,8 @@
 </div>
 <script type="text/javascript">
 
+  $(".select2").select2();
+    
   var cities = [];
   <?php 
     foreach($city as $row)

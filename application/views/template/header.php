@@ -16,6 +16,7 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-green.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
+      <link rel="stylesheet" href="<?php echo base_url('assets/plugins/select2/select2.min.css') ?>"/>
     <?php foreach($css as $rows){ ?>
       <link rel="stylesheet" href="<?php echo base_url($rows) ?>"/>
     <?php } ?>
@@ -27,6 +28,7 @@
       <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/dataTables.bootstrap.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/plugins/jQueryUI/jquery-ui.min.js') ?>"></script>
+      <script src="<?php echo base_url('assets/plugins/select2/select2.full.min.js') ?>"></script>
       <script>
         $.widget.bridge('uibutton', $.ui.button);
       </script>

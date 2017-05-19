@@ -26,11 +26,11 @@ class Routes extends MY_Controller {
 		);
 		$data['css']=array
 		(
-			
+
 		);
 		$data['script']=array
 		(
-			
+		
 		);
 
 		$region_data = $this->Region->show_Region();

@@ -22,7 +22,7 @@
       <div class="form-group">
         <div class="form-group">
           <label>Advertiser</label>
-          <select name="advertiser_id" class="form-control">
+          <select name="advertiser_id" class="form-control select2">
             <?php 
               foreach($advertiser as $row)
               {
@@ -58,6 +58,7 @@
   </div>
 </div>
 <script>
+  $(".select2").select2();
   //Placeholder Text
   $(document).on('click', '.browse', function(){
     var file = $(this).parent().parent().parent().find('.file');

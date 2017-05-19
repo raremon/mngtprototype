@@ -110,3 +110,9 @@ tbody > tr > td{
     background-color: #44C755;
     padding: 4px 15px;
 }
+
+.square-select {
+   -webkit-border-radius: 25px;
+   -moz-border-radius: 25px;
+   border-radius: 25px;
+}

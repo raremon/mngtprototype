@@ -11,7 +11,7 @@
           <?php echo form_open('welcome', array('id'=>'media')); ?>
           <div class="form-group">
             <label>Vehicle Type</label>
-            <select id="vehicle_type" class="form-control">
+            <select id="vehicle_type" class="form-control select2">
               <?php 
                 foreach($types as $row)
                 {
@@ -26,12 +26,12 @@
           </div>
           <div class="form-group">
             <label>Unassigned Vehicles</label>
-            <select name="vehicle_id" id="vehicle" class="form-control">
+            <select name="vehicle_id" id="vehicle" class="form-control select2">
             </select>
           </div>
           <div class="form-group">
             <label>Unassigned Mediaboxes</label>
-            <select name="box_id" class="form-control">
+            <select name="box_id" class="form-control select2">
               <?php 
                 foreach($boxes as $row)
                 {
@@ -46,7 +46,7 @@
           </div>
           <div class="form-group">
             <label>Unassigned TVs</label>
-            <select name="tv_id" class="form-control">
+            <select name="tv_id" class="form-control select2">
               <?php 
                 foreach($tvs as $row)
                 {
@@ -68,7 +68,7 @@
   </div>
 </div>
 <script type="text/javascript">
-
+  $(".select2").select2();
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
