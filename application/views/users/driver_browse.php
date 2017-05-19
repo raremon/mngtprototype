@@ -45,6 +45,7 @@
   <div class="box-header with-border">
     <h3 class="box-title">Driver Data</h3>
     <div class="box-tools pull-right">
+        <a class="btn btn-link add-link" href="<?php echo base_url('drivers/add') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>New Driver</a>
     </div>
   </div>
   <div class="box-body">

@@ -45,7 +45,7 @@ class Vehicles extends MY_Controller {
 			);
 		}
 
-		$data['treeActive'] = 'vehicle_management';
+		$data['treeActive'] = 'settings';
 		$data['childActive'] = 'new_vehicle' ;
 
 		$this->load->view("template/header", $data);
@@ -83,7 +83,7 @@ class Vehicles extends MY_Controller {
 			);
 		}
 
-		$data['treeActive'] = 'vehicle_management';
+		$data['treeActive'] = 'settings';
 		$data['childActive'] = 'browse_vehicles' ;
 
 		$this->load->view("template/header", $data);
@@ -112,7 +112,7 @@ class Vehicles extends MY_Controller {
 		);
 		$data['page_description']='Add Vehicle Type Records';
 
-		$data['treeActive'] = 'vehicle_management';
+		$data['treeActive'] = 'settings';
 		$data['childActive'] = 'new_vehicle' ;
 
 		$this->load->view("template/header", $data);
@@ -140,7 +140,7 @@ class Vehicles extends MY_Controller {
 		);
 		$data['page_description']='Browse Vehicle Type Records';
 
-		$data['treeActive'] = 'vehicle_management';
+		$data['treeActive'] = 'settings';
 		$data['childActive'] = 'new_vehicle' ;
 
 		$this->load->view("template/header", $data);

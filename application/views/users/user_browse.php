@@ -60,6 +60,7 @@
   <div class="box-header with-border">
     <h3 class="box-title">User Data</h3>
     <div class="box-tools pull-right">
+        <a class="btn btn-link add-link" href="<?php echo base_url('users/add') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>New User</a>
     </div>
   </div>
   <div class="box-body">

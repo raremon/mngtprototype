@@ -227,6 +227,7 @@
               <ul class="sidebar-menu">
                 <li class="header">Main Menu</li>
                 <li id="dashboard"><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
+
                 <li id="program_schedule" class="treeview">
                   <a href="#"><i class="fa fa-tv"></i> <span>Program Schedule</span>
                     <span class="pull-right-container">
@@ -263,6 +264,7 @@
                     <li id="browse_ad_companies"><a href="<?php echo base_url('advertisers/show') ?>">Browse Ad Companies </a></li>
                   </ul>				
         				</li>	
+<!--
                 <li id="users_management" class="treeview">
                   <a href="#"><i class="fa fa-users"></i> <span>Users Management</span>
                     <span class="pull-right-container">
@@ -276,6 +278,8 @@
                     <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Browse Drivers</a></li>
                   </ul>
                 </li>
+-->
+<!--
                 <li id="vehicle_management" class="treeview">
                   <a href="#"><i class="fa fa-bus"></i> <span>Vehicle Management</span>
                     <span class="pull-right-container">
@@ -296,6 +300,7 @@
                     <li id="browse_assignment"><a href="<?php echo base_url('media/browse') ?>">Browse Assignment</a></li>
                   </ul>
                 </li>
+-->
                 <li id="route_management" class="treeview">
                   <a href="#"><i class="fa fa-road"></i> <span>Route Management</span>
                     <span class="pull-right-container">
@@ -311,6 +316,28 @@
 
                     <li id="new_region"><a href="<?php echo base_url('regions/add') ?>">New Region</a></li>
                     <li id="browse_regions"><a href="<?php echo base_url('regions/browse') ?>">Browse Regions</a></li>
+                  </ul>
+                </li>
+                <li id="settings" class="treeview">
+                  <a href="#"><i class="fa fa-gear"></i> <span>Settings</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                  <ul class="treeview-menu">
+                    <li id="salesman"><a href="<?php echo base_url('salesman/schedules') ?>">Salesman</a></li>
+                      
+                    <li id="browse_users"><a href="<?php echo base_url('users/browse') ?>">Users</a></li>
+                      
+                    <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Drivers</a></li>
+                      
+                    <li id="browse_vehicles"><a href="<?php echo base_url('vehicles/browse') ?>">Vehicles</a></li>
+
+                    <li id="browse_tvs"><a href="<?php echo base_url('tvs/browse') ?>">TVs</a></li>
+
+                    <li id="browse_mediaboxes"><a href="<?php echo base_url('mediaboxes/browse') ?>">Mediaboxes</a></li>
+
+                    <li id="browse_assignment"><a href="<?php echo base_url('media/browse') ?>">Media Assignment</a></li>
                   </ul>
                 </li>
                 <li id="live_monitoring" class="treeview">
