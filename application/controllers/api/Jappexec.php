@@ -10,8 +10,6 @@ class Jappexec extends REST_Controller {
 		
 	public function index_get() {
 		
-		exit;
-		
 		/* JSON method to return updates for the infotainment app/exe */
 		//http://localhost/mngtprototype/api/jappupdate/get/app/001/route/7
 		//http://180.232.67.229 

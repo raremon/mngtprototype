@@ -15,10 +15,11 @@
 		////////////////////////////////////////////////////////////////
 
 		// C R E A T E
-		public function save_Airtime($time_start, $schedule_id)
+		public function save_Airtime($time_start,$time_end, $schedule_id)
 		{
 			$data = array(
 				'time_start'=>$time_start,
+				'time_end'=>$time_end,
 				'schedule_id'=>$schedule_id,
 			);
 			$this->db->insert('airtimes', $data);

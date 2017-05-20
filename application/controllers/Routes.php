@@ -10,61 +10,70 @@ class Routes extends MY_Controller {
 		$this->load->model('users_model', 'User');
 		$this->load->model('roles_model', 'Role');
 
-		$this->load->model('terminals_model', 'Terminal');
-		$this->load->model('routes_model', 'Route');
+		$this->load->model('regions_model', 'Region');
+		$this->load->model('cities_model', 'City');
+		$this->load->model('routes_model', 'Route');		
 	}
-			
-	public function index()
+	
+	public function add()
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Routes';
+		$data['title']='New Route';
 		$data['breadcrumbs']=array
 		(
-			array('Add Bus','buses/add'),
-			array('Add Route','routes'),
+			array('New Route','routes/add'),
 		);
 		$data['css']=array
 		(
-
+			
 		);
 		$data['script']=array
 		(
 			
 		);
-		$data['page_description']='Add, Update, and Delete Routes';
 
-		$terminal_data = $this->Terminal->show_Terminal();
-		$data['terminal'] = array();
-		foreach ($terminal_data as $rows) {
-			array_push($data['terminal'],
+		$region_data = $this->Region->show_Region();
+		$data['region'] = array();
+		foreach ($region_data as $rows) {
+			array_push($data['region'],
 				array(
-					$rows['terminal_id'],
-					$rows['terminal_name'],
-					$rows['latitude'],
-					$rows['longitude'],
+					$rows['region_id'],
+					$rows['region_name'],
 				)
 			);
 		}
 
-		$data['treeActive'] = 'bus_management';
-		$data['childActive'] = 'bus_routes' ;
+		$city_data = $this->City->show_City();
+		$data['city'] = array();
+		foreach ($city_data as $rows) {
+			array_push($data['city'],
+				array(
+					$rows['city_id'],
+					$rows['city_name'],
+					$rows['region_id'],
+				)
+			);
+		}
+
+		$data['page_description']='Add New Route Records';
+
+		$data['treeActive'] = 'route_management';
+		$data['childActive'] = 'new_route' ;
 
 		$this->load->view("template/header", $data);
-		$this->load->view("routes/routes", $data);
+		$this->load->view("routes/route_add", $data);
 		$this->load->view("template/footer", $data);
 	}
 
-	public function terminals()
+	public function browse()
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Terminals';
+		$data['title']='Browse Routes';
 		$data['breadcrumbs']=array
 		(
-			array('Add Bus','buses/add'),
-			array('Add Route','routes'),
-			array('Terminals','terminals'),
+			array('Browse Routes','routes/browse'),
 		);
 		$data['css']=array
 		(
@@ -74,13 +83,37 @@ class Routes extends MY_Controller {
 		(
 			
 		);
-		$data['page_description']='Add, Update, and Delete Terminals';
 
-		$data['treeActive'] = 'bus_management';
-		$data['childActive'] = 'add_bus' ;
+		$region_data = $this->Region->show_Region();
+		$data['region'] = array();
+		foreach ($region_data as $rows) {
+			array_push($data['region'],
+				array(
+					$rows['region_id'],
+					$rows['region_name'],
+				)
+			);
+		}
+
+		$city_data = $this->City->show_City();
+		$data['city'] = array();
+		foreach ($city_data as $rows) {
+			array_push($data['city'],
+				array(
+					$rows['city_id'],
+					$rows['city_name'],
+					$rows['region_id'],
+				)
+			);
+		}
+
+		$data['page_description']='Browse Route Records';
+
+		$data['treeActive'] = 'route_management';
+		$data['childActive'] = 'browse_routes' ;
 
 		$this->load->view("template/header", $data);
-		$this->load->view("routes/terminals", $data);
+		$this->load->view("routes/route_browse", $data);
 		$this->load->view("template/footer", $data);
 	}
 
@@ -109,8 +142,8 @@ class Routes extends MY_Controller {
 			$data=array(
 				'route_name'=>$this->input->post('route_name'),
 				'route_description'=>$this->input->post('route_description'),
-				'terminal_from'=>$this->input->post('terminal_from'),
-				'terminal_to'=>$this->input->post('terminal_to'),
+				'city_from'=>$this->input->post('city_from'),
+				'city_to'=>$this->input->post('city_to'),
 			);
 			$this->Route->save_Route($data);
 			$info['message']="You have successfully saved your data!";
@@ -119,78 +152,42 @@ class Routes extends MY_Controller {
 	}
 
 	// R E A D
-	public function show_Route()
+	public function showRoute()
 	{
 		$route_table = $this->Route->show_Route();
-		$ctr = 0;
 		$data = array();
 		foreach ($route_table as $rows) {
-			$terminal_from_data = $this->Terminal->edit_Terminal_Data( $rows['terminal_from'] );
-			$terminal_to_data = $this->Terminal->edit_Terminal_Data( $rows['terminal_to'] );
+			$city_from_data = $this->City->edit_City( $rows['city_from'] );
+			$city_to_data = $this->City->edit_City( $rows['city_to'] );
 			array_push($data,
 				array(
-					$rows['route_id'],
 					$rows['route_name'],
 					$rows['route_description'],
-
-					"<div id='table-map-canvas-".$ctr."' class='table-canvas'> </div>
-					  <script type='text/javascript'>
-
-					  	var Xmarkers".$ctr." = [
-							[ '".$terminal_from_data['terminal_name']."' , ".$terminal_from_data['latitude']." , ".$terminal_from_data['longitude']." ],
-							[ '".$terminal_to_data['terminal_name']."' , ".$terminal_to_data['latitude']." , ".$terminal_to_data['longitude']." ]
-						];
-
-						initialize".$ctr."(Xmarkers".$ctr.");
-
-						function initialize".$ctr."(markers) 
-						{
-							var bounds = new google.maps.LatLngBounds();
-							var mapOptions = {
-							    mapTypeId: 'roadmap',
-							    navigationControl: false,
-							    mapTypeControl: false,
-							    scrollwheel: false,
-							    scaleControl: false,
-							    draggable: false,
-							    disableDefaultUI: true,
-							};
-
-							var map = new google.maps.Map( document.getElementById('table-map-canvas-".$ctr."'), mapOptions);
-							map.setTilt(45);
-
-							for( i = 0; i < markers.length; i++ ) {
-							    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-							    bounds.extend(position);
-							    marker = new google.maps.Marker({
-							        position: position,
-							        map: map,
-							        title: markers[i][0]
-							    });
-							}
-							    map.fitBounds(bounds);
-
-							google.maps.event.addListenerOnce(map, 'zoom_changed', function() {
-							  map.setZoom(map.getZoom()-1);
-							});
-						}
-					  </script>
-					",
-
-					'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="edit_route('."'".$rows['route_id']."'".')">Edit</a>'.
-					'&nbsp;<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="delete_route('."'".$rows['route_id']."'".')">Delete</a>'
+					$city_from_data['city_name'],
+					$city_to_data['city_name'],
+					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_route('."'".$rows['route_id']."'".')">Edit</a>'.
+					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_route('."'".$rows['route_id']."'".')">Delete</a>'
 				)
 			);
-			$ctr += 1;
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 	}
 
 	// U P D A T E
-	public function edit_Route()
+	public function editRoute()
 	{
 		$route_id=$this->input->post('route_id');
 		$data=$this->Route->edit_Route_Data($route_id);
+		$city_from = $this->City->edit_City($data['city_from']);
+		$city_to = $this->City->edit_City($data['city_to']);
+
+		array_push($data,
+			array(
+				'region_from'=>$city_from['region_id'],
+				'region_to'=>$city_to['region_id'],
+			)
+		);
+
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
@@ -217,8 +214,8 @@ class Routes extends MY_Controller {
 				'route_id'=>$this->input->post('route_id'),
 				'route_name'=>$this->input->post('route_name'),
 				'route_description'=>$this->input->post('route_description'),
-				'terminal_from'=>$this->input->post('terminal_from'),
-				'terminal_to'=>$this->input->post('terminal_to'),
+				'city_from'=>$this->input->post('city_from'),
+				'city_to'=>$this->input->post('city_to'),
 			);
 			$this->Route->update_Route_Data($data);
 			$info['message']="You have successfully updated your data!";
@@ -247,151 +244,10 @@ class Routes extends MY_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	//          C  R  U  D    F  U  N  C  T  I  O  N  S    T  E  R  M  I  N  A  L  S           //
-	/////////////////////////////////////////////////////////////////////////////////////////////
-
-	// C R E A T E
-	public function saveTerminal()
-	{
-		$validate = array (
-			array('field'=>'terminal_name','label'=>'Terminal Name','rules'=>'required|is_unique[terminals.terminal_name]'),
-		);
-
-		$this->form_validation->set_rules($validate);
-		if ($this->form_validation->run()===FALSE) 
-		{
-			$info['success']=FALSE;
-			$info['errors']=validation_errors();
-		}
-		else
-		{
-			$info['success']=TRUE;
-
-			$data=array(
-				'terminal_name'=>$this->input->post('terminal_name'),
-				'latitude'=>$this->input->post('latitude'),
-				'longitude'=>$this->input->post('longitude'),
-			);
-			$this->Terminal->save_Terminal($data);
-			$info['message']="You have successfully saved your data!";
-		}
-		$this->output->set_content_type('application/json')->set_output(json_encode($info));
-	}
-
-	// R E A D
-	public function show_Terminal()
-	{
-		$terminal_table = $this->Terminal->show_Terminal();
-		$ctr = 0;
-		$data = array();
-		foreach ($terminal_table as $rows) {
-			array_push($data,
-				array(
-					$rows['terminal_id'],
-					$rows['terminal_name'],
-					"<div id='table-map-canvas-".$ctr."' class='table-canvas'> </div>
-					  <script type='text/javascript'>
-
-						var map".$ctr." = new google.maps.Map( document.getElementById('table-map-canvas-".$ctr."'),{
-							center:{
-								lat: ". $rows['latitude'] .",
-								lng: ". $rows['longitude'] ."
-							},
-							zoom:17,
-							scrollwheel: false,
-						    navigationControl: false,
-						    mapTypeControl: false,
-						    scaleControl: false,
-						    draggable: false,
-						    disableDefaultUI: true,
-						    mapTypeId: google.maps.MapTypeId.ROADMAP
-						});
-
-						var marker".$ctr." = new google.maps.Marker({
-							position:{
-								lat: ". $rows['latitude'] .",
-								lng: ". $rows['longitude'] ."
-							},
-							map:map".$ctr.",
-							draggable: false
-						});
-					  </script>
-					",
-					
-					'<a href="#main-cont" class="btn btn-info btn-sm" onclick="edit_terminal('."'".$rows['terminal_id']."'".')">Edit</a>'.
-					'&nbsp;<a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="delete_terminal('."'".$rows['terminal_id']."'".')">Delete</a>'
-				)
-			);
-			$ctr += 1;
-		}
-		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-	}
-
-	// U P D A T E
-	public function edit_Terminal()
-	{
-		$terminal_id=$this->input->post('terminal_id');
-		$data=$this->Terminal->edit_Terminal_Data($terminal_id);
-		$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	}
-
-	public function updateTerminal()
-	{
-
-		$validate = array (
-			array('field'=>'terminal_name','label'=>'Terminal Name','rules'=>'required'),
-		);
-
-		$this->form_validation->set_rules($validate);
-		if ($this->form_validation->run()===FALSE) 
-		{
-			$info['success']=FALSE;
-			$info['errors']=validation_errors();
-		}
-		else
-		{
-			$info['success']=TRUE;
-
-			$data=array(
-				'terminal_id'=>$this->input->post('terminal_id'),
-				'terminal_name'=>$this->input->post('terminal_name'),
-				'latitude'=>$this->input->post('latitude'),
-				'longitude'=>$this->input->post('longitude')
-			);
-			$this->Terminal->update_Terminal_Data($data);
-			$info['message']="You have successfully updated your data!";
-		}
-		$this->output->set_content_type('application/json')->set_output(json_encode($info));
-	}
-
-	// D E L E T E
-	public function delete_Terminal()
-	{
-		$validate=array(
-			array('field'=>'terminal_id','label'=>'Terminal Id','rules'=>'required'),
-		);
-
-		$this->form_validation->set_rules($validate);
-		if ($this->form_validation->run()===FALSE) {
-			$info['success']=FALSE;
-			$info['errors']=validation_errors();
-		}else
-		{
-			$info['success']=TRUE;
-			$data=array(
-				'terminal_id'=>$this->input->post('terminal_id')
-			);
-			$this->Terminal->delete_Terminal_Data($data);
-			$info['message']='Data Successfully Deleted';
-		}
-		$this->output->set_content_type('application/json')->set_output(json_encode($info));
-	}
-
 	////////////////////////////////////////////////////////////////
 	// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 	////////////////////////////////////////////////////////////////
 
 }
 
-// END OF BUSES CONTROLLER
+// END OF ROUTES CONTROLLER

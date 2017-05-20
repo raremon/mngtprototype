@@ -8,7 +8,7 @@
 
       <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-      <!--LINKS-->
+      <!--GLOBAL LINKS-->
       <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css') ?>">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -16,17 +16,11 @@
       <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-green.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
+    <?php foreach($css as $rows){ ?>
+      <link rel="stylesheet" href="<?php echo base_url($rows) ?>"/>
+    <?php } ?>
 
-      <?php 
-        foreach($css as $rows)
-        {
-      ?>
-        <link rel="stylesheet" href="<?php echo base_url($rows) ?>"/>
-      <?php 
-        }
-      ?>
-
-      <!-- REQUIRED JS SCRIPTS -->
+      <!-- GLOBAL SCRIPTS -->
       <script src="<?php echo base_url('assets/js/jquery-2.2.3.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/app.min.js') ?>"></script>
@@ -36,15 +30,9 @@
       <script>
         $.widget.bridge('uibutton', $.ui.button);
       </script>
-
-      <?php 
-        foreach($script as $rows)
-        {
-      ?>
-        <script src="<?php echo base_url($rows) ?>"></script>
-      <?php 
-        }
-      ?>
+    <?php foreach($script as $rows){ ?>
+      <script src="<?php echo base_url($rows) ?>"></script>
+    <?php } ?>
 
     </head>
 
@@ -239,6 +227,7 @@
               <ul class="sidebar-menu">
                 <li class="header">Main Menu</li>
                 <li id="dashboard"><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
+
                 <li id="program_schedule" class="treeview">
                   <a href="#"><i class="fa fa-tv"></i> <span>Program Schedule</span>
                     <span class="pull-right-container">
@@ -275,6 +264,7 @@
                     <li id="browse_ad_companies"><a href="<?php echo base_url('advertisers/show') ?>">Browse Ad Companies </a></li>
                   </ul>				
         				</li>	
+<!--
                 <li id="users_management" class="treeview">
                   <a href="#"><i class="fa fa-users"></i> <span>Users Management</span>
                     <span class="pull-right-container">
@@ -282,20 +272,72 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="add_user"><a href="<?php echo base_url('users/add') ?>">Add User</a></li>
-                    <li id="delete_user"><a href="<?php echo base_url('users/delete') ?>">Delete User</a></li>
+                    <li id="new_user"><a href="<?php echo base_url('users/add') ?>">New User</a></li>
+                    <li id="browse_users"><a href="<?php echo base_url('users/browse') ?>">Browse Users</a></li>
+                    <li id="new_driver"><a href="<?php echo base_url('drivers/add') ?>">New Driver</a></li>
+                    <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Browse Drivers</a></li>
                   </ul>
                 </li>
-                <li id="bus_management" class="treeview">
-                  <a href="#"><i class="fa fa-bus"></i> <span>Bus Management</span>
+-->
+<!--
+                <li id="vehicle_management" class="treeview">
+                  <a href="#"><i class="fa fa-bus"></i> <span>Vehicle Management</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="add_bus"><a href="<?php echo base_url('buses/add') ?>">Add Bus</a></li>
-                    <li id="delete_bus"><a href="<?php echo base_url('buses/delete') ?>">Delete Bus</a></li>
-                    <li id="bus_routes"><a href="<?php echo base_url('routes') ?>">Bus Routes</a></li>
+                    <li id="new_vehicle"><a href="<?php echo base_url('vehicles/add') ?>">New Vehicle</a></li>
+                    <li id="browse_vehicles"><a href="<?php echo base_url('vehicles/browse') ?>">Browse Vehicles</a></li>
+
+                    <li id="new_tv"><a href="<?php echo base_url('tvs/add') ?>">New TV</a></li>
+                    <li id="browse_tvs"><a href="<?php echo base_url('tvs/browse') ?>">Browse TVs</a></li>
+
+                    <li id="new_mediabox"><a href="<?php echo base_url('mediaboxes/add') ?>">New Mediabox</a></li>
+                    <li id="browse_mediaboxes"><a href="<?php echo base_url('mediaboxes/browse') ?>">Browse Mediaboxes</a></li>
+
+                    <li id="assign_media"><a href="<?php echo base_url('media/assign') ?>">Assign Media</a></li>
+                    <li id="browse_assignment"><a href="<?php echo base_url('media/browse') ?>">Browse Assignment</a></li>
+                  </ul>
+                </li>
+-->
+                <li id="route_management" class="treeview">
+                  <a href="#"><i class="fa fa-road"></i> <span>Route Management</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                  <ul class="treeview-menu">
+                    <li id="new_route"><a href="<?php echo base_url('routes/add') ?>">New Route</a></li>
+                    <li id="browse_routes"><a href="<?php echo base_url('routes/browse') ?>">Browse Routes</a></li>
+
+                    <li id="new_city"><a href="<?php echo base_url('cities/add') ?>">New City</a></li>
+                    <li id="browse_cities"><a href="<?php echo base_url('cities/browse') ?>">Browse Cities</a></li>
+
+                    <li id="new_region"><a href="<?php echo base_url('regions/add') ?>">New Region</a></li>
+                    <li id="browse_regions"><a href="<?php echo base_url('regions/browse') ?>">Browse Regions</a></li>
+                  </ul>
+                </li>
+                <li id="settings" class="treeview">
+                  <a href="#"><i class="fa fa-gear"></i> <span>Settings</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                  <ul class="treeview-menu">
+                    <li id="salesman"><a href="<?php echo base_url('salesman/schedules') ?>">Salesman</a></li>
+                      
+                    <li id="browse_users"><a href="<?php echo base_url('users/browse') ?>">Users</a></li>
+                      
+                    <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Drivers</a></li>
+                      
+                    <li id="browse_vehicles"><a href="<?php echo base_url('vehicles/browse') ?>">Vehicles</a></li>
+
+                    <li id="browse_tvs"><a href="<?php echo base_url('tvs/browse') ?>">TVs</a></li>
+
+                    <li id="browse_mediaboxes"><a href="<?php echo base_url('mediaboxes/browse') ?>">Mediaboxes</a></li>
+
+                    <li id="browse_assignment"><a href="<?php echo base_url('media/browse') ?>">Media Assignment</a></li>
                   </ul>
                 </li>
                 <li id="live_monitoring" class="treeview">
@@ -313,6 +355,43 @@
             </section>
           </aside>
 
+          <!-- TAGGING PAUL -->
+          <div class="modal fade" id="successModal" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Success!</h4>
+                </div>
+                <div class="modal-body">
+                  <p id="message-text"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script type="text/javascript">$('#successModal').on('hidden.bs.modal',function(){window.location.reload();})</script>
+
+          <!-- TAGGING PAUL -->
+          <div class="modal fade" id="errorModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Error!</h4>
+                </div>
+                <div class="modal-body">
+                  <p id="error-text"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div class="content-wrapper">
             <section class="content-header">
               <h1>
