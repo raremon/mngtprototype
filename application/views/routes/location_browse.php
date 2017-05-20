@@ -231,19 +231,19 @@
   function delete_location(id, name) {
     if(confirm('Do you really want to delete '+name+' ??')){
       $.ajax({
-        url: "<?php echo site_url('cities/delete_City') ?>",
+        url: "<?php echo site_url('locations/delete') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'city_id='+city_id,
+        data: 'location_id='+id,
         encode:true,
         success:function(data) {
           if(!data.success){
             if(data.errors){
               $(window).scrollTop(0);
-              $("#city-delete-message").fadeIn("slow");
-              $('#city-delete-message').html(data.errors).addClass('alert alert-danger');
+              $("#location-delete-message").fadeIn("slow");
+              $('#location-delete-message').html(data.errors).addClass('alert alert-danger');
               setTimeout(function() {
-                  $('#city-delete-message').fadeOut('slow');
+                  $('#location-delete-message').fadeOut('slow');
               }, 3000);
             }
           }else {

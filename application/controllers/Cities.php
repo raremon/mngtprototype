@@ -12,6 +12,7 @@ class Cities extends MY_Controller {
 
 		$this->load->model('routes_model', 'Route');
 		$this->load->model('cities_model', 'City');
+		$this->load->model('locations_model', 'Location');
 		$this->load->model('regions_model', 'Region');
 	}
 			

@@ -203,26 +203,27 @@ class Locations extends MY_Controller {
 	public function delete()
 	{
 		$validate=array(
-			array('field'=>'city_id','rules'=>'required')
+			array('field'=>'location_id','rules'=>'required')
 		);
 		$this->form_validation->set_rules($validate);
 		if ($this->form_validation->run()===FALSE) {
 			$info['success']=FALSE;
 			$info['errors']=validation_errors();
 		}else{
-			if($this->Route->find_City($this->input->post('city_id')))
+			if($this->Route->find_Location($this->input->post('location_id')))
 			{	
 				$info['success']=FALSE;
-				$info['errors']="Cannot Delete City that's Currently on Route!";
+				$info['errors']="Cannot Delete Location that's Currently on Route!";
 			}
 			else
 			{
 				$info['success']=TRUE;
 				$data=array(
-					'city_id'=>$this->input->post('city_id')
+					'location_id'=>$this->input->post('location_id')
 				);
-				$this->City->delete_City($data);
-				$info['message']='Data Successfully Deleted';
+				$name = $this->Location->get_Name($this->input->post('location_id'));
+				$this->Location->delete($data);
+				$info['message']='<b>'.$name.'</b> Successfully Deleted';
 			}
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
