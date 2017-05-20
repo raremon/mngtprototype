@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cities extends MY_Controller {
+class Locations extends MY_Controller {
 
 	// Constructor
 	public function __construct()
@@ -11,8 +11,8 @@ class Cities extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('routes_model', 'Route');
-		$this->load->model('cities_model', 'City');
 		$this->load->model('locations_model', 'Location');
+		$this->load->model('cities_model', 'City');
 		$this->load->model('regions_model', 'Region');
 	}
 			
@@ -20,10 +20,11 @@ class Cities extends MY_Controller {
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='New City';
+		$data['title']='New Location';
 		$data['breadcrumbs']=array
 		(
-			array('New City','cities/add'),
+			array('Browse Locations','locations/browse'),
+			array('New Location','locations/add'),
 		);
 		$data['css']=array
 		(
@@ -33,6 +34,18 @@ class Cities extends MY_Controller {
 		(
 			
 		);
+
+		$city_data = $this->City->show_City();
+		$data['city'] = array();
+		foreach ($city_data as $rows) {
+			array_push($data['city'],
+				array(
+					$rows['city_id'],
+					$rows['city_name'],
+					$rows['region_id'],
+				)
+			);
+		}
 
 		$region_data = $this->Region->show_Region();
 		$data['region'] = array();
@@ -45,13 +58,13 @@ class Cities extends MY_Controller {
 			);
 		}
 
-		$data['page_description']='Add New City Records';
+		$data['page_description']='Add New Location Records';
 
 		$data['treeActive'] = 'route_management';
-		$data['childActive'] = 'new_city' ;
+		$data['childActive'] = 'locations' ;
 
 		$this->load->view("template/header", $data);
-		$this->load->view("routes/city_add", $data);
+		$this->load->view("routes/location_add", $data);
 		$this->load->view("template/footer", $data);
 	}
 
@@ -59,10 +72,10 @@ class Cities extends MY_Controller {
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Browse Cities';
+		$data['title']='Browse Locations';
 		$data['breadcrumbs']=array
 		(
-			array('Browse Cities','cities/browse'),
+			array('Browse Locations','locations/browse'),
 		);
 		$data['css']=array
 		(
@@ -72,6 +85,18 @@ class Cities extends MY_Controller {
 		(
 			
 		);
+
+		$city_data = $this->City->show_City();
+		$data['city'] = array();
+		foreach ($city_data as $rows) {
+			array_push($data['city'],
+				array(
+					$rows['city_id'],
+					$rows['city_name'],
+					$rows['region_id'],
+				)
+			);
+		}
 
 		$region_data = $this->Region->show_Region();
 		$data['region'] = array();
@@ -84,25 +109,24 @@ class Cities extends MY_Controller {
 			);
 		}
 
-		$data['page_description']='Browse City Records';
+		$data['page_description']='Browse Location Records';
 
 		$data['treeActive'] = 'route_management';
-		$data['childActive'] = 'browse_cities' ;
+		$data['childActive'] = 'locations' ;
 
 		$this->load->view("template/header", $data);
-		$this->load->view("routes/city_browse", $data);
+		$this->load->view("routes/location_browse", $data);
 		$this->load->view("template/footer", $data);
 	}
 
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
-
 	// C R E A T E
-	public function saveCity()
+	public function save()
 	{
 		$validate = array (
-			array('field'=>'city_name','label'=>'City Name','rules'=>'trim|required|min_length[3]'),
+			array('field'=>'location_name','label'=>'Location Name','rules'=>'trim|required|min_length[3]|is_unique[locations.location_name]'),
 		);
 
 		$this->form_validation->set_rules($validate);
@@ -116,52 +140,46 @@ class Cities extends MY_Controller {
 			$info['success']=TRUE;
 
 			$data=array(
-				'city_name'=>$this->input->post('city_name'),
-				'region_id'=>$this->input->post('region_id'),
+				'location_name'=>$this->input->post('location_name'),
+				'city_id'=>$this->input->post('city_id'),
 			);
-			$this->City->save_City($data);
-			$info['message']="You have successfully saved your data!";
+			$this->Location->create($data);
+			$info['message']="You have successfully saved <b>".$data['location_name']."</b>!";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
-
-
 	// R E A D
-	public function showCity()
+	public function show()
 	{
-		$city_table = $this->City->show_City();
+		$table = $this->Location->read();
 		$data = array();
-		foreach ($city_table as $rows) {
+		foreach ($table as $rows) {
 			$creation = new DateTime($rows['created_at']); 
-			$region_name = $this->Region->get_Region_Name($rows['region_id']);
+			$name = $this->City->get_Name($rows['city_id']);
 			array_push($data,
 				array(
-					$rows['city_name'],
-					$region_name['region_name'],
+					$rows['location_name'],
+					$name,
 					$creation->format('M / d / Y'),
-					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_city('."'".$rows['city_id']."'".')">Edit</a>'.
-					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_city('."'".$rows['city_id']."'".')">Delete</a>'
+					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_location('."'".$rows['location_id']."'".')">Edit</a>'.
+					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_location('."'".$rows['location_id']."'".",'".$rows['location_name']."'".')">Delete</a>'
 				)
 			);
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 	}
-
 	// U P D A T E
-	public function editCity()
+	public function edit()
 	{
-		$city_id=$this->input->post('city_id');
-		$data=$this->City->edit_City($city_id);
+		$id=$this->input->post('location_id');
+		$data=$this->Location->edit($id);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
-
-	public function updateCity()
+	public function update()
 	{
-
 		$validate = array (
-			array('field'=>'city_name','label'=>'City Name','rules'=>'trim|required|min_length[3]'),
+			array('field'=>'location_name','label'=>'Location Name','rules'=>'trim|required|min_length[3]'),
 		);
-
 		$this->form_validation->set_rules($validate);
 		if ($this->form_validation->run()===FALSE) 
 		{
@@ -171,51 +189,48 @@ class Cities extends MY_Controller {
 		else
 		{
 			$info['success']=TRUE;
-
 			$data=array(
+				'location_id'=>$this->input->post('location_id'),
+				'location_name'=>$this->input->post('location_name'),
 				'city_id'=>$this->input->post('city_id'),
-				'city_name'=>$this->input->post('city_name'),
-				'region_id'=>$this->input->post('region_id'),
 			);
-			$this->City->update_City($data);
-			$info['message']="You have successfully updated your data!";
+			$this->Location->update($data);
+			$info['message']="You have successfully updated <b>".$data['location_name']."</b>!";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
-
 	// D E L E T E
-	public function delete_City()
+	public function delete()
 	{
 		$validate=array(
-			array('field'=>'city_id','rules'=>'required')
+			array('field'=>'location_id','rules'=>'required')
 		);
 		$this->form_validation->set_rules($validate);
 		if ($this->form_validation->run()===FALSE) {
 			$info['success']=FALSE;
 			$info['errors']=validation_errors();
 		}else{
-			if($this->Location->find_City($this->input->post('city_id')))
+			if($this->Route->find_Location($this->input->post('location_id')))
 			{	
 				$info['success']=FALSE;
-				$info['errors']="Cannot Delete City that has an Location";
+				$info['errors']="Cannot Delete Location that's Currently on Route!";
 			}
 			else
 			{
 				$info['success']=TRUE;
 				$data=array(
-					'city_id'=>$this->input->post('city_id')
+					'location_id'=>$this->input->post('location_id')
 				);
-				$this->City->delete_City($data);
-				$info['message']='Data Successfully Deleted';
+				$name = $this->Location->get_Name($this->input->post('location_id'));
+				$this->Location->delete($data);
+				$info['message']='<b>'.$name.'</b> Successfully Deleted';
 			}
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
-
 	////////////////////////////////////////////////////////////////
 	// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 	////////////////////////////////////////////////////////////////
-
 }
 
-// END OF CITY CONTROLLER
+// END OF LOCATIONS CONTROLLER
