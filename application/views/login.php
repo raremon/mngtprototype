@@ -14,7 +14,7 @@
         </div>
 
         <div class="info_text">
-            DIGITAL<br/>
+            MEDIA<br/>
             BROADCAST<br/>
             SOLUTIONS
         </div>
