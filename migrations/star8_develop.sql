@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2017 at 11:23 PM
+-- Generation Time: May 20, 2017 at 01:57 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -19,8 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `star8_develop`
 --
--- CREATE DATABASE IF NOT EXISTS `star8_develop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
--- USE `star8_develop`;
+CREATE DATABASE IF NOT EXISTS `star8_develop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+USE `star8_develop`;
 
 -- --------------------------------------------------------
 
@@ -276,6 +276,21 @@ CREATE TABLE `features` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `locations`
+--
+
+DROP TABLE IF EXISTS `locations`;
+CREATE TABLE `locations` (
+  `location_id` int(11) NOT NULL COMMENT 'PRIMARY',
+  `city_id` int(11) NOT NULL COMMENT 'FOREIGN',
+  `location_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `mediaboxes`
 --
 
@@ -412,18 +427,11 @@ CREATE TABLE `routes` (
   `route_id` int(7) UNSIGNED NOT NULL COMMENT 'Route''s Id ( Primary )',
   `route_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Route''s Name',
   `route_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Route''s Description',
-  `city_from` int(7) UNSIGNED NOT NULL COMMENT 'Id of first city ( Foreign )',
-  `city_to` int(7) UNSIGNED NOT NULL COMMENT 'Id of second city ( Foreign )',
+  `location_from` int(7) UNSIGNED NOT NULL COMMENT 'Id of first city ( Foreign )',
+  `location_to` int(7) UNSIGNED NOT NULL COMMENT 'Id of second city ( Foreign )',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `routes`
---
-
-INSERT INTO `routes` (`route_id`, `route_name`, `route_description`, `city_from`, `city_to`, `created_at`, `updated_at`) VALUES
-(2, 'Mabalacat Madness', 'Super Enjoy ! -Dennis 2017', 1, 69, '2017-05-08 21:14:12', '2017-05-09 08:57:01');
 
 -- --------------------------------------------------------
 
@@ -616,6 +624,12 @@ ALTER TABLE `features`
   ADD UNIQUE KEY `feature_id` (`feature_id`);
 
 --
+-- Indexes for table `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`location_id`);
+
+--
 -- Indexes for table `mediaboxes`
 --
 ALTER TABLE `mediaboxes`
@@ -740,6 +754,11 @@ ALTER TABLE `drivers`
 ALTER TABLE `features`
   MODIFY `feature_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Feature''s Id';
 --
+-- AUTO_INCREMENT for table `locations`
+--
+ALTER TABLE `locations`
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY';
+--
 -- AUTO_INCREMENT for table `mediaboxes`
 --
 ALTER TABLE `mediaboxes`
@@ -748,7 +767,7 @@ ALTER TABLE `mediaboxes`
 -- AUTO_INCREMENT for table `ready_vehicles`
 --
 ALTER TABLE `ready_vehicles`
-  MODIFY `ready_vehicle_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY', AUTO_INCREMENT=14;
+  MODIFY `ready_vehicle_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY', AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `regions`
 --
@@ -763,7 +782,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `route_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Route''s Id ( Primary )', AUTO_INCREMENT=3;
+  MODIFY `route_id` int(7) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Route''s Id ( Primary )', AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `schedules`
 --

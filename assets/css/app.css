@@ -110,3 +110,25 @@ tbody > tr > td{
     background-color: #44C755;
     padding: 4px 15px;
 }
+
+.modal {
+  text-align: center;
+}
+@media screen and (min-device-width: 768px) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.chosen-container {
+    width: 100% !important;
+}

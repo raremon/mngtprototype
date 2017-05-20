@@ -9,13 +9,15 @@
       <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
       <!--GLOBAL LINKS-->
+      <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css') ?>">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/AdminLTE.min.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/skins/skin-green.css') ?>">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/dataTables.bootstrap.min.css') ?>"/>
-      <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
+
+      <link rel="stylesheet" href="<?php echo base_url('assets/css/dropdown/chosen.min.css') ?>"/>
     <?php foreach($css as $rows){ ?>
       <link rel="stylesheet" href="<?php echo base_url($rows) ?>"/>
     <?php } ?>
@@ -27,6 +29,10 @@
       <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/js/dataTables.bootstrap.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/plugins/jQueryUI/jquery-ui.min.js') ?>"></script>
+
+      <script src="<?php echo base_url('assets/js/dropdown/chosen.jquery.min.js') ?>"></script>
+      <script src="<?php echo base_url('assets/js/dropdown/chosen.proto.min.js') ?>"></script>
+
       <script>
         $.widget.bridge('uibutton', $.ui.button);
       </script>
@@ -310,6 +316,8 @@
                   <ul class="treeview-menu">
                     <li id="new_route"><a href="<?php echo base_url('routes/add') ?>">New Route</a></li>
                     <li id="browse_routes"><a href="<?php echo base_url('routes/browse') ?>">Browse Routes</a></li>
+
+                    <li id="locations"><a href="<?php echo base_url('locations/browse') ?>">Locations</a></li>
 
                     <li id="new_city"><a href="<?php echo base_url('cities/add') ?>">New City</a></li>
                     <li id="browse_cities"><a href="<?php echo base_url('cities/browse') ?>">Browse Cities</a></li>

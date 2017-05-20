@@ -9,12 +9,15 @@
         <div class="col-md-12">
           <div id="route-message"></div>
           <?php echo form_open('welcome', array('id'=>'route')); ?>
-            <div class="form-group hidden">
-              <input type="text" name="route_id" class="form-control"/>
+
+            <div class="form-group">
+              <input type="text" name="route_id" class="form-control hidden"/>
             </div>
+
             <div class="form-group">
               <label>Region From</label>
-              <select id="region_from" class="form-control">
+              <select data-placeholder="No regions on the data" id="region_from" class="chosen-select form-control">
+                <option value="all">All Regions</option>
                 <?php 
                   foreach($region as $row)
                   {
@@ -30,13 +33,22 @@
             </div>
             <div class="form-group">
               <label>City From</label>
-              <select id="city_from" name="city_from" class="form-control">
+              <select data-placeholder="No cities in that region" id="city_from" name="city_from" class="chosen-select form-control">
               </select>
               <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
             </div>
             <div class="form-group">
+              <label>Location From</label>
+              <select data-placeholder="No locations in that city" id="location_from" name="location_from" class="chosen-select form-control">
+              </select>
+              <a class="btn btn-link pull-right" href="<?php echo site_url('locations/add') ?>">Add Location</a>
+            </div>
+
+
+            <div class="form-group">
               <label>Region To</label>
-              <select id="region_to" class="form-control">
+              <select data-placeholder="No regions on the data" id="region_to" class="chosen-select form-control">
+                <option value="all">All Regions</option>
                 <?php 
                   foreach($region as $row)
                   {
@@ -52,10 +64,18 @@
             </div>
             <div class="form-group">
               <label>City To</label>
-              <select id="city_to" name="city_to" class="form-control">
+              <select data-placeholder="No cities in that region" id="city_to" name="city_to" class="chosen-select form-control">
               </select>
               <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
             </div>
+            <div class="form-group">
+              <label>Location To</label>
+              <select data-placeholder="No locations in that city" id="location_to" name="location_to" class="chosen-select form-control">
+              </select>
+              <a class="btn btn-link pull-right" href="<?php echo site_url('locations/add') ?>">Add Location</a>
+            </div>
+
+
             <div class="form-group">
               <label>Route Name</label>
               <input type="text" name="route_name" class="form-control" placeholder="Enter Route Name"/>
@@ -88,8 +108,8 @@
               <tr>
                 <th>ROUTE NAME</th>
                 <th>ROUTE DESCRIPTION</th>
-                <th>CITY FROM</th>
-                <th>CITY TO</th>
+                <th>LOCATION FROM</th>
+                <th>LOCATION TO</th>
                 <th></th>
               </tr>
             </thead>
@@ -105,12 +125,17 @@
 </div>
 <script type="text/javascript">
 
-  var cities = [];
+  var city = [];
+  city.push([
+    "all",
+    "All Cities",
+    0,
+  ]);
   <?php 
     foreach($city as $row)
     {
   ?>
-    cities.push([
+    city.push([
       <?php echo $row[0]; ?>,
       "<?php echo $row[1]; ?>",
       <?php echo $row[2]; ?>,
@@ -119,29 +144,50 @@
     }
   ?>
 
-  var filtered_from = [];
-  var filtered_to = [];
+  var locations = [];
+  <?php 
+    foreach($location as $row)
+    {
+  ?>
+    locations.push([
+      <?php echo $row[0]; ?>,
+      "<?php echo $row[1]; ?>",
+      <?php echo $row[2]; ?>,
+    ]);
+  <?php 
+    }
+  ?>
+
+  var filteredCityFrom = [];
+  var filteredLocationFrom = [];
+  var filteredCityTo = [];
+  var filteredLocationTo = [];
 
   $( document ).ready(function() {
-    filter_from();
-    filter_to();
-    filter_to($("#city_from").val());
-    filter_from($("#city_to").val());
+    filterCityTo();
+    filterCityFrom();
+    filterLocationTo();
+    filterLocationFrom();
+    filterLocationTo();
   });
 
-  function filter_from(selected_to) {
-    filtered_from=[];
-    for(var a = 0 ; a < cities.length ; a++)
+  function filterCityFrom() {
+    filteredCityFrom=[];
+    for(var a = 0 ; a < city.length ; a++)
     {
-      if(cities[a][2] == $('#region_from').val())
+      if($('#region_from').val() == "all")
       {
-        if(cities[a][0] != selected_to)
-        {
-          filtered_from.push([
-            cities[a][0],
-            cities[a][1],
-          ]);
-        }
+        filteredCityFrom.push([
+          city[a][0],
+          city[a][1],
+        ]);
+      }
+      else if(city[a][2] == $('#region_from').val())
+      {
+        filteredCityFrom.push([
+          city[a][0],
+          city[a][1],
+        ]);
       }
       else
       {
@@ -152,36 +198,82 @@
       .remove()
       .end()
     ;
-    if(filtered_from.length<1)
+    if(filteredCityFrom.length<1)
     {
-      $('#city_from')
-        .append('<option value=0>NO CITY ON THAT REGION</option>')
-        .val(0)
-      ;
+      $('.save').prop('disabled', true);
     }
     else
     {
-      $.each(filtered_from, function(key, value) {   
+      $.each(filteredCityFrom, function(key, value) {   
         $('#city_from')
           .append($('<option>', { value : value[0] })
           .text(value[1])); 
       });
     }
+    $('#city_from').chosen("destroy").chosen();
+    $('#location_from').chosen("destroy").chosen();
   }
 
-  function filter_to(selected_from) {
-    filtered_to=[];
-    for(var a = 0 ; a < cities.length ; a++)
+  function filterLocationFrom() {
+    filteredLocationFrom=[];
+    for(var a = 0 ; a < locations.length ; a++)
     {
-      if(cities[a][2] == $('#region_to').val())
+      if($('#city_from').val() == "all")
       {
-        if(cities[a][0] != selected_from)
-        {
-          filtered_to.push([
-            cities[a][0],
-            cities[a][1],
-          ]);
-        }
+        filteredLocationFrom.push([
+          locations[a][0],
+          locations[a][1],
+        ]);
+      }
+      else if(locations[a][2] == $('#city_from').val())
+      {
+        filteredLocationFrom.push([
+          locations[a][0],
+          locations[a][1],
+        ]);
+      }
+      else
+      {
+      }
+    }
+    $('#location_from')
+      .find('option')
+      .remove()
+      .end()
+    ;
+    locationToTrim();
+    if(filteredLocationFrom.length<1)
+    {
+      $('.save').prop('disabled', true);
+    }
+    else
+    {
+      $.each(filteredLocationFrom, function(key, value) {   
+        $('#location_from')
+          .append($('<option>', { value : value[0] })
+          .text(value[1])); 
+      });
+    }
+    $('#location_from').trigger("chosen:updated");
+  }
+
+  function filterCityTo() {
+    filteredCityTo=[];
+    for(var a = 0 ; a < city.length ; a++)
+    {
+      if($('#region_to').val() == "all")
+      {
+        filteredCityTo.push([
+          city[a][0],
+          city[a][1],
+        ]);
+      }
+      else if(city[a][2] == $('#region_to').val())
+      {
+        filteredCityTo.push([
+          city[a][0],
+          city[a][1],
+        ]);
       }
       else
       {
@@ -192,42 +284,160 @@
       .remove()
       .end()
     ;
-    if(filtered_to.length<1)
+    if(filteredCityTo.length<1)
     {
-      $('#city_to')
-        .append('<option value=0>NO CITY ON THAT REGION</option>')
-        .val(0)
+      $('.save')
+        .prop('disabled', true)
       ;
     }
     else
     {
-      $.each(filtered_to, function(key, value) {   
+      $.each(filteredCityTo, function(key, value) {   
         $('#city_to')
           .append($('<option>', { value : value[0] })
           .text(value[1])); 
       });
     }
+    $('#city_to').chosen("destroy").chosen();
+    $('#location_to').chosen("destroy").chosen();
   }
 
-  $( "#region_from" ).change(function() {
-    filter_from($("#city_to").val());
-  });
+  function filterLocationTo() {
+    filteredLocationTo=[];
+    for(var a = 0 ; a < locations.length ; a++)
+    {
+      if($('#city_to').val() == "all")
+      {
+        filteredLocationTo.push([
+          locations[a][0],
+          locations[a][1],
+        ]);
+      }
+      else if(locations[a][2] == $('#city_to').val())
+      {
+        filteredLocationTo.push([
+          locations[a][0],
+          locations[a][1],
+        ]);
+      }
+      else
+      {
+      }
+    }
+    $('#location_to')
+      .find('option')
+      .remove()
+      .end()
+    ;
+    locationFromTrim();
+    if(filteredLocationTo.length<1)
+    {
+      $('.save')
+        .prop('disabled', true)
+      ;
+    }
+    else
+    {
+      $.each(filteredLocationTo, function(key, value) {   
+        $('#location_to')
+          .append($('<option>', { value : value[0] })
+          .text(value[1])); 
+      });
+    }
+    $('#location_to').trigger("chosen:updated");
+  }
+
+  $('#region_to').chosen();
 
   $( "#region_to" ).change(function() {
-    filter_to($("#city_from").val());
-  });
+    $('.save').prop('disabled', false);
+    filterCityTo();
+    filterLocationTo();
 
-  $( "#city_from" ).change(function() {
-    var city2 = $("#city_to").val();
-    filter_to($("#city_from").val());
-    $("#city_to").val(city2);
+    var tempFrom = $( "#location_from" ).val();
+    filterLocationFrom();
+    $("#location_from").val(tempFrom);
+    $('#location_from').trigger("chosen:updated");
   });
 
   $( "#city_to" ).change(function() {
-    var city1 = $("#city_from").val();
-    filter_from($("#city_to").val());
-    $("#city_from").val(city1);
+    $('.save').prop('disabled', false);
+    filterLocationTo();
+
+    var tempFrom = $( "#location_from" ).val();
+    filterLocationFrom();
+    $("#location_from").val(tempFrom);
+    $('#location_from').trigger("chosen:updated");
   });
+
+  $( "#location_to" ).change(function() {
+    $('.save').prop('disabled', false);
+    var tempTo = $( "#location_to" ).val();
+    filterLocationTo();
+    $("#location_to").val(tempTo);
+    $('#location_to').trigger("chosen:updated");
+
+    var tempFrom = $( "#location_from" ).val();
+    filterLocationFrom();
+    $("#location_from").val(tempFrom);
+    $('#location_from').trigger("chosen:updated");
+  });
+
+  $('#region_from').chosen();
+
+  $( "#region_from" ).change(function() {
+    $('.save').prop('disabled', false);
+    filterCityFrom();
+    filterLocationFrom();
+
+    var tempTo = $( "#location_to" ).val();
+    filterLocationTo();
+    $("#location_to").val(tempTo);
+    $('#location_to').trigger("chosen:updated");
+  });
+
+  $( "#city_from" ).change(function() {
+    $('.save').prop('disabled', false);
+    filterLocationFrom();
+
+    var tempTo = $( "#location_to" ).val();
+    filterLocationTo();
+    $("#location_to").val(tempTo);
+    $('#location_to').trigger("chosen:updated");
+  });
+
+  $( "#location_from" ).change(function() {
+    $('.save').prop('disabled', false);
+    var tempFrom = $( "#location_from" ).val();
+    filterLocationFrom();
+    $("#location_from").val(tempFrom);
+    $('#location_from').trigger("chosen:updated");
+
+    var tempTo = $( "#location_to" ).val();
+    filterLocationTo();
+    $("#location_to").val(tempTo);
+    $('#location_to').trigger("chosen:updated");
+  });
+
+  function locationToTrim() {
+    for(var a = 0 ; a < filteredLocationFrom.length ; a++)
+    {
+      if($("#location_to").val() == filteredLocationFrom[a][0])
+      {
+        filteredLocationFrom.splice(a, 1);
+      }
+    }
+  }
+
+  function locationFromTrim() {
+    for(var a = 0 ; a < filteredLocationTo.length ; a++)
+    {
+      if($("#location_from").val() == filteredLocationTo[a][0])
+      {
+        filteredLocationTo.splice(a, 1);
+      }
+    }
+  }
 
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
@@ -253,17 +463,25 @@
       data: 'route_id='+route_id,
       encode:true,
       success:function (data) {
-        console.log(data[0]['region_to']);
         $('.update').removeAttr('disabled');
         $('input[name="route_id"]').val(data.route_id);
         $('input[name="route_name"]').val(data.route_name);
         $('textarea[name="route_description"]').val(data.route_description);
+
         $('select[id="region_from"]').val(data[0]['region_from']);
         $('select[id="region_to"]').val(data[0]['region_to']);
         $( "#region_from" ).change();
         $( "#region_to" ).change();
-        $('select[name="city_to"]').val(data.city_to);
-        $('select[name="city_from"]').val(data.city_from);
+
+        $('select[name="city_to"]').val(data[0]['city_to']);
+        $('select[name="city_from"]').val(data[0]['city_from']);
+        $( "#city_to" ).change();
+        $( "#city_from" ).change();
+
+        $('select[name="location_to"]').val(data.location_to);
+        $('select[name="location_from"]').val(data.location_from);
+        $( "#location_to" ).change();
+        $( "#location_from" ).change();
       }
     })
   }

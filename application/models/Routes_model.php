@@ -24,25 +24,25 @@ class Routes_model extends CI_Model
 	// R E A D
 	public function show_Route()
 	{
-		$this->db->select("route_id, route_name, route_description, city_from, city_to, created_at");
+		$this->db->select("route_id, route_name, route_description, location_from, location_to, created_at");
 		$this->db->from('routes');
 		$query=$this->db->get();
 		return $query->result_array();
 	}
 
-	public function find_City($city_id)
+	public function find_Location($location_id)
 	{
-		$this->db->select("city_from");
+		$this->db->select("location_from");
 		$this->db->from('routes');
-		$this->db->where('city_from', $city_id);
-		$city_from=$this->db->get();
+		$this->db->where('location_from', $location_id);
+		$location_from=$this->db->get();
 
-		$this->db->select("city_to");
+		$this->db->select("location_to");
 		$this->db->from('routes');
-		$this->db->where('city_to', $city_id);
-		$city_to=$this->db->get();
+		$this->db->where('location_to', $location_id);
+		$location_to=$this->db->get();
 
-		if ($city_from->num_rows() > 0 || $city_to->num_rows() > 0){
+		if ($location_from->num_rows() > 0 || $location_to->num_rows() > 0){
 	        return true;
 	    }
 	    else{
@@ -53,7 +53,7 @@ class Routes_model extends CI_Model
 	// U P D A T E
 	public function edit_Route_Data($route_id)
 	{
-		$this->db->select("route_id, route_name, route_description, city_from, city_to");
+		$this->db->select("route_id, route_name, route_description, location_from, location_to");
 		$this->db->from('routes');
 		$this->db->where('route_id', $route_id);
 		$query = $this->db->get();

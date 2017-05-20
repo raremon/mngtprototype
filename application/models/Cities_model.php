@@ -4,6 +4,17 @@
 	{
 		private $table = "cities";
 
+
+		public function get_Name($city_id)
+		{
+			$this->db->select("city_name");
+			$this->db->from($this->table);
+			$this->db->where('city_id', $city_id);
+			$query = $this->db->get();
+			$row = $query->row_array();
+			return $row['city_name'];
+		}
+
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
