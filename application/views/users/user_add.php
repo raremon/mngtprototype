@@ -22,7 +22,7 @@
           </div>
           <div class="form-group">
             <label>User Role</label>
-            <select name="user_role" class="form-control">
+            <select name="user_role" class="form-control select2">
               <?php 
                 foreach($roles as $row)
                 {
@@ -56,7 +56,7 @@
   </div>
 </div>
 <script type="text/javascript">
-
+  $(".select2").select2();
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////

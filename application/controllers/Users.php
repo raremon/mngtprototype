@@ -45,7 +45,7 @@ class Users extends MY_Controller {
 		}
 
 		$data['treeActive'] = 'settings';
-		$data['childActive'] = 'new_user' ;
+		$data['childActive'] = 'browse_users' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("users/user_add", $data);

@@ -34,7 +34,7 @@ class Regions extends MY_Controller {
 		$data['page_description']='Add New Region Records';
 
 		$data['treeActive'] = 'route_management';
-		$data['childActive'] = 'new_region' ;
+		$data['childActive'] = 'browse_regions' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("routes/region_add", $data);

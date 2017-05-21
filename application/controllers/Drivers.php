@@ -34,7 +34,7 @@ class Drivers extends MY_Controller {
 		$data['page_description']='Add New Driver Records';
 
 		$data['treeActive'] = 'settings';
-		$data['childActive'] = 'new_driver' ;
+		$data['childActive'] = 'browse_drivers';
 
 		$this->load->view("template/header", $data);
 		$this->load->view("users/driver_add", $data);

@@ -11,7 +11,7 @@
             <form>
                 <div class="form-group">
                 <label>Region</label>
-                <select name="region_id" class="form-control">
+                <select name="region_id" class="form-control select2" style="width:100%;">
                   <?php 
                     foreach($region as $row)
                     {
@@ -32,7 +32,7 @@
             <form>
                 <div class="form-group">
                   <label>City/Province</label>
-                  <select id="#" name="#" class="form-control">
+                  <select id="#" name="#" class="form-control select2" style="width:100%;">
                   </select>
                   <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
                 </div>         
@@ -43,7 +43,7 @@
             <form>
                 <div class="form-group">
                   <label>Route</label>
-                  <select id="#" name="#" class="form-control">
+                  <select id="#" name="#" class="form-control select2" style="width:100%;">
                   </select>
                   <a class="btn btn-link pull-right" href="<?php echo site_url('routes/add') ?>">Add Routes</a>
                 </div>          
@@ -86,10 +86,12 @@
         </section>
     </div>
   </div>
+  </div>
   <div class="box-footer">
   </div>
 </div>
 <script type="text/javascript">
+    $(".select2").select2();
     $("#sched_wizard").steps({
         headerTag: "h3",
         bodyTag: "section",

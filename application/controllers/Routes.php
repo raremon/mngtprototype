@@ -27,11 +27,11 @@ class Routes extends MY_Controller {
 		);
 		$data['css']=array
 		(
-			
+
 		);
 		$data['script']=array
 		(
-			
+		
 		);
 
 		$region_data = $this->Region->show_Region();
@@ -72,7 +72,7 @@ class Routes extends MY_Controller {
 		$data['page_description']='Add New Route Records';
 
 		$data['treeActive'] = 'route_management';
-		$data['childActive'] = 'new_route' ;
+		$data['childActive'] = 'browse_routes' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("routes/route_add", $data);
