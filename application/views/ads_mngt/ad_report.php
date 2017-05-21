@@ -7,7 +7,7 @@
   <div class="box-body">
       <div class="form-group">
           <label>Select Advertiser:</label>
-          <select name="advertiser_id" id="advertiser_id" class="form-control">
+          <select name="advertiser_id" id="advertiser_id" class="form-control select2">
             <?php 
               foreach($advertiser as $row)
               {
@@ -22,7 +22,7 @@
         </div>
         <div class="form-group">
           <label for="route_list">Select Route:</label>
-          <select name="route_id" id="route_id" class="form-control">
+          <select name="route_id" id="route_id" class="form-control select2">
             <?php 
               foreach($route as $row)
               {
@@ -110,6 +110,7 @@
   </div>
 </div>
 <script>
+    $(".select2").select2();
 function printAllReport() {
   var divToPrint=document.getElementById("reportTable");
   newWin= window.open("");

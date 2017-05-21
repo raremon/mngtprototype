@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">City Details</h4>
+        <h4 class="modal-title">Location Details</h4>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
@@ -15,7 +15,7 @@
             </div>
             <div class="form-group">
             <label>Select a Region</label>
-            <select data-placeholder="No regions on the data" id="region_name" class="chosen-select form-control">
+            <select data-placeholder="No regions on the data" id="region_name" class="select2 form-control">
               <option value="all">All Regions</option>
               <?php 
                 foreach($region as $row)
@@ -32,7 +32,7 @@
           </div>
           <div class="form-group">
             <label>City</label>
-            <select data-placeholder="No cities in this region" name="city_id" id="city" class="chosen-select form-control">
+            <select data-placeholder="No cities in this region" name="city_id" id="city" class="select2 form-control">
             </select>
             <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
           </div>
@@ -86,7 +86,7 @@
   </div>
 </div>
 <script type="text/javascript">
-
+ $(".select2").select2();
   var city = [];
   <?php 
     foreach($city as $row)
@@ -228,7 +228,42 @@
     })
   }
   // D E L E T E
-  function delete_location(id, name) {
+
+function delete_location(id, name) {
+    swal({
+      title: 'ARE YOU SURE?',
+      text: "You cannot revert this action!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      confirmButtonClass: 'btn btn-success btn-fix',
+      cancelButtonClass: 'btn btn-default',
+      animation: false,
+      customClass: 'animated fadeInDown',
+      buttonsStyling: false
+    }).then(function () {
+        swal({
+         //pede to ilagay sa success modal di ko mahanap kung saan
+          title: 'DELETED SUCCESSFULLY',
+          type: 'success',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-success btn-fix',
+          buttonsStyling: false
+        })
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'CANCELLED',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false
+        })
+      }
+    })
     if(confirm('Do you really want to delete '+name+' ??')){
       $.ajax({
         url: "<?php echo site_url('locations/delete') ?>",

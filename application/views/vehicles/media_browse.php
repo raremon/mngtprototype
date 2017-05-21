@@ -1,75 +1,80 @@
-<div class="box box-success hidden" id="form-box">
-  <div class="box-header with-border">
-    <h3 class="box-title">Assign Media</h3>
-    <div class="box-tools pull-right">
+<div class="modal fade" id="media-box" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Media Details</h4>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+            <div class="col-md-12">
+              <div id="media-message"></div>
+              <?php echo form_open('welcome', array('id'=>'media')); ?>
+              <div class="form-group hidden">
+                <input type="text" name="ready_vehicle_id" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label>Vehicle Type</label>
+                <select id="vehicle_type" class="form-control select2">
+                  <?php 
+                    foreach($types as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Unassigned Vehicles</label>
+                <select name="vehicle_id" id="vehicle" class="form-control select2">
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Unassigned Mediaboxes</label>
+                <select name="box_id" class="form-control select2">
+                  <?php 
+                    foreach($boxes as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Unassigned TVs</label>
+                <select name="tv_id" class="form-control select2">
+                  <?php 
+                    foreach($tvs as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+              </div>
+              <?php echo form_close(); ?>
+            </div>
+          </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Media()">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
-  <div class="box-body">
-      <div class="container-fluid">
-        <div class="col-md-12">
-          <div id="media-message"></div>
-          <?php echo form_open('welcome', array('id'=>'media')); ?>
-          <div class="form-group hidden">
-            <input type="text" name="ready_vehicle_id" class="form-control"/>
-          </div>
-          <div class="form-group">
-            <label>Vehicle Type</label>
-            <select id="vehicle_type" class="form-control">
-              <?php 
-                foreach($types as $row)
-                {
-              ?>
-                <option value= <?php echo $row[0];?> >
-                  <?php echo $row[1]; ?>
-                </option>
-              <?php 
-                }
-              ?>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Unassigned Vehicles</label>
-            <select name="vehicle_id" id="vehicle" class="form-control">
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Unassigned Mediaboxes</label>
-            <select name="box_id" class="form-control">
-              <?php 
-                foreach($boxes as $row)
-                {
-              ?>
-                <option value= <?php echo $row[0];?> >
-                  <?php echo $row[1]; ?>
-                </option>
-              <?php 
-                }
-              ?>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Unassigned TVs</label>
-            <select name="tv_id" class="form-control">
-              <?php 
-                foreach($tvs as $row)
-                {
-              ?>
-                <option value= <?php echo $row[0];?> >
-                  <?php echo $row[1]; ?>
-                </option>
-              <?php 
-                }
-              ?>
-            </select>
-          </div>
-          <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Media()">Update</button>
-          <?php echo form_close(); ?>
-        </div>
-      </div> 
-  </div>
-  <div class="box-footer">
-  </div>
 </div>
+
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Vehicle with Tv and Mediabox</h3>
@@ -103,6 +108,7 @@
   </div>
 </div>
 <script type="text/javascript">
+  $(".select2").select2();
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
@@ -195,7 +201,7 @@
   })
   // U P D A T E
   function edit_media(ready_vehicle_id) {
-    $('#form-box').removeClass('hidden');
+    $('#media-box').modal('show');
     $.ajax({
       url: "<?php echo site_url('media/editMedia') ?>",
       type: 'POST',
@@ -229,6 +235,7 @@
             }, 3000);
         }else {
           $('#message-text').html(data.message);
+          $('#media-box').modal('hide');
           $('#successModal').modal('show');
         }
       }
@@ -236,6 +243,40 @@
   }
   // D E L E T E
   function delete_media(media_id) {
+    swal({
+      title: 'ARE YOU SURE?',
+      text: "You cannot revert this action!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      confirmButtonClass: 'btn btn-success btn-fix',
+      cancelButtonClass: 'btn btn-default',
+      animation: false,
+      customClass: 'animated fadeInDown',
+      buttonsStyling: false
+    }).then(function () {
+        swal({
+         //pede to ilagay sa success modal di ko mahanap kung saan
+          title: 'DELETED SUCCESSFULLY',
+          type: 'success',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-success btn-fix',
+          buttonsStyling: false
+        })
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'CANCELLED',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false
+        })
+      }
+    })
     if(confirm('Do you really want to delete this Media Record ??')){
       $.ajax({
         url: "<?php echo site_url('media/delete_Media/') ?>",
