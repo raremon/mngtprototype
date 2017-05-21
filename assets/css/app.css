@@ -111,8 +111,31 @@ tbody > tr > td{
     padding: 4px 15px;
 }
 
+<<<<<<< HEAD
 .square-select {
    -webkit-border-radius: 25px;
    -moz-border-radius: 25px;
    border-radius: 25px;
+=======
+.modal {
+  text-align: center;
+}
+@media screen and (min-device-width: 768px) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.chosen-container {
+    width: 100% !important;
+>>>>>>> refs/remotes/origin/develop
 }

@@ -11,6 +11,7 @@ class Routes extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('regions_model', 'Region');
+		$this->load->model('locations_model', 'Location');
 		$this->load->model('cities_model', 'City');
 		$this->load->model('routes_model', 'Route');		
 	}
@@ -52,6 +53,18 @@ class Routes extends MY_Controller {
 					$rows['city_id'],
 					$rows['city_name'],
 					$rows['region_id'],
+				)
+			);
+		}
+
+		$location_data = $this->Location->read();
+		$data['location'] = array();
+		foreach ($location_data as $rows) {
+			array_push($data['location'],
+				array(
+					$rows['location_id'],
+					$rows['location_name'],
+					$rows['city_id'],
 				)
 			);
 		}
@@ -107,6 +120,18 @@ class Routes extends MY_Controller {
 			);
 		}
 
+		$location_data = $this->Location->read();
+		$data['location'] = array();
+		foreach ($location_data as $rows) {
+			array_push($data['location'],
+				array(
+					$rows['location_id'],
+					$rows['location_name'],
+					$rows['city_id'],
+				)
+			);
+		}
+
 		$data['page_description']='Browse Route Records';
 
 		$data['treeActive'] = 'route_management';
@@ -142,8 +167,8 @@ class Routes extends MY_Controller {
 			$data=array(
 				'route_name'=>$this->input->post('route_name'),
 				'route_description'=>$this->input->post('route_description'),
-				'city_from'=>$this->input->post('city_from'),
-				'city_to'=>$this->input->post('city_to'),
+				'location_from'=>$this->input->post('location_from'),
+				'location_to'=>$this->input->post('location_to'),
 			);
 			$this->Route->save_Route($data);
 			$info['message']="You have successfully saved your data!";
@@ -157,14 +182,14 @@ class Routes extends MY_Controller {
 		$route_table = $this->Route->show_Route();
 		$data = array();
 		foreach ($route_table as $rows) {
-			$city_from_data = $this->City->edit_City( $rows['city_from'] );
-			$city_to_data = $this->City->edit_City( $rows['city_to'] );
+			$location_from = $this->Location->get_Name( $rows['location_from'] );
+			$location_to = $this->Location->get_Name( $rows['location_to'] );
 			array_push($data,
 				array(
 					$rows['route_name'],
 					$rows['route_description'],
-					$city_from_data['city_name'],
-					$city_to_data['city_name'],
+					$location_from,
+					$location_to,
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_route('."'".$rows['route_id']."'".')">Edit</a>'.
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_route('."'".$rows['route_id']."'".')">Delete</a>'
 				)
@@ -178,11 +203,17 @@ class Routes extends MY_Controller {
 	{
 		$route_id=$this->input->post('route_id');
 		$data=$this->Route->edit_Route_Data($route_id);
-		$city_from = $this->City->edit_City($data['city_from']);
-		$city_to = $this->City->edit_City($data['city_to']);
+
+		$location_from = $this->Location->edit($data['location_from']);
+		$location_to = $this->Location->edit($data['location_to']);
+
+		$city_from = $this->City->edit_City($location_from['city_id']);
+		$city_to = $this->City->edit_City($location_to['city_id']);
 
 		array_push($data,
 			array(
+				'city_from'=>$city_from['city_id'],
+				'city_to'=>$city_to['city_id'],
 				'region_from'=>$city_from['region_id'],
 				'region_to'=>$city_to['region_id'],
 			)
@@ -214,8 +245,8 @@ class Routes extends MY_Controller {
 				'route_id'=>$this->input->post('route_id'),
 				'route_name'=>$this->input->post('route_name'),
 				'route_description'=>$this->input->post('route_description'),
-				'city_from'=>$this->input->post('city_from'),
-				'city_to'=>$this->input->post('city_to'),
+				'location_from'=>$this->input->post('location_from'),
+				'location_to'=>$this->input->post('location_to'),
 			);
 			$this->Route->update_Route_Data($data);
 			$info['message']="You have successfully updated your data!";
