@@ -111,12 +111,12 @@ tbody > tr > td{
     padding: 4px 15px;
 }
 
-<<<<<<< HEAD
 .square-select {
    -webkit-border-radius: 25px;
    -moz-border-radius: 25px;
    border-radius: 25px;
-=======
+}
+
 .modal {
   text-align: center;
 }
@@ -135,7 +135,10 @@ tbody > tr > td{
   vertical-align: middle;
 }
 
-.chosen-container {
+.btn-fix{
+    margin-right: 10px;
+}
+
+.select2 {
     width: 100% !important;
->>>>>>> refs/remotes/origin/develop
 }

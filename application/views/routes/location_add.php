@@ -11,7 +11,7 @@
           <?php echo form_open('welcome', array('id'=>'location')); ?>
           <div class="form-group">
             <label>Select a Region</label>
-            <select data-placeholder="No regions on the data" id="region_name" class="chosen-select form-control">
+            <select data-placeholder="No regions on the data" id="region_name" class="select2 form-control">
               <option value="all">All Regions</option>
               <?php 
                 foreach($region as $row)
@@ -28,7 +28,7 @@
           </div>
           <div class="form-group">
             <label>City</label>
-            <select data-placeholder="No cities in this region" name="city_id" id="city" class="chosen-select form-control">
+            <select data-placeholder="No cities in this region" name="city_id" id="city" class="select2 form-control">
             </select>
             <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
           </div>
@@ -45,7 +45,7 @@
   </div>
 </div>
 <script type="text/javascript">
-
+  $(".select2").select2();
   var city = [];
   <?php 
     foreach($city as $row)

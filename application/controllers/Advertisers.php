@@ -17,7 +17,7 @@ class Advertisers extends MY_Controller {
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Add Adveriser';
+		$data['title']='Add Advertiser';
 		$data['breadcrumbs']=array
 		(
 			array('Add Advertiser','advertisers/add'),

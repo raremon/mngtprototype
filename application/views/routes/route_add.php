@@ -13,12 +13,8 @@
 
             <div class="form-group">
               <label>Region From</label>
-<<<<<<< HEAD
-              <select id="region_from" class="form-control select2">
-=======
-              <select data-placeholder="No regions on the data" id="region_from" class="chosen-select form-control">
+              <select data-placeholder="No regions on the data" id="region_from" class="select2 form-control">
                 <option value="all">All Regions</option>
->>>>>>> refs/remotes/origin/develop
                 <?php 
                   foreach($region as $row)
                   {
@@ -34,17 +30,13 @@
             </div>
             <div class="form-group">
               <label>City From</label>
-<<<<<<< HEAD
-              <select id="city_from" name="city_from" class="form-control select2">
-=======
-              <select data-placeholder="No cities in that region" id="city_from" name="city_from" class="chosen-select form-control">
->>>>>>> refs/remotes/origin/develop
+              <select data-placeholder="No cities in that region" id="city_from" name="city_from" class="select2 form-control">
               </select>
               <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
             </div>
             <div class="form-group">
               <label>Location From</label>
-              <select data-placeholder="No locations in that city" id="location_from" name="location_from" class="chosen-select form-control">
+              <select data-placeholder="No locations in that city" id="location_from" name="location_from" class="select2 form-control">
               </select>
               <a class="btn btn-link pull-right" href="<?php echo site_url('locations/add') ?>">Add Location</a>
             </div>
@@ -52,12 +44,8 @@
 
             <div class="form-group">
               <label>Region To</label>
-<<<<<<< HEAD
-              <select id="region_to" class="form-control select2">
-=======
-              <select data-placeholder="No regions on the data" id="region_to" class="chosen-select form-control">
+              <select data-placeholder="No regions on the data" id="region_to" class="select2 form-control">
                 <option value="all">All Regions</option>
->>>>>>> refs/remotes/origin/develop
                 <?php 
                   foreach($region as $row)
                   {
@@ -73,17 +61,13 @@
             </div>
             <div class="form-group">
               <label>City To</label>
-<<<<<<< HEAD
-              <select id="city_to" name="city_to" class="form-control select2">
-=======
-              <select data-placeholder="No cities in that region" id="city_to" name="city_to" class="chosen-select form-control">
->>>>>>> refs/remotes/origin/develop
+              <select data-placeholder="No cities in that region" id="city_to" name="city_to" class="select2 form-control">
               </select>
               <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
             </div>
             <div class="form-group">
               <label>Location To</label>
-              <select data-placeholder="No locations in that city" id="location_to" name="location_to" class="chosen-select form-control">
+              <select data-placeholder="No locations in that city" id="location_to" name="location_to" class="select2 form-control">
               </select>
               <a class="btn btn-link pull-right" href="<?php echo site_url('locations/add') ?>">Add Location</a>
             </div>
@@ -106,19 +90,15 @@
   </div>
 </div>
 <script type="text/javascript">
-
-<<<<<<< HEAD
   $(".select2").select2();
     
   var cities = [];
-=======
   var city = [];
   city.push([
     "all",
     "All Cities",
     0,
   ]);
->>>>>>> refs/remotes/origin/develop
   <?php 
     foreach($city as $row)
     {

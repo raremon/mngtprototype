@@ -1,101 +1,106 @@
-<div class="box box-success hidden" id="form-box">
-  <div class="box-header with-border">
-    <h3 class="box-title">Route Details</h3>
-    <div class="box-tools pull-right">
+<div class="modal fade" id="route-box" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Route Details</h4>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+            <div class="col-md-12">
+              <div id="route-message"></div>
+              <?php echo form_open('welcome', array('id'=>'route')); ?>
+
+                <div class="form-group">
+                  <input type="text" name="route_id" class="form-control hidden"/>
+                </div>
+
+                <div class="form-group">
+                  <label>Region From</label>
+                  <select data-placeholder="No regions on the data" id="region_from" class="select2 form-control">
+                    <option value="all">All Regions</option>
+                    <?php 
+                      foreach($region as $row)
+                      {
+                    ?>
+                      <option value= <?php echo $row[0];?> >
+                        <?php echo $row[1]; ?>
+                      </option>
+                    <?php 
+                      }
+                    ?>
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('regions/add') ?>">Add Region</a>
+                </div>
+                <div class="form-group">
+                  <label>City From</label>
+                  <select data-placeholder="No cities in that region" id="city_from" name="city_from" class="select2 form-control">
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
+                </div>
+                <div class="form-group">
+                  <label>Location From</label>
+                  <select data-placeholder="No locations in that city" id="location_from" name="location_from" class="select2 form-control">
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('locations/add') ?>">Add Location</a>
+                </div>
+
+
+                <div class="form-group">
+                  <label>Region To</label>
+                  <select data-placeholder="No regions on the data" id="region_to" class="select2 form-control">
+                    <option value="all">All Regions</option>
+                    <?php 
+                      foreach($region as $row)
+                      {
+                    ?>
+                      <option value= <?php echo $row[0];?> >
+                        <?php echo $row[1]; ?>
+                      </option>
+                    <?php 
+                      }
+                    ?>
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('regions/add') ?>">Add Region</a>
+                </div>
+                <div class="form-group">
+                  <label>City To</label>
+                  <select data-placeholder="No cities in that region" id="city_to" name="city_to" class="select2 form-control">
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
+                </div>
+                <div class="form-group">
+                  <label>Location To</label>
+                  <select data-placeholder="No locations in that city" id="location_to" name="location_to" class="select2 form-control">
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('locations/add') ?>">Add Location</a>
+                </div>
+
+
+                <div class="form-group">
+                  <label>Route Name</label>
+                  <input type="text" name="route_name" class="form-control" placeholder="Enter Route Name"/>
+                </div>
+                <div class="form-group">
+                  <label>Route Description</label>
+                  <textarea name="route_description" class="form-control" cols="30" rows="7" placeholder="Enter Route Description"></textarea>
+                </div>
+              <?php echo form_close(); ?>
+            </div>
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Route()">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
-  <div class="box-body">
-      <div class="container-fluid">
-        <div class="col-md-12">
-          <div id="route-message"></div>
-          <?php echo form_open('welcome', array('id'=>'route')); ?>
-
-            <div class="form-group">
-              <input type="text" name="route_id" class="form-control hidden"/>
-            </div>
-
-            <div class="form-group">
-              <label>Region From</label>
-              <select data-placeholder="No regions on the data" id="region_from" class="chosen-select form-control">
-                <option value="all">All Regions</option>
-                <?php 
-                  foreach($region as $row)
-                  {
-                ?>
-                  <option value= <?php echo $row[0];?> >
-                    <?php echo $row[1]; ?>
-                  </option>
-                <?php 
-                  }
-                ?>
-              </select>
-              <a class="btn btn-link pull-right" href="<?php echo site_url('regions/add') ?>">Add Region</a>
-            </div>
-            <div class="form-group">
-              <label>City From</label>
-              <select data-placeholder="No cities in that region" id="city_from" name="city_from" class="chosen-select form-control">
-              </select>
-              <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
-            </div>
-            <div class="form-group">
-              <label>Location From</label>
-              <select data-placeholder="No locations in that city" id="location_from" name="location_from" class="chosen-select form-control">
-              </select>
-              <a class="btn btn-link pull-right" href="<?php echo site_url('locations/add') ?>">Add Location</a>
-            </div>
-
-
-            <div class="form-group">
-              <label>Region To</label>
-              <select data-placeholder="No regions on the data" id="region_to" class="chosen-select form-control">
-                <option value="all">All Regions</option>
-                <?php 
-                  foreach($region as $row)
-                  {
-                ?>
-                  <option value= <?php echo $row[0];?> >
-                    <?php echo $row[1]; ?>
-                  </option>
-                <?php 
-                  }
-                ?>
-              </select>
-              <a class="btn btn-link pull-right" href="<?php echo site_url('regions/add') ?>">Add Region</a>
-            </div>
-            <div class="form-group">
-              <label>City To</label>
-              <select data-placeholder="No cities in that region" id="city_to" name="city_to" class="chosen-select form-control">
-              </select>
-              <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
-            </div>
-            <div class="form-group">
-              <label>Location To</label>
-              <select data-placeholder="No locations in that city" id="location_to" name="location_to" class="chosen-select form-control">
-              </select>
-              <a class="btn btn-link pull-right" href="<?php echo site_url('locations/add') ?>">Add Location</a>
-            </div>
-
-
-            <div class="form-group">
-              <label>Route Name</label>
-              <input type="text" name="route_name" class="form-control" placeholder="Enter Route Name"/>
-            </div>
-            <div class="form-group">
-              <label>Route Description</label>
-              <textarea name="route_description" class="form-control" cols="30" rows="7" placeholder="Enter Route Description"></textarea>
-            </div>
-            <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Route()">Update</button>
-          <?php echo form_close(); ?>
-        </div>
-      </div> 
-  </div>
-  <div class="box-footer">
-  </div>
 </div>
+
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Route Data</h3>
     <div class="box-tools pull-right">
+        <a class="btn btn-link add-link" href="<?php echo base_url('routes/add') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>New Route</a>
     </div>
   </div>
   <div class="box-body">
@@ -124,7 +129,7 @@
   </div>
 </div>
 <script type="text/javascript">
-
+  $(".select2").select2();
   var city = [];
   city.push([
     "all",
@@ -455,7 +460,7 @@
   })
   // U P D A T E
   function edit_route(route_id) {
-    $('#form-box').removeClass('hidden');
+    $('#route-box').modal('show');
     $.ajax({
       url: "<?php echo site_url('routes/editRoute') ?>",
       type: 'POST',
@@ -502,6 +507,7 @@
             }, 3000);
         }else {
           $('#message-text').html(data.message);
+          $('#route-box').modal('hide'); 
           $('#successModal').modal('show');
         }
       }
@@ -509,6 +515,40 @@
   }
   // D E L E T E
   function delete_route(route_id) {
+    swal({
+      title: 'ARE YOU SURE?',
+      text: "You cannot revert this action!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      confirmButtonClass: 'btn btn-success btn-fix',
+      cancelButtonClass: 'btn btn-default',
+      animation: false,
+      customClass: 'animated fadeInDown',
+      buttonsStyling: false
+    }).then(function () {
+        swal({
+         //pede to ilagay sa success modal di ko mahanap kung saan
+          title: 'DELETED SUCCESSFULLY',
+          type: 'success',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-success btn-fix',
+          buttonsStyling: false
+        })
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'CANCELLED',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false
+        })
+      }
+    })
     if(confirm('Do you really want to delete this Route Record ??')){
       // DITO ILALAGAY YUNG CONDITION NA PAG MAY BUS PANG NAKAASSIGN DUN SA DRIVER, YUN MUNA YUNG IDIDELETE MO
       if(false)

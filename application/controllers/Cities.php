@@ -48,7 +48,7 @@ class Cities extends MY_Controller {
 		$data['page_description']='Add New City Records';
 
 		$data['treeActive'] = 'route_management';
-		$data['childActive'] = 'new_city' ;
+		$data['childActive'] = 'browse_cities' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("routes/city_add", $data);
