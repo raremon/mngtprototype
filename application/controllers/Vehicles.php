@@ -46,7 +46,7 @@ class Vehicles extends MY_Controller {
 		}
 
 		$data['treeActive'] = 'settings';
-		$data['childActive'] = 'new_vehicle' ;
+		$data['childActive'] = 'browse_vehicles' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("vehicles/vehicle_add", $data);

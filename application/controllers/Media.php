@@ -84,7 +84,7 @@ class Media extends MY_Controller {
 		}
 
 		$data['treeActive'] = 'settings';
-		$data['childActive'] = 'assign_media' ;
+		$data['childActive'] = 'browse_assignment' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("vehicles/media_assign", $data);

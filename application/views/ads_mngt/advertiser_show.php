@@ -1,51 +1,56 @@
-<div id="mainBox" class="box box-success" style="display:none;">
-  <div class="box-header with-border">
-    <h3 class="box-title">Advertiser Details</h3>
-    <div class="box-tools pull-right">
-    </div>
-  </div>
-  <div class="box-body">
-    <div class="row">
-      <div class="container-fluid">
-        <div class="col-md-12">
-          <div id="advertiser-message"></div>
-          <?php echo form_open('welcome', array('id'=>'advertiser')); ?>
-            <div class="form-group hidden">
-              <input type="text" name="advertiser_id" class="form-control"/>
+<div class="modal fade" id="advertiser-box" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Advertiser Details</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="container-fluid">
+            <div class="col-md-12">
+              <div id="advertiser-message"></div>
+              <?php echo form_open('welcome', array('id'=>'advertiser')); ?>
+                <div class="form-group hidden">
+                  <input type="text" name="advertiser_id" class="form-control"/>
+                </div>
+                <div class="form-group">
+                  <label>Advertiser Name</label>
+                  <input type="text" name="advertiser_name" class="form-control" placeholder="Enter Name"/>
+                </div>
+                <div class="form-group">
+                  <label>Company Address</label>
+                  <input type="text" name="advertiser_address" class="form-control" placeholder="Enter Address"/>
+                </div>
+                <div class="form-group">
+                  <label>Contact Information</label>
+                  <input type="text" name="advertiser_contact" class="form-control" placeholder="Enter Contact Information"/>
+                </div>
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <input type="text" name="advertiser_email" class="form-control" placeholder="Enter Email Address"/>
+                </div>
+                <div class="form-group">
+                  <label>Company Website</label>
+                  <input type="text" name="advertiser_website" class="form-control" placeholder="Enter Company Website"/>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea name="advertiser_description" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
+                </div>
+              <?php echo form_close(); ?>
             </div>
-            <div class="form-group">
-              <label>Advertiser Name</label>
-              <input type="text" name="advertiser_name" class="form-control" placeholder="Enter Name"/>
-            </div>
-            <div class="form-group">
-              <label>Company Address</label>
-              <input type="text" name="advertiser_address" class="form-control" placeholder="Enter Address"/>
-            </div>
-            <div class="form-group">
-              <label>Contact Information</label>
-              <input type="text" name="advertiser_contact" class="form-control" placeholder="Enter Contact Information"/>
-            </div>
-            <div class="form-group">
-              <label>Email Address</label>
-              <input type="text" name="advertiser_email" class="form-control" placeholder="Enter Email Address"/>
-            </div>
-            <div class="form-group">
-              <label>Company Website</label>
-              <input type="text" name="advertiser_website" class="form-control" placeholder="Enter Company Website"/>
-            </div>
-            <div class="form-group">
-              <label>Description</label>
-              <textarea name="advertiser_description" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
-            </div>
-            <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Advertiser()">Update</button>
-          <?php echo form_close(); ?>
+          </div> 
         </div>
-      </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Advertiser()">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
-  </div>
-  <div class="box-footer">      
   </div>
 </div>
+
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Advertiser Data</h3>
@@ -100,7 +105,7 @@
   // U P D A T E
   function edit_advertiser(advertiser_id) {
     $(window).scrollTop(0);
-    $("#mainBox").show();
+    $("#advertiser-box").modal('show');
     $.ajax({
       url: "<?php echo site_url('advertisers/editAdvertiser') ?>",
       type: 'POST',
@@ -136,6 +141,7 @@
           }, 3000);
         }else {
           $('#message-text').html(data.message);
+          $('#advertiser-box').modal('hide');
           $('#successModal').modal('show');
         }
       }
@@ -143,6 +149,40 @@
   }
   // D E L E T E
   function delete_advertiser(advertiser_id) {
+    swal({
+      title: 'ARE YOU SURE?',
+      text: "You cannot revert this action!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      confirmButtonClass: 'btn btn-success btn-fix',
+      cancelButtonClass: 'btn btn-default',
+      animation: false,
+      customClass: 'animated fadeInDown',
+      buttonsStyling: false
+    }).then(function () {
+        swal({
+         //pede to ilagay sa success modal di ko mahanap kung saan
+          title: 'DELETED SUCCESSFULLY',
+          type: 'success',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-success btn-fix',
+          buttonsStyling: false
+        })
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'CANCELLED',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false
+        })
+      }
+    })
     if(confirm('Do you really want to delete this Advertiser Record ??')){
       $.ajax({
         url: "<?php echo site_url('advertisers/deleteAdvertiser') ?>",

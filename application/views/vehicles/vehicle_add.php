@@ -23,7 +23,7 @@
           </div>
           <div class="form-group">
             <label>Vehicle Type</label>
-            <select name="vehicle_type" class="form-control">
+            <select name="vehicle_type" class="form-control select2">
               <?php 
                 foreach($type as $row)
                 {
@@ -46,7 +46,7 @@
   </div>
 </div>
 <script type="text/javascript">
-
+  $(".select2").select2();
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////

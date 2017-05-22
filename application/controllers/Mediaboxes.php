@@ -34,7 +34,7 @@ class Mediaboxes extends MY_Controller {
 		$data['page_description']='Add New Mediabox Records';
 
 		$data['treeActive'] = 'settings';
-		$data['childActive'] = 'new_mediabox' ;
+		$data['childActive'] = 'browse_mediaboxes' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("vehicles/mediabox_add", $data);

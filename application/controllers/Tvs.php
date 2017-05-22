@@ -34,7 +34,7 @@ class Tvs extends MY_Controller {
 		$data['page_description']='Add New TV Records';
 
 		$data['treeActive'] = 'settings';
-		$data['childActive'] = 'new_tv' ;
+		$data['childActive'] = 'browse_tvs' ;
 
 		$this->load->view("template/header", $data);
 		$this->load->view("vehicles/tv_add", $data);
