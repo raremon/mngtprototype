@@ -23,6 +23,7 @@ class Cities extends MY_Controller {
 		$data['title']='New City';
 		$data['breadcrumbs']=array
 		(
+			array('Browse Cities','cities/browse'),
 			array('New City','cities/add'),
 		);
 		$data['css']=array

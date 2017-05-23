@@ -23,6 +23,7 @@ class Routes extends MY_Controller {
 		$data['title']='New Route';
 		$data['breadcrumbs']=array
 		(
+			array('Browse Routes','routes/browse'),
 			array('New Route','routes/add'),
 		);
 		$data['css']=array
