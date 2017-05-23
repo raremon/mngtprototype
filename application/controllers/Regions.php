@@ -21,6 +21,7 @@ class Regions extends MY_Controller {
 		$data['title']='New Region';
 		$data['breadcrumbs']=array
 		(
+			array('Browse Regions','regions/browse'),
 			array('New Region','regions/add'),
 		);
 		$data['css']=array

@@ -15,6 +15,20 @@
 			return $row['city_name'];
 		}
 
+		// Gets all cities according to a specific region
+		public function get_by_region($region_id){
+			$this->db->select("city_name");
+			$this->db->from($this->table);
+			$this->db->where('city_id', $city_id);
+			$query=$this->db->get();
+			if ($query->num_rows()){
+				return $query->result_array();
+			}
+			else{
+				return -1;
+			}
+		}
+
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
