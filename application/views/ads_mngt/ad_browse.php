@@ -51,6 +51,7 @@
   <div class="box-header with-border">
     <h3 class="box-title">Advertisement Data</h3>
     <div class="box-tools pull-right">
+        <a class="btn btn-link add-link" href="<?php echo base_url('ads_mngt/upload') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>New Ad</a>
     </div>
   </div>
   <div class="box-body">
@@ -78,6 +79,7 @@
 </div>
 <script>
   $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
   $('body').on('hidden.bs.modal', '.modal', function () {
   $('video').trigger('pause');
   });

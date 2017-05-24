@@ -233,7 +233,7 @@
               <ul class="sidebar-menu">
                 <li class="header">Main Menu</li>
                 <li id="dashboard"><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
-
+                <li id="salesman"><a href="<?php echo base_url('salesman/schedules') ?>"><i class="fa fa-calendar-check-o"></i> <span>Schedule Availability</span></a></li>
                 <li id="program_schedule" class="treeview">
                   <a href="#"><i class="fa fa-tv"></i> <span>Program Schedule</span>
                     <span class="pull-right-container">
@@ -331,7 +331,7 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="salesman"><a href="<?php echo base_url('salesman/schedules') ?>">Salesman</a></li>
+                    
                       
                     <li id="browse_users"><a href="<?php echo base_url('users/browse') ?>">Users</a></li>
                       

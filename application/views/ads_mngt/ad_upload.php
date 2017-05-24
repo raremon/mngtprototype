@@ -59,6 +59,7 @@
 </div>
 <script>
   $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
   //Placeholder Text
   $(document).on('click', '.browse', function(){
     var file = $(this).parent().parent().parent().find('.file');
