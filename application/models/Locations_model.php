@@ -14,6 +14,7 @@ class Locations_model extends CI_Model
 	private $query = "location_id, city_id, location_name, created_at";
 	private $id = "location_id";
 
+	//Find if city exists in Location
 	public function find_City($city_id)
 	{
 		$this->db->select("city_id");
@@ -28,6 +29,7 @@ class Locations_model extends CI_Model
 	    }
 	}
 
+	//Get name by Location Id
 	public function get_Name($id)
 	{
 		$this->db->select("location_name");
@@ -38,6 +40,19 @@ class Locations_model extends CI_Model
 		return $row['location_name'];
 	}
 
+	//Gets all locations according to a specific city
+	public function get_by_city($city_id){
+		$this->db->select("city_id");
+		$this->db->from($this->table);
+		$this->db->where('city_id', $city_id);
+		$results=$this->db->get();
+		if ($city->num_rows() > 0){
+			return $query->result_array();
+		}
+		else{
+			return -1;
+		}
+	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////

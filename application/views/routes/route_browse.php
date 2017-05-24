@@ -88,6 +88,7 @@
               <?php echo form_close(); ?>
             </div>
           </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Route()">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -128,6 +129,7 @@
   <div class="box-footer">
   </div>
 </div>
+
 <script type="text/javascript">
   $(".select2").select2();
   var city = [];

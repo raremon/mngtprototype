@@ -231,7 +231,7 @@
 
 function delete_location(id, name) {
     swal({
-      title: 'ARE YOU SURE?',
+      title: 'ARE YOU SURE YOU WANT TO DELETE '+name+'?',
       text: "You cannot revert this action!",
       type: 'warning',
       showCancelButton: true,
@@ -245,26 +245,6 @@ function delete_location(id, name) {
       customClass: 'animated fadeInDown',
       buttonsStyling: false
     }).then(function () {
-        swal({
-         //pede to ilagay sa success modal di ko mahanap kung saan
-          title: 'DELETED SUCCESSFULLY',
-          type: 'success',
-          confirmButtonText: 'Okay',
-          confirmButtonClass: 'btn btn-success btn-fix',
-          buttonsStyling: false
-        })
-    }, function (dismiss) {
-      if (dismiss === 'cancel') {
-        swal({
-          title: 'CANCELLED',
-          type: 'error',
-          confirmButtonText: 'Okay',
-          confirmButtonClass: 'btn btn-default btn-fix',
-          buttonsStyling: false
-        })
-      }
-    })
-    if(confirm('Do you really want to delete '+name+' ??')){
       $.ajax({
         url: "<?php echo site_url('locations/delete') ?>",
         type: 'POST',
@@ -282,18 +262,38 @@ function delete_location(id, name) {
               }, 3000);
             }
           }else {
-            $('#message-text').html(data.message);
-            $('#successModal').modal('show');
+            // $('#message-text').html(data.message);
+            // $('#successModal').modal('show');
+            swal({
+             //pede to ilagay sa success modal di ko mahanap kung saan
+              title: data.message,
+              type: 'success',
+              confirmButtonText: 'Okay',
+              confirmButtonClass: 'btn btn-success btn-fix',
+              buttonsStyling: false
+            }).then(
+              function () {
+                alert();
+              }
+            )
           }
         }
       });
-    }
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'CANCELLED',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false,
+          timer: 1000
+        })
+      }
+    })
   }
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-  // $('#location-box').on('shown.bs.modal', function () {
-  //   $('.chosen-select', this).chosen();
-  // });
   // END OF LOCATION BROWSE JAVASCRIPT
 </script>

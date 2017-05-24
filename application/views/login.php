@@ -12,7 +12,7 @@
             <img src="<?php echo base_url('assets/public/star8logo.png') ?>" height="210px" width="305px"/>
         </div>
         <div class="info_text">
-            DIGITAL<br/>
+            MEDIA<br/>
             BROADCAST<br/>
             SOLUTIONS
         </div>

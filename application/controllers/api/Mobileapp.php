@@ -5,7 +5,12 @@ class Mobileapp extends REST_Controller {
 	public function __construct() {
         parent::__construct();
 		$this->load->model('adowneraccounts_model', 'Owners');
+		$this->load->model('Regions_model', 'Regions');
+		$this->load->model('Cities_model', 'Cities');
 	}
+	
+	// ----------------  LOGIN FUNCTIONS  ---------------- //
+
 	public function login_post(){
 		
 		$d = $this->post();
@@ -23,25 +28,9 @@ class Mobileapp extends REST_Controller {
 		}
 		$this->response($response);	
 	}
-	public function getinfo_post(){
-		
-		$d = $this->post();
-		/* JSON method to get ad owner info in Android app */
-		//http://[::1]/star8/api/mobileapp/getinfo
-		
-		if( isset($d['owner_id']) ){
-			
-			//Goes to model to get ad owner data
-			$result = $this->Owners->get_info_mobile($d['owner_id']);
-			
-		}else{
-			//Response to get rid of other mobile sessions if ad owner changes password
-			//Or just a normal fail response :D
-			$result = -1;
-		}
-		$this->response($result);
-	}
+	
 	public function logout_post(){
+		
 		$d = $this->post();
 		/* JSON method to log ad owner out of Android app */
 		//http://[::1]/star8/api/mobileapp/logout
@@ -57,4 +46,80 @@ class Mobileapp extends REST_Controller {
 		}
 		$this->response($result);
 	}
+	
+	// ----------------  DATA RETRIEVAL FUNCTIONS  ---------------- //
+	public function getinfo_post(){
+		
+		$d = $this->post();
+		/* JSON method to get ad owner info for Android app */
+		//http://[::1]/star8/api/mobileapp/getinfo
+		
+		if( isset($d['owner_id']) ){
+			
+			//Goes to model to get ad owner data
+			$result = $this->Owners->get_info_mobile($d['owner_id']);
+			
+		}else{
+			//Response to get rid of other mobile sessions if ad owner changes password
+			//Or just a normal fail response :D
+			$result = -1;
+		}
+		$this->response($result);
+	}
+	
+	public function getregions_get(){
+		/* JSON method to get all regions for Android app */
+		//http://[::1]/star8/api/mobileapp/getregions
+		
+		//Goes to model to query all regions
+		$result = $this->Regions->show_region();
+		$this->response($result);
+	}
+	
+	public function getcity_get(){
+		/* JSON method to get all cities from a specific region for Android app */
+		//http://[::1]/star8/api/mobileapp/getcity/region/     <---- *insert region id here*
+		
+		$data = $this->get();
+		if( isset($data['region']) ){
+			//Goes to model to query all cities according to the region specified
+			$result = $this->Cities->get_by_region($data['region']);
+			
+			//Returns either an array of cities or -1 if false
+			$this->response($result);
+		}
+		else{
+			//Returns if the wrong data is passed
+			return -1;
+		}
+	} 
+	
+	public function getlocation_get(){
+		/* JSON method to get all locations from a specific city for Android app */
+		//http://[::1]/star8/api/mobileapp/getlocation/city/     <---- *insert city id here*
+		
+		$data = $this->get();
+		if( isset($data['city']) ){
+			//Goes to model to query all location according to the city specified
+			$result = $this->Cities->get_by_region($data['city']);
+			
+			//Returns either an array of locations or -1 if false
+			$this->response($result);
+		}
+		else{
+			//Returns if the wrong data is passed
+			return -1;
+		}
+	}
+	
+	public function getvehicletype_get(){
+		/* JSON method to get all vehicle types for Android app */
+		//http://[::1]/star8/api/mobileapp/getvehicletype
+		
+		//Goes to model to query all vehicle types
+		$result = $this->Regions->show_Vehicle_type();
+		$this->response($result);
+	}
+	
+	
 	}

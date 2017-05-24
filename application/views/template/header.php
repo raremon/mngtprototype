@@ -241,6 +241,7 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
+                    <li id="create_program_schedule"><a href="<?php echo base_url('schedules') ?>">Ads for Scheduling</a></li>
                     <li id="create_program_schedule"><a href="<?php echo base_url('program/create') ?>">Create Program Schedule</a></li>
                     <li id="browse_program_schedule"><a href="<?php echo base_url('program/browse') ?>">Browse Program Schedules</a></li>
                     <li id="assign_per_route"><a href="#">Assign Per Route</a></li>

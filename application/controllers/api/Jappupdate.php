@@ -20,8 +20,15 @@ class Jappupdate extends REST_Controller {
 		// print_r($data);
 		// exit;
 		
-		if( isset($data['app']) && isset($data['route']) && is_numeric($data['route']) ){
-			$where = array('tbappupdate.Appid'=>$data['app'],'tbappupdate.RouteId'=>$data['route'],);
+		// if( isset($data['app']) && isset($data['route']) && is_numeric($data['route']) ){
+		if( isset($data['route']) && is_numeric($data['route']) ){
+			$where = array('tbappupdate.RouteId'=>$data['route']);
+			
+			if( isset($data['app']) ){
+				$app_where = array('tbappupdate.Appid'=>$data['app']);
+				$where = array_merge($where, $app_where);
+			}
+			
 			$response = $this->Appupdate->getAppupdates($where);
 		}
 		else{			
