@@ -78,6 +78,7 @@
 </div>
 <script type="text/javascript">
   $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
