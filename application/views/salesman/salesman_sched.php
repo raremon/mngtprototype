@@ -92,6 +92,7 @@
 </div>
 <script type="text/javascript">
     $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
     $("#sched_wizard").steps({
         headerTag: "h3",
         bodyTag: "section",

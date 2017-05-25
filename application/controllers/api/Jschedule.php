@@ -6,6 +6,7 @@ class Jschedule extends REST_Controller {
 	public function __construct() {
         parent::__construct();
 		$this->load->model('schedules_model','Schedule');
+		$this->load->model('nschedules_model', 'Nschedule');		
     }
 		
 	public function index_get() {
@@ -32,11 +33,7 @@ class Jschedule extends REST_Controller {
 		$data = $this->get();
 		
 		if( isset($data['routeID']) && isset($data['today']) && is_numeric($data['routeID']) && $data['today']!='' ){
-			// $this->load->model('schedule_model');
-			
 			$schedule = $this->Schedule->getScheduleAds($data['routeID'],$data['today']);
-		
-			// $response = $this->Schedule->getSchedule($data['busID'],$data['today']);
 		}
 		else{
 			$response = array('message' => 'No schedule to retrieve.');
@@ -44,6 +41,54 @@ class Jschedule extends REST_Controller {
 
 		$this->response($response);
 	}
+
+	public function routeschedules_get(){
+		
+		$d = $this->get();
+			
+		if( isset($d['timeslot']) && is_numeric($d['timeslot']) ){
+			
+			$where = array('status'=>0,'timeslot'=>$d['timeslot']);
+			$date = date("Y-m-d");	
+		
+			$ads = $this->Nschedule->getSchedules($where,$date);
+			
+			$timeslot = number_format($d['timeslot'],2,':','');
+			$time2 = number_format($d['timeslot']+1,2,':','');
+			
+			// echo '<h2>Auto Ad Scheduling</h2>';
+			// echo '<h3>Time Slot: '.date("h:ia", strtotime($timeslot)).' - '.date("h:ia", strtotime($time2)).'</h3>';
+			
+			if( count($ads)>0 ){
+				$listing = array();
+				$start_time = strtotime($timeslot);
+				
+				foreach($ads as $a){
+					$info = array();
+					$info['time'] = date("h:i:s a", $start_time);
+					$info['ad_name'] = $a['ad_name'];
+					$info['advertiser_name'] = $a['advertiser_name'];
+					$info['ad_duration'] = $a['ad_duration'];
+					$info['times_repeat'] = $a['times_repeat'];
+					$info['display_type'] = $a['display_type'];
+					$info['win_123'] = $a['win_123'];
+					
+					$listing[] = $info;
+					$start_time += $a['ad_duration'];
+				}
+			}
+			
+			$response = $listing;
+
+		}
+		else{
+			$response = array('message' => 'No schedule to retrieve.');
+		}
+		
+		$this->response($response);
+		
+	}
+
 	
 	public function showterminal_get() {
 		$this->load->model('terminals_model', 'Terminal');

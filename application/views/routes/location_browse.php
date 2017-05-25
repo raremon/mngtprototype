@@ -87,6 +87,7 @@
 </div>
 <script type="text/javascript">
  $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
   var city = [];
   <?php 
     foreach($city as $row)
@@ -181,7 +182,7 @@
   $("#location_data").DataTable({
     "ajax":{
       "url":"<?php echo site_url('locations/show') ?>",
-      "type":"POST"
+      "type":"POST",        
     }
   })
   // U P D A T E
@@ -231,12 +232,10 @@
 
 function delete_location(id, name) {
     swal({
-      title: 'ARE YOU SURE YOU WANT TO DELETE '+name+'?',
+      title: 'Are you sure you want to delete '+name+'?',
       text: "You cannot revert this action!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
       confirmButtonText: 'Delete',
       cancelButtonText: 'Cancel',
       confirmButtonClass: 'btn btn-success btn-fix',
@@ -273,7 +272,7 @@ function delete_location(id, name) {
               buttonsStyling: false
             }).then(
               function () {
-                alert();
+                window.location.reload();
               }
             )
           }
@@ -282,12 +281,13 @@ function delete_location(id, name) {
     }, function (dismiss) {
       if (dismiss === 'cancel') {
         swal({
-          title: 'CANCELLED',
+          title: 'Cancelled',
           type: 'error',
           confirmButtonText: 'Okay',
           confirmButtonClass: 'btn btn-default btn-fix',
           buttonsStyling: false,
-          timer: 1000
+          timer: 3000
+          
         })
       }
     })
