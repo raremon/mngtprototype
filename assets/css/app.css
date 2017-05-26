@@ -142,3 +142,22 @@ tbody > tr > td{
 .select2 {
     width: 100% !important;
 }
+
+.date-box{
+    height: 226px;
+    color: white;
+    padding: 2px 13px 2px 13px;
+    background-color: #339440;
+    margin-bottom: 15px;
+}
+
+.quick-links{
+    background-color: white;
+    color: darkslategrey;
+
+}
+
+.quick-links:hover{
+    background-color: white;
+    color: dimgray;
+}
