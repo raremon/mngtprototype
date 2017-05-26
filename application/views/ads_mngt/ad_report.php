@@ -111,6 +111,7 @@
 </div>
 <script>
     $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
 function printAllReport() {
   var divToPrint=document.getElementById("reportTable");
   newWin= window.open("");

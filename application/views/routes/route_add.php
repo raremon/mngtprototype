@@ -91,6 +91,7 @@
 </div>
 <script type="text/javascript">
   $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
     
   var cities = [];
   var city = [];
