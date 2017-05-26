@@ -17,11 +17,11 @@
 
 		// Gets all cities according to a specific region
 		public function get_by_region($region_id){
-			$this->db->select("city_name");
+			$this->db->select("city_id, city_name, created_at");
 			$this->db->from($this->table);
-			$this->db->where('city_id', $city_id);
+			$this->db->where('region_id', $region_id);
 			$query=$this->db->get();
-			if ($query->num_rows()){
+			if ($query->num_rows() > 0){
 				return $query->result_array();
 			}
 			else{

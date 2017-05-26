@@ -1,0 +1,145 @@
+********************* WEB SERVICES ********************* 
+http://180.232.67.229/api/CONTROLLER/METHOD/VARIABLE/VALUE
+
+					******************************************************************
+
+WEB SERVICE NAME: 	FILLERS
+PURPOSE:			Retrieve Star8 Fillers
+WEB SERVICE URL:	http://180.232.67.229/api/jfiller/
+METHOD:				GET
+VARIABLES:			NONE
+EXPECTED OUTPUT:	filler_id, filler_title, filler_description, filler_type (1=video,2=image,3=text), 
+					filler_file (filename), filler_duration (in seconds), created_at, updated, status (0=show;1=dont show)
+
+					******************************************************************
+					
+WEB SERVICE NAME: 	TBLCONFIGS
+PURPOSE:			Retrieve records
+WEB SERVICE URL:	http://180.232.67.229/api/jtblconfig/
+METHOD:				GET
+VARIABLES:			NONE
+EXPECTED OUTPUT:	keyid, LcPath, LcFunction
+
+WEB SERVICE NAME: 	TBLCONFIGS
+PURPOSE:			Save record
+WEB SERVICE URL:	http://180.232.67.229/api/jtblconfig/add
+METHOD:				POST
+VARIABLES:			path=value, function=value
+EXPECTED OUTPUT:	1=saved;0=not saved;"message": "Record already exists!"
+
+WEB SERVICE NAME: 	TBLCONFIGS
+PURPOSE:			Delete record
+WEB SERVICE URL:	http://180.232.67.229/api/jtblconfig/delete
+METHOD:				POST
+VARIABLES:			key=value
+EXPECTED OUTPUT:	1=deleted;0=failed to delete
+
+					******************************************************************
+					
+WEB SERVICE NAME: 	TBWSCONFIG
+PURPOSE:			Retrieve records
+WEB SERVICE URL:	http://180.232.67.229/api/jtbwsconfig/
+METHOD:				GET
+VARIABLES:			NONE
+EXPECTED OUTPUT:	keyid, WsLink, WsFunction 
+
+WEB SERVICE NAME: 	TBWSCONFIG
+PURPOSE:			Save record
+WEB SERVICE URL:	http://180.232.67.229/api/jtbwsconfig/add
+METHOD:				POST
+VARIABLES:			link=value, function=value
+EXPECTED OUTPUT:	1=saved;0=not saved;"message": "Record already exists!"
+
+WEB SERVICE NAME: 	TBWSCONFIG
+PURPOSE:			Delete record
+WEB SERVICE URL:	http://180.232.67.229/api/jtbwsconfig/delete
+METHOD:				POST
+VARIABLES:			key=value
+EXPECTED OUTPUT:	1=deleted;0=failed to delete
+
+					******************************************************************
+					
+WEB SERVICE NAME: 	TBMBREGS
+PURPOSE:			Retrieve records
+WEB SERVICE URL:	http://180.232.67.229/api/jtbmbregs/
+METHOD:				GET
+VARIABLES:			NONE
+EXPECTED OUTPUT:	keyid, WsLink, WsFunction 
+
+WEB SERVICE NAME: 	TBMBREGS
+PURPOSE:			Save record
+WEB SERVICE URL:	http://180.232.67.229/api/jtbmbregs/add
+METHOD:				POST
+VARIABLES:			key=value, vehicle=value, route=value
+EXPECTED OUTPUT:	1=saved;0=not saved;"message": "Record already exists!"
+
+WEB SERVICE NAME: 	TBMBREGS
+PURPOSE:			Delete record
+WEB SERVICE URL:	http://180.232.67.229/api/jtbmbregs/delete
+METHOD:				POST
+VARIABLES:			key=value
+EXPECTED OUTPUT:	1=deleted;0=failed to delete
+
+					******************************************************************
+					
+WEB SERVICE NAME: 	TBMBINFO
+PURPOSE:			Retrieve records
+WEB SERVICE URL:	http://180.232.67.229/api/jtbmbinfo/
+METHOD:				GET
+VARIABLES:			NONE
+EXPECTED OUTPUT:	keyid, WsLink, WsFunction 
+
+WEB SERVICE NAME: 	TBMBINFO
+PURPOSE:			Save record
+WEB SERVICE URL:	http://180.232.67.229/api/jtbmbinfo/add
+METHOD:				POST
+VARIABLES:			key=value, vehicle=value, route=value
+EXPECTED OUTPUT:	1=saved;0=not saved;"message": "Record already exists!"
+
+WEB SERVICE NAME: 	TBMBINFO
+PURPOSE:			Delete record
+WEB SERVICE URL:	http://180.232.67.229/api/jtbmbinfo/delete
+METHOD:				POST
+VARIABLES:			key=value
+EXPECTED OUTPUT:	1=deleted;0=failed to delete
+
+					******************************************************************
+					
+WEB SERVICE NAME: 	JTBHWDEFECT
+PURPOSE:			Retrieve records
+WEB SERVICE URL:	http://180.232.67.229/api/jtbhwdefect/
+METHOD:				GET
+VARIABLES:			NONE
+EXPECTED OUTPUT:	keyid, WsLink, WsFunction 
+
+WEB SERVICE NAME: 	JTBHWDEFECT
+PURPOSE:			Save record
+WEB SERVICE URL:	http://180.232.67.229/api/jtbhwdefect/add
+METHOD:				POST
+VARIABLES:			board, key, dateopr, daterep, part, vehicle
+EXPECTED OUTPUT:	1=saved;0=not saved;"message": "Record already exists!"
+
+WEB SERVICE NAME: 	JTBHWDEFECT
+PURPOSE:			Delete record
+WEB SERVICE URL:	http://180.232.67.229/api/jtbhwdefect/delete
+METHOD:				POST
+VARIABLES:			key=value
+EXPECTED OUTPUT:	1=deleted;0=failed to delete
+
+
+					******************************************************************
+					
+WEB SERVICE NAME: 	JSCHEDULE
+PURPOSE:			Retrieve new schedules
+WEB SERVICE URL:	http://180.232.67.229/api/jschedule/routeschedules/timeslot/8
+METHOD:				GET
+VARIABLES:			timeslot=value
+EXPECTED OUTPUT:	time, ad_name, advertiser_name, ad_duration, times_repeat, display_type", win_123
+
+
+
+
+
+
+
+
