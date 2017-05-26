@@ -99,17 +99,12 @@
 
 			$firstSection = array
 			(
-				"program/program_create_open",
-				"program/program_create_regular",
-				"program/program_create_scheduled",
-				"program/program_create_block",
-				"program/program_create_close",
+
 			);
 
 			$secondSection = array
 			(
-				"ads_mngt/ad_upload",
-				"users/user_add",
+
 			);
 
 			$this->load->view("template/header", $data);
