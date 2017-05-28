@@ -53,15 +53,22 @@ class Mobileapp extends REST_Controller {
 	// ----------------  DATA RETRIEVAL FUNCTIONS  ---------------- //
 	public function getinfo_post(){
 		
-		$d = $this->post();
+		$data = $this->post();
 		/* JSON method to get ad owner info for Android app */
 		// http://[::1]/star8/api/mobileapp/getinfo
 		
-		if( isset($d['owner_id']) ){
+		if( isset($data['owner_id']) && isset($data['user']) && isset($data['pass'])){
 			
-			// Goes to model to get ad owner data
-			$result = $this->Owners->get_by_id($d['owner_id']);
-			
+			// Goes to model to validate credentials
+			$response = $this->Owner_Accounts->validate_mobile($d);
+			if($response == -1){
+				//If failed to validate
+				$result = -1;
+			}
+			else{
+				// Goes to model to get ad owner data
+				$result = $this->Owners->get_by_id($data['owner_id']);
+			}
 		}else{
 			// Response to get rid of other mobile sessions if ad owner changes password
 			// Or if direct controller access
