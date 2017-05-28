@@ -17,7 +17,7 @@
     <div class="small-box bg-green">
       <div class="inner">
         <h3><?php echo $ad_count;?></h3>
-        <p>New Advertisements</p>
+        <p>New Ad Orders</p>
       </div>
       <div class="icon">
         <i class="ion ion-ios-monitor-outline"></i>
@@ -61,7 +61,7 @@
             
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6">	
     <a href="<?php echo base_url('media/assign') ?>">
         <div class="col-lg-6 col-xs-6">
         <div class="small-box quick-links">
