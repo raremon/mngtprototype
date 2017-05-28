@@ -140,6 +140,24 @@ class Mobileapp extends REST_Controller {
 		$this->response($result);
 	}
 	
+	public function getroute_get(){
+		/* JSON method to get all routes from a specific city for Android app */
+		// http://[::1]/star8/api/mobileapp/getroute/city/     <---- *insert city id here*
+		
+		$data = $this->get();
+		if( isset($data['city']) ){
+			// Goes to model to query all routes according to the city specified
+			$result = $this->Routes->get_by_location($data['city']);	
+		}
+		else{
+			// If direct controller access
+			$result = -1;
+		}
+		
+		// Returns either an array of routes or -1 if false
+		$this->response($result);
+	}
+	
 	public function getroutes_get(){
 		/* JSON method to get all routes for Android app */
 		// http://[::1]/star8/api/mobileapp/getroutes
