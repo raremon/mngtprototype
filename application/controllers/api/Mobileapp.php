@@ -60,7 +60,7 @@ class Mobileapp extends REST_Controller {
 		if( isset($data['owner_id']) && isset($data['user']) && isset($data['pass'])){
 			
 			// Goes to model to validate credentials
-			$response = $this->Owner_Accounts->validate_mobile($d);
+			$response = $this->Owner_Accounts->validate_mobile($data);
 			if($response == -1){
 				//If failed to validate
 				$result = -1;
