@@ -28,10 +28,24 @@ class Salesman extends MY_Controller {
 		$data['css']=array
 		(
 		'assets/plugins/jQuerySteps/jquery.steps.css',	
+        'assets/plugins/daterangepicker/daterangepicker.css',
+		'assets/plugins/datepicker/datepicker3.css',
+		'assets/plugins/select2/select2.min.css',
+		'assets/plugins/iCheck/all.css',
+		'assets/plugins/timepicker/bootstrap-timepicker.min.css'
 		);
 		$data['script']=array
 		(
-		'assets/plugins/jQuerySteps/jquery.steps.min.js',	
+		'assets/plugins/jQuerySteps/jquery.steps.min.js',
+        'assets/js/moment.min.js',
+		'assets/plugins/input-mask/jquery.inputmask.js',
+		'assets/plugins/input-mask/jquery.inputmask.date.extensions.js',
+		'assets/plugins/input-mask/jquery.inputmask.extensions.js',
+		'assets/plugins/daterangepicker/daterangepicker.js',
+		'assets/plugins/datepicker/bootstrap-datepicker.js',
+		'assets/plugins/select2/select2.full.min.js',
+		'assets/plugins/iCheck/icheck.min.js',
+        'assets/js/program_sched.js'
 		);
 		$data['page_description']='View Available Schedules';
 

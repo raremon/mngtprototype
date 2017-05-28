@@ -12,6 +12,7 @@
                 <div class="form-group">
                 <label>Region</label>
                 <select name="region_id" class="form-control select2" style="width:100%;">
+                  <option>All</option>
                   <?php 
                     foreach($region as $row)
                     {
@@ -31,8 +32,26 @@
         <section>
             <form>
                 <div class="form-group">
+                <label>Selected Region</label>
+                <select name="region_id" class="form-control select2" style="width:100%;">
+                  <option>All</option>
+                  <?php 
+                    foreach($region as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+                <a class="btn btn-link pull-right" href="<?php echo site_url('regions/add') ?>">Add Region</a>
+                </div> 
+                <div class="form-group">
                   <label>City/Province</label>
                   <select id="#" name="#" class="form-control select2" style="width:100%;">
+                  <option>All</option>
                   </select>
                   <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
                 </div>         
@@ -42,8 +61,33 @@
         <section>
             <form>
                 <div class="form-group">
+                <label>Selected Region</label>
+                <select name="region_id" class="form-control select2" style="width:100%;">
+                  <option>All</option>
+                  <?php 
+                    foreach($region as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+                <a class="btn btn-link pull-right" href="<?php echo site_url('regions/add') ?>">Add Region</a>
+                </div> 
+                <div class="form-group">
+                  <label>Selected City/Province</label>
+                  <select id="#" name="#" class="form-control select2" style="width:100%;">
+                  <option>All</option>
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
+                </div> 
+                <div class="form-group">
                   <label>Route</label>
                   <select id="#" name="#" class="form-control select2" style="width:100%;">
+                  <option>All</option>
                   </select>
                   <a class="btn btn-link pull-right" href="<?php echo site_url('routes/add') ?>">Add Routes</a>
                 </div>          
@@ -51,40 +95,169 @@
         </section>
         <h3>Select Schedule<i class="fa fa-angle-double-right" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
+         <form>
           <div class="container-fluid">
             <div class="col-md-12">
-              <table id="#" class="table table-hover table-bordered">
-                <thead>
-                  <tr>
-                    <th>TIME SLOT</th>
-                    <th>AVAILABLE</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
+               <div class="form-group">
+               <label>Select Duration:</label>
+               <div class="input-group">
+                 <div class="input-group-addon">
+                   <i class="fa fa-calendar"></i>
+                 </div>
+                 <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
+               </div>
+               </div>     
             </div>
-          </div>
+            <div class="col-md-12">
+               <label>Select Timeslot:</label>
+               <div class="form-group text-center">
+                </br>
+                <label>
+                  <input id="all-timeslot-box" type="checkbox" class="flat">
+                  All Timeslots
+                </label>
+               </div>  
+            </div>    
+            <div class="col-md-4">
+                  <table id="morning-table" class="table table-hover" width="100%">
+                    <thead>
+                      <tr>
+                        <th><input id="all-morning-box" type="checkbox" class="flat-grey">Morning</th>
+                        <th>Time</th>
+                        <th>Availability</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="flat morning-box"></td>
+                        <td>4:00 AM - 5:00 AM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat morning-box"></td>
+                        <td>5:00 AM - 6:00 AM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat morning-box"></td>
+                        <td>6:00 AM - 7:00 AM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat morning-box"></td>
+                        <td>7:00 AM - 8:00 AM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat morning-box"></td>
+                        <td>8:00 AM - 9:00 AM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat morning-box"></td>
+                        <td>9:00 AM - 10:00 AM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat morning-box"></td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat morning-box"></td>
+                        <td>11:00 AM - 12:00 NN</td>
+                        <td>100%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>  
+            <div class="col-md-4">
+                  <table id="afternoon-table" class="table table-hover" width="100%">
+                    <thead>
+                      <tr>
+                        <th><input id="all-afternoon-box" type="checkbox" class="flat-grey">Afternoon</th>
+                        <th>Time</th>
+                        <th>Availability</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="flat afternoon-box"></td>
+                        <td>12:00 NN - 1:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat afternoon-box"></td>
+                        <td>1:00 PM - 2:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat afternoon-box"></td>
+                        <td>2:00 PM - 3:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat afternoon-box"></td>
+                        <td>3:00 PM - 4:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat afternoon-box"></td>
+                        <td>4:00 PM - 5:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat afternoon-box"></td>
+                        <td>5:00 PM - 6:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>  
+            <div class="col-md-4">
+                  <table id="afternoon-table" class="table table-hover" width="100%">
+                    <thead>
+                      <tr>
+                        <th><input id="all-evening-box" type="checkbox" class="flat-grey">Evening</th>
+                        <th>Time</th>
+                        <th>Availability</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="flat evening-box"></td>
+                        <td>6:00 PM - 7:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat evening-box"></td>
+                        <td>7:00 PM - 8:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat evening-box"></td>
+                        <td>8:00 PM - 9:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="flat evening-box"></td>
+                        <td>9:00 PM - 10:00 PM</td>
+                        <td>100%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>  
+         </form>
         </section>
         <h3>Selected Schedule<i class="fa fa-check" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
           <div class="container-fluid">
             <div class="col-md-12">
-              <table id="#" class="table table-hover table-bordered">
-                <thead>
-                  <tr>
-                    <th>SELECTED TIME SLOT</th>
-                    <th>AD FREQUENCY</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
+                <form>     
+                </form>
             </div>
+         </div>
         </section>
-    </div>
   </div>
   </div>
   <div class="box-footer">
@@ -92,7 +265,7 @@
 </div>
 <script type="text/javascript">
     $(".select2").select2();
-  $('.select2-selection__rendered').removeAttr('title');
+    $('.select2-selection__rendered').removeAttr('title');
     $("#sched_wizard").steps({
         headerTag: "h3",
         bodyTag: "section",
@@ -103,5 +276,45 @@
             //DITO YUNG ONCLICK NUNG FINISH
             alert("DONE");
         }
+    });
+    $('input[type="checkbox"].flat, input[type="radio"].flat').iCheck({
+      checkboxClass: 'icheckbox_flat',
+      radioClass: 'iradio_flat'
+    });
+    $('input[type="checkbox"].flat-grey, input[type="radio"].flat-grey').iCheck({
+      checkboxClass: 'icheckbox_flat-grey',
+      radioClass: 'iradio_flat-grey'
+    });
+    
+    $('#all-timeslot-box').on('ifChecked', function (event){
+        $('.morning-box').iCheck('toggle');   
+        $('.afternoon-box').iCheck('toggle');
+        $('.evening-box').iCheck('toggle');
+    });
+    $('#all-timeslot-box').on('ifUnchecked', function (event) {
+        $('.morning-box').iCheck('toggle');   
+        $('.afternoon-box').iCheck('toggle');
+        $('.evening-box').iCheck('toggle');
+    });
+    
+    $('#all-morning-box').on('ifChecked', function (event){
+        $('.morning-box').iCheck('toggle');   
+    });
+    $('#all-morning-box').on('ifUnchecked', function (event) {
+        $('.morning-box').iCheck('toggle');   
+    });
+    
+    $('#all-afternoon-box').on('ifChecked', function (event){  
+        $('.afternoon-box').iCheck('toggle');
+    });
+    $('#all-afternoon-box').on('ifUnchecked', function (event) { 
+        $('.afternoon-box').iCheck('toggle');
+    });
+    
+    $('#all-evening-box').on('ifChecked', function (event){
+        $('.evening-box').iCheck('toggle');
+    });
+    $('#all-evening-box').on('ifUnchecked', function (event) {
+        $('.evening-box').iCheck('toggle');
     });
 </script>

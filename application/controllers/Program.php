@@ -49,7 +49,6 @@
 				'assets/plugins/datepicker/bootstrap-datepicker.js',
 				'assets/plugins/select2/select2.full.min.js',
 				'assets/plugins/iCheck/icheck.min.js',
-
             	'assets/js/program_sched.js',
             );
 			$data['treeActive'] = 'program_schedule';
