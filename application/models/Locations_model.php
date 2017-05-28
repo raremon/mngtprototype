@@ -11,7 +11,7 @@ class Locations_model extends CI_Model
 	}
 
 	private $table = "locations";
-	private $query = "location_id, city_id, location_name, created_at";
+	private $query = "location_id, city_id, location_name, latitude, longitude, created_at";
 	private $id = "location_id";
 
 	//Find if city exists in Location

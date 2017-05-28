@@ -41,7 +41,7 @@ class Routes extends MY_Controller {
 			array_push($data['region'],
 				array(
 					$rows['region_id'],
-					$rows['region_name'],
+					$rows['region_abbr']." : ".$rows['region_name'],
 				)
 			);
 		}
@@ -104,7 +104,7 @@ class Routes extends MY_Controller {
 			array_push($data['region'],
 				array(
 					$rows['region_id'],
-					$rows['region_name'],
+					$rows['region_abbr']." : ".$rows['region_name'],
 				)
 			);
 		}
