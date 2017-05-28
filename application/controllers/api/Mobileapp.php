@@ -8,6 +8,7 @@ class Mobileapp extends REST_Controller {
 		$this->load->model('Regions_model', 'Regions');
 		$this->load->model('Cities_model', 'Cities');
 		$this->load->model('Locations_model', 'Locations');
+		$this->load->model('Routes_model', 'Routes');
 		//$this->load->model('Order_schedule_model', 'Orders');
 	}
 	
@@ -136,6 +137,33 @@ class Mobileapp extends REST_Controller {
 		
 		// Goes to model to query all vehicle types
 		$result = $this->Regions->show_Vehicle_type();
+		$this->response($result);
+	}
+	
+	public function getroute_get(){
+		/* JSON method to get all routes from a specific city for Android app */
+		// http://[::1]/star8/api/mobileapp/getroute/city/     <---- *insert city id here*
+		
+		$data = $this->get();
+		if( isset($data['city']) ){
+			// Goes to model to query all routes according to the city specified
+			$result = $this->Routes->get_by_location($data['city']);	
+		}
+		else{
+			// If direct controller access
+			$result = -1;
+		}
+		
+		// Returns either an array of routes or -1 if false
+		$this->response($result);
+	}
+	
+	public function getroutes_get(){
+		/* JSON method to get all routes for Android app */
+		// http://[::1]/star8/api/mobileapp/getroutes
+		
+		// Goes to model to query all routes
+		$result = $this->Routes->show_Route();
 		$this->response($result);
 	}
 	
