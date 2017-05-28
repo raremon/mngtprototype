@@ -46,12 +46,7 @@ class Locations_model extends CI_Model
 		$this->db->from($this->table);
 		$this->db->where('city_id', $city_id);
 		$query=$this->db->get();
-		if ($query->num_rows() > 0){
-			return $query->result_array();
-		}
-		else{
-			return -1;
-		}
+		return $query->result_array();
 	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //

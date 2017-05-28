@@ -18,13 +18,7 @@ class Routes_model extends CI_Model
 		$this->db->where('location_from', $location_id);
 		$this->db->or_where('location_to', $location_id);
 		$location=$this->db->get();
-
-		if ($location->num_rows() > 0 ){
-	        return $location->result_array();
-	    }
-	    else{
-	        return -1;
-	    }
+	    return $location->result_array();
 	}
 
 	////////////////////////////////////////////////////////////////
