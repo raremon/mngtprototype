@@ -249,14 +249,85 @@
             </div>  
          </form>
         </section>
-        <h3>Selected Schedule<i class="fa fa-check" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
+        <h3>Ad Order<i class="fa fa-check" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
-          <div class="container-fluid">
-            <div class="col-md-12">
-                <form>     
-                </form>
-            </div>
-         </div>
+          <form>
+              <div class="container-fluid">
+                <div class="col-md-12">
+                      <div class="form-group">
+                      <label>Agency/Advertiser:</label>
+                      <select id="#" name="#" class="form-control select2" style="width:100%;">
+                      </select>
+                      <a class="btn btn-link pull-right" href="<?php echo site_url('advertisers/add') ?>">New Advertiser</a>
+                    </div>  
+                </div>
+                <div class="col-md-6">
+                           <div class="form-group">
+                            <label>Ad Duration:</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="ad-duration" name="">
+                              <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                              </div>
+                            </div>
+                            <span class="help-block"></span>
+                          </div>
+                </div>  
+                <div class="col-md-6">
+                           <div class="form-group">
+                            <label>Frequency:</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="ad-frequency" name="">
+                              <div class="input-group-addon">
+                                <i class="fa fa-refresh"></i>
+                              </div>
+                            </div>
+                            <span class="help-block">*Refers on how many times the ad will be played per timeslot.</span>
+                          </div> 
+                </div>  
+                <div class="col-md-12">
+                      <div class="form-group">
+                      <label>Salesman/Agent:</label>
+                      <select id="#" name="#" class="form-control select2" style="width:100%;">
+                      </select>
+                      </div>  
+                </div> 
+                <div class="col-md-12">
+                      <div class="form-group">
+                      <label>Select Screen Size:</label>
+                      <input type="text" class="form-control" id="screen-size" readonly>
+                      </div>  
+                </div> 
+                <div class="col-md-6">
+                    <a id="fullscreen-link" href="#/" onclick="fullscreen();">
+                        <div class="form-group fullscreen-div text-center">
+                        <label>FULLSCREEN</label>
+                        </div>            
+                    </a>
+                </div>  
+                <div class="col-md-4">
+                    <a id="split-main-link" href="#/" onclick="splitMain();">
+                        <div class="form-group split-main-div text-center">
+                        <label>SPLIT-MAIN</label>
+                        </div>   
+                    </a>
+                </div> 
+                <div class="col-md-2">
+                    <a id="split-top-link" href="#/" onclick="splitTop();">
+                        <div class="form-group split-top-div text-center">
+                        <label>SPLIT-TOP RIGHT</label>
+                        </div>            
+                    </a>
+                </div> 
+                <div class="col-md-2">
+                    <a id="split-bottom-link" href="#/" onclick="splitBottom();">
+                        <div class="form-group split-bottom-div text-center">
+                        <label>SPLIT-BOTTOM</br>RIGHT</label>
+                        </div>
+                    </a>
+                </div> 
+             </div>
+          </form>
         </section>
   </div>
   </div>
@@ -317,4 +388,28 @@
     $('#all-evening-box').on('ifUnchecked', function (event) {
         $('.evening-box').iCheck('toggle');
     });
+    
+  $('input[id$="ad-duration"]').inputmask("9999", {
+    placeholder: "__________", 
+    insertMode: false, 
+    showMaskOnHover: false,
+    });
+  $('input[id$="ad-frequency"]').inputmask("99", {
+    placeholder: "__________", 
+    insertMode: false, 
+    showMaskOnHover: false,
+    });
+    
+    function fullscreen() {
+        $('#screen-size').attr('value', 'Fullscreen');
+    }
+    function splitMain() {
+        $('#screen-size').attr('value', 'Split - Main');
+    }
+    function splitTop() {
+        $('#screen-size').attr('value', 'Split - Top Right');
+    }
+    function splitBottom() {
+        $('#screen-size').attr('value', 'Split - Bottom Right');
+    }
 </script>

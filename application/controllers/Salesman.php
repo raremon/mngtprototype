@@ -20,7 +20,7 @@ class Salesman extends MY_Controller {
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Salesman';
+		$data['title']='Schedule Availability';
 		$data['breadcrumbs']=array
 		(
 			array('Salesman','salesman'),
