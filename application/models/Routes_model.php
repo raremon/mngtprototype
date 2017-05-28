@@ -9,6 +9,17 @@ class Routes_model extends CI_Model
 	{
 		parent::__construct();
 	}
+	
+	//Gets routes from database based on a location
+	public function get_by_location($location_id)
+	{
+		$this->db->select("route_id, route_name, route_description, created_at");
+		$this->db->from('routes');
+		$this->db->where('location_from', $location_id);
+		$this->db->or_where('location_to', $location_id);
+		$location=$this->db->get();
+	    return $location->result_array();
+	}
 
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
