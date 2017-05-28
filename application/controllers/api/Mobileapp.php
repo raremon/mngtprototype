@@ -4,7 +4,8 @@ class Mobileapp extends REST_Controller {
 	
 	public function __construct() {
         parent::__construct();
-		$this->load->model('adowneraccounts_model', 'Owners');
+		$this->load->model('Adowneraccounts_model', 'Owner_Accounts');
+		$this->load->model('Advertisers_model', 'Owners');
 		$this->load->model('Regions_model', 'Regions');
 		$this->load->model('Cities_model', 'Cities');
 		$this->load->model('Locations_model', 'Locations');
@@ -22,7 +23,7 @@ class Mobileapp extends REST_Controller {
 			
 		if( isset($d['user']) && isset($d['pass']) ){
 			// Goes to model to validate username and password
-			$result = $this->Owners->validate_mobile($d);
+			$result = $this->Owner_Accounts->validate_mobile($d);
 			$response = $result;	
 			
 		}else{
@@ -40,7 +41,7 @@ class Mobileapp extends REST_Controller {
 		
 		if( isset($d['owner_id']) ){
 			// Goes to model to update owner data
-			$result = $this->Owners->logout_mobile($d['owner_id']);
+			$result = $this->Owner_Accounts->logout_mobile($d['owner_id']);
 			
 		}else{
 			// If direct controller access
@@ -59,7 +60,7 @@ class Mobileapp extends REST_Controller {
 		if( isset($d['owner_id']) ){
 			
 			// Goes to model to get ad owner data
-			$result = $this->Owners->get_info_mobile($d['owner_id']);
+			$result = $this->Owners->get_by_id($d['owner_id']);
 			
 		}else{
 			// Response to get rid of other mobile sessions if ad owner changes password
