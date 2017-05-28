@@ -1,3 +1,50 @@
+<div class="modal fade" id="vehicle-assign-box" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Vehicle Details</h4>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+            <div class="col-md-12">
+              <div id="media-message"></div>
+              <?php echo form_open('welcome', array('id'=>'media')); ?>
+              <div class="form-group hidden">
+                <input type="text" name="ready_vehicle_id" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label>Vehicle Type</label>
+                <select id="vehicle_type" class="form-control select2">
+                  <?php 
+                    foreach($types as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Vehicles</label>
+                <select name="vehicle_id" id="vehicle" class="form-control select2">
+                </select>
+              </div>
+              <?php echo form_close(); ?>
+            </div>
+          </div> 
+      </div>
+      <div class="modal-footer">
+        <button id="show-div" type="button" class="btn btn-success update" disabled="disabled" onclick="#">Select</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Assign Media</h3>
@@ -7,68 +54,92 @@
   <div class="box-body">
       <div class="container-fluid">
         <div class="col-md-12">
-          <div id="media-message"></div>
-          <?php echo form_open('welcome', array('id'=>'media')); ?>
-          <div class="form-group">
-            <label>Vehicle Type</label>
-            <select id="vehicle_type" class="form-control select2">
-              <?php 
-                foreach($types as $row)
-                {
-              ?>
-                <option value= <?php echo $row[0];?> >
-                  <?php echo $row[1]; ?>
-                </option>
-              <?php 
-                }
-              ?>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Unassigned Vehicles</label>
-            <select name="vehicle_id" id="vehicle" class="form-control select2">
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Unassigned Mediaboxes</label>
-            <select name="box_id" class="form-control select2">
-              <?php 
-                foreach($boxes as $row)
-                {
-              ?>
-                <option value= <?php echo $row[0];?> >
-                  <?php echo $row[1]; ?>
-                </option>
-              <?php 
-                }
-              ?>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Unassigned TVs</label>
-            <select name="tv_id" class="form-control select2">
-              <?php 
-                foreach($tvs as $row)
-                {
-              ?>
-                <option value= <?php echo $row[0];?> >
-                  <?php echo $row[1]; ?>
-                </option>
-              <?php 
-                }
-              ?>
-            </select>
-          </div>
-          <button type="button" class="btn btn-primary save" onclick="save_Media()">Save</button>
+              <div class="input-group">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-success" onclick="openModal()">Select Vehicle</button>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" class="form-control" readonly>
+            </div></br>
+<!--                LALABAS UNG FORM PAG kA PINDOT NG SELECT DUN SA MODAL-->
+              <div id="hidden-form">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Select Mediabox</label>
+                    <select name="box_id" class="form-control select2">
+                        <option selected="selected">Mediabox</option>
+                      <?php 
+                        foreach($boxes as $row)
+                        {
+                      ?> 
+                        <option value= <?php echo $row[0];?> >
+                          <?php echo $row[1]; ?>
+                        </option>
+                      <?php 
+                        }
+                      ?>
+                    </select>
+                    <p class="help-block">Additional info for box</p>
+                  </div>
+                  <div class="form-group">
+<!--                    Di ko mabasa ung sa sinend mong pic kaya card nilagay ko-->
+                    <label>Select GPS</label>
+                    <select name="tv_id" class="form-control select2">
+                        <option selected="selected">GPS</option>
+                    </select>
+                    <p class="help-block">Additional info here</p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Select TV</label>
+                    <select name="tv_id" class="form-control select2">
+                        <option selected="selected">TV</option>
+                      <?php 
+                        foreach($tvs as $row)
+                        {
+                      ?>
+                        <option value= <?php echo $row[0];?> >
+                          <?php echo $row[1]; ?>
+                        </option>
+                      <?php 
+                        }
+                      ?>
+                    </select>
+                    <p class="help-block">Additional info for TV</p>
+                  </div>
+                  <div class="form-group">
+<!--                    Di ko mabasa ung sa sinend mong pic kaya card nilagay ko-->
+                    <label>Select Card</label>
+                    <select name="tv_id" class="form-control select2">
+                        <option selected="selected">Card</option>
+                    </select>
+                    <p class="help-block">Additional info here</p>
+                  </div>
+                </div>
+                  <button type="button" class="btn btn-success save" onclick="save_Media()" style="float:right;">Save</button>
+              </div>
+
           <?php echo form_close(); ?>
+
         </div>
       </div> 
   </div>
   <div class="box-footer">
+      <h3 class="hidden-text text-center">Select Vehicle First</h3>
   </div>
 </div>
 <script type="text/javascript">
+  $("#hidden-form").hide();
   $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
+  $("#show-div").click(function(){
+     $(".hidden-text").hide();
+     $("#hidden-form").show();
+   });
+  function openModal(){
+    $('#vehicle-assign-box').modal('show');
+  }       
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////

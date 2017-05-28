@@ -233,7 +233,7 @@
               <ul class="sidebar-menu">
                 <li class="header">Main Menu</li>
                 <li id="dashboard"><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
-
+                <!--<li id="salesman"><a href="<?php echo base_url('salesman/schedules') ?>"><i class="fa fa-calendar-check-o"></i> <span>Schedule Availability</span></a></li>-->
                 <li id="program_schedule" class="treeview">
                   <a href="#"><i class="fa fa-tv"></i> <span>Program Schedule</span>
                     <span class="pull-right-container">
@@ -241,11 +241,13 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="create_program_schedule"><a href="<?php echo base_url('schedules') ?>">Ads for Scheduling</a></li>
-                    <li id="create_program_schedule"><a href="<?php echo base_url('program/create') ?>">Create Program Schedule</a></li>
+                    <li id="create_program_schedule"><a href="<?php echo base_url('salesman/schedules') ?>">Schedule Availability</a></li>
+                    <li id="create_program_schedule"><a href="<?php //echo base_url('schedules') ?>">New Ad Orders</a></li>
+                    <!--<li id="create_program_schedule"><a href="<?php echo base_url('schedules') ?>">Ads for Scheduling</a></li>-->
+                    <!--<li id="create_program_schedule"><a href="<?php echo base_url('program/create') ?>">Create Program Schedule</a></li>-->
                     <li id="browse_program_schedule"><a href="<?php echo base_url('program/browse') ?>">Browse Program Schedules</a></li>
-                    <li id="assign_per_route"><a href="#">Assign Per Route</a></li>
-                    <li id="assign_per_bus"><a href="#">Assign Per Bus</a></li>
+                    <!--<li id="assign_per_route"><a href="#">Assign Per Route</a></li>
+                    <li id="assign_per_bus"><a href="#">Assign Per Bus</a></li>-->
                   </ul>
                 </li>
                 <li id="ads_management" class="treeview">
@@ -268,7 +270,7 @@
         					</a>
                   <ul class="treeview-menu">
                     <li id="new_advertiser"><a href="<?php echo base_url('advertisers/add') ?>">New Advertiser</a></li>
-                    <li id="browse_ad_companies"><a href="<?php echo base_url('advertisers/show') ?>">Browse Ad Companies </a></li>
+                    <li id="browse_ad_companies"><a href="<?php echo base_url('advertisers/show') ?>">Browse Advertisers</a></li>
                   </ul>				
         				</li>	
 <!--
@@ -331,7 +333,7 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="salesman"><a href="<?php echo base_url('salesman/schedules') ?>">Salesman</a></li>
+                    
                       
                     <li id="browse_users"><a href="<?php echo base_url('users/browse') ?>">Users</a></li>
                       
@@ -342,6 +344,10 @@
                     <li id="browse_tvs"><a href="<?php echo base_url('tvs/browse') ?>">TVs</a></li>
 
                     <li id="browse_mediaboxes"><a href="<?php echo base_url('mediaboxes/browse') ?>">Mediaboxes</a></li>
+					
+                    <li id="browse_cardreaders"><a href="<?php echo base_url('cardreaders/browse') ?>">Card Readers</a></li>
+					
+                    <li id="browse_posdevices"><a href="<?php echo base_url('posdevices/browse') ?>">POS Devices</a></li>
 
                     <li id="browse_assignment"><a href="<?php echo base_url('media/browse') ?>">Media Assignment</a></li>
                   </ul>
