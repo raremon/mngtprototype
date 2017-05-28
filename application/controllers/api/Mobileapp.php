@@ -186,4 +186,19 @@ class Mobileapp extends REST_Controller {
 		}
 		//$this->response($result);
 	}
+	public function changepass_post(){
+		
+		$data = $this->post();
+		/* JSON method to authenticate ad owner in Android app */
+		// http://[::1]/star8/api/mobileapp/changepass
+		
+		if( isset($data['user']) && isset($data['pass']) && isset($data['newpass'])){
+			// Goes to model to validate username and password and change password if successful
+			$response = $this->Owner_Accounts->change_pass($data);
+		}else{
+			// If direct controller access
+			$response = -1;
+		}
+		$this->response($response);	
+	}
 	}
