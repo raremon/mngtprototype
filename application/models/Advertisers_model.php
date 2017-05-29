@@ -10,6 +10,10 @@
 			parent::__construct();
 		}
 
+		private $query = "advertiser_name, advertiser_address, advertiser_contact, advertiser_email, advertiser_website, advertiser_description, created_at";
+		private $table = "advertisers";
+		private $id = "advertiser_id";
+		
 		public function count_Advertiser()
 		{
 			$this->db->select('advertiser_id');
@@ -17,6 +21,22 @@
 			return $this->db->count_all_results();
 		}
 
+		public function get_by_id($advertiser_id)
+		{
+			$this->db->select($this->query);
+			$this->db->from($this->table);
+			$this->db->where($this->id, $advertiser_id);
+			$account = $this->db->get();
+			return $account->row_array();
+		}
+		
+		public function get_email($advertiser_id){
+			$this->db->select('advertiser_email');
+			$this->db->from($this->table);
+			$this->db->where($this->id, $advertiser_id);
+			$account = $this->db->get();
+			return $account->row_array();
+		}
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
@@ -31,7 +51,7 @@
 		// R E A D
 		public function show_Advertiser()
 		{
-			$this->db->select("*");
+			$this->db->select("*,SUBSTRING_INDEX(advertiser_description,' ',15) AS info");
 			$this->db->from('advertisers');
 			$query=$this->db->get();
 			return $query->result_array();

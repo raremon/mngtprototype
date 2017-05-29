@@ -2,6 +2,7 @@
 <html>
     
     <head>
+      
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <title>Star8 | <?php echo $title; ?></title>
@@ -9,6 +10,7 @@
       <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
       <!--GLOBAL LINKS-->
+      <link rel="icon" href="<?php echo base_url(); ?>/favicon.ico" type="image/gif">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/animate.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css') ?>">
@@ -242,7 +244,7 @@
                   </a>
                   <ul class="treeview-menu">
                     <li id="create_program_schedule"><a href="<?php echo base_url('salesman/schedules') ?>">Schedule Availability</a></li>
-                    <li id="create_program_schedule"><a href="<?php //echo base_url('schedules') ?>">New Ad Orders</a></li>
+                    <li id="new_ad_order"><a href="<?php echo base_url('program/order') ?>">New Ad Orders</a></li>
                     <!--<li id="create_program_schedule"><a href="<?php echo base_url('schedules') ?>">Ads for Scheduling</a></li>-->
                     <!--<li id="create_program_schedule"><a href="<?php echo base_url('program/create') ?>">Create Program Schedule</a></li>-->
                     <li id="browse_program_schedule"><a href="<?php echo base_url('program/browse') ?>">Browse Program Schedules</a></li>

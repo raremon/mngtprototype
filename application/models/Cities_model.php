@@ -21,12 +21,7 @@
 			$this->db->from($this->table);
 			$this->db->where('region_id', $region_id);
 			$query=$this->db->get();
-			if ($query->num_rows() > 0){
-				return $query->result_array();
-			}
-			else{
-				return -1;
-			}
+			return $query->result_array();
 		}
 
 		////////////////////////////////////////////////////////////////

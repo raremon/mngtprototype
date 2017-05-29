@@ -162,6 +162,75 @@ tbody > tr > td{
     color: dimgray;
 }
 
+.fullscreen-div{
+    height: 300px;
+    width: 100%;
+    color:white;
+    background-color: #3fb14e;
+    padding-top: 20px;
+}
+
+.split-main-div{
+    height: 300px;
+    width: 100%;
+    color:white;
+    padding-top: 20px;
+    background-color: #3fb14e;
+}
+
+.split-top-div{
+    height: 145px;
+    width: 100%;
+    color:white;
+    padding-top: 20px;
+    background-color: #3fb14e;
+    margin-left: -18px;
+    margin-bottom: 10px;
+}
+
+.split-bottom-div{
+    height: 145px;
+    width: 100%;
+    color:white;
+    padding-top: 20px;
+    background-color: #3fb14e;
+    margin-left: -18px;
+}
+
+.fullscreen-div:hover{
+    height: 300px;
+    width: 100%;
+    color:white;
+    background-color: #339440;
+    padding-top: 20px;
+}
+
+.split-main-div:hover{
+    height: 300px;
+    width: 100%;
+    color:white;
+    padding-top: 20px;
+    background-color: #339440;
+}
+
+.split-top-div:hover{
+    height: 145px;
+    width: 100%;
+    color:white;
+    padding-top: 20px;
+    background-color: #339440;
+    margin-left: -18px;
+    margin-bottom: 10px;
+}
+
+.split-bottom-div:hover{
+    height: 145px;
+    width: 100%;
+    color:white;
+    padding-top: 20px;
+    background-color: #339440;
+    margin-left: -18px;
+}
 /* messages [tagging: Paul] */
 .success-message{
     /*success message ( YUNG LUMALABAS SA MODAL PAGKASAVE )*/

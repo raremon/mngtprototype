@@ -33,6 +33,7 @@ class Schedules extends MY_Controller {
 		$date = date("Y-m-d");
 		
 		$timeslots = $this->Nschedule->getTimeSlots($where,date("Y-m-d"));
+		
 		// $timeslots = $this->Nschedule->getTimeSlots($where,"2017-01-01");
 		
 		
@@ -71,10 +72,14 @@ class Schedules extends MY_Controller {
 			$where = array('status'=>0,'timeslot'=>$timeslot);
 			$date = date("Y-m-d");
 			
-			$ads = $this->Nschedule->getTimeSlots($where,date("Y-m-d"));		
-		
+			$this->load->library('dynamic_schedule');
+			$rundown = $this->dynamic_schedule->generateAdHour($timeslot, $date);
+			
+			debug($rundown);
+			
+			
 			$ads = $this->Nschedule->getSchedules($where,$date);
-		
+					
 			// print_r($ads[0]);
 			// Array ( [schedule_id] => 1 [ad_id] => 1 [date_start] => 2017-05-10 
 			// [date_end] => 2017-06-10 [timeslot] => 8 [times_repeat] => 4 
