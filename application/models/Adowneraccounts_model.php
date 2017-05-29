@@ -108,6 +108,7 @@ class Adowneraccounts_model extends CI_Model
 			// Account not found
 			return -1;
 		}
+	}
 	
 	public function change_pass($data){
 		

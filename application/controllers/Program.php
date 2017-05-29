@@ -131,6 +131,53 @@
             $this->load->view("program/program_browse", $data);
             $this->load->view("template/footer", $data);
         }
+        
+		public function order()
+        {
+            $data = array();
+            $data['role'] = $this->logged_out_check();
+            $data['title']='New Ad Order';
+            $data['page_description'] = 'Approve/Cancel Orders';
+            $data['breadcrumbs']=array
+            (
+                array('New Ad Order','program/order'),
+            );
+            $data['css']=array
+            (
+
+            );
+            $data['script']=array
+            (
+
+            );
+			$advertiser_data = $this->Advertiser->show_Advertiser();
+			$data['advertiser'] = array();
+			foreach ($advertiser_data as $rows) {
+				array_push($data['advertiser'],
+					array(
+						$rows['advertiser_id'],
+						$rows['advertiser_name'],
+					)
+				);
+			}
+
+			$route_data = $this->Route->show_Route();
+			$data['route'] = array();
+			foreach ($route_data as $rows) {
+				array_push($data['route'],
+					array(
+						$rows['route_id'],
+						$rows['route_name'],
+					)
+				);
+			}
+            $data['treeActive'] = 'program_schedule';
+            $data['childActive'] = 'new_ad_order' ;
+
+            $this->load->view("template/header", $data);
+            $this->load->view("program/new_ad_order", $data);
+            $this->load->view("template/footer", $data);
+        }
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                     R  E  G  U  L  A  R     F  U  N  C  T  I  O  N  S                          //

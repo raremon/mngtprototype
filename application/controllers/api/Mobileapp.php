@@ -181,7 +181,7 @@ class Mobileapp extends REST_Controller {
 		// http://[::1]/star8/api/mobileapp/gettimeslots
 		
 		// Goes to model to query all time slots
-		$result = $this->Timeslots->show();
+		$result = $this->Timeslots->read();
 		$this->response($result);
 	}
 	
@@ -227,14 +227,14 @@ class Mobileapp extends REST_Controller {
 			$query = $this->Owner_Accounts->request_resetpass($data);
 			if($query > 0){
 				// Gets advertiser email from advertiser id
-				$response = $this->Owners->get_email($response);
+				$response = $this->Owners->get_email($query);
 			}
 			// Account not found
 			else{
 				$response = -1;
 			}
 		}
-		}else{
+		else{
 			// If direct controller access
 			$response = -1;
 		}
