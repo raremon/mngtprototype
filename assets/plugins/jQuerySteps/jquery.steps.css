@@ -163,10 +163,10 @@
 .wizard > .content > .body
 {
     float: left;
-    position: absolute;
-    width: 95%;
-    height: 95%;
-    padding: 1%;
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    position: relative;
 }
 
 .wizard > .content > .body ul
