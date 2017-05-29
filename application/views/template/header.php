@@ -2,7 +2,6 @@
 <html>
     
     <head>
-      
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <title>Star8 | <?php echo $title; ?></title>
@@ -10,7 +9,6 @@
       <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
       <!--GLOBAL LINKS-->
-      <link rel="icon" href="<?php echo base_url(); ?>/favicon.ico" type="image/gif">
       <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/animate.css') ?>"/>
       <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css') ?>">

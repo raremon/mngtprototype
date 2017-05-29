@@ -1,6 +1,5 @@
 <html>
     <head>
-        <link rel="icon" href="<?php echo base_url(); ?>/favicon.ico" type="image/gif">
         <title>Star8 | Login</title>
         <link rel="stylesheet" href="<?php echo base_url('assets/css/login_style.css') ?>"/>
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css') ?>">
