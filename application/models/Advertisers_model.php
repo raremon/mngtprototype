@@ -44,7 +44,7 @@
 		// R E A D
 		public function show_Advertiser()
 		{
-			$this->db->select("*");
+			$this->db->select("*,SUBSTRING_INDEX(advertiser_description,' ',15) AS info");
 			$this->db->from('advertisers');
 			$query=$this->db->get();
 			return $query->result_array();
