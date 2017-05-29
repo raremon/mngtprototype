@@ -59,13 +59,51 @@ class Adowneraccounts_model extends CI_Model
 				
 				return $row;
 			}
-			// Password not match
+			// Passwords do not match
+			else{
+				return -1;
+			}
 		}
 		else {
 			// Account not found
 			return -1;
 		}
 	}
+	
+	public function request_resetpass($data){
+		
+		// Gets owner id from database
+		$this->db->select("advertiser_id");
+		$this->db->from($this->table);
+		$this->db->where("owner_uname", $data['user']);
+		$query = $this->db->get();
+		
+		// Returns the owner id of username
+		$response = $query->row_array();
+		return $response['advertiser_id'];
+	}
+	
+	public function resetpass($data){
+		
+		//Gets owner account from database
+		$this->db->from($this->table);
+		$this->db->where("owner_uname", $data['user']);
+		$query = $this->db->get();
+		
+		if ($query->num_rows()){
+			
+			$row = $query->row_array();
+			
+			// Updates owner password
+			$row['owner_upass'] = sha1($data['newpass']);
+			$this->db->where("owner_id", $row['owner_id']);
+			$this->db->update($this->table, $row);
+			return 1;
+		}
+		else {
+			// Account not found
+			return -1;
+		}
 	
 	public function change_pass($data){
 		
