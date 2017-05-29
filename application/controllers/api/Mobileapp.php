@@ -49,9 +49,7 @@ class Mobileapp extends REST_Controller {
 		}
 		$this->response($result);
 	}
-	public function codegenerate_get(){
-		
-	}
+	
 	// ----------------  DATA RETRIEVAL FUNCTIONS  ---------------- //
 	public function getinfo_post(){
 		
