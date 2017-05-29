@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Locations_model extends CI_Model
+class Timeslots_model extends CI_Model
 {
 	// Constructor
 	public function __construct()
@@ -10,49 +10,10 @@ class Locations_model extends CI_Model
 		parent::__construct();
 	}
 
-	private $table = "locations";
-	private $query = "location_id, city_id, location_name, latitude, longitude, created_at";
-	private $id = "location_id";
+	private $table = "timeslots";
+	private $query = "tslot_id, tslot_session, tslot_code, tslot_time, created_at";
+	private $id = "tslot_id";
 
-	//Find if city exists in Location
-	public function find_City($city_id)
-	{
-		$this->db->select("city_id");
-		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
-		$city=$this->db->get();
-		if ($city->num_rows() > 0){
-	        return true;
-	    }
-	    else{
-	        return false;
-	    }
-	}
-
-	//Get name by Location Id
-	public function get_Name($id)
-	{
-		$this->db->select("location_name, latitude, longitude");
-		$this->db->from($this->table);
-		$this->db->where('location_id', $id);
-		$query = $this->db->get();
-		// $row = $query->row_array();
-		return $query->row_array();
-	}
-
-	//Gets all locations according to a specific city
-	public function get_by_city($city_id){
-		$this->db->select("location_id, location_name, created_at");
-		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
-		$query=$this->db->get();
-		if ($query->num_rows() > 0){
-			return $query->result_array();
-		}
-		else{
-			return -1;
-		}
-	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
@@ -93,4 +54,4 @@ class Locations_model extends CI_Model
 	////////////////////////////////////////////////////////////////
 }
 
-// END OF LOCATIONS MODEL
+// END OF TIMESLOTS MODEL

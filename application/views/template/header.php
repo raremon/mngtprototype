@@ -260,6 +260,8 @@
                     <li id="upload_new_ad"><a href="<?php echo base_url('ads_mngt/upload') ?>">Upload New Ad</a></li>
                     <li id="browse_ads"><a href="<?php echo base_url('ads_mngt/browse') ?>">Browse Ads</a></li>
                     <li id="ad_report"><a href="<?php echo base_url('ads_mngt/report') ?>">Ad Report</a></li>
+
+                    <li id="browse_fillers"><a href="<?php echo base_url('fillers/browse') ?>">Fillers</a></li>
                   </ul>				
         				</li>
                 <li id="ad_companies" class="treeview">
@@ -338,6 +340,8 @@
                     <li id="browse_users"><a href="<?php echo base_url('users/browse') ?>">Users</a></li>
                       
                     <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Drivers</a></li>
+
+                    <li id="browse_salesmen"><a href="<?php echo base_url('salesmen/browse') ?>">Salesmen</a></li>
                       
                     <li id="browse_vehicles"><a href="<?php echo base_url('vehicles/browse') ?>">Vehicles</a></li>
 
@@ -345,7 +349,9 @@
 
                     <li id="browse_mediaboxes"><a href="<?php echo base_url('mediaboxes/browse') ?>">Mediaboxes</a></li>
 					
-                    <li id="browse_cardreaders"><a href="<?php echo base_url('cardreaders/browse') ?>">Card Readers</a></li>
+                    <li id="browse_card_readers"><a href="<?php echo base_url('card_readers/browse') ?>">Card Readers</a></li>
+
+                    <li id="browse_gps"><a href="<?php echo base_url('gps/browse') ?>">GPS Devices</a></li>
 					
                     <li id="browse_posdevices"><a href="<?php echo base_url('posdevices/browse') ?>">POS Devices</a></li>
 

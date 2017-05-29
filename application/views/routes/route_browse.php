@@ -1,3 +1,5 @@
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJAq_K8XorLcD2nKKsrmB7BserF3Wh3Ss&libraries=places" type="text/javascript"></script>
+
 <div class="modal fade" id="route-box" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -114,8 +116,8 @@
               <tr>
                 <th>ROUTE NAME</th>
                 <th>ROUTE DESCRIPTION</th>
-                <th>LOCATION FROM</th>
-                <th>LOCATION TO</th>
+                <th>LOCATION</th>
+                <th>MAP</th>
                 <th></th>
               </tr>
             </thead>

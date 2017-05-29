@@ -43,7 +43,6 @@
 		{
 			$this->db->select("vehicle_id, vehicle_name, vehicle_type");
 			$this->db->from($this->table);
-			$this->db->where('assigned_to', NULL);
 			$query=$this->db->get();
 			return $query->result_array();
 		}
