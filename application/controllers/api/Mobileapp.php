@@ -10,6 +10,7 @@ class Mobileapp extends REST_Controller {
 		$this->load->model('Cities_model', 'Cities');
 		$this->load->model('Locations_model', 'Locations');
 		$this->load->model('Routes_model', 'Routes');
+		$this->load->model('Timeslots_model', 'Timeslots');
 		//$this->load->model('Order_schedule_model', 'Orders');
 	}
 	
@@ -175,6 +176,15 @@ class Mobileapp extends REST_Controller {
 		$this->response($result);
 	}
 	
+	public function gettimeslots_get(){
+		/* JSON method to get all time slots for Android app */
+		// http://[::1]/star8/api/mobileapp/gettimeslots
+		
+		// Goes to model to query all time slots
+		$result = $this->Timeslots->show();
+		$this->response($result);
+	}
+	
 	// ----------------  FORM DATA SUBMISSION FUNCTIONS  ---------------- //	
 	public function putrequestschedule_post(){
 		/* JSON method to submit a schedule request from Android app */
@@ -207,5 +217,56 @@ class Mobileapp extends REST_Controller {
 			$response = -1;
 		}
 		$this->response($response);	
+	}
+	
+	public function requestresetpass_post(){
+		$data = $this->post();
+		
+		if(isset($data['user'])){
+			// Gets advertiser id from username
+			$query = $this->Owner_Accounts->request_resetpass($data);
+			if($query > 0){
+				// Gets advertiser email from advertiser id
+				$response = $this->Owners->get_email($response);
+			}
+			// Account not found
+			else{
+				$response = -1;
+			}
+		}
+		}else{
+			// If direct controller access
+			$response = -1;
+		}
+		// Returns advertiser email or -1
+		$this->response($response);	
+	}
+	
+	public function resetpass_post(){
+		$data = $this->post();
+		
+		if(isset($data['user'])&& isset($data['ticket'])){
+			// Generates a new password based on md5
+			$data['newpass'] = substr(md5(uniqid(rand(), true)),0,12);
+			
+			// Goes to model to reset user password
+			$response = $this->Owner_Accounts->resetpass($data);
+			
+			if($response == 1){
+				// Returns reset password
+				$response = $data['newpass'];
+			}
+			else{
+				// If server error
+				$response = -1;
+			}
+		}else{
+			// If direct controller access
+			$response = -1;
+		}
+		
+		// Returns a password or -1
+		$this->response($response);	
+			
 	}
 	}
