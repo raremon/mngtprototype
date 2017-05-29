@@ -12,7 +12,7 @@
                 <div class="form-group">
                 <label>Region</label>
                 <select name="region_id" class="form-control select2" style="width:100%;">
-                  <option>All</option>
+                  <option>ALL</option>
                   <?php 
                     foreach($region as $row)
                     {
@@ -335,64 +335,68 @@
   </div>
 </div>
 <script type="text/javascript">
-    $(".select2").select2();
-    $('.select2-selection__rendered').removeAttr('title');
-    $("#sched_wizard").steps({
-        headerTag: "h3",
-        bodyTag: "section",
-        transitionEffect: "fade",
-        autoFocus: true,
-        onFinished: function (event, currentIndex)
-        {
-            //DITO YUNG ONCLICK NUNG FINISH
-            alert("DONE");
-        }
-    });
-    $('input[type="checkbox"].flat, input[type="radio"].flat').iCheck({
-      checkboxClass: 'icheckbox_flat',
-      radioClass: 'iradio_flat'
-    });
-    $('input[type="checkbox"].flat-grey, input[type="radio"].flat-grey').iCheck({
-      checkboxClass: 'icheckbox_flat-grey',
-      radioClass: 'iradio_flat-grey'
-    });
-    
-    $('#all-timeslot-box').on('ifChecked', function (event){
-        $('.morning-box').iCheck('check');   
-        $('.afternoon-box').iCheck('check');
-        $('.evening-box').iCheck('check');
-    });
-    $('#all-timeslot-box').on('ifUnchecked', function (event) {
-        $('input').iCheck('uncheck');   
-    });
-    
-    $('#all-morning-box').on('ifChecked', function (event){
-        $('.morning-box').iCheck('check');   
-        $('.afternoon-box').iCheck('uncheck');
-        $('.evening-box').iCheck('uncheck'); 
-    });
-    $('#all-morning-box').on('ifUnchecked', function (event) {
-        $('input').iCheck('uncheck');
-    });
-    
-    $('#all-afternoon-box').on('ifChecked', function (event){  
-        $('.morning-box').iCheck('uncheck');   
-        $('.afternoon-box').iCheck('check');
-        $('.evening-box').iCheck('uncheck');
-    });
-    $('#all-afternoon-box').on('ifUnchecked', function (event) { 
-        $('input').iCheck('uncheck');
-    });
-    
-    $('#all-evening-box').on('ifChecked', function (event){
-        $('.morning-box').iCheck('uncheck');   
-        $('.afternoon-box').iCheck('uncheck');
-        $('.evening-box').iCheck('check');
-    });
-    $('#all-evening-box').on('ifUnchecked', function (event) {
-        $('input').iCheck('uncheck');
-    });
-    
+  $("#sched_wizard").steps({
+      headerTag: "h3",
+      bodyTag: "section",
+      transitionEffect: "fade",
+      autoFocus: true,
+      onFinished: function (event, currentIndex)
+      {
+          //DITO YUNG ONCLICK NUNG FINISH
+          alert("DONE");
+      }
+  });
+  $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
+  $('input[type="checkbox"].flat, input[type="radio"].flat').iCheck({
+    checkboxClass: 'icheckbox_flat',
+    radioClass: 'iradio_flat'
+  });
+  $('input[type="checkbox"].flat-grey, input[type="radio"].flat-grey').iCheck({
+    checkboxClass: 'icheckbox_flat-grey',
+    radioClass: 'iradio_flat-grey'
+  });
+  
+  $('#all-timeslot-box').on('ifChecked', function (event){
+      $('.morning-box').iCheck('check');   
+      $('.afternoon-box').iCheck('check');
+      $('.evening-box').iCheck('check');
+  });
+  $('#all-timeslot-box').on('ifUnchecked', function (event) {
+      $('input').iCheck('uncheck');   
+  });
+  
+  $('#all-morning-box').on('ifChecked', function (event){
+      $('.morning-box').iCheck('check');   
+      $('.afternoon-box').iCheck('uncheck');
+      $('.evening-box').iCheck('uncheck'); 
+  });
+  $('#all-morning-box').on('ifUnchecked', function (event) {
+      $('input').iCheck('uncheck');
+  });
+  
+  $('#all-afternoon-box').on('ifChecked', function (event){  
+      $('.morning-box').iCheck('uncheck');   
+      $('.afternoon-box').iCheck('check');
+      $('.evening-box').iCheck('uncheck');
+  });
+  $('#all-afternoon-box').on('ifUnchecked', function (event) { 
+      $('input').iCheck('uncheck');
+  });
+  
+  $('#all-evening-box').on('ifChecked', function (event){
+      $('.morning-box').iCheck('uncheck');   
+      $('.afternoon-box').iCheck('uncheck');
+      $('.evening-box').iCheck('check');
+  });
+  $('#all-evening-box').on('ifUnchecked', function (event) {
+      $('input').iCheck('uncheck');
+  });
+  
+  $( document ).ready(function() {
+    $('.select2').trigger('update');
+  });
+
   $('input[id$="ad-duration"]').inputmask("9999", {
     placeholder: "__________", 
     insertMode: false, 
