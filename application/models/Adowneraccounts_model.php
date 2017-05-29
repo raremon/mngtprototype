@@ -57,6 +57,10 @@ class Adowneraccounts_model extends CI_Model
 				$this->db->where("owner_id", $row['owner_id']);
 				$this->db->update($this->table, $row);
 				
+				// Unsets the password
+				unset($row['owner_upass']);
+				unset($password);
+				
 				return $row;
 			}
 			// Passwords do not match
