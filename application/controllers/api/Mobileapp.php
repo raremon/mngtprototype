@@ -181,7 +181,7 @@ class Mobileapp extends REST_Controller {
 		// http://[::1]/star8/api/mobileapp/gettimeslots
 		
 		// Goes to model to query all time slots
-		$result = $this->Timeslots->show();
+		$result = $this->Timeslots->read();
 		$this->response($result);
 	}
 	

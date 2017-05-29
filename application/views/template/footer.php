@@ -1,4 +1,5 @@
           </section>
+          </section>
           </div>
 
           <!-- Main Footer -->
@@ -37,6 +38,7 @@
                   </li>-->
                 </ul>
                 <!-- /.control-sidebar-menu -->
+<!--
 
                 <h3 class="control-sidebar-heading">Tasks Progress</h3>
                 <ul class="control-sidebar-menu">
@@ -55,7 +57,8 @@
                     </a>
                   </li>
                 </ul>
-                <!-- /.control-sidebar-menu -->
+                 /.control-sidebar-menu 
+-->
 
               </div>
               <!-- /.tab-pane -->
@@ -67,6 +70,7 @@
                 <form method="post">
                   <h3 class="control-sidebar-heading">General Settings</h3>
 
+<!--
                   <div class="form-group">
                     <label class="control-sidebar-subheading">
                       Report panel usage
@@ -77,6 +81,7 @@
                       Some information about this general settings option
                     </p>
                   </div>
+-->
                   <!-- /.form-group -->
                 </form>
               </div>
