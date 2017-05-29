@@ -17,7 +17,7 @@
 		// R E A D
 		public function show_Region()
 		{
-			$this->db->select("region_id, region_name, created_at");
+			$this->db->select("region_id, region_name, region_abbr, created_at");
 			$this->db->from($this->table);
 			$query=$this->db->get();
 			return $query->result_array();
@@ -25,7 +25,7 @@
 
 		public function get_Region_Name($region_id)
 		{
-			$this->db->select("region_name");
+			$this->db->select("region_abbr, region_name");
 			$this->db->from($this->table);
 			$this->db->where('region_id', $region_id);
 			$query = $this->db->get();
@@ -35,7 +35,7 @@
 		// U P D A T E
 		public function edit_Region($region_id)
 		{
-			$this->db->select("region_id, region_name");
+			$this->db->select("region_id, region_name, region_abbr");
 			$this->db->from($this->table);
 			$this->db->where('region_id', $region_id);
 			$query = $this->db->get();

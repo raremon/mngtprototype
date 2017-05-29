@@ -231,3 +231,12 @@ tbody > tr > td{
     background-color: #339440;
     margin-left: -18px;
 }
+/* messages [tagging: Paul] */
+.success-message{
+    /*success message ( YUNG LUMALABAS SA MODAL PAGKASAVE )*/
+}
+
+.message-name{
+    /*message name ( YUNG MISMONG PANGALAN NUNG NASAVE )*/
+    font-weight: bold;
+}

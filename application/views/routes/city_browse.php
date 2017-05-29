@@ -106,7 +106,7 @@
         $('.update').removeAttr('disabled');
         $('input[name="city_id"]').val(data.city_id);
         $('input[name="city_name"]').val(data.city_name);
-        $('select[name="region_id"]').val(data.region_id);
+        $('select[name="region_id"]').val(data.region_id).trigger('change');
       }
     })
   }
