@@ -27,9 +27,16 @@
 			$this->db->from($this->table);
 			$this->db->where($this->id, $advertiser_id);
 			$account = $this->db->get();
-			return $account->result_array();
+			return $account->row_array();
 		}
 		
+		public function get_email($advertiser_id){
+			$this->db->select('advertiser_email');
+			$this->db->from($this->table);
+			$this->db->where($this->id, $advertiser_id);
+			$account = $this->db->get();
+			return $account->row_array();
+		}
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
