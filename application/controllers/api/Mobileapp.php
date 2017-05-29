@@ -11,7 +11,10 @@ class Mobileapp extends REST_Controller {
 		$this->load->model('Locations_model', 'Locations');
 		$this->load->model('Routes_model', 'Routes');
 		$this->load->model('Timeslots_model', 'Timeslots');
-		//$this->load->model('Order_schedule_model', 'Orders');
+		$this->load->model('Orders_model', 'Orders');
+		$this->load->model('Order_slots_model', 'Order_slots');
+		$this->load->model('Order_route_model', 'Order_routes');
+		$this->load->model('Timeslots_model', 'Timeslots');
 	}
 	
 	// ----------------  LOGIN FUNCTIONS  ---------------- //
@@ -185,6 +188,27 @@ class Mobileapp extends REST_Controller {
 		$this->response($result);
 	}
 	
+	public function getapprovedorders_get(){
+		/* JSON method to get all approved orders for Android app */
+		// http://[::1]/star8/api/mobileapp/getapprovedorders
+		
+		// Goes to model to get all approved orders
+		$result = $this->Orders->getapproved();
+		foreach($result as &$value){
+			// Goes to model to add corresponding order slots
+			$value['order_slots'] = $this->Order_slots->get_by_order_id($value['order_id']);
+		}
+		$this->response($result);
+	}
+	
+	public function getorderslots_get(){
+		/* JSON method to get all order slots for Android app */
+		// http://[::1]/star8/api/mobileapp/getorderslots
+		
+		// Goes to model to get all order slots
+		$result = $this->Order_slots->read();
+		$this->response($result);
+	}
 	// ----------------  FORM DATA SUBMISSION FUNCTIONS  ---------------- //	
 	public function putrequestschedule_post(){
 		/* JSON method to submit a schedule request from Android app */
