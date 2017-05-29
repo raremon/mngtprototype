@@ -7,6 +7,8 @@ class Jschedule extends REST_Controller {
         parent::__construct();
 		$this->load->model('schedules_model','Schedule');
 		$this->load->model('nschedules_model', 'Nschedule');		
+		$this->load->model('timeslots_model', 'Timeslots');
+		
     }
 		
 	public function index_get() {
@@ -42,15 +44,42 @@ class Jschedule extends REST_Controller {
 		$this->response($response);
 	}
 
+	public function schedules_get(){
+		
+		$d = $this->get();
+		
+		$this->load->library('dynamic_schedule');
+		
+		$timeslots = $this->Timeslots->read();
+		
+		$date = date("Y-m-d");
+		
+		$schedule = array();
+		
+		foreach( $timeslots as $t ){
+			
+			$list_per_hour = $this->dynamic_schedule->generateAdHour($t['tslot_id'], $date, $d['route']);
+			
+			$schedule = array_merge($schedule, $list_per_hour);
+
+		}
+		
+		$this->response($schedule);
+
+		
+	}
+	
 	public function routeschedules_get(){
 		
 		$d = $this->get();
 			
-		if( isset($d['timeslot']) && is_numeric($d['timeslot']) && is_numeric($d['today']) ){
+		// if( isset($d['timeslot']) && is_numeric($d['timeslot']) && is_numeric($d['today']) ){
 			
-			$where = array('status'=>0,'timeslot'=>$d['timeslot']);
-		
-			$ads = $this->Nschedule->getSchedules($where,$d['today']);
+			// $where = array('status'=>0,'timeslot'=>$d['timeslot']);
+			$where = array();
+			$today = date("Y-m-d");
+			
+			$ads = $this->Nschedule->getSchedules($where,$today);
 			
 			$timeslot = number_format($d['timeslot'],2,':','');
 			$time2 = number_format($d['timeslot']+1,2,':','');
@@ -81,10 +110,10 @@ class Jschedule extends REST_Controller {
 			
 			$response = $listing;
 
-		}
-		else{
-			$response = array('message' => 'No schedule to retrieve.');
-		}
+		// }
+		// else{
+			// $response = array('message' => 'No schedule to retrieve.');
+		// }
 		
 		$this->response($response);
 		
