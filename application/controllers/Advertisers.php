@@ -143,7 +143,7 @@ class Advertisers extends MY_Controller {
 					$rows['advertiser_contact'],
 					$rows['advertiser_email'],
 					'<a href="'.$rows['advertiser_website'].'" class="btn btn-sm btn-block btn-info" target="_blank">'.$rows['advertiser_name'].'\'s Website</a>',
-					$rows['advertiser_description'],
+					$rows['info'].' ... ',
 
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_advertiser('."'".$rows['advertiser_id']."'".')">Edit</a>'.
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_advertiser('."'".$rows['advertiser_id']."'".')">Delete</a>'
