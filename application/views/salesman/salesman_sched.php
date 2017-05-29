@@ -287,7 +287,7 @@
                 </div>  
                 <div class="col-md-12">
                       <div class="form-group">
-                      <label>Salesman/Agent:</label>
+                      <label>Sales Agent:</label>
                       <select id="#" name="#" class="form-control select2" style="width:100%;">
                       </select>
                       </div>  
@@ -358,35 +358,39 @@
     });
     
     $('#all-timeslot-box').on('ifChecked', function (event){
-        $('.morning-box').iCheck('toggle');   
-        $('.afternoon-box').iCheck('toggle');
-        $('.evening-box').iCheck('toggle');
+        $('.morning-box').iCheck('check');   
+        $('.afternoon-box').iCheck('check');
+        $('.evening-box').iCheck('check');
     });
     $('#all-timeslot-box').on('ifUnchecked', function (event) {
-        $('.morning-box').iCheck('toggle');   
-        $('.afternoon-box').iCheck('toggle');
-        $('.evening-box').iCheck('toggle');
+        $('input').iCheck('uncheck');   
     });
     
     $('#all-morning-box').on('ifChecked', function (event){
-        $('.morning-box').iCheck('toggle');   
+        $('.morning-box').iCheck('check');   
+        $('.afternoon-box').iCheck('uncheck');
+        $('.evening-box').iCheck('uncheck'); 
     });
     $('#all-morning-box').on('ifUnchecked', function (event) {
-        $('.morning-box').iCheck('toggle');   
+        $('input').iCheck('uncheck');
     });
     
     $('#all-afternoon-box').on('ifChecked', function (event){  
-        $('.afternoon-box').iCheck('toggle');
+        $('.morning-box').iCheck('uncheck');   
+        $('.afternoon-box').iCheck('check');
+        $('.evening-box').iCheck('uncheck');
     });
     $('#all-afternoon-box').on('ifUnchecked', function (event) { 
-        $('.afternoon-box').iCheck('toggle');
+        $('input').iCheck('uncheck');
     });
     
     $('#all-evening-box').on('ifChecked', function (event){
-        $('.evening-box').iCheck('toggle');
+        $('.morning-box').iCheck('uncheck');   
+        $('.afternoon-box').iCheck('uncheck');
+        $('.evening-box').iCheck('check');
     });
     $('#all-evening-box').on('ifUnchecked', function (event) {
-        $('.evening-box').iCheck('toggle');
+        $('input').iCheck('uncheck');
     });
     
   $('input[id$="ad-duration"]').inputmask("9999", {
