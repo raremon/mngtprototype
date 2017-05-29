@@ -1,3 +1,5 @@
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJAq_K8XorLcD2nKKsrmB7BserF3Wh3Ss&libraries=places" type="text/javascript"></script>
+
 <div class="modal fade" id="location-box" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -9,6 +11,8 @@
         <div class="container-fluid">
           <div class="col-md-12">
             <div id="location-message"></div>
+
+            <div id="map-canvas"> </div>
             <?php echo form_open('welcome', array('id'=>'location')); ?>
             <div class="form-group">
               <input type="text" name="location_id" class="form-control hidden"/>
@@ -35,6 +39,12 @@
             <select data-placeholder="No cities in this region" name="city_id" id="city" class="select2 form-control">
             </select>
             <a class="btn btn-link pull-right" href="<?php echo site_url('cities/add') ?>">Add City</a>
+          </div>
+          <div class="form-group hidden">
+            <input type="text" name="latitude" id="lat" value="14.58738368298855" class="form-control"/>
+          </div>
+          <div class="form-group hidden">
+            <input type="text" name="longitude" id="lng" value="120.98392539999998" class="form-control"/>
           </div>
           <div class="form-group">
             <label>Location Name</label>
@@ -71,7 +81,7 @@
               <tr>
                 <th>LOCATION NAME</th>
                 <th>CITY NAME</th>
-                <th>DATE CREATED</th>
+                <th>LOCATION</th>
                 <th></th>
               </tr>
             </thead>
@@ -86,7 +96,7 @@
   </div>
 </div>
 <script type="text/javascript">
- $(".select2").select2();
+  $(".select2").select2();
   $('.select2-selection__rendered').removeAttr('title');
   var city = [];
   <?php 
@@ -118,8 +128,7 @@
     {
       if(city[a][0] == city_id)
       {
-        $('#region_name').val(city[a][2]);
-        $('#region_name').change();
+        $('#region_name').val(city[a][2]).trigger('change');
       }
     }
   }
@@ -153,7 +162,7 @@
     ;
     if(filtered.length<1)
     {
-      $('.save')
+      $('.update')
         .prop('disabled', true)
       ;
     }
@@ -164,11 +173,10 @@
           .append($('<option>', { value : value[0] })
           .text(value[1])); 
       });
-      $('.save')
+      $('.update')
         .prop('disabled', false)
       ;
     }
-    $('.chosen-select').chosen("destroy").chosen();
   }
 
   $( "#region_name" ).change(function() {
@@ -186,6 +194,8 @@
     }
   })
   // U P D A T E
+  var xlat = 14.58738368298855;
+  var ylng = 120.98392539999998;
   function edit_location(id) {
     $('#location-box').modal('show');
     $.ajax({
@@ -200,8 +210,14 @@
         $('input[name="location_name"]').val(data.location_name);
         find(data.city_id);
 
-        $('select[name="city_id"]').val(data.city_id);
-        $('select[name="city_id"]').trigger("chosen:updated");
+        $('select[name="city_id"]').val(data.city_id).trigger('change');
+        $('input[name="latitude"]').val(data.latitude);
+        $('input[name="longitude"]').val(data.longitude);
+        xlat = data.latitude;
+        ylng = data.longitude;
+        // var location = new google.maps.LatLng(xlat, ylng);
+        // map.setCenter(location);
+        // marker.setPosition(location);
       }
     })
   }
@@ -294,6 +310,57 @@ function delete_location(id, name) {
   }
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
+  ////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////
+  //        G  O  O  G  L  E    M  A  P  S    A  P  I           //
+  ////////////////////////////////////////////////////////////////
+
+
+  var map;
+  var marker;
+  var searchBox;
+  var szoom;
+
+  function init() {
+    // Zoom Level
+    szoom = 17;
+    // Map
+    map = new google.maps.Map( document.getElementById('map-canvas'),{
+      center:{
+        lat: parseFloat(xlat),
+        lng: parseFloat(ylng)
+      },
+      zoom:szoom
+    });
+    // Marker
+    marker = new google.maps.Marker({
+      position:{
+        lat: parseFloat(xlat),
+        lng: parseFloat(ylng)
+      },
+      map:map,
+      draggable: true
+    });
+    // Marker Drag
+    google.maps.event.addListener(marker,'dragend',function(){
+      setMarker();
+    });
+  }
+
+  // Set Marker function
+  function setMarker()
+  {
+    var xlatitude = marker.getPosition().lat();
+    var ylongitude = marker.getPosition().lng();
+    $('#lat').val(xlatitude);
+    $('#lng').val(ylongitude);
+  }
+  $('#location-box').on('shown.bs.modal', function(){
+    init();
+  });
+  ////////////////////////////////////////////////////////////////
+  //E  N  D    O  F    G  O  O  G  L  E    M  A  P  S    A  P  I//
   ////////////////////////////////////////////////////////////////
   // END OF LOCATION BROWSE JAVASCRIPT
 </script>

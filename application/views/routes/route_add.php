@@ -179,8 +179,6 @@
           .text(value[1])); 
       });
     }
-    $('#city_from').chosen("destroy").chosen();
-    $('#location_from').chosen("destroy").chosen();
   }
 
   function filterLocationFrom() {
@@ -223,7 +221,6 @@
           .text(value[1])); 
       });
     }
-    $('#location_from').trigger("chosen:updated");
   }
 
   function filterCityTo() {
@@ -267,8 +264,6 @@
           .text(value[1])); 
       });
     }
-    $('#city_to').chosen("destroy").chosen();
-    $('#location_to').chosen("destroy").chosen();
   }
 
   function filterLocationTo() {
@@ -299,7 +294,6 @@
       .end()
     ;
     locationFromTrim();
-    console.log(filteredLocationTo.length);
     if(filteredLocationTo.length<1)
     {
       $('.save')
@@ -314,10 +308,7 @@
           .text(value[1])); 
       });
     }
-    $('#location_to').trigger("chosen:updated");
   }
-
-  $('#region_to').chosen();
 
   $( "#region_to" ).change(function() {
     $('.save').prop('disabled', false);
@@ -327,7 +318,6 @@
     var tempFrom = $( "#location_from" ).val();
     filterLocationFrom();
     $("#location_from").val(tempFrom);
-    $('#location_from').trigger("chosen:updated");
   });
 
   $( "#city_to" ).change(function() {
@@ -337,7 +327,6 @@
     var tempFrom = $( "#location_from" ).val();
     filterLocationFrom();
     $("#location_from").val(tempFrom);
-    $('#location_from').trigger("chosen:updated");
   });
 
   $( "#location_to" ).change(function() {
@@ -345,15 +334,11 @@
     var tempTo = $( "#location_to" ).val();
     filterLocationTo();
     $("#location_to").val(tempTo);
-    $('#location_to').trigger("chosen:updated");
 
     var tempFrom = $( "#location_from" ).val();
     filterLocationFrom();
     $("#location_from").val(tempFrom);
-    $('#location_from').trigger("chosen:updated");
   });
-
-  $('#region_from').chosen();
 
   $( "#region_from" ).change(function() {
     $('.save').prop('disabled', false);
@@ -363,7 +348,6 @@
     var tempTo = $( "#location_to" ).val();
     filterLocationTo();
     $("#location_to").val(tempTo);
-    $('#location_to').trigger("chosen:updated");
   });
 
   $( "#city_from" ).change(function() {
@@ -373,7 +357,6 @@
     var tempTo = $( "#location_to" ).val();
     filterLocationTo();
     $("#location_to").val(tempTo);
-    $('#location_to').trigger("chosen:updated");
   });
 
   $( "#location_from" ).change(function() {
@@ -381,13 +364,10 @@
     var tempFrom = $( "#location_from" ).val();
     filterLocationFrom();
     $("#location_from").val(tempFrom);
-    $('#location_from').trigger("chosen:updated");
 
     var tempTo = $( "#location_to" ).val();
     filterLocationTo();
     $("#location_to").val(tempTo);
-    $('#location_to').trigger("chosen:updated");
-    // NOT WORKING, KELANGAN DI MAGBABAGO YUNG PAREHONG INPUT
   });
 
   function locationToTrim() {

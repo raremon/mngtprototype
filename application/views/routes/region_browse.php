@@ -14,6 +14,10 @@
                 <input type="text" name="region_id" class="form-control hidden"/>
               </div>
               <div class="form-group">
+                <label>Region Abbreviation</label>
+                <input type="text" name="region_abbr" class="form-control" placeholder="Enter Region Abbreviation"/>
+              </div>
+              <div class="form-group">
                 <label>Region Name</label>
                 <input type="text" name="region_name" class="form-control" placeholder="Enter Region Name"/>
               </div>
@@ -44,6 +48,7 @@
           <table id="region_data" class="table table-hover table-bordered">
             <thead>
               <tr>
+                <th>REGION ABBREVIATION</th>
                 <th>REGION NAME</th>
                 <th>DATE CREATED</th>
                 <th></th>
@@ -88,6 +93,7 @@
       success:function (data) {
         $('.update').removeAttr('disabled');
         $('input[name="region_id"]').val(data.region_id);
+        $('input[name="region_abbr"]').val(data.region_abbr);
         $('input[name="region_name"]').val(data.region_name);
       }
     })
