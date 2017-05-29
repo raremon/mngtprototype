@@ -43,6 +43,7 @@ class Dynamic_schedule {
 
 				$filler = $this->getFiller();
 				$i -= $filler['totalAirTime'];
+				$filler['timeslot'] = $timeslot;
 				$rundown[] = $filler;
 				$x++;
 
@@ -64,6 +65,7 @@ class Dynamic_schedule {
 						for($z = 0; $z < 2; $z++) {
 							$filler = $this->getFiller();
 							$i -= $filler['totalAirTime'];
+							$filler['timeslot'] = $timeslot;
 							$display[] = $filler;
 						}
 					} else {
@@ -83,6 +85,7 @@ class Dynamic_schedule {
 								while($fillerCount > 0) {
 									$filler = $this->getFiller();
 									$i -= $filler['totalAirTime'];
+									$filler['timeslot'] = $timeslot;
 									$display[] = $filler;
 									$fillerCount--;
 								}
@@ -95,6 +98,7 @@ class Dynamic_schedule {
 					while($fillerCount > 0) {
 						$filler = $this->getFiller();
 						$i -= $filler['totalAirTime'];
+						$filler['timeslot'] = $timeslot;
 						$display[] = $filler;
 						$fillerCount--;
 					}
