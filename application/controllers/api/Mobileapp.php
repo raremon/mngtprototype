@@ -217,6 +217,16 @@ class Mobileapp extends REST_Controller
 		$this->response($result);
 	}
 	
+	public function getorders_get()
+	{
+		/* JSON method to get all orders for Android app */
+		// http://[::1]/star8/api/mobileapp/getorders
+		
+		// Goes to model to get all orders
+		$result = $this->Orders->read();
+		$this->response($result);
+	}
+	
 	public function getapprovedorders_get()
 	{
 		/* JSON method to get all approved orders for Android app */
