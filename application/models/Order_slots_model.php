@@ -20,6 +20,44 @@ class Order_slots_model extends CI_Model
 		$this->db->from($this->table);
 		$this->db->where('tslot_id', $id);
 		$query = $this->db->get();
+
+	public function get_by_id($orderslot_id){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where($id,$orderslot_id);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function get_by_order_id($order_id){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_id',$order_id);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function getnormal(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',1);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function getsplit(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',2);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function getstar8(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',3);
+		$query=$this->db->get();
 		return $query->result_array();
 	}
 	////////////////////////////////////////////////////////////////

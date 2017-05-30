@@ -13,7 +13,7 @@ class Orders_model extends CI_Model
 	private $table = "orders";
 	private $query = "order_id, order_date, sales_id, ad_duration, advertiser_id, ad_id, order_status, status_date, date_start, date_end, created_at";
 	private $id = "order_id";
-
+  
 	public function find_Salesman($id)
 	{
 		$this->db->select("sales_id");
@@ -36,6 +36,29 @@ class Orders_model extends CI_Model
 		$query = $this->db->get();
 		$row = $query->row_array();
 		return $row['ad_duration'];
+	
+	public function getpending(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_status',0);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
+	public function getapproved(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_status',1);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function getcancelled(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_status',2);
+		$query=$this->db->get();
+		return $query->result_array();
 	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
