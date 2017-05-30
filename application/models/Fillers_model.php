@@ -18,7 +18,7 @@ class Fillers_model extends CI_Model{
 
 	public function getFillers($where=null,$orwhere=null){
 
-		$this->db->select('*')
+		$this->db->select('filler_id,filler_title,filler_type,filler_file,filler_duration,created_at,updated,status')
 			->from($this->table);			
 
 		if( isset($where) )

@@ -26,6 +26,19 @@ class Jads extends REST_Controller {
 		$this->response($response);	
 		
 	}
+
+	public function getAds_get() {
+		
+		/* JSON method to return list of ads */
+		
+		$data = $this->get();
+		
+		$where = array();
+		$response = $this->Ads->getAds($where);
+
+		$this->response($response);	
+		
+	}	
 	
 	public function try_get() {
 		
