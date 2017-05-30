@@ -343,7 +343,7 @@
                       
                     <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Drivers</a></li>
 
-                    <li id="browse_salesmen"><a href="<?php echo base_url('salesmen/browse') ?>">Salesmen</a></li>
+                    <li id="browse_salesmen"><a href="<?php echo base_url('salesman/browse') ?>">Salesmen</a></li>
                       
                     <li id="browse_vehicles"><a href="<?php echo base_url('vehicles/browse') ?>">Vehicles</a></li>
 

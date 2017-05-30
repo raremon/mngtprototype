@@ -240,3 +240,10 @@ tbody > tr > td{
     /*message name ( YUNG MISMONG PANGALAN NUNG NASAVE )*/
     font-weight: bold;
 }
+
+.select2-close-mask{
+    z-index: 9999;
+}
+.select2-dropdown{
+    z-index: 9999;
+}
