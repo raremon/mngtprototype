@@ -20,6 +20,7 @@ class Order_slots_model extends CI_Model
 		$this->db->from($this->table);
 		$this->db->where('tslot_id', $id);
 		$query = $this->db->get();
+	}
 
 	public function get_by_id($orderslot_id){
 		$this->db->select($this->query);
