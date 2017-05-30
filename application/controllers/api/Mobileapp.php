@@ -227,6 +227,21 @@ class Mobileapp extends REST_Controller
 		$this->response($result);
 	}
 	
+	public function getordertest_get()
+	{
+		/* JSON method to get all approved orders for Android app */
+		// http://[::1]/star8/api/mobileapp/getapprovedorders
+		
+		// Goes to model to get all approved orders
+		$result = $this->Orders->getpending();
+		foreach($result as &$value)
+		{
+			// Goes to model to add corresponding order slots
+			$value['order_slots'] = $this->Order_slots->get_by_order_id($value['order_id']);
+		}
+		$this->response($result);
+	}
+	
 	public function getapprovedorders_get()
 	{
 		/* JSON method to get all approved orders for Android app */
