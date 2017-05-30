@@ -61,6 +61,11 @@ class Order_slots_model extends CI_Model
 		$this->db->insert($this->table, $data);
 		return TRUE;
 	}
+	public function create_mobile($data)
+	{
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
 	public function read()
 	{
 		$this->db->select($this->query);
