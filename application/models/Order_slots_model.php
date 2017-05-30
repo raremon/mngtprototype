@@ -11,7 +11,7 @@ class Order_slots_model extends CI_Model
 	}
 
 	private $table = "order_slots";
-	private $query = "orderslot_id, order_id, tslot_id, display_type";
+	private $query = "orderslot_id, order_id, tslot_id, display_type, times_repeat";
 	private $id = "orderslot_id";
 
 	////////////////////////////////////////////////////////////////

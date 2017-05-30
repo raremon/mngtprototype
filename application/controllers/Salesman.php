@@ -11,11 +11,18 @@ class Salesman extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('routes_model', 'Route');
+		$this->load->model('locations_model', 'Location');
 		$this->load->model('cities_model', 'City');
 		$this->load->model('regions_model', 'Region');
 
+		$this->load->model('timeslots_model', 'Timeslot');
+
+		$this->load->model('advertisers_model', 'Advertiser');
+
 		$this->load->model('salesmen_model', 'Sales');
 		$this->load->model('orders_model', 'Order');
+		$this->load->model('order_slots_model', 'Tslot');
+		$this->load->model('order_routes_model', 'RouteOrder');
 	}
 			
 	public function schedules()
@@ -54,6 +61,7 @@ class Salesman extends MY_Controller {
 		$data['treeActive'] = 'salesman';
 		$data['childActive'] = '' ;
 
+		//REGION
 		$region_data = $this->Region->show_Region();
 		$data['region'] = array();
 		foreach ($region_data as $rows) {
@@ -61,6 +69,84 @@ class Salesman extends MY_Controller {
 				array(
 					$rows['region_id'],
 					$rows['region_abbr']." : ".$rows['region_name'],
+				)
+			);
+		}
+
+		//CITY
+		$city_data = $this->City->show_City();
+		$data['city'] = array();
+		foreach ($city_data as $rows) {
+			array_push($data['city'],
+				array(
+					$rows['city_id'],
+					$rows['city_name'],
+					$rows['region_id'],
+				)
+			);
+		}
+
+		//LOCATION
+		$location_data = $this->Location->read();
+		$data['location'] = array();
+		foreach ($location_data as $rows) {
+			array_push($data['location'],
+				array(
+					$rows['location_id'],
+					$rows['location_name'],
+					$rows['city_id']
+				)
+			);
+		}
+
+		//ROUTE
+		$route_data = $this->Route->show_Route();
+		$data['route'] = array();
+		foreach ($route_data as $rows) {
+			array_push($data['route'],
+				array(
+					$rows['route_id'],
+					$rows['route_name'],
+					$rows['location_from'],
+					$rows['location_to'],
+				)
+			);
+		}
+
+		//TIMESLOT
+		$timeslot_data = $this->Timeslot->read();
+		$data['timeslot'] = array();
+		foreach ($timeslot_data as $rows) {
+			array_push($data['timeslot'],
+				array(
+					$rows['tslot_id'],
+					$rows['tslot_time'],
+					$rows['tslot_session'],
+					"99%",
+				)
+			);
+		}
+
+		//ADVERTISER
+		$advertiser_data = $this->Advertiser->show_Advertiser();
+		$data['advertiser'] = array();
+		foreach ($advertiser_data as $rows) {
+			array_push($data['advertiser'],
+				array(
+					$rows['advertiser_id'],
+					$rows['advertiser_name'],
+				)
+			);
+		}
+
+		//SALESMAN
+		$sales_data = $this->Sales->read();
+		$data['sales'] = array();
+		foreach ($sales_data as $rows) {
+			array_push($data['sales'],
+				array(
+					$rows['sales_id'],
+					$rows['sales_fname']." ".$rows['sales_lname'],
 				)
 			);
 		}
@@ -161,6 +247,88 @@ class Salesman extends MY_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
 
+	// P L A C E O R D E R
+	public function placeOrder()
+	{
+		$validate = array (
+			array('field'=>'route_selected','label'=>'Selected Routes','rules'=>'trim|required'),
+			array('field'=>'date_start','label'=>'Start Date','rules'=>'trim|required'),
+			array('field'=>'tslots_selected','label'=>'Timeslots','rules'=>'trim|required'),
+			array('field'=>'advertiser_id','label'=>'Advertiser','rules'=>'trim|required'),
+			array('field'=>'ad_duration','label'=>'Ad Duration','rules'=>'trim|required'),
+			array('field'=>'times_repeat','label'=>'Repeat Times','rules'=>'trim|required'),
+			array('field'=>'sales_id','label'=>'Salesman','rules'=>'trim|required'),
+			array('field'=>'display_type','label'=>'Display Type','rules'=>'trim|required'),
+		);
+
+		$this->form_validation->set_rules($validate);
+		if ($this->form_validation->run()===FALSE) 
+		{
+			$info['success']=FALSE;
+			$info['errors']=validation_errors();
+		}
+		else
+		{
+			$info['success']=TRUE;
+
+			$start = new DateTime($this->input->post('date_start'));
+			if($this->input->post('date_end') != "")
+			{
+				$end = new DateTime($this->input->post('date_end'));
+				$end = $end->format('Y-m-d');
+			}
+			else
+			{
+				$end = null;
+			}
+
+			$order=array(
+				'sales_id'=>$this->input->post('sales_id'),
+				'ad_duration'=>$this->input->post('ad_duration'),
+				'advertiser_id'=>$this->input->post('advertiser_id'),
+				'date_start'=>$start->format('Y-m-d'),
+				'date_end'=>$end,
+				'ad_id'=>0,
+				'order_status'=>0,
+			);
+
+			$order_id = $this->Order->create($order);
+			$selected_tslot = json_decode($this->input->post('tslots_selected'), TRUE);
+			foreach($selected_tslot as $row)
+			{
+				$tslot = array(
+					'order_id'=>$order_id,
+					'tslot_id'=>$row,
+					'display_type'=>$this->input->post('display_type'),
+					'times_repeat'=>$this->input->post('times_repeat'),
+				);
+				$this->Tslot->create($tslot);
+			}
+
+			$selected_route = json_decode($this->input->post('route_selected'), TRUE);
+			if(count($selected_route) < 2)
+			{
+				$routes = array(
+					'order_id'=>$order_id,
+					'route_id'=>$selected_route,
+				);
+				$this->RouteOrder->create($routes);
+			}
+			else
+			{
+				foreach($selected_route as $row)
+				{
+					$routes = array(
+						'order_id'=>$order_id,
+						'route_id'=>$row,
+					);
+					$this->RouteOrder->create($routes);
+				}
+			}
+			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'> Order # ".$order_id."</span>!</p>";
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($info));
+	}
 
 	// R E A D
 	public function show()
