@@ -43,11 +43,6 @@ class Orders_model extends CI_Model
 	public function create($data)
 	{
 		$this->db->insert($this->table, $data);
-		return TRUE;
-	}
-	
-	public function create_mobile(){
-		$this->db->insert($this->table, $data);
 		return $this->db->insert_id();
 	}
 	

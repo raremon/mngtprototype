@@ -299,17 +299,17 @@ class Mobileapp extends REST_Controller
 		if( isset($data['sales_id']) || isset($data['advertiser_id']) )
 		{	
 			// Submits first part of data to orders_model and returns order id
-			$order_id = $this->Orders->create_mobile($data1);
+			$order_id = $this->Orders->create($data1);
 			if( $order_id > 0 )
 			{
 				// Submits second part of data to order_routes model and returns orderroutes id
 				$data2['order_id'] = $order_id;
-				$orderroutes_id = $this->Order_routes->create_mobile($data2);
+				$orderroutes_id = $this->Order_routes->create($data2);
 				if( $orderroutes_id > 0 )
 				{
 					// Submits third part of data to order slots model and returns orderslot id
 					data3['order_id'] = $order_id;
-					$orderslot_id = $this->Order_slots->create_mobile($data3);	
+					$orderslot_id = $this->Order_slots->create($data3);	
 					if($orderslot_id > 0)
 					{
 						// If entries are successful
