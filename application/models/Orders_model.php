@@ -27,6 +27,16 @@ class Orders_model extends CI_Model
 	        return false;
 	    }
 	}	
+
+	public function get_Time($id)
+	{
+		$this->db->select('ad_duration');
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['ad_duration'];
+	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////

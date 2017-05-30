@@ -14,6 +14,14 @@ class Order_slots_model extends CI_Model
 	private $query = "orderslot_id, order_id, tslot_id, display_type, times_repeat";
 	private $id = "orderslot_id";
 
+	public function find_Orders($id)
+	{
+		$this->db->select('order_id');
+		$this->db->from($this->table);
+		$this->db->where('tslot_id', $id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////

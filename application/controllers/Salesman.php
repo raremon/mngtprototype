@@ -117,12 +117,20 @@ class Salesman extends MY_Controller {
 		$timeslot_data = $this->Timeslot->read();
 		$data['timeslot'] = array();
 		foreach ($timeslot_data as $rows) {
+			$orders = $this->Tslot->find_Orders($rows['tslot_id']);
+			$total_time = 0;
+			foreach ($orders as $order_id){
+				$total_time = $total_time + $this->Order->get_Time($order_id['order_id']);
+			}
+			$available_time = round(((3600 - $total_time)/3600)*100, 2);
+			// FIND TIMESLOT ID IN ORDER_SLOT
+			// IN EACH ORDER_SLOT FOUND, GET AD_DURATION IN ORDERS
 			array_push($data['timeslot'],
 				array(
 					$rows['tslot_id'],
 					$rows['tslot_time'],
 					$rows['tslot_session'],
-					"99%",
+					$available_time." %",
 				)
 			);
 		}
