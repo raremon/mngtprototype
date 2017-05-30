@@ -36,6 +36,7 @@ class Orders_model extends CI_Model
 		$query = $this->db->get();
 		$row = $query->row_array();
 		return $row['ad_duration'];
+	}
 	
 	public function getpending(){
 		$this->db->select($this->query);
