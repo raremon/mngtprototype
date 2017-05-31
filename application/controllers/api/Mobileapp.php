@@ -307,7 +307,7 @@ class Mobileapp extends REST_Controller
 				if( $orderroutes_id > 0 )
 				{
 					// Submits third part of data to order slots model and returns orderslot id
-					data3['order_id'] = $order_id;
+					$data3['order_id'] = $order_id;
 					$orderslot_id = $this->Order_slots->create($data3);	
 					if($orderslot_id > 0)
 					{
