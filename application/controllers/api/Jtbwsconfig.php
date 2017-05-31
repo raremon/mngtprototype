@@ -37,7 +37,7 @@ class Jtbwsconfig extends REST_Controller {
 		if( isset($d['link']) && isset($d['function']) ){
 
 			//check if record already exists
-			$where = array('WsLink'=>$d['link'],'WsFunction'=>$d['function']);
+			$where = array('WsLink'=>$d['link'],'WsFunction'=>$d['function'],'route_id'=>$d['route']);
 			$check = $this->Tbwsconfig->get_Data($where);
 		
 			if( count($check)>0 ){ //update/replace old data
@@ -47,7 +47,8 @@ class Jtbwsconfig extends REST_Controller {
 					
 				$record = array(
 							'WsLink' => $d['link'],
-							'WsFunction' => $d['function']
+							'WsFunction' => $d['function'],
+							'route_id' => $d['route']
 							);
 								
 				$result = $this->Tbwsconfig->save_Data($record);					

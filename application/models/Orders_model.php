@@ -13,6 +13,30 @@ class Orders_model extends CI_Model
 	private $table = "orders";
 	private $query = "order_id, order_date, sales_id, ad_duration, advertiser_id, ad_id, order_status, status_date, date_start, date_end, created_at";
 	private $id = "order_id";
+  
+	public function find_Salesman($id)
+	{
+		$this->db->select("sales_id");
+		$this->db->from($this->table);
+		$this->db->where('sales_id', $id);
+		$query=$this->db->get();
+		if ($query->num_rows() > 0){
+	        return true;
+	    }
+	    else{
+	        return false;
+	    }
+	}	
+
+	public function get_Time($id)
+	{
+		$this->db->select('ad_duration');
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['ad_duration'];
+	}
 	
 	public function getpending(){
 		$this->db->select($this->query);
@@ -43,8 +67,9 @@ class Orders_model extends CI_Model
 	public function create($data)
 	{
 		$this->db->insert($this->table, $data);
-		return TRUE;
+		return $this->db->insert_id();
 	}
+	
 	public function read()
 	{
 		$this->db->select($this->query);

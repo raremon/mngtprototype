@@ -181,6 +181,7 @@ class Routes extends MY_Controller {
 	public function showRoute()
 	{
 		$route_table = $this->Route->show_Route();
+		$ctr = 0;
 		$data = array();
 		foreach ($route_table as $rows) {
 			$location_from = $this->Location->get_Name( $rows['location_from'] );
@@ -237,6 +238,7 @@ class Routes extends MY_Controller {
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_route('."'".$rows['route_id']."'".')">Delete</a>'
 				)
 			);
+			$ctr += 1;
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 	}

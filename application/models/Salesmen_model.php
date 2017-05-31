@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Order_routes_model extends CI_Model
+class Salesmen_model extends CI_Model
 {
 	// Constructor
 	public function __construct()
@@ -10,9 +10,9 @@ class Order_routes_model extends CI_Model
 		parent::__construct();
 	}
 
-	private $table = "order_routes";
-	private $query = "orderroutes_id, order_id, route_id, created_at";
-	private $id = "orderroutes_id";
+	private $table = "salesmen";
+	private $query = "sales_id, sales_fname, sales_lname, sales_contactno, sales_email, created_at";
+	private $id = "sales_id";
 
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
@@ -20,7 +20,7 @@ class Order_routes_model extends CI_Model
 	public function create($data)
 	{
 		$this->db->insert($this->table, $data);
-		return $this->db->insert_id();
+		return TRUE;
 	}
 	public function read()
 	{
@@ -54,4 +54,4 @@ class Order_routes_model extends CI_Model
 	////////////////////////////////////////////////////////////////
 }
 
-// END OF ORDER ROUTES MODEL
+// END OF SALESMEN MODEL

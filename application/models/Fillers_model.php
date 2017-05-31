@@ -18,7 +18,7 @@ class Fillers_model extends CI_Model{
 
 	public function getFillers($where=null,$orwhere=null){
 
-		$this->db->select('*')
+		$this->db->select('filler_id,filler_title,filler_type,filler_file,filler_duration,created_at,updated,status')
 			->from($this->table);			
 
 		if( isset($where) )
@@ -48,13 +48,22 @@ class Fillers_model extends CI_Model{
 
 	// R E A D
 	public function show_Filler(){
-		$this->db->select("*");
+		$this->db->select("filler_id, filler_title, filler_description, filler_type, filler_file, filler_duration, created_at");
 		$this->db->from($this->table);
 		$query=$this->db->get();
 		return $query->result_array();
 	}
 
 	// U P D A T E
+	public function edit_Filler($id)
+	{
+		$this->db->select("filler_id, filler_title, filler_file, filler_description");
+		$this->db->from($this->table);
+		$this->db->where('filler_id', $id);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+
 	public function update_Filler($data){
 		$this->db->where(array('filler_id'=>$data['filler_id']));
 		$this->db->update($this->table, $data);
@@ -74,4 +83,4 @@ class Fillers_model extends CI_Model{
 		
 }
 
-// END OF MODEL
+// END OF FILLER MODEL
