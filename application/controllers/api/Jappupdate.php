@@ -9,13 +9,13 @@ class Jappupdate extends REST_Controller {
     }
 		
 	public function index_get() {
-		
+
 		/* JSON method to return updates for the infotainment app/exe */
 		//http://localhost/mngtprototype/api/jappupdate/get/app/001/route/7
 		// Array ( [app] => 001 [route] => 7 )
 		
 		$data = $this->get();
-		
+	
 		// if( isset($data['app']) && isset($data['route']) && is_numeric($data['route']) ){
 		if( isset($data['route']) && is_numeric($data['route']) ){
 			$where = array('tbappupdate.RouteId'=>$data['route']);
@@ -133,23 +133,4 @@ class Jappupdate extends REST_Controller {
 		$this->response($response);		
 	}
 		
-		/* JSON method to return stats of all ads played group by route_id, ad_id, total for AM, PM, EVENING */
-		
-		$data = $this->get();		
-		
-		$where = array(); //conditions to be determined later
-		
-		if( isset($data['from']) && isset($data['to']) ){
-			$from = $data['from'];
-			$to = $data['to'];	
-			$custom_condition = '(date_log>="$from" || date_log<="$to")';			
-		}
-			
-		// $response = $this->AdLogs->getAdLogsTotal($where);
-		$response = $this->AdLogs->getAdLogsTotal($where,NULL,$custom_condition);
-		
-		$this->response($response);	
-		
-	}		
-	
 }
