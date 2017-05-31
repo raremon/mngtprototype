@@ -16,7 +16,6 @@ class Mobileapp extends REST_Controller
 		$this->load->model('Orders_model', 'Orders');
 		$this->load->model('Order_slots_model', 'Order_slots');
 		$this->load->model('Order_routes_model', 'Order_routes');
-		$this->load->model('Timeslots_model', 'Timeslots');
 	}
 	
 	// ----------------  LOGIN FUNCTIONS  ---------------- //
@@ -284,16 +283,16 @@ class Mobileapp extends REST_Controller
 		$data = $this->post();
 		
 		// Splits $data to three parts
-		$data1['sales_id'] = $data['sales_id'];
-		$data1['ad_duration'] = $data['ad_duration'];
+		$data1['sales_id']      = $data['sales_id'];
+		$data1['ad_duration']   = $data['ad_duration'];
 		$data1['advertiser_id'] = $data['advertiser_id'];
-		$data1['order_status'] = 0;
-		$data1['date_start'] = $data['date_start'];
-		$data1['date_end'] = $data['date_end'];
+		$data1['order_status']  = 0;
+		$data1['date_start']    = $data['date_start'];
+		$data1['date_end']      = $data['date_end'];
 		
 		$data2['route_id'] = $data['route_id'];
 		
-		$data3['tslot_id'] = $data['tslot_id'];
+		$data3['tslot_id']     = $data['tslot_id'];
 		$data3['display_type'] = $data['display_type'];
 		
 		if( isset($data['sales_id']) || isset($data['advertiser_id']) )
