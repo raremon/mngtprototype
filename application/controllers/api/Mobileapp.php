@@ -227,6 +227,21 @@ class Mobileapp extends REST_Controller
 		$this->response($result);
 	}
 	
+	public function getordertest_get()
+	{
+		/* JSON method to get all approved orders for Android app */
+		// http://[::1]/star8/api/mobileapp/getapprovedorders
+		
+		// Goes to model to get all approved orders
+		$result = $this->Orders->getpending();
+		foreach($result as &$value)
+		{
+			// Goes to model to add corresponding order slots
+			$value['order_slots'] = $this->Order_slots->get_by_order_id($value['order_id']);
+		}
+		$this->response($result);
+	}
+	
 	public function getapprovedorders_get()
 	{
 		/* JSON method to get all approved orders for Android app */
@@ -252,6 +267,14 @@ class Mobileapp extends REST_Controller
 		$this->response($result);
 	}
 	
+	public function getadvertisers_get(){
+		/* JSON method to get all advertisers for Android app */
+		// http://[::1]/star8/api/mobileapp/getadvertisers
+		
+		// Goes to model to get all order slots
+		$result = $this->Owners->show_Advertiser();
+		$this->response($result);
+	}
 	// ----------------  FORM DATA SUBMISSION FUNCTIONS  ---------------- //	
 	public function putrequestschedule_post()
 	{
@@ -259,17 +282,70 @@ class Mobileapp extends REST_Controller
 		// http://[::1]/star8/api/mobileapp/putrequestschedule
 		
 		$data = $this->post();
-		if( isset($data['user_id']) )
+		
+		// Splits $data to three parts
+		$data1['sales_id'] = $data['sales_id'];
+		$data1['ad_duration'] = $data['ad_duration'];
+		$data1['advertiser_id'] = $data['advertiser_id'];
+		$data1['order_status'] = 0;
+		$data1['date_start'] = $data['date_start'];
+		$data1['date_end'] = $data['date_end'];
+		
+		$data2['route_id'] = $data['route_id'];
+		
+		$data3['tslot_id'] = $data['tslot_id'];
+		$data3['display_type'] = $data['display_type'];
+		
+		if( isset($data['sales_id']) || isset($data['advertiser_id']) )
 		{	
-			// Submits form data to model
-			//$result = $this->Orders->putrequestschedule($data);
+			// Submits first part of data to orders_model and returns order id
+			$order_id = $this->Orders->create($data1);
+			if( $order_id > 0 )
+			{
+				// Submits second part of data to order_routes model and returns orderroutes id
+				$data2['order_id'] = $order_id;
+				$orderroutes_id = $this->Order_routes->create($data2);
+				if( $orderroutes_id > 0 )
+				{
+					// Submits third part of data to order slots model and returns orderslot id
+					data3['order_id'] = $order_id;
+					$orderslot_id = $this->Order_slots->create($data3);	
+					if($orderslot_id > 0)
+					{
+						// If entries are successful
+						$response = 1;
+					}
+					else
+					{
+						// If failure to insert data, deletes previous entries from order_model and order_routes_model
+						$delete['order_id'] = $order_id;
+						$delete2['orderroutes_id'] = $orderroutes_id;
+						$this->Orders->delete($delete);
+						$this->Order_routes->delete($delete2);
+						$response = -1;
+					}
+				}
+				else
+				{
+					// If failure to insert data, deletes previous entry from order_model
+					$delete['order_id'] = $order_id;
+					$this->Orders->delete($delete);
+					$response = -1;
+				}
+			}
+			else
+			{
+				// If failure to insert data
+				$response = -1;
+			}
 		}
 		else
 		{
 			// If direct controller access
-			//$response = -1;
+			$response = -1;
 		}
-		//$this->response($result);
+		// Returns 1 or -1
+		$this->response($response);
 	}
 	
 	public function changepass_post()

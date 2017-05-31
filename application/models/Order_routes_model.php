@@ -20,7 +20,7 @@ class Order_routes_model extends CI_Model
 	public function create($data)
 	{
 		$this->db->insert($this->table, $data);
-		return TRUE;
+		return $this->db->insert_id();
 	}
 	public function read()
 	{
