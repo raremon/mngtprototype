@@ -26,7 +26,22 @@ class Orders_model extends CI_Model
 	    else{
 	        return false;
 	    }
-	}	
+	}
+
+	public function cancelOrder($id)
+	{
+		$date = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
+		$this->db->where(array($this->id=>$id));
+		$this->db->update($this->table, array('order_status'=>2, 'status_date'=>$date->format('Y-m-d H:i:s')));
+		return TRUE;
+	}
+
+	public function acceptOrder($data)
+	{
+		$this->db->where(array($this->id=>$data['order_id']));
+		$this->db->update($this->table, $data);
+		return TRUE;
+	}
 
 	public function get_Time($id)
 	{
