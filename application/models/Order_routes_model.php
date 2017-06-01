@@ -14,6 +14,14 @@ class Order_routes_model extends CI_Model
 	private $query = "orderroutes_id, order_id, route_id, created_at";
 	private $id = "orderroutes_id";
 
+	public function get_by_order_id($order_id){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_id',$order_id);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
