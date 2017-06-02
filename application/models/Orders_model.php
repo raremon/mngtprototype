@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Locations_model extends CI_Model
+class Orders_model extends CI_Model
 {
 	// Constructor
 	public function __construct()
@@ -10,41 +10,54 @@ class Locations_model extends CI_Model
 		parent::__construct();
 	}
 
-	private $table = "locations";
-	private $query = "location_id, city_id, location_name, latitude, longitude, created_at";
-	private $id = "location_id";
-
-	//Find if city exists in Location
-	public function find_City($city_id)
+	private $table = "orders";
+	private $query = "order_id, order_date, sales_id, ad_duration, advertiser_id, ad_id, order_status, status_date, date_start, date_end, created_at";
+	private $id = "order_id";
+  
+	public function find_Salesman($id)
 	{
-		$this->db->select("city_id");
+		$this->db->select("sales_id");
 		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
-		$city=$this->db->get();
-		if ($city->num_rows() > 0){
+		$this->db->where('sales_id', $id);
+		$query=$this->db->get();
+		if ($query->num_rows() > 0){
 	        return true;
 	    }
 	    else{
 	        return false;
 	    }
-	}
+	}	
 
-	//Get name by Location Id
-	public function get_Name($id)
+	public function get_Time($id)
 	{
-		$this->db->select("location_name, latitude, longitude");
+		$this->db->select('ad_duration');
 		$this->db->from($this->table);
-		$this->db->where('location_id', $id);
+		$this->db->where($this->id, $id);
 		$query = $this->db->get();
-		// $row = $query->row_array();
-		return $query->row_array();
+		$row = $query->row_array();
+		return $row['ad_duration'];
+	}
+	
+	public function getpending(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_status',0);
+		$query=$this->db->get();
+		return $query->result_array();
 	}
 
-	//Gets all locations according to a specific city
-	public function get_by_city($city_id){
-		$this->db->select("location_id, location_name, created_at");
+	public function getapproved(){
+		$this->db->select($this->query);
 		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
+		$this->db->where('order_status',1);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function getcancelled(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_status',2);
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -54,8 +67,9 @@ class Locations_model extends CI_Model
 	public function create($data)
 	{
 		$this->db->insert($this->table, $data);
-		return TRUE;
+		return $this->db->insert_id();
 	}
+	
 	public function read()
 	{
 		$this->db->select($this->query);
@@ -88,4 +102,4 @@ class Locations_model extends CI_Model
 	////////////////////////////////////////////////////////////////
 }
 
-// END OF LOCATIONS MODEL
+// END OF ORDERS MODEL

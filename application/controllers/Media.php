@@ -12,6 +12,9 @@ class Media extends MY_Controller {
 
 		$this->load->model('mediaboxes_model', 'Box');
 		$this->load->model('tvs_model', 'TV');
+		$this->load->model('gps_model', 'GPS');
+		$this->load->model('card_readers_model', 'Card');
+
 		$this->load->model('vehicles_model', 'Vehicle');
 		$this->load->model('vehicle_types_model', 'Vehicle_Type');
 
@@ -26,6 +29,7 @@ class Media extends MY_Controller {
 		$data['title']='Assign Media';
 		$data['breadcrumbs']=array
 		(
+			array('View Assigned Tv and Mediabox','Media/browse'),
 			array('Assign Media','Media/assign'),
 		);
 		$data['css']=array
@@ -79,6 +83,28 @@ class Media extends MY_Controller {
 				array(
 					$rows['tv_id'],
 					$rows['tv_serial'],
+				)
+			);
+		}
+
+		$gps_data = $this->GPS->find_Gps();
+		$data['gps'] = array();
+		foreach ($gps_data as $rows) {
+			array_push($data['gps'],
+				array(
+					$rows['gps_id'],
+					$rows['gps_serial'],
+				)
+			);
+		}
+
+		$card_data = $this->Card->find_Card();
+		$data['cards'] = array();
+		foreach ($card_data as $rows) {
+			array_push($data['cards'],
+				array(
+					$rows['card_id'],
+					$rows['card_serial'],
 				)
 			);
 		}
@@ -163,6 +189,24 @@ class Media extends MY_Controller {
 		$this->load->view("template/footer", $data);
 	}
 
+	public function getVehicleInfo($vehicle_id)
+	{
+		$table = $this->Media->get_Info($vehicle_id);
+
+		$box = $this->Box->edit_Mediabox($table['box_id']);
+		$tv = $this->TV->edit_Tv($table['tv_id']);
+		$gps = $this->GPS->edit($table['gps_id']);
+		$card = $this->Card->edit($table['card_id']);
+
+		$data = array(
+			$table['ready_vehicle_id'],
+			array($box['box_id'],$box['box_tag']),
+			array($tv['tv_id'],$tv['tv_serial']),
+			array($gps['gps_id'],$gps['gps_serial']),
+			array($card['card_id'],$card['card_serial']),
+		);
+		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
@@ -175,10 +219,14 @@ class Media extends MY_Controller {
 		// UPDATE VEHICLE['ASSIGNED TO'] == READY_VEHICLE_ID
 		// UPDATE TV['ASSIGNED TO'] == READY_VEHICLE_ID
 		// UPDATE BOX['ASSIGNED TO'] == READY_VEHICLE_ID
+		// UPDATE GPS['ASSIGNED TO'] == READY_VEHICLE_ID
+		// UPDATE CARD READER['ASSIGNED TO'] == READY_VEHICLE_ID
 		$validate = array (
 			array('field'=>'vehicle_id','label'=>'Vehicle','rules'=>'required|is_unique[ready_vehicles.vehicle_id]'),
 			array('field'=>'box_id','label'=>'Mediabox','rules'=>'required|is_unique[ready_vehicles.box_id]'),
 			array('field'=>'tv_id','label'=>'Tv','rules'=>'required|is_unique[ready_vehicles.tv_id]'),
+			array('field'=>'gps_id','label'=>'GPS','rules'=>'required|is_unique[ready_vehicles.gps_id]'),
+			array('field'=>'card_id','label'=>'Card Reader','rules'=>'required|is_unique[ready_vehicles.card_id]'),
 		);
 
 		$this->form_validation->set_rules($validate);
@@ -190,16 +238,39 @@ class Media extends MY_Controller {
 		else
 		{
 			$info['success']=TRUE;
-
+			$box = null;
+			if($this->input->post('box_id') != 0)
+			{
+				$box = $this->input->post('box_id');
+			}
+			$tv = null;
+			if($this->input->post('tv_id') != 0)
+			{
+				$tv = $this->input->post('tv_id');
+			}
+			$gps = null;
+			if($this->input->post('gps_id') != 0)
+			{
+				$gps = $this->input->post('gps_id');
+			}
+			$card = null;
+			if($this->input->post('card_id') != 0)
+			{
+				$card = $this->input->post('card_id');
+			}
 			$data=array(
 				'vehicle_id'=>$this->input->post('vehicle_id'),
-				'box_id'=>$this->input->post('box_id'),
-				'tv_id'=>$this->input->post('tv_id'),
+				'box_id'=>$box,
+				'tv_id'=>$tv,
+				'gps_id'=>$gps,
+				'card_id'=>$card,
 			);
 			$media_id = $this->Media->save_Media($data);
 			$this->Vehicle->assign_Media($media_id, $this->input->post('vehicle_id'));
 			$this->Box->assign_Media($media_id, $this->input->post('box_id'));
 			$this->TV->assign_Media($media_id, $this->input->post('tv_id'));
+			$this->GPS->assign_Media($media_id, $this->input->post('gps_id'));
+			$this->Card->assign_Media($media_id, $this->input->post('card_id'));
 			$info['message']="You have successfully saved your data!";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
@@ -216,13 +287,17 @@ class Media extends MY_Controller {
 			$vehicle = $this->Vehicle->edit_Vehicle($rows['vehicle_id']);
 			$box = $this->Box->edit_Mediabox($rows['box_id']);
 			$tv = $this->TV->edit_Tv($rows['tv_id']);
+			$gps = $this->GPS->edit($rows['gps_id']);
+			$card = $this->Card->edit($rows['card_id']);
+
 			array_push($data,
 				array(
 					$vehicle['vehicle_name'],
 					$box['box_tag'],
 					$tv['tv_serial'],
+					$gps['gps_serial'],
+					$card['card_serial'],
 					$creation->format('M / d / Y'),
-					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_media('."'".$rows['ready_vehicle_id']."'".')">Edit</a>'.
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_media('."'".$rows['ready_vehicle_id']."'".')">Delete</a>'
 				)
 			);
@@ -245,6 +320,8 @@ class Media extends MY_Controller {
 			array('field'=>'vehicle_id','label'=>'Vehicle','rules'=>'required'),
 			array('field'=>'box_id','label'=>'Mediabox','rules'=>'required'),
 			array('field'=>'tv_id','label'=>'Tv','rules'=>'required'),
+			array('field'=>'gps_id','label'=>'GPS','rules'=>'required'),
+			array('field'=>'card_id','label'=>'Card Reader','rules'=>'required'),
 		);
 
 		$this->form_validation->set_rules($validate);
@@ -256,12 +333,33 @@ class Media extends MY_Controller {
 		else
 		{
 			$info['success']=TRUE;
-
+			$box = null;
+			if($this->input->post('box_id') != 0)
+			{
+				$box = $this->input->post('box_id');
+			}
+			$tv = null;
+			if($this->input->post('tv_id') != 0)
+			{
+				$tv = $this->input->post('tv_id');
+			}
+			$gps = null;
+			if($this->input->post('gps_id') != 0)
+			{
+				$gps = $this->input->post('gps_id');
+			}
+			$card = null;
+			if($this->input->post('card_id') != 0)
+			{
+				$card = $this->input->post('card_id');
+			}
 			$data=array(
 				'ready_vehicle_id'=>$this->input->post('ready_vehicle_id'),
 				'vehicle_id'=>$this->input->post('vehicle_id'),
-				'box_id'=>$this->input->post('box_id'),
-				'tv_id'=>$this->input->post('tv_id'),
+				'box_id'=>$box,
+				'tv_id'=>$tv,
+				'gps_id'=>$gps,
+				'card_id'=>$card,
 			);
 
 			$media=$this->Media->edit_Media($this->input->post('ready_vehicle_id'));
@@ -269,12 +367,17 @@ class Media extends MY_Controller {
 			$this->Vehicle->unassign_Media($media['ready_vehicle_id'], $media['vehicle_id']);
 			$this->Box->unassign_Media($media['ready_vehicle_id'], $media['box_id']);
 			$this->TV->unassign_Media($media['ready_vehicle_id'], $media['tv_id']);
+			$this->GPS->unassign_Media($media['ready_vehicle_id'], $media['gps_id']);
+			$this->Card->unassign_Media($media['ready_vehicle_id'], $media['card_id']);
+
 
 			$this->Media->update_Media($data);
 
 			$this->Vehicle->assign_Media($media['ready_vehicle_id'], $this->input->post('vehicle_id'));
 			$this->Box->assign_Media($media['ready_vehicle_id'], $this->input->post('box_id'));
 			$this->TV->assign_Media($media['ready_vehicle_id'], $this->input->post('tv_id'));
+			$this->GPS->assign_Media($media['ready_vehicle_id'], $this->input->post('gps_id'));
+			$this->Card->assign_Media($media['ready_vehicle_id'], $this->input->post('card_id'));
 			$info['message']="You have successfully updated your data!";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
@@ -308,6 +411,8 @@ class Media extends MY_Controller {
 				$this->Vehicle->unassign_Media($media['ready_vehicle_id'], $media['vehicle_id']);
 				$this->Box->unassign_Media($media['ready_vehicle_id'], $media['box_id']);
 				$this->TV->unassign_Media($media['ready_vehicle_id'], $media['tv_id']);
+				$this->GPS->unassign_Media($media['ready_vehicle_id'], $media['gps_id']);
+				$this->Card->unassign_Media($media['ready_vehicle_id'], $media['card_id']);
 
 				$this->Media->delete_Media($data);
 				$info['message']='Data Successfully Deleted';
@@ -322,4 +427,4 @@ class Media extends MY_Controller {
 
 }
 
-// END OF BOX CONTROLLER
+// END OF MEDIA ASSIGNMENT CONTROLLER

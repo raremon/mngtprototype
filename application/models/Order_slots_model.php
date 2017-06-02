@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Locations_model extends CI_Model
+class Order_slots_model extends CI_Model
 {
 	// Constructor
 	public function __construct()
@@ -10,41 +10,54 @@ class Locations_model extends CI_Model
 		parent::__construct();
 	}
 
-	private $table = "locations";
-	private $query = "location_id, city_id, location_name, latitude, longitude, created_at";
-	private $id = "location_id";
+	private $table = "order_slots";
+	private $query = "orderslot_id, order_id, tslot_id, display_type, times_repeat";
+	private $id = "orderslot_id";
 
-	//Find if city exists in Location
-	public function find_City($city_id)
+	public function find_Orders($id)
 	{
-		$this->db->select("city_id");
+		$this->db->select('order_id');
 		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
-		$city=$this->db->get();
-		if ($city->num_rows() > 0){
-	        return true;
-	    }
-	    else{
-	        return false;
-	    }
-	}
-
-	//Get name by Location Id
-	public function get_Name($id)
-	{
-		$this->db->select("location_name, latitude, longitude");
-		$this->db->from($this->table);
-		$this->db->where('location_id', $id);
+		$this->db->where('tslot_id', $id);
 		$query = $this->db->get();
-		// $row = $query->row_array();
-		return $query->row_array();
 	}
 
-	//Gets all locations according to a specific city
-	public function get_by_city($city_id){
-		$this->db->select("location_id, location_name, created_at");
+	public function get_by_id($orderslot_id){
+		$this->db->select($this->query);
 		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
+		$this->db->where($id,$orderslot_id);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function get_by_order_id($order_id){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_id',$order_id);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function getnormal(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',1);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function getsplit(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',2);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
+	public function getstar8(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',3);
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -54,7 +67,7 @@ class Locations_model extends CI_Model
 	public function create($data)
 	{
 		$this->db->insert($this->table, $data);
-		return TRUE;
+		return $this->db->insert_id();
 	}
 	public function read()
 	{
@@ -88,4 +101,4 @@ class Locations_model extends CI_Model
 	////////////////////////////////////////////////////////////////
 }
 
-// END OF LOCATIONS MODEL
+// END OF ORDER SLOTS MODEL

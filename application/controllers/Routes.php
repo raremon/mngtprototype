@@ -41,7 +41,7 @@ class Routes extends MY_Controller {
 			array_push($data['region'],
 				array(
 					$rows['region_id'],
-					$rows['region_name'],
+					$rows['region_abbr']." : ".$rows['region_name'],
 				)
 			);
 		}
@@ -104,7 +104,7 @@ class Routes extends MY_Controller {
 			array_push($data['region'],
 				array(
 					$rows['region_id'],
-					$rows['region_name'],
+					$rows['region_abbr']." : ".$rows['region_name'],
 				)
 			);
 		}
@@ -181,6 +181,7 @@ class Routes extends MY_Controller {
 	public function showRoute()
 	{
 		$route_table = $this->Route->show_Route();
+		$ctr = 0;
 		$data = array();
 		foreach ($route_table as $rows) {
 			$location_from = $this->Location->get_Name( $rows['location_from'] );
@@ -189,12 +190,55 @@ class Routes extends MY_Controller {
 				array(
 					$rows['route_name'],
 					$rows['route_description'],
-					$location_from,
-					$location_to,
+					$location_from['location_name']." to ".$location_to['location_name'],
+					"<div id='table-map-canvas-".$ctr."' class='table-canvas'> </div>
+					  <script type='text/javascript'>
+
+					  	var Xmarkers".$ctr." = [
+							[ '".$location_from['location_name']."' , ".$location_from['latitude']." , ".$location_from['longitude']." ],
+							[ '".$location_to['location_name']."' , ".$location_to['latitude']." , ".$location_to['longitude']." ]
+						];
+
+						initialize".$ctr."(Xmarkers".$ctr.");
+
+						function initialize".$ctr."(markers) 
+						{
+							var bounds = new google.maps.LatLngBounds();
+							var mapOptions = {
+							    mapTypeId: 'roadmap',
+							    navigationControl: false,
+							    mapTypeControl: false,
+							    scrollwheel: false,
+							    scaleControl: false,
+							    draggable: false,
+							    disableDefaultUI: true,
+							};
+
+							var map = new google.maps.Map( document.getElementById('table-map-canvas-".$ctr."'), mapOptions);
+							map.setTilt(45);
+
+							for( i = 0; i < markers.length; i++ ) {
+							    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+							    bounds.extend(position);
+							    marker = new google.maps.Marker({
+							        position: position,
+							        map: map,
+							        title: markers[i][0]
+							    });
+							}
+							    map.fitBounds(bounds);
+
+							google.maps.event.addListenerOnce(map, 'zoom_changed', function() {
+							  map.setZoom(map.getZoom()-1);
+							});
+						}
+					  </script>
+					",
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_route('."'".$rows['route_id']."'".')">Edit</a>'.
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_route('."'".$rows['route_id']."'".')">Delete</a>'
 				)
 			);
+			$ctr += 1;
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 	}

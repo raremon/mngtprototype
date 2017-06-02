@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Locations_model extends CI_Model
+class Gps_model extends CI_Model
 {
 	// Constructor
 	public function __construct()
@@ -10,43 +10,29 @@ class Locations_model extends CI_Model
 		parent::__construct();
 	}
 
-	private $table = "locations";
-	private $query = "location_id, city_id, location_name, latitude, longitude, created_at";
-	private $id = "location_id";
+	private $table = "gps";
+	private $query = "gps_id, gps_serial, gps_description, assigned_to, created_at";
+	private $id = "gps_id";
 
-	//Find if city exists in Location
-	public function find_City($city_id)
+	public function find_Gps()
 	{
-		$this->db->select("city_id");
+		$this->db->select("gps_id, gps_serial");
 		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
-		$city=$this->db->get();
-		if ($city->num_rows() > 0){
-	        return true;
-	    }
-	    else{
-	        return false;
-	    }
-	}
-
-	//Get name by Location Id
-	public function get_Name($id)
-	{
-		$this->db->select("location_name, latitude, longitude");
-		$this->db->from($this->table);
-		$this->db->where('location_id', $id);
-		$query = $this->db->get();
-		// $row = $query->row_array();
-		return $query->row_array();
-	}
-
-	//Gets all locations according to a specific city
-	public function get_by_city($city_id){
-		$this->db->select("location_id, location_name, created_at");
-		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
+		$this->db->where('assigned_to', NULL);
 		$query=$this->db->get();
 		return $query->result_array();
+	}
+	public function assign_Media($media_id, $id)
+	{
+		$this->db->where(array($this->id=>$id));
+		$this->db->update($this->table, array('assigned_to'=>$media_id));
+		return TRUE;
+	}
+	public function unassign_Media($media_id, $id)
+	{
+		$this->db->where(array($this->id=>$id));
+		$this->db->update($this->table, array('assigned_to'=>NULL));
+		return TRUE;
 	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
@@ -88,4 +74,4 @@ class Locations_model extends CI_Model
 	////////////////////////////////////////////////////////////////
 }
 
-// END OF LOCATIONS MODEL
+// END OF GPS MODEL

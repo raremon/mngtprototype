@@ -93,6 +93,8 @@
                 <th>VEHICLE NAME</th>
                 <th>MEDIABOX TAG</th>
                 <th>TV SERIAL</th>
+                <th>GPS SERIAL</th>
+                <th>CARD SERIAL</th>
                 <th>DATE CREATED</th>
                 <th></th>
               </tr>

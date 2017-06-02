@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Locations_model extends CI_Model
+class Order_routes_model extends CI_Model
 {
 	// Constructor
 	public function __construct()
@@ -10,51 +10,25 @@ class Locations_model extends CI_Model
 		parent::__construct();
 	}
 
-	private $table = "locations";
-	private $query = "location_id, city_id, location_name, latitude, longitude, created_at";
-	private $id = "location_id";
+	private $table = "order_routes";
+	private $query = "orderroutes_id, order_id, route_id, created_at";
+	private $id = "orderroutes_id";
 
-	//Find if city exists in Location
-	public function find_City($city_id)
-	{
-		$this->db->select("city_id");
+	public function get_by_order_id($order_id){
+		$this->db->select($this->query);
 		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
-		$city=$this->db->get();
-		if ($city->num_rows() > 0){
-	        return true;
-	    }
-	    else{
-	        return false;
-	    }
-	}
-
-	//Get name by Location Id
-	public function get_Name($id)
-	{
-		$this->db->select("location_name, latitude, longitude");
-		$this->db->from($this->table);
-		$this->db->where('location_id', $id);
-		$query = $this->db->get();
-		// $row = $query->row_array();
-		return $query->row_array();
-	}
-
-	//Gets all locations according to a specific city
-	public function get_by_city($city_id){
-		$this->db->select("location_id, location_name, created_at");
-		$this->db->from($this->table);
-		$this->db->where('city_id', $city_id);
+		$this->db->where('order_id',$order_id);
 		$query=$this->db->get();
 		return $query->result_array();
 	}
+	
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
 	public function create($data)
 	{
 		$this->db->insert($this->table, $data);
-		return TRUE;
+		return $this->db->insert_id();
 	}
 	public function read()
 	{
@@ -88,4 +62,4 @@ class Locations_model extends CI_Model
 	////////////////////////////////////////////////////////////////
 }
 
-// END OF LOCATIONS MODEL
+// END OF ORDER ROUTES MODEL

@@ -28,11 +28,11 @@ class Cities extends MY_Controller {
 		);
 		$data['css']=array
 		(
-			
+			// custom css here
 		);
 		$data['script']=array
 		(
-			
+			// custom script here
 		);
 
 		$region_data = $this->Region->show_Region();
@@ -41,7 +41,7 @@ class Cities extends MY_Controller {
 			array_push($data['region'],
 				array(
 					$rows['region_id'],
-					$rows['region_name'],
+					$rows['region_abbr']." : ".$rows['region_name'],
 				)
 			);
 		}
@@ -67,11 +67,11 @@ class Cities extends MY_Controller {
 		);
 		$data['css']=array
 		(
-			
+			// custom css here
 		);
 		$data['script']=array
 		(
-			
+			// custom script here
 		);
 
 		$region_data = $this->Region->show_Region();
@@ -80,7 +80,7 @@ class Cities extends MY_Controller {
 			array_push($data['region'],
 				array(
 					$rows['region_id'],
-					$rows['region_name'],
+					$rows['region_abbr']." : ".$rows['region_name'],
 				)
 			);
 		}
@@ -103,7 +103,7 @@ class Cities extends MY_Controller {
 	public function saveCity()
 	{
 		$validate = array (
-			array('field'=>'city_name','label'=>'City Name','rules'=>'trim|required|min_length[3]'),
+			array('field'=>'city_name','label'=>'City Name','rules'=>'trim|required|min_length[3]|is_unique[cities.city_name]'),
 		);
 
 		$this->form_validation->set_rules($validate);
@@ -138,7 +138,7 @@ class Cities extends MY_Controller {
 			array_push($data,
 				array(
 					$rows['city_name'],
-					$region_name['region_name'],
+					$region_name['region_abbr']." : ".$region_name['region_name'],
 					$creation->format('M / d / Y'),
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_city('."'".$rows['city_id']."'".')">Edit</a>'.
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_city('."'".$rows['city_id']."'".')">Delete</a>'
