@@ -29,13 +29,21 @@ class Order_routes_model extends CI_Model
 		$this->db->delete($this->table);
 		return TRUE;
 	}
+	public function get_by_order_id($order_id){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_id',$order_id);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
 	public function create($data)
 	{
 		$this->db->insert($this->table, $data);
-		return TRUE;
+		return $this->db->insert_id();
 	}
 	public function read()
 	{

@@ -1,0 +1,48 @@
+********************* WEB SERVICES ********************* 
+http://180.232.67.229/api/CONTROLLER/METHOD/VARIABLE/VALUE
+
+					******************************************************************
+
+WEB SERVICE NAME: 	ADS
+PURPOSE:			Retrieve all ads
+WEB SERVICE URL:	http://180.232.67.229/api/jads/getads
+METHOD:				GET
+VARIABLES:			NONE
+EXPECTED OUTPUT:	ALL FIELDS FROM ADS AND ADVERTISER TABLES
+
+					******************************************************************
+					
+WEB SERVICE NAME: 	ROUTES
+PURPOSE:			Retrieve all routes
+WEB SERVICE URL:	http://180.232.67.229/api/jroutes/
+METHOD:				GET
+VARIABLES:			NONE
+EXPECTED OUTPUT:	route_id, route_name, route_description, location_from, location_to 
+
+					******************************************************************
+
+WEB SERVICE NAME: 	APPUPDATES
+PURPOSE:			Save updates
+WEB SERVICE URL:	http://180.232.67.229/api/jappupdate/appupdates
+METHOD:				POST
+VARIABLES:			Appid=value, DbStatus=value 
+EXPECTED OUTPUT:	0=no rows affected; 1=1row affected
+
+					******************************************************************
+					
+WEB SERVICE NAME: 	TBLCONFIGS
+PURPOSE:			Save record
+WEB SERVICE URL:	http://180.232.67.229/api/jtblconfig/add
+METHOD:				POST
+VARIABLES:			path=value, function=value, route=value
+EXPECTED OUTPUT:	1=saved;0=not saved;"message": "Record already exists!"
+
+
+					******************************************************************
+					
+WEB SERVICE NAME: 	TBWSCONFIG
+PURPOSE:			Save record
+WEB SERVICE URL:	http://180.232.67.229/api/jtbwsconfig/add
+METHOD:				POST
+VARIABLES:			link=value, function=value, route=value
+EXPECTED OUTPUT:	1=saved;0=not saved;"message": "Record already exists!"

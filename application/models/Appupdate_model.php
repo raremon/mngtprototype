@@ -39,6 +39,29 @@ class Appupdate_model extends CI_Model
 	}	
 
 	// R E A D
+	public function get_Appupdate($where=null,$orwhere=null){
+	
+		$this->db->select('*')
+				->from($this->table);
+	
+
+		if( isset($where) ){
+			$this->db->where($where);
+		}
+
+		if( isset($orwhere) )
+			$this->db->or_where($orwhere,FALSE);
+			
+		$query = $this->db->get();
+
+		// echo $this->db->last_query();
+		// exit;
+		
+		return $query->result_array();
+	
+	}
+	
+	// R E A D
 	public function getAppupdates($where=null,$orwhere=null){
 	
 		$this->db->select('*')
