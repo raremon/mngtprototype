@@ -158,6 +158,12 @@ class Nschedules_model extends CI_Model
 			return $this->db->insert_id();
 		}
 
+		public function create($data)
+		{
+			$this->db->insert('n_schedules', $data);
+			return $this->db->insert_id();
+		}
+
 		// // R E A D
 		// public function show_Schedule()
 		// {
