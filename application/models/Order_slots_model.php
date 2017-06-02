@@ -1,7 +1,5 @@
 <?php
-
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Order_slots_model extends CI_Model
 {
 	// Constructor
@@ -9,11 +7,24 @@ class Order_slots_model extends CI_Model
 	{
 		parent::__construct();
 	}
-
 	private $table = "order_slots";
-	private $query = "orderslot_id, order_id, tslot_id, display_type";
+	private $query = "orderslot_id, order_id, tslot_id, display_type, times_repeat";
 	private $id = "orderslot_id";
-
+	public function getTslots($id)
+	{
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('order_id', $id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	public function find_Orders($id)
+	{
+		$this->db->select('order_id');
+		$this->db->from($this->table);
+		$this->db->where('tslot_id', $id);
+		$query = $this->db->get();
+	}
 	public function get_by_id($orderslot_id){
 		$this->db->select($this->query);
 		$this->db->from($this->table);
@@ -38,7 +49,7 @@ class Order_slots_model extends CI_Model
 		return $query->result_array();
 	}
 	
-	public function getsplit(){
+	public function getsplitmain(){
 		$this->db->select($this->query);
 		$this->db->from($this->table);
 		$this->db->where('display_type',2);
@@ -52,6 +63,27 @@ class Order_slots_model extends CI_Model
 		$this->db->where('display_type',3);
 		$query=$this->db->get();
 		return $query->result_array();
+	}
+	public function getsplittop(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',4);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	public function getsplitbottom(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',5);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	public function deleteTslot($order_id, $tslot_id)
+	{
+		$this->db->where(array($this->id=>$tslot_id));
+		$this->db->where(array('order_id'=>$order_id));
+		$this->db->delete($this->table);
+		return TRUE;
 	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
@@ -92,5 +124,4 @@ class Order_slots_model extends CI_Model
 	// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 	////////////////////////////////////////////////////////////////
 }
-
 // END OF ORDER SLOTS MODEL
