@@ -28,8 +28,14 @@ class Mobileapp extends REST_Controller
 		$d = $this->post();
 		if( isset($d['user']) && isset($d['pass']) )
 		{
-			// Goes to model to validate username and password
+			// Goes to ad owner model to validate username and password
 			$result = $this->Owner_Accounts->validate_mobile($d);
+			// If no account is found
+			if($result == -2)
+			{
+				// Goes to users model to validate username and password
+				$result = $this->Salesmen->validate_mobile($d);
+			}
 		}
 		else
 		{
