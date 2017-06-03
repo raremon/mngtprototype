@@ -142,6 +142,53 @@
             $this->load->view("template/footer", $data);
         }
         
+		public function browseOrder()
+        {
+            $data = array();
+            $data['role'] = $this->logged_out_check();
+            $data['title']='Browse Approved Ad Order';
+            $data['page_description'] = 'List Of Approved Ad Orders';
+            $data['breadcrumbs']=array
+            (
+                array('Browse Approve Ad Order','program/browseOrder'),
+            );
+            $data['css']=array
+            (
+
+            );
+            $data['script']=array
+            (
+
+            );
+			$advertiser_data = $this->Advertiser->show_Advertiser();
+			$data['advertiser'] = array();
+			foreach ($advertiser_data as $rows) {
+				array_push($data['advertiser'],
+					array(
+						$rows['advertiser_id'],
+						$rows['advertiser_name'],
+					)
+				);
+			}
+
+			$route_data = $this->Route->show_Route();
+			$data['route'] = array();
+			foreach ($route_data as $rows) {
+				array_push($data['route'],
+					array(
+						$rows['route_id'],
+						$rows['route_name'],
+					)
+				);
+			}
+            $data['treeActive'] = 'program_schedule';
+            $data['childActive'] = 'browse_approve_ad' ;
+
+            $this->load->view("template/header", $data);
+            $this->load->view("program/browse_approve_ad", $data);
+            $this->load->view("template/footer", $data);
+        }
+        
 		public function order()
         {
             $data = array();
@@ -285,11 +332,11 @@
 					array(
 						$rows['ad_id'],
 						'
-							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>
+							<button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>
 
-							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog">
+							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog" style="width:100%;z-index:1100;">
 							  <div class="modal-dialog modal-lg">
-							    <div class="modal-content">
+							    <div class="modal-content browser-style">
 							      <div class="modal-header">
 							        <button type="button" class="close" data-dismiss="modal">&times;</button>
 							        <h4 class="modal-title">'.$rows['ad_filename'].'</h4>
@@ -301,7 +348,7 @@
 									</video>
 							      </div>
 							      <div class="modal-footer">
-							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Close</button>
 							      </div>
 							    </div>
 							  </div>

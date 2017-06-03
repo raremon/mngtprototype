@@ -247,3 +247,17 @@ tbody > tr > td{
 .select2-dropdown{
     z-index: 9999;
 }
+
+@supports (-webkit-appearance:none) {
+    .browser-style {
+        margin-top:-900px;
+        width:94%;
+        position:fixed;
+    }
+}       
+
+_:-moz-tree-row(hover), .browser-style {
+        margin-top:-900px;
+        width:94%;
+        position:fixed;
+}       

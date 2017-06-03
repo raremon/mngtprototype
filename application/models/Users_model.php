@@ -42,8 +42,7 @@
 			//retrieval of data from controller
 			$username = $data["user"];
 			$password = $data["pass"];
-			// Set status to online
-			$is_online = true;
+			
 			$this->db->where("user_name", $username);
 			$query = $this->db->get($this->table);
 			if ($query->num_rows()) 
@@ -53,20 +52,24 @@
 				if ($row['user_password'] == sha1($password)) 
 				{
 					// Sets status to online after logging in
-					$row['is_online']=$is_online;
+					$row['is_online'] = true;
 					$this->db->where("user_id", $row['user_id']);
-					$this->db->update( 'users' , $row);
+					$this->db->update( $this->table , $row);
+					
 					// Unsets the password from the array
 					unset($row['user_password']);
-					$this->_data = $row;
-					return 1;
+					unset($password);
+					return $row;
 				}
-				// Password not match
-				return 0;
+				else
+				{
+					// Passwords do not match
+					return -1;
+				}
 			}
 			else {
-				// Password not found
-				return 0;
+				// Account not found
+				return -1;
 			}
 		}
 

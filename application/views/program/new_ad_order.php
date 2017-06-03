@@ -284,4 +284,10 @@
     })
   }
 
+$(document).on('hidden.bs.modal', function (event) {
+  $('video').trigger('pause');
+  if ($('.modal:visible').length) {
+    $('body').addClass('modal-open');
+  }
+});
 </script>

@@ -6,8 +6,7 @@
 	class Dashboard extends MY_Controller {	
 
 		// Constructor
-		public function __construct()
-		{
+		public function __construct(){
 			parent::__construct();
 			$this->load->model('users_model', 'User');
 			$this->load->model('roles_model', 'Role');
@@ -19,11 +18,12 @@
 			$this->load->model('advertisers_model', 'Advertiser');
 			$this->load->model('schedules_model', 'Schedule');
 			$this->load->model('ad_schedules_model', 'Ad Schedule');
+			$this->load->model('orders_model', 'Orders');
 		}
 		
 		// Index Function
-		public function index()
-		{
+		public function index(){
+			
 			$data['role'] = $this->logged_out_check();
 			$data['title'] = 'Dashboard';
 			$data['page_description'] = 'Summary of Data';
@@ -93,7 +93,8 @@
 			}
 
 			$data['bus_count'] = $this->Vehicle->count_Vehicle();
-			$data['ad_count'] = $this->Ad->count_Ad();
+			// $data['ad_count'] = $this->Ad->count_Ad();
+			$data['ad_count'] = count($this->Orders->getpending());
 			$data['advertiser_count'] = $this->Advertiser->count_Advertiser();
 			$data['schedule_count'] = $this->Schedule->count_Schedule();
 

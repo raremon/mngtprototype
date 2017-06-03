@@ -103,14 +103,16 @@
 <script type="text/javascript">
   $("#hidden-form").hide();
   $(".select2").select2();
-  $('.select2-selection__rendered').removeAttr('title');
+    $('.select2-selection__rendered').removeAttr('title');
   $("#show-div").click(function(){
      $(".hidden-text").hide();
      $("#hidden-form").show();
+
    });
   function openModal(){
     $('#vehicle-assign-box').modal('show');
-  }       
+  }     
+
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
