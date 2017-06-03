@@ -126,7 +126,7 @@ class Mobileapp extends REST_Controller
 		foreach($orders as $order)
 		{
 			$orderslots=$this->Order_slots->get_by_order_id($order['order_id']);
-			$comparedOrderDates=new DatePeriod($order['date_start'],$interval,$order['date_end']);
+			$comparedOrderDates=new DatePeriod(new DateTime($order['date_start']),$interval,new DateTime($order['date_end']));
 			$intersectDates=array_intersect($currentOrderDates,$comparedOrderDates);
 			foreach($intersectDates as $date)
 			{
@@ -462,6 +462,7 @@ class Mobileapp extends REST_Controller
 		{	
 			// Submits first part of data to orders_model and returns order id
 			$order_id = $this->Orders->create($data1);
+			$data2['order_id']=$order_id;
 			if( $order_id > 0 )
 			{
 				// Submits second part of data to order_routes model and returns orderroutes id
