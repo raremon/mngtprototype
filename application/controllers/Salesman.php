@@ -119,8 +119,10 @@ class Salesman extends MY_Controller {
 		foreach ($timeslot_data as $rows) {
 			$orders = $this->Tslot->find_Orders($rows['tslot_id']);
 			$total_time = 0;
-			foreach ($orders as $order_id){
-				$total_time = $total_time + $this->Order->get_Time($order_id['order_id']);
+			if( count($orders)>0 ){
+				foreach ($orders as $order_id){
+					$total_time = $total_time + $this->Order->get_Time($order_id['order_id']);
+				}
 			}
 			$available_time = round(((3600 - $total_time)/3600)*100, 2);
 			// FIND TIMESLOT ID IN ORDER_SLOT

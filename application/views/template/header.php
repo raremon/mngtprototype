@@ -245,6 +245,7 @@
                   <ul class="treeview-menu">
                     <li id="create_program_schedule"><a href="<?php echo base_url('salesman/schedules') ?>">Schedule Availability</a></li>
                     <li id="new_ad_order"><a href="<?php echo base_url('program/order') ?>">New Ad Orders</a></li>
+                    <li id="new_ad_order"><a href="<?php //echo base_url('program/order') ?>">Browse Approved Ad Orders</a></li>
                     <!--<li id="create_program_schedule"><a href="<?php echo base_url('schedules') ?>">Ads for Scheduling</a></li>-->
                     <!--<li id="create_program_schedule"><a href="<?php echo base_url('program/create') ?>">Create Program Schedule</a></li>-->
                     <li id="browse_program_schedule"><a href="<?php echo base_url('program/browse') ?>">Browse Program Schedules</a></li>
@@ -267,7 +268,7 @@
                   </ul>				
         				</li>
                 <li id="ad_companies" class="treeview">
-        					<a href="#"><i class="fa fa-briefcase"></i> <span>Ad Companies</span>
+        					<a href="#"><i class="fa fa-briefcase"></i> <span>Advertisers</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>					
@@ -343,7 +344,7 @@
                       
                     <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Drivers</a></li>
 
-                    <li id="browse_salesmen"><a href="<?php echo base_url('salesman/browse') ?>">Salesmen</a></li>
+                    <li id="browse_salesmen"><a href="<?php echo base_url('salesman/browse') ?>">Sales Agents</a></li>
                       
                     <li id="browse_vehicles"><a href="<?php echo base_url('vehicles/browse') ?>">Vehicles</a></li>
 
