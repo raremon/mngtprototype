@@ -74,7 +74,7 @@ class Adowneraccounts_model extends CI_Model
 		}
 	}
 	
-	public function request_resetpass($data){
+	public function request_reset_pass($data){
 		
 		// Gets owner id from database
 		$this->db->select("advertiser_id");
@@ -87,7 +87,7 @@ class Adowneraccounts_model extends CI_Model
 		return $response['advertiser_id'];
 	}
 	
-	public function resetpass($data){
+	public function reset_pass($data){
 		
 		//Gets owner account from database
 		$this->db->from($this->table);
