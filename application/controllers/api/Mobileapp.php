@@ -105,6 +105,8 @@ class Mobileapp extends REST_Controller
 		$data=$this->get();
 		$orders=$this->Orders->getapproved();
 		$scheds=array();
+		$date1=[];
+		$date2=[];
 		$availability=array();
 		if( isset($data['from']) && isset($data['to']) )
 		{
@@ -113,6 +115,10 @@ class Mobileapp extends REST_Controller
 		}
 		$interval=new DateInterval('P1D');
 		$currentOrderDates=new DatePeriod($from,$interval,$to);
+		foreach($currentOrderDates as $date)
+		{
+			$date1[]=$date->format('Y-m-d');
+		}
 		$a=0;
 		foreach($currentOrderDates as $dates)
 		{
@@ -127,12 +133,16 @@ class Mobileapp extends REST_Controller
 		{
 			$orderslots=$this->Order_slots->get_by_order_id($order['order_id']);
 			$comparedOrderDates=new DatePeriod(new DateTime($order['date_start']),$interval,new DateTime($order['date_end']));
-			$intersectDates=array_intersect($currentOrderDates,$comparedOrderDates);
+			foreach($comparedOrderDates as $date)
+			{
+				$date2[]=$date->format('Y-m-d');
+			}
+			$intersectDates=array_intersect($date1,$date2);
 			foreach($intersectDates as $date)
 			{
 				foreach($orderslots as $slots)
 				{
-					$sched[array_search($date,$currentOrderDates)][$slots['tslot_id']]+=$order['ad_duration'];
+					$sched[array_search($date,$date1)][$slots['tslot_id']]+=$order['ad_duration'];
 				}
 			}
 		}
