@@ -28,8 +28,14 @@ class Mobileapp extends REST_Controller
 		$d = $this->post();
 		if( isset($d['user']) && isset($d['pass']) )
 		{
-			// Goes to model to validate username and password
+			// Goes to ad owner model to validate username and password
 			$result = $this->Owner_Accounts->validate_mobile($d);
+			// If no account is found
+			if($result == -2)
+			{
+				// Goes to users model to validate username and password
+				$result = $this->Salesmen->validate_mobile($d);
+			}
 		}
 		else
 		{
@@ -310,8 +316,10 @@ class Mobileapp extends REST_Controller
 		
 		$data2['route_id'] = $data['route_id'];
 		
-		$data3['tslot_id']     = $data['tslot_id'];
+		$tslot_array           = explode(",",$data['tslot_id']);
+		$tslot_array_count     = count($tslot_array);
 		$data3['display_type'] = $data['display_type'];
+		$data3['times_repeat'] = $data['times_repeat'];
 		
 		if( isset($data['sales_id']) || isset($data['advertiser_id']) )
 		{	
@@ -326,8 +334,12 @@ class Mobileapp extends REST_Controller
 				{
 					// Submits third part of data to order slots model and returns orderslot id
 					$data3['order_id'] = $order_id;
-					$orderslot_id = $this->Order_slots->create($data3);	
-					if($orderslot_id > 0)
+					for($i = 0; $i < $tslot_array_count;$i++)
+					{
+						$data3['tslot_id'] = $tslot_array[$i];
+						$orderslot_id[$i] = $this->Order_slots->create($data3);
+					}
+					if($orderslot_id[0] > 0)
 					{
 						// If entries are successful
 						$response = 1;
@@ -449,5 +461,82 @@ class Mobileapp extends REST_Controller
 		// Returns a password or -1
 		$this->response($result);	
 			
+	}
+	public function putrequestschedule_post()
+	{
+		/* JSON method to submit a schedule request from Android app */
+		// http://[::1]/star8/api/mobileapp/putrequestschedule
+		
+		$data = $this->post();
+		
+		// Splits $data to three parts
+		$data1['sales_id']      = $data['sales_id'];
+		$data1['ad_duration']   = $data['ad_duration'];
+		$data1['advertiser_id'] = $data['advertiser_id'];
+		$data1['order_status']  = 0;
+		$data1['date_start']    = $data['date_start'];
+		$data1['date_end']      = $data['date_end'];
+		
+		$data2['route_id'] = $data['route_id'];
+		
+		$tslot_array           = explode(",",$data['tslot_id']);
+		$tslot_array_count     = count($tslot_array);
+		$data3['display_type'] = $data['display_type'];
+		$data3['times_repeat'] = $data['times_repeat'];
+		
+		if( isset($data['sales_id']) || isset($data['advertiser_id']) )
+		{	
+			// Submits first part of data to orders_model and returns order id
+			$order_id = $this->Orders->create($data1);
+			if( $order_id > 0 )
+			{
+				// Submits second part of data to order_routes model and returns orderroutes id
+				$data2['order_id'] = $order_id;
+				$orderroutes_id = $this->Order_routes->create($data2);
+				if( $orderroutes_id > 0 )
+				{
+					// Submits third part of data to order slots model and returns orderslot id
+					$data3['order_id'] = $order_id;
+					for($i = 0; $i < $tslot_array_count;$i++)
+					{
+						$data3['tslot_id'] = $tslot_array[$i];
+						$orderslot_id[$i] = $this->Order_slots->create($data3);
+					}
+					if($orderslot_id[0] > 0)
+					{
+						// If entries are successful
+						$response = 1;
+					}
+					else
+					{
+						// If failure to insert data, deletes previous entries from order_model and order_routes_model
+						$delete['order_id'] = $order_id;
+						$delete2['orderroutes_id'] = $orderroutes_id;
+						$this->Orders->delete($delete);
+						$this->Order_routes->delete($delete2);
+						$response = -1;
+					}
+				}
+				else
+				{
+					// If failure to insert data, deletes previous entry from order_model
+					$delete['order_id'] = $order_id;
+					$this->Orders->delete($delete);
+					$response = -1;
+				}
+			}
+			else
+			{
+				// If failure to insert data
+				$response = -1;
+			}
+		}
+		else
+		{
+			// If direct controller access
+			$response = -1;
+		}
+		// Returns 1 or -1
+		$this->response($response);
 	}
 }

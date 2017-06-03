@@ -41,19 +41,17 @@ class Adowneraccounts_model extends CI_Model
 		$username = $data["user"];
 		$password = $data["pass"];
 			
-		// Set status to online
-		$is_online = true;
 		$this->db->where("owner_uname", $username);
 		$query = $this->db->get($this->table);
-		if ($query->num_rows()){
-			
+		if ($query->num_rows())
+		{
 			$row = $query->row_array();
 			
 			// Checks the password
-			if ($row['owner_upass'] == sha1($password)){
-				
+			if ($row['owner_upass'] == sha1($password))
+			{
 				// Sets status to online after logging in
-				$row['is_online']=$is_online;
+				$row['is_online'] = true;
 				$this->db->where("owner_id", $row['owner_id']);
 				$this->db->update($this->table, $row);
 				
@@ -63,14 +61,15 @@ class Adowneraccounts_model extends CI_Model
 				
 				return $row;
 			}
-			// Passwords do not match
-			else{
+			else
+			{
+				// Passwords do not match
 				return -1;
 			}
 		}
 		else {
 			// Account not found
-			return -1;
+			return -2;
 		}
 	}
 	
