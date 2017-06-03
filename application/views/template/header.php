@@ -245,7 +245,7 @@
                   <ul class="treeview-menu">
                     <li id="create_program_schedule"><a href="<?php echo base_url('salesman/schedules') ?>">Schedule Availability</a></li>
                     <li id="new_ad_order"><a href="<?php echo base_url('program/order') ?>">New Ad Orders</a></li>
-                    <li id="new_ad_order"><a href="<?php //echo base_url('program/order') ?>">Browse Approved Ad Orders</a></li>
+                    <li id="browse_approve_ad"><a href="<?php echo base_url('program/browseOrder') ?>">Browse Approved Ad Orders</a></li>
                     <!--<li id="create_program_schedule"><a href="<?php echo base_url('schedules') ?>">Ads for Scheduling</a></li>-->
                     <!--<li id="create_program_schedule"><a href="<?php echo base_url('program/create') ?>">Create Program Schedule</a></li>-->
                     <li id="browse_program_schedule"><a href="<?php echo base_url('program/browse') ?>">Browse Program Schedules</a></li>

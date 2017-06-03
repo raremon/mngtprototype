@@ -114,8 +114,20 @@
     })
   }
   // D E L E T E
-  function delete_box(box_id) {
-    if(confirm('Do you really want to delete this Box Record ??')){
+function delete_box(box_id) {
+    swal({
+      title: 'Are you sure you want to delete?',
+      text: "You cannot revert this action!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      confirmButtonClass: 'btn btn-success btn-fix',
+      cancelButtonClass: 'btn btn-default',
+      animation: false,
+      customClass: 'animated fadeInDown',
+      buttonsStyling: false
+    }).then(function () {
       $.ajax({
         url: "<?php echo site_url('mediaboxes/delete_Box/') ?>",
         type: 'POST',
@@ -133,23 +145,45 @@
               }, 3000);
             }
           }else {
-            $('#message-text').html(data.message);
-            $('#successModal').modal('show');
+//            $('#message-text').html(data.message);
+//            $('#successModal').modal('show');
+            swal({
+             //pede to ilagay sa success modal di ko mahanap kung saan
+              title: data.message,
+              type: 'success',
+              confirmButtonText: 'Okay',
+              confirmButtonClass: 'btn btn-success btn-fix',
+              buttonsStyling: false
+            }).then(
+              function () {
+                window.location.reload();
+              }
+            )
           }
         }
       });
-    }
-  }
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'Cancelled',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false,
+          timer: 3000
+          
+        })
+      }
+    })
+  }    
   // U N A S S I G N
-  function unassign_box(box_id) {
+function unassign_box(box_id) {
     swal({
-      title: 'ARE YOU SURE?',
+      title: 'Are you sure you want to unassign?',
       text: "You cannot revert this action!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Delete',
+      confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel',
       confirmButtonClass: 'btn btn-success btn-fix',
       cancelButtonClass: 'btn btn-default',
@@ -157,26 +191,6 @@
       customClass: 'animated fadeInDown',
       buttonsStyling: false
     }).then(function () {
-        swal({
-         //pede to ilagay sa success modal di ko mahanap kung saan
-          title: 'DELETED SUCCESSFULLY',
-          type: 'success',
-          confirmButtonText: 'Okay',
-          confirmButtonClass: 'btn btn-success btn-fix',
-          buttonsStyling: false
-        })
-    }, function (dismiss) {
-      if (dismiss === 'cancel') {
-        swal({
-          title: 'CANCELLED',
-          type: 'error',
-          confirmButtonText: 'Okay',
-          confirmButtonClass: 'btn btn-default btn-fix',
-          buttonsStyling: false
-        })
-      }
-    })
-    if(confirm('Do you really want to unassign this Mediabox Record ??')){
       $.ajax({
         url: "<?php echo site_url('mediaboxes/unassign_Box/') ?>",
         type: 'POST',
@@ -194,13 +208,37 @@
               }, 3000);
             }
           }else {
-            $('#message-text').html(data.message);
-            $('#successModal').modal('show');
+//            $('#message-text').html(data.message);
+//            $('#successModal').modal('show');
+            swal({
+             //pede to ilagay sa success modal di ko mahanap kung saan
+              title: data.message,
+              type: 'success',
+              confirmButtonText: 'Okay',
+              confirmButtonClass: 'btn btn-success btn-fix',
+              buttonsStyling: false
+            }).then(
+              function () {
+                window.location.reload();
+              }
+            )
           }
         }
       });
-    }
-  }
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'Cancelled',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false,
+          timer: 3000
+          
+        })
+      }
+    })
+  }    
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////

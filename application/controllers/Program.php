@@ -142,6 +142,53 @@
             $this->load->view("template/footer", $data);
         }
         
+		public function browseOrder()
+        {
+            $data = array();
+            $data['role'] = $this->logged_out_check();
+            $data['title']='Browse Approved Ad Order';
+            $data['page_description'] = 'List Of Approved Ad Orders';
+            $data['breadcrumbs']=array
+            (
+                array('Browse Approve Ad Order','program/browseOrder'),
+            );
+            $data['css']=array
+            (
+
+            );
+            $data['script']=array
+            (
+
+            );
+			$advertiser_data = $this->Advertiser->show_Advertiser();
+			$data['advertiser'] = array();
+			foreach ($advertiser_data as $rows) {
+				array_push($data['advertiser'],
+					array(
+						$rows['advertiser_id'],
+						$rows['advertiser_name'],
+					)
+				);
+			}
+
+			$route_data = $this->Route->show_Route();
+			$data['route'] = array();
+			foreach ($route_data as $rows) {
+				array_push($data['route'],
+					array(
+						$rows['route_id'],
+						$rows['route_name'],
+					)
+				);
+			}
+            $data['treeActive'] = 'program_schedule';
+            $data['childActive'] = 'browse_approve_ad' ;
+
+            $this->load->view("template/header", $data);
+            $this->load->view("program/browse_approve_ad", $data);
+            $this->load->view("template/footer", $data);
+        }
+        
 		public function order()
         {
             $data = array();
