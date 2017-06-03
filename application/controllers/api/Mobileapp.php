@@ -146,16 +146,22 @@ class Mobileapp extends REST_Controller
 				}
 			}
 		}
-		$a=0;
+		for($i=1;$i<19;$i++)
+			{
+				$percent[$i]=0;
+			}
 		foreach($scheds as $schedule)
 		{
 			for($i=1;$i<19;$i++)
 			{
-				$percent[$i]=(((3600*count($scheds))-$schedule[$i])/3600)*100;
+				$percent[$i]+=((3600-$schedule[$i])/3600)*100;
 			}
-			
-			$availability[$a]=$percent;
 		}
+		for($i=1;$i<19;$i++)
+			{
+				$percent[$i]/=count($scheds);
+			}
+		$availability=$percent;
 		$this->response($availability);
 		
 	}
