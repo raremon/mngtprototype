@@ -7,7 +7,7 @@
   <div class="box-body">
     <?php echo form_open('', array('id'=>'sched')); ?>
     <div id="sched_wizard">
-        <h3>Select Region<i class="fa fa-angle-double-right" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
+        <h3 class="buttons_fix">Select Region<i class="fa fa-angle-double-right" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
           <div class="form-group">
           <label>Region</label>
@@ -17,8 +17,7 @@
                 foreach($region as $row)
                 {
               ?>
-                <option value= <?php echo $row[0];?> >
-                  <?php echo $row[1]; ?>
+                <option value=<?php echo $row[0];?>><?php echo $row[1]; ?>
                 </option>
               <?php 
                 }
@@ -31,6 +30,8 @@
         <h3>Select City<i class="fa fa-angle-double-right" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
           <div class="form-group">
+            <label>Selected Region</label>  
+            <input name="" type="text" class="form-control" id="selected_region" readonly></br>
             <label>City/Province</label>
             <select id="city_id" class="form-control select2" style="width:100%;">
             </select>
@@ -41,6 +42,10 @@
         <h3>Select Location<i class="fa fa-angle-double-right" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
           <div class="form-group">
+            <label>Selected Region</label>  
+            <input name="" type="text" class="form-control" id="selected_region1" readonly></br>
+            <label>Selected City/Province</label>  
+            <input name="" type="text" class="form-control" id="selected_city" readonly></br>
             <label>Location:</label>
             <select id="location_id" class="form-control select2" style="width:100%;">
             </select>
@@ -51,6 +56,12 @@
         <h3>Select Route<i class="fa fa-angle-double-right" style="float:right;font-size:20px;padding-top:5px;"></i></h3>
         <section>
           <div class="form-group">
+            <label>Selected Region</label>  
+            <input name="" type="text" class="form-control" id="selected_region2" readonly></br>
+            <label>Selected City/Province</label>  
+            <input name="" type="text" class="form-control" id="selected_city1" readonly></br>
+            <label>Selected Location</label>  
+            <input name="" type="text" class="form-control" id="selected_location" readonly></br>
             <label>Route</label>
             <select id="route_id" name="route_id" class="form-control select2" style="width:100%;">
             </select>
@@ -256,6 +267,23 @@
       bodyTag: "section",
       transitionEffect: "fade",
       autoFocus: true,
+      onStepChanged: function(event, currentIndex, priorIndex)
+      {
+        var input_region = document.getElementById('selected_region');
+        input_region.value = $( "#region_id option:selected" ).text();
+          
+        var input_region1 = document.getElementById('selected_region1');
+        input_region1.value = $( "#region_id option:selected" ).text();
+        var input_city = document.getElementById('selected_city');
+        input_city.value = $( "#city_id option:selected" ).text();
+          
+        var input_region2 = document.getElementById('selected_region2');
+        input_region2.value = $( "#region_id option:selected" ).text();
+        var input_city1 = document.getElementById('selected_city1');
+        input_city1.value = $( "#city_id option:selected" ).text();
+        var input_location = document.getElementById('selected_location');
+        input_location.value = $( "#location_id option:selected" ).text();
+      },
       onFinished: function (event, currentIndex)
       {
         $.ajax({

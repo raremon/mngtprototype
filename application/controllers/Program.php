@@ -285,11 +285,11 @@
 					array(
 						$rows['ad_id'],
 						'
-							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>
+							<button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>
 
-							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog">
+							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog" style="width:100%;z-index:1100;">
 							  <div class="modal-dialog modal-lg">
-							    <div class="modal-content">
+							    <div class="modal-content" style="margin-top:-900px;width:94%;position:fixed;">
 							      <div class="modal-header">
 							        <button type="button" class="close" data-dismiss="modal">&times;</button>
 							        <h4 class="modal-title">'.$rows['ad_filename'].'</h4>
@@ -301,7 +301,7 @@
 									</video>
 							      </div>
 							      <div class="modal-footer">
-							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Close</button>
 							      </div>
 							    </div>
 							  </div>
