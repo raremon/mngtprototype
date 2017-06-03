@@ -103,7 +103,7 @@ class Mobileapp extends REST_Controller
 		// http://[::1]/star8/api/mobileapp/getschedavailability/from/2017-02-03/to/2017-03-02
 		
 		$data=$this->get();
-		$orders=$this-=>Orders->getapproved();
+		$orders=$this->Orders->getapproved();
 		$scheds=array();
 		$availability=array();
 		if( isset($data['from']) && isset($data['to']) )
@@ -132,7 +132,7 @@ class Mobileapp extends REST_Controller
 			{
 				foreach($orderslots as $slots)
 				{
-					sched[array_search($date,$currentOrderDates)][$slots['tslot_id']]+=$order['ad_duration'];
+					$sched[array_search($date,$currentOrderDates)][$slots['tslot_id']]+=$order['ad_duration'];
 				}
 			}
 		}
