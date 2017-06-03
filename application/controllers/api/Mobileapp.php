@@ -142,7 +142,7 @@ class Mobileapp extends REST_Controller
 			{
 				foreach($orderslots as $slots)
 				{
-					$sched[array_search($date,$date1)][$slots['tslot_id']]+=$order['ad_duration'];
+					$scheds[array_search($date,$date1)][$slots['tslot_id']]+=$order['ad_duration'];
 				}
 			}
 		}
