@@ -97,7 +97,58 @@ class Mobileapp extends REST_Controller
 		// Returns an object or -1
 		$this->response($result);
 	}
-	
+	public function getschedavailability_get()
+	{
+		/* JSON method to get schedule availability */
+		// http://[::1]/star8/api/mobileapp/getschedavailability/from/2017-02-03/to/2017-03-02
+		
+		$data=$this->get();
+		$orders=$this-=>Orders->getapproved();
+		$scheds=array();
+		$availability=array();
+		if( isset($data['from']) && isset($data['to']) )
+		{
+			$from = new DateTime($data['from']);
+			$to = new DateTime($data['to']);
+		}
+		$interval=new DateInterval('P1D');
+		$currentOrderDates=new DatePeriod($from,$interval,$to);
+		$a=0;
+		foreach($currentOrderDates as $dates)
+		{
+			for($i=1;$i<19;$i++)
+			{
+				$scheds[$a][$i]=0;
+			}
+			$a++;
+		}
+		
+		foreach($orders as $order)
+		{
+			$orderslots=$this->Order_slots->get_by_order_id($order['order_id']);
+			$comparedOrderDates=new DatePeriod($order['date_start'],$interval,$order['date_end']);
+			$intersectDates=array_intersect($currentOrderDates,$comparedOrderDates);
+			foreach($intersectDates as $date)
+			{
+				foreach($orderslots as $slots)
+				{
+					sched[array_search($date,$currentOrderDates)][$slots['tslot_id']]+=$order['ad_duration'];
+				}
+			}
+		}
+		$a=0;
+		foreach($sched as $schedule)
+		{
+			for($i=1;$i<19;$i++)
+			{
+				$percent[$i]=(((3600*count($sched))-$schedule[$i])/3600)*100;
+			}
+			
+			$availability[$a]=$percent;
+		}
+		$this->response($availability);
+		
+	}
 	public function getregions_get()
 	{
 		/* JSON method to get all regions for Android app */
