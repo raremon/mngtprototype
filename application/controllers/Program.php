@@ -289,7 +289,7 @@
 
 							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog" style="width:100%;z-index:1100;">
 							  <div class="modal-dialog modal-lg">
-							    <div class="modal-content" style="margin-top:-900px;width:94%;position:fixed;">
+							    <div class="modal-content browser-style">
 							      <div class="modal-header">
 							        <button type="button" class="close" data-dismiss="modal">&times;</button>
 							        <h4 class="modal-title">'.$rows['ad_filename'].'</h4>
