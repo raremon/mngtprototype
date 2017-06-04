@@ -35,12 +35,14 @@ class Adowneraccounts_model extends CI_Model
 				return ERR_INVALID_USERNAME;
 			}
 	}
-	public function validate_mobile($data){
+	public function validate_mobile($data)
+	{
 			
 		//retrieval of data from controller
 		$username = $data["user"];
 		$password = $data["pass"];
-			
+		$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
+		
 		$this->db->where("owner_uname", $username);
 		$query = $this->db->get($this->table);
 		if ($query->num_rows())
@@ -52,6 +54,7 @@ class Adowneraccounts_model extends CI_Model
 			{
 				// Sets status to online after logging in
 				$row['is_online'] = true;
+				$row['owner_lastlogin'] = $lastlogin->format('Y-m-d H:i:s');
 				$this->db->where("owner_id", $row['owner_id']);
 				$this->db->update($this->table, $row);
 				
@@ -143,24 +146,29 @@ class Adowneraccounts_model extends CI_Model
 		}
 	}
 	
-	public function logout_mobile($data){
+	public function logout_mobile($data)
+	{
 		// Get Current Time
 		$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
 		
-		// Set ad owner status to offline
-		$is_online = false;
-			
-		// Find User in DB
-		$user_id = $data;
-		$this->db->where("owner_id", $user_id);
+		$this->db->where("owner_id", $data['owner_id']);
+		$this->db->where("owner_uname", $data['owner_uname']);
+		$this->db->where("owner_upass", sha1($data['owner_upass']));
 		$data=array(
-			'is_online'=>$is_online,
+			'is_online'=>false,
 			'owner_lastlogin'=>$lastlogin->format('Y-m-d H:i:s'),
 		);
 		
 		// Update the Database then return a value
 		$this->db->update($this->table,$data);
-		return 1;
+		if($this->db->affected_rows() > 0)
+		{
+			return 1;
+		}
+		else
+		{
+			return -1; 
+		}
 	}
 }
 // END OF MODEL
