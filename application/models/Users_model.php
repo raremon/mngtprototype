@@ -80,11 +80,6 @@
 			return $this->_data;
 		}
 
-		public function get_data()
-		{
-			return $this->_data;
-		}
-
 		public function logout()
 		{
 			// Get Current Time
