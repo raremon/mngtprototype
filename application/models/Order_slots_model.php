@@ -1,7 +1,5 @@
 <?php
-
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Order_slots_model extends CI_Model
 {
 	// Constructor
@@ -9,7 +7,6 @@ class Order_slots_model extends CI_Model
 	{
 		parent::__construct();
 	}
-
 	private $table = "order_slots";
 	private $query = "orderslot_id, order_id, tslot_id, display_type, times_repeat";
 	private $id = "orderslot_id";
@@ -55,7 +52,7 @@ class Order_slots_model extends CI_Model
 		return $query->result_array();
 	}
 	
-	public function getsplit(){
+	public function getsplitmain(){
 		$this->db->select($this->query);
 		$this->db->from($this->table);
 		$this->db->where('display_type',2);
@@ -67,6 +64,20 @@ class Order_slots_model extends CI_Model
 		$this->db->select($this->query);
 		$this->db->from($this->table);
 		$this->db->where('display_type',3);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	public function getsplittop(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',4);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	public function getsplitbottom(){
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('display_type',5);
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -116,5 +127,4 @@ class Order_slots_model extends CI_Model
 	// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 	////////////////////////////////////////////////////////////////
 }
-
 // END OF ORDER SLOTS MODEL

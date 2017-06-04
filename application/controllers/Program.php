@@ -142,6 +142,53 @@
             $this->load->view("template/footer", $data);
         }
         
+		public function browseOrder()
+        {
+            $data = array();
+            $data['role'] = $this->logged_out_check();
+            $data['title']='Browse Approved Ad Order';
+            $data['page_description'] = 'List Of Approved Ad Orders';
+            $data['breadcrumbs']=array
+            (
+                array('Browse Approve Ad Order','program/browseOrder'),
+            );
+            $data['css']=array
+            (
+
+            );
+            $data['script']=array
+            (
+
+            );
+			$advertiser_data = $this->Advertiser->show_Advertiser();
+			$data['advertiser'] = array();
+			foreach ($advertiser_data as $rows) {
+				array_push($data['advertiser'],
+					array(
+						$rows['advertiser_id'],
+						$rows['advertiser_name'],
+					)
+				);
+			}
+
+			$route_data = $this->Route->show_Route();
+			$data['route'] = array();
+			foreach ($route_data as $rows) {
+				array_push($data['route'],
+					array(
+						$rows['route_id'],
+						$rows['route_name'],
+					)
+				);
+			}
+            $data['treeActive'] = 'program_schedule';
+            $data['childActive'] = 'browse_approve_ad' ;
+
+            $this->load->view("template/header", $data);
+            $this->load->view("program/browse_approve_ad", $data);
+            $this->load->view("template/footer", $data);
+        }
+        
 		public function order()
         {
             $data = array();
@@ -160,28 +207,6 @@
             (
 
             );
-
-			// $advertiser_data = $this->Advertiser->show_Advertiser();
-			// $data['advertiser'] = array();
-			// foreach ($advertiser_data as $rows) {
-			// 	array_push($data['advertiser'],
-			// 		array(
-			// 			$rows['advertiser_id'],
-			// 			$rows['advertiser_name'],
-			// 		)
-			// 	);
-			// }
-
-			// $route_data = $this->Route->show_Route();
-			// $data['route'] = array();
-			// foreach ($route_data as $rows) {
-			// 	array_push($data['route'],
-			// 		array(
-			// 			$rows['route_id'],
-			// 			$rows['route_name'],
-			// 		)
-			// 	);
-			// }
 
             $data['treeActive'] = 'program_schedule';
             $data['childActive'] = 'new_ad_order' ;
@@ -289,7 +314,7 @@
 
 							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog" style="width:100%;z-index:1100;">
 							  <div class="modal-dialog modal-lg">
-							    <div class="modal-content" style="margin-top:-900px;width:94%;position:fixed;">
+							    <div class="modal-content browser-style">
 							      <div class="modal-header">
 							        <button type="button" class="close" data-dismiss="modal">&times;</button>
 							        <h4 class="modal-title">'.$rows['ad_filename'].'</h4>
@@ -381,7 +406,6 @@
 
 			$this->output->set_content_type('application/json')->set_output(json_encode($info));
         }
-
         public function assignNewSchedule($order_id)
         {
         	// GET ( AD ID, AD DURATION, DATE_START, DATE_END )
@@ -415,7 +439,6 @@
         		}
         		//    FOREACH ORDERROUTE AS ROWS
         		foreach ($orderroute as $row) {
-     //    			//DATA = AD ID, AD DURATION, DATE START, DATE END, SLOT.TSLOT_ID, SLOT.TIMES_REPEAT, SLOT.DISPLAY_TYPE ( IF 2 , 4 , 5 { MAKE 2 }) , 2 = 1 ; 4 = 2 ; 5 = 3 ROWS.ROUTE_ID, ORDER_ID, STATUS=0
         			$data=array(
 						'ad_id'=>$order['ad_id'],
 						'paid_duration'=>$order['ad_duration'],
@@ -433,6 +456,63 @@
         		}
         	}
         	return TRUE;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+        public function showApprovedOrders()
+        {
+        	// Order Id , Advertiser, Ad Title, Ad Duration, Air Dates, Date Ordered, Date Approved
+        	// orders.order_id
+        	// advertisers.advertiser_name(orders.advertiser_id)
+        	// ads.ad_name(orders.ad_id)
+        	// orders.ad_duration
+        	// orders.date_start and/or orders.date_end
+        	// orders.order_date
+        	// orders.status_date
+
+        	$table = $this->Order->getapproved();
+			$data = array();
+			foreach ($table as $rows) {
+				//advertiser
+				$advertiser = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
+				// ads
+				$ads = $this->Ad->edit_Ad_Data($rows['ad_id']);
+				// datestart
+				$date_start = new DateTime($rows['date_start']);
+				// dateend
+				$date_end = new DateTime($rows['date_end']);
+				// order date
+				$order_date = new DateTime($rows['order_date']);
+				// status date
+				$status_date = new DateTime($rows['status_date']);
+				$dates = "";
+				if($rows['date_end'] != NULL)
+				{
+					$dates = $date_start->format('M / d / Y').' to '.$date_end->format('M / d / Y');
+				}
+				else
+				{
+					$dates = $date_start->format('M / d / Y');
+				}
+
+				array_push($data,
+					array(
+						$rows['order_id'],
+						'<button type="button" class="btn btn-link" onclick="getAdvertiserData('."'".$advertiser['advertiser_id']."'".')">'.$advertiser['advertiser_name'].'</button>',
+						// $advertiser['advertiser_name'],
+						'<button type="button" class="btn btn-link" onclick="getAdvertisementData('."'".$ads['ad_id']."'".')">'.$ads['ad_name'].'</button>',
+						// $ads['ad_name'],
+						$rows['ad_duration'].' seconds',
+						$dates,
+						$order_date->format('M / d / Y'),
+						$status_date->format('M / d / Y'),
+						// '<button type="button" class="btn btn-success" onclick="openModal('."'".$rows['order_id']."'".')">Manage Order</button>',
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
         }
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                     R  E  G  U  L  A  R     F  U  N  C  T  I  O  N  S                          //
