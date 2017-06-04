@@ -60,8 +60,7 @@ class Jschedule extends REST_Controller {
 			
 			$list_per_hour = $this->dynamic_schedule->generateAdHour($t['tslot_id'], $date, $d['route']);
 			
-			$schedule = array_merge($schedule, $list_per_hour);
-
+			$schedule['timeslot-'.$t['tslot_code']] = $list_per_hour;
 		}
 		
 		$this->response($schedule);
