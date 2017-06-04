@@ -16,6 +16,7 @@ class Mobileapp extends REST_Controller
 		$this->load->model('Orders_model', 'Orders');
 		$this->load->model('Order_slots_model', 'Order_slots');
 		$this->load->model('Order_routes_model', 'Order_routes');
+		$this->load->model('Users_model', 'Salesmen');
 	}
 	
 	// ----------------  LOGIN FUNCTIONS  ---------------- //
@@ -25,16 +26,17 @@ class Mobileapp extends REST_Controller
 		/* JSON method to authenticate ad owner in Android app */
 		// http://[::1]/star8/api/mobileapp/login
 		
-		$d = $this->post();
-		if( isset($d['user']) && isset($d['pass']) )
+		$data = $this->post();
+		if( isset($data['user']) && isset($data['pass']) )
 		{
 			// Goes to ad owner model to validate username and password
-			$result = $this->Owner_Accounts->validate_mobile($d);
+			$result = $this->Owner_Accounts->validate_mobile($data);
+			
 			// If no account is found
 			if($result == -2)
 			{
 				// Goes to users model to validate username and password
-				$result = $this->Salesmen->validate_mobile($d);
+				$result = $this->Salesmen->validate_mobile($data);
 			}
 		}
 		else
@@ -51,11 +53,22 @@ class Mobileapp extends REST_Controller
 		/* JSON method to log ad owner out of Android app */
 		// http://[::1]/star8/api/mobileapp/logout
 		
-		$d = $this->post();
-		if( isset($d['owner_id']) )
+		$data = $this->post();
+		if( isset($data['owner_id']) && isset($data['owner_uname']) && isset($data['owner_upass']) )
 		{
-			// Goes to model to update owner data
-			$response = $this->Owner_Accounts->logout_mobile($d['owner_id']);	
+			// Goes to model to update ad owner login status
+			$response = $this->Owner_Accounts->logout_mobile($data);	
+		}
+		else if(isset($data['user_id']) && isset($data['user_name']) && isset($data['user_password']))
+		{
+			if($data['user_type'] == 2){
+				// Goes to model to update salesman login status
+				$response = $this->Salesmen->logout_mobile($data);
+			}			
+			else{
+				// If direct user access
+				$response = -1;
+			}
 		}
 		else
 		{
