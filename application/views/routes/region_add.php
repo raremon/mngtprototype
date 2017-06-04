@@ -10,6 +10,10 @@
           <div id="region-message"></div>
           <?php echo form_open('welcome', array('id'=>'region')); ?>
           <div class="form-group">
+            <label>Region Abbreviation</label>
+            <input type="text" name="region_abbr" class="form-control" placeholder="Enter Region Abbreviation"/>
+          </div>
+          <div class="form-group">
             <label>Region Name</label>
             <input type="text" name="region_name" class="form-control" placeholder="Enter Region Name"/>
           </div>

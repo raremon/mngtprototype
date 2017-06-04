@@ -21,6 +21,7 @@ class Tvs extends MY_Controller {
 		$data['title']='New TV';
 		$data['breadcrumbs']=array
 		(
+			array('Browse Tvs','tvs/browse'),
 			array('New TV','tvs/add'),
 		);
 		$data['css']=array
@@ -95,7 +96,7 @@ class Tvs extends MY_Controller {
 				'tv_description'=>$this->input->post('tv_description'),
 			);
 			$this->Tv->save_Tv($data);
-			$info['message']="You have successfully saved your data!";
+			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['tv_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
@@ -158,7 +159,7 @@ class Tvs extends MY_Controller {
 				'tv_description'=>$this->input->post('tv_description'),
 			);
 			$this->Tv->update_Tv($data);
-			$info['message']="You have successfully updated your data!";
+			$info['message']="<p class='success-message'>You have successfully updated <span class='message-name'>".$data['tv_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}

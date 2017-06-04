@@ -14,6 +14,10 @@
                 <input type="text" name="region_id" class="form-control hidden"/>
               </div>
               <div class="form-group">
+                <label>Region Abbreviation</label>
+                <input type="text" name="region_abbr" class="form-control" placeholder="Enter Region Abbreviation"/>
+              </div>
+              <div class="form-group">
                 <label>Region Name</label>
                 <input type="text" name="region_name" class="form-control" placeholder="Enter Region Name"/>
               </div>
@@ -44,6 +48,7 @@
           <table id="region_data" class="table table-hover table-bordered">
             <thead>
               <tr>
+                <th>REGION ABBREVIATION</th>
                 <th>REGION NAME</th>
                 <th>DATE CREATED</th>
                 <th></th>
@@ -88,6 +93,7 @@
       success:function (data) {
         $('.update').removeAttr('disabled');
         $('input[name="region_id"]').val(data.region_id);
+        $('input[name="region_abbr"]').val(data.region_abbr);
         $('input[name="region_name"]').val(data.region_name);
       }
     })
@@ -116,14 +122,13 @@
     })
   }
   // D E L E T E
-  function delete_region(region_id) {
+    
+function delete_region(region_id) {
     swal({
-      title: 'ARE YOU SURE?',
+      title: 'Are you sure you want to delete?',
       text: "You cannot revert this action!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
       confirmButtonText: 'Delete',
       cancelButtonText: 'Cancel',
       confirmButtonClass: 'btn btn-success btn-fix',
@@ -132,26 +137,6 @@
       customClass: 'animated fadeInDown',
       buttonsStyling: false
     }).then(function () {
-        swal({
-         //pede to ilagay sa success modal di ko mahanap kung saan
-          title: 'DELETED SUCCESSFULLY',
-          type: 'success',
-          confirmButtonText: 'Okay',
-          confirmButtonClass: 'btn btn-success btn-fix',
-          buttonsStyling: false
-        })
-    }, function (dismiss) {
-      if (dismiss === 'cancel') {
-        swal({
-          title: 'CANCELLED',
-          type: 'error',
-          confirmButtonText: 'Okay',
-          confirmButtonClass: 'btn btn-default btn-fix',
-          buttonsStyling: false
-        })
-      }
-    })
-    if(confirm('Do you really want to delete this City Record ??')){
       $.ajax({
         url: "<?php echo site_url('regions/delete_Region') ?>",
         type: 'POST',
@@ -169,13 +154,38 @@
               }, 3000);
             }
           }else {
-            $('#message-text').html(data.message);
-            $('#successModal').modal('show');
+//            $('#message-text').html(data.message);
+//            $('#successModal').modal('show');
+            swal({
+             //pede to ilagay sa success modal di ko mahanap kung saan
+              title: data.message,
+              type: 'success',
+              confirmButtonText: 'Okay',
+              confirmButtonClass: 'btn btn-success btn-fix',
+              buttonsStyling: false
+            }).then(
+              function () {
+                window.location.reload();
+              }
+            )
           }
         }
       });
-    }
-  }
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'Cancelled',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false,
+          timer: 3000
+          
+        })
+      }
+    })
+  }    
+    
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////

@@ -106,7 +106,7 @@
         $('.update').removeAttr('disabled');
         $('input[name="city_id"]').val(data.city_id);
         $('input[name="city_name"]').val(data.city_name);
-        $('select[name="region_id"]').val(data.region_id);
+        $('select[name="region_id"]').val(data.region_id).trigger('change');
       }
     })
   }
@@ -134,14 +134,13 @@
     })
   }
   // D E L E T E
-  function delete_city(city_id) {
+    
+function delete_city(city_id) {
     swal({
-      title: 'ARE YOU SURE?',
+      title: 'Are you sure you want to delete?',
       text: "You cannot revert this action!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
       confirmButtonText: 'Delete',
       cancelButtonText: 'Cancel',
       confirmButtonClass: 'btn btn-success btn-fix',
@@ -150,38 +149,6 @@
       customClass: 'animated fadeInDown',
       buttonsStyling: false
     }).then(function () {
-        swal({
-         //pede to ilagay sa success modal di ko mahanap kung saan
-          title: 'DELETED SUCCESSFULLY',
-          type: 'success',
-          confirmButtonText: 'Okay',
-          confirmButtonClass: 'btn btn-success btn-fix',
-          buttonsStyling: false
-        })
-    }, function (dismiss) {
-      if (dismiss === 'cancel') {
-        swal({
-          title: 'CANCELLED',
-          type: 'error',
-          confirmButtonText: 'Okay',
-          confirmButtonClass: 'btn btn-default btn-fix',
-          buttonsStyling: false
-        })
-      }
-    })
-    if(confirm('Do you really want to delete this City Record ??')){
-      // DITO ILALAGAY YUNG CONDITION NA PAG MAY BUS PANG NAKAASSIGN DUN SA DRIVER, YUN MUNA YUNG IDIDELETE MO
-      if(false)
-      {
-        // $(window).scrollTop(0);
-        // $("#user-delete-message").fadeIn("slow");
-        // $('#user-delete-message').html("Cannot delete your own account!").addClass('alert alert-danger');
-        // setTimeout(function() {
-        //     $('#user-delete-message').fadeOut('slow');
-        // }, 3000);
-      }
-      else
-      {
         $.ajax({
           url: "<?php echo site_url('cities/delete_City') ?>",
           type: 'POST',
@@ -199,13 +166,36 @@
                 }, 3000);
               }
             }else {
-              $('#message-text').html(data.message);
-              $('#successModal').modal('show');
-            }
+//              $('#message-text').html(data.message);
+//              $('#successModal').modal('show');
+            swal({
+             //pede to ilagay sa success modal di ko mahanap kung saan
+              title: data.message,
+              type: 'success',
+              confirmButtonText: 'Okay',
+              confirmButtonClass: 'btn btn-success btn-fix',
+              buttonsStyling: false
+            }).then(
+              function () {
+                window.location.reload();
+              }
+            )
           }
-        });
+        }
+      });
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'Cancelled',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false,
+          timer: 3000
+          
+        })
       }
-    }
+    })
   }
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //

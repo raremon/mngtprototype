@@ -31,13 +31,13 @@ class Jtblconfig extends REST_Controller {
 		
 		$d = $this->post();
 
-		//Posted variables: path, function
+		//Posted variables: path, function, route
 		//LcPath, LcFunction
 		
 		if( isset($d['path']) && isset($d['function']) ){
 
 			//check if record already exists
-			$where = array('LcPath'=>$d['path'],'LcFunction'=>$d['function']);
+			$where = array('LcPath'=>$d['path'],'LcFunction'=>$d['function'],'route_id'=>$d['route']);
 			$check = $this->Tblconfig->get_Data($where);
 
 			// print_r($check);
@@ -50,7 +50,8 @@ class Jtblconfig extends REST_Controller {
 					
 				$record = array(
 							'LcPath' => $d['path'],
-							'LcFunction' => $d['function']
+							'LcFunction' => $d['function'],
+							'route_id' => $d['route']
 							);
 								
 				$result = $this->Tblconfig->save_Data($record);				

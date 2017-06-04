@@ -26,11 +26,11 @@ class Regions extends MY_Controller {
 		);
 		$data['css']=array
 		(
-			
+			// custom css here
 		);
 		$data['script']=array
 		(
-			
+			// custom script here
 		);
 		$data['page_description']='Add New Region Records';
 
@@ -53,11 +53,11 @@ class Regions extends MY_Controller {
 		);
 		$data['css']=array
 		(
-			
+			// custom css here
 		);
 		$data['script']=array
 		(
-			
+			// custom script here
 		);
 		$data['page_description']='Browse Region Records';
 
@@ -77,7 +77,8 @@ class Regions extends MY_Controller {
 	public function saveRegion()
 	{
 		$validate = array (
-			array('field'=>'region_name','label'=>'Region Name','rules'=>'trim|required|min_length[3]'),
+			array('field'=>'region_name','label'=>'Region Name','rules'=>'trim|required|min_length[3]|is_unique[regions.region_name]'),
+			array('field'=>'region_abbr','label'=>'Region Abbreviation','rules'=>'trim|required|min_length[3]|is_unique[regions.region_abbr]'),
 		);
 
 		$this->form_validation->set_rules($validate);
@@ -92,9 +93,10 @@ class Regions extends MY_Controller {
 
 			$data=array(
 				'region_name'=>$this->input->post('region_name'),
+				'region_abbr'=>$this->input->post('region_abbr'),
 			);
 			$this->Region->save_Region($data);
-			$info['message']="You have successfully saved your data!";
+			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['region_abbr']." : ".$data['region_name']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
@@ -109,6 +111,7 @@ class Regions extends MY_Controller {
 			$creation = new DateTime($rows['created_at']); 
 			array_push($data,
 				array(
+					$rows['region_abbr'],
 					$rows['region_name'],
 					$creation->format('M / d / Y'),
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_region('."'".$rows['region_id']."'".')">Edit</a>'.
@@ -132,6 +135,7 @@ class Regions extends MY_Controller {
 
 		$validate = array (
 			array('field'=>'region_name','label'=>'Region Name','rules'=>'trim|required|min_length[3]'),
+			array('field'=>'region_abbr','label'=>'Region Abbreviation','rules'=>'trim|required|min_length[3]'),
 		);
 
 		$this->form_validation->set_rules($validate);
@@ -146,10 +150,11 @@ class Regions extends MY_Controller {
 
 			$data=array(
 				'region_id'=>$this->input->post('region_id'),
+				'region_abbr'=>$this->input->post('region_abbr'),
 				'region_name'=>$this->input->post('region_name'),
 			);
 			$this->Region->update_Region($data);
-			$info['message']="You have successfully updated your data!";
+			$info['message']="<p class='success-message'>You have successfully updated <span class='message-name'>".$data['region_abbr']." : ".$data['region_name']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
@@ -177,7 +182,7 @@ class Regions extends MY_Controller {
 					'region_id'=>$this->input->post('region_id')
 				);
 				$this->Region->delete_Region($data);
-				$info['message']='Data Successfully Deleted';
+				$info['message']='Region Successfully Deleted';
 			}
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));

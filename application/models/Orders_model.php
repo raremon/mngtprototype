@@ -13,6 +13,45 @@ class Orders_model extends CI_Model
 	private $table = "orders";
 	private $query = "order_id, order_date, sales_id, ad_duration, advertiser_id, ad_id, order_status, status_date, date_start, date_end, created_at";
 	private $id = "order_id";
+  
+	public function find_Salesman($id)
+	{
+		$this->db->select("sales_id");
+		$this->db->from($this->table);
+		$this->db->where('sales_id', $id);
+		$query=$this->db->get();
+		if ($query->num_rows() > 0){
+	        return true;
+	    }
+	    else{
+	        return false;
+	    }
+	}
+
+	public function cancelOrder($id)
+	{
+		$date = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
+		$this->db->where(array($this->id=>$id));
+		$this->db->update($this->table, array('order_status'=>2, 'status_date'=>$date->format('Y-m-d H:i:s')));
+		return TRUE;
+	}
+
+	public function acceptOrder($data)
+	{
+		$this->db->where(array($this->id=>$data['order_id']));
+		$this->db->update($this->table, $data);
+		return TRUE;
+	}
+
+	public function get_Time($id)
+	{
+		$this->db->select('ad_duration');
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['ad_duration'];
+	}
 	
 	public function getpending(){
 		$this->db->select($this->query);
@@ -73,6 +112,27 @@ class Orders_model extends CI_Model
 		$this->db->delete($this->table);
 		return TRUE;
 	}
+
+	public function getOrders($where=null, $orwhere=null){
+		
+		$this->db->select('*')
+			->from($this->table)
+			->join('advertisers',$this->table.'.advertiser_id=advertisers.advertiser_id','inner');			
+
+		if( isset($where) )
+			$this->db->where($where);
+
+		if( isset($orwhere) )
+			$this->db->or_where($orwhere);
+				
+		$query = $this->db->get();
+			
+		// echo $this->db->last_query();
+		// exit;
+			
+		return $query->result_array();		
+	}
+	
 	////////////////////////////////////////////////////////////////
 	// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 	////////////////////////////////////////////////////////////////

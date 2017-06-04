@@ -53,7 +53,7 @@ class Locations extends MY_Controller {
 			array_push($data['region'],
 				array(
 					$rows['region_id'],
-					$rows['region_name'],
+					$rows['region_abbr']." : ".$rows['region_name'],
 				)
 			);
 		}
@@ -104,7 +104,7 @@ class Locations extends MY_Controller {
 			array_push($data['region'],
 				array(
 					$rows['region_id'],
-					$rows['region_name'],
+					$rows['region_abbr']." : ".$rows['region_name'],
 				)
 			);
 		}
@@ -142,6 +142,8 @@ class Locations extends MY_Controller {
 			$data=array(
 				'location_name'=>$this->input->post('location_name'),
 				'city_id'=>$this->input->post('city_id'),
+				'latitude'=>$this->input->post('latitude'),
+				'longitude'=>$this->input->post('longitude'),
 			);
 			$this->Location->create($data);
 			$info['message']="You have successfully saved <b>".$data['location_name']."</b>!";
@@ -152,6 +154,7 @@ class Locations extends MY_Controller {
 	public function show()
 	{
 		$table = $this->Location->read();
+		$ctr = 0;
 		$data = array();
 		foreach ($table as $rows) {
 			$creation = new DateTime($rows['created_at']); 
@@ -160,11 +163,38 @@ class Locations extends MY_Controller {
 				array(
 					$rows['location_name'],
 					$name,
-					$creation->format('M / d / Y'),
+					"<div id='table-map-canvas-".$ctr."' class='table-canvas'> </div>
+					  <script type='text/javascript'>
+
+					  	var latlng".$ctr." = new google.maps.LatLng(". $rows['latitude'] .", ". $rows['longitude'] .");
+					  	
+						var map".$ctr." = new google.maps.Map( document.getElementById('table-map-canvas-".$ctr."'),{
+							center:latlng".$ctr.",
+							zoom:17,
+							scrollwheel: false,
+						    navigationControl: false,
+						    mapTypeControl: false,
+						    scaleControl: false,
+						    draggable: false,
+						    disableDefaultUI: true,
+						    mapTypeId: google.maps.MapTypeId.ROADMAP
+						});
+
+						var marker".$ctr." = new google.maps.Marker({
+							position:{
+								lat: ". $rows['latitude'] .",
+								lng: ". $rows['longitude'] ."
+							},
+							map:map".$ctr.",
+							draggable: false
+						});
+					  </script>
+					",
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_location('."'".$rows['location_id']."'".')">Edit</a>'.
 					'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_location('."'".$rows['location_id']."'".",'".$rows['location_name']."'".')">Delete</a>'
 				)
 			);
+			$ctr += 1;
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 	}
@@ -192,6 +222,8 @@ class Locations extends MY_Controller {
 			$data=array(
 				'location_id'=>$this->input->post('location_id'),
 				'location_name'=>$this->input->post('location_name'),
+				'latitude'=>$this->input->post('latitude'),
+				'longitude'=>$this->input->post('longitude'),
 				'city_id'=>$this->input->post('city_id'),
 			);
 			$this->Location->update($data);

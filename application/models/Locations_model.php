@@ -11,7 +11,7 @@ class Locations_model extends CI_Model
 	}
 
 	private $table = "locations";
-	private $query = "location_id, city_id, location_name, created_at";
+	private $query = "location_id, city_id, location_name, latitude, longitude, created_at";
 	private $id = "location_id";
 
 	//Find if city exists in Location
@@ -32,12 +32,12 @@ class Locations_model extends CI_Model
 	//Get name by Location Id
 	public function get_Name($id)
 	{
-		$this->db->select("location_name");
+		$this->db->select("location_name, latitude, longitude");
 		$this->db->from($this->table);
 		$this->db->where('location_id', $id);
 		$query = $this->db->get();
-		$row = $query->row_array();
-		return $row['location_name'];
+		// $row = $query->row_array();
+		return $query->row_array();
 	}
 
 	//Gets all locations according to a specific city

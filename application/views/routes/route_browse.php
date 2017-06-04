@@ -1,3 +1,5 @@
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJAq_K8XorLcD2nKKsrmB7BserF3Wh3Ss&libraries=places" type="text/javascript"></script>
+
 <div class="modal fade" id="route-box" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -114,8 +116,8 @@
               <tr>
                 <th>ROUTE NAME</th>
                 <th>ROUTE DESCRIPTION</th>
-                <th>LOCATION FROM</th>
-                <th>LOCATION TO</th>
+                <th>LOCATION</th>
+                <th>MAP</th>
                 <th></th>
               </tr>
             </thead>
@@ -208,7 +210,7 @@
     ;
     if(filteredCityFrom.length<1)
     {
-      $('.save').prop('disabled', true);
+      $('.update').prop('disabled', true);
     }
     else
     {
@@ -218,8 +220,6 @@
           .text(value[1])); 
       });
     }
-    $('#city_from').chosen("destroy").chosen();
-    $('#location_from').chosen("destroy").chosen();
   }
 
   function filterLocationFrom() {
@@ -252,7 +252,7 @@
     locationToTrim();
     if(filteredLocationFrom.length<1)
     {
-      $('.save').prop('disabled', true);
+      $('.update').prop('disabled', true);
     }
     else
     {
@@ -262,7 +262,6 @@
           .text(value[1])); 
       });
     }
-    $('#location_from').trigger("chosen:updated");
   }
 
   function filterCityTo() {
@@ -294,7 +293,7 @@
     ;
     if(filteredCityTo.length<1)
     {
-      $('.save')
+      $('.update')
         .prop('disabled', true)
       ;
     }
@@ -306,8 +305,6 @@
           .text(value[1])); 
       });
     }
-    $('#city_to').chosen("destroy").chosen();
-    $('#location_to').chosen("destroy").chosen();
   }
 
   function filterLocationTo() {
@@ -340,7 +337,7 @@
     locationFromTrim();
     if(filteredLocationTo.length<1)
     {
-      $('.save')
+      $('.update')
         .prop('disabled', true)
       ;
     }
@@ -352,79 +349,66 @@
           .text(value[1])); 
       });
     }
-    $('#location_to').trigger("chosen:updated");
   }
 
-  $('#region_to').chosen();
-
   $( "#region_to" ).change(function() {
-    $('.save').prop('disabled', false);
+    $('.update').prop('disabled', false);
     filterCityTo();
     filterLocationTo();
 
     var tempFrom = $( "#location_from" ).val();
     filterLocationFrom();
     $("#location_from").val(tempFrom);
-    $('#location_from').trigger("chosen:updated");
   });
 
   $( "#city_to" ).change(function() {
-    $('.save').prop('disabled', false);
+    $('.update').prop('disabled', false);
     filterLocationTo();
 
     var tempFrom = $( "#location_from" ).val();
     filterLocationFrom();
     $("#location_from").val(tempFrom);
-    $('#location_from').trigger("chosen:updated");
   });
 
   $( "#location_to" ).change(function() {
-    $('.save').prop('disabled', false);
+    $('.update').prop('disabled', false);
     var tempTo = $( "#location_to" ).val();
     filterLocationTo();
     $("#location_to").val(tempTo);
-    $('#location_to').trigger("chosen:updated");
 
     var tempFrom = $( "#location_from" ).val();
     filterLocationFrom();
     $("#location_from").val(tempFrom);
-    $('#location_from').trigger("chosen:updated");
   });
 
-  $('#region_from').chosen();
-
   $( "#region_from" ).change(function() {
-    $('.save').prop('disabled', false);
+    $('.update').prop('disabled', false);
     filterCityFrom();
     filterLocationFrom();
 
     var tempTo = $( "#location_to" ).val();
     filterLocationTo();
     $("#location_to").val(tempTo);
-    $('#location_to').trigger("chosen:updated");
   });
 
   $( "#city_from" ).change(function() {
-    $('.save').prop('disabled', false);
+    $('.update').prop('disabled', false);
     filterLocationFrom();
 
     var tempTo = $( "#location_to" ).val();
     filterLocationTo();
     $("#location_to").val(tempTo);
-    $('#location_to').trigger("chosen:updated");
   });
 
   $( "#location_from" ).change(function() {
-    $('.save').prop('disabled', false);
+    $('.update').prop('disabled', false);
     var tempFrom = $( "#location_from" ).val();
     filterLocationFrom();
     $("#location_from").val(tempFrom);
-    $('#location_from').trigger("chosen:updated");
 
     var tempTo = $( "#location_to" ).val();
     filterLocationTo();
     $("#location_to").val(tempTo);
-    $('#location_to').trigger("chosen:updated");
   });
 
   function locationToTrim() {
@@ -476,20 +460,14 @@
         $('input[name="route_name"]').val(data.route_name);
         $('textarea[name="route_description"]').val(data.route_description);
 
-        $('select[id="region_from"]').val(data[0]['region_from']);
-        $('select[id="region_to"]').val(data[0]['region_to']);
-        $( "#region_from" ).change();
-        $( "#region_to" ).change();
+        $('select[id="region_from"]').val(data[0]['region_from']).trigger('change');
+        $('select[id="region_to"]').val(data[0]['region_to']).trigger('change');
 
-        $('select[name="city_to"]').val(data[0]['city_to']);
-        $('select[name="city_from"]').val(data[0]['city_from']);
-        $( "#city_to" ).change();
-        $( "#city_from" ).change();
+        $('select[name="city_to"]').val(data[0]['city_to']).trigger('change');
+        $('select[name="city_from"]').val(data[0]['city_from']).trigger('change');
 
-        $('select[name="location_to"]').val(data.location_to);
-        $('select[name="location_from"]').val(data.location_from);
-        $( "#location_to" ).change();
-        $( "#location_from" ).change();
+        $('select[name="location_to"]').val(data.location_to).trigger('change');
+        $('select[name="location_from"]').val(data.location_from).trigger('change');
       }
     })
   }
@@ -517,14 +495,13 @@
     })
   }
   // D E L E T E
-  function delete_route(route_id) {
+
+function delete_route(route_id) {
     swal({
-      title: 'ARE YOU SURE?',
+      title: 'Are you sure you want to delete?',
       text: "You cannot revert this action!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
       confirmButtonText: 'Delete',
       cancelButtonText: 'Cancel',
       confirmButtonClass: 'btn btn-success btn-fix',
@@ -533,63 +510,55 @@
       customClass: 'animated fadeInDown',
       buttonsStyling: false
     }).then(function () {
-        swal({
-         //pede to ilagay sa success modal di ko mahanap kung saan
-          title: 'DELETED SUCCESSFULLY',
-          type: 'success',
-          confirmButtonText: 'Okay',
-          confirmButtonClass: 'btn btn-success btn-fix',
-          buttonsStyling: false
-        })
+      $.ajax({
+        url: "<?php echo site_url('routes/delete_Route') ?>",
+        type: 'POST',
+        dataType: 'json',
+        data: 'route_id='+route_id,
+        encode:true,
+        success:function(data) {
+          if(!data.success){
+            if(data.errors){
+              $(window).scrollTop(0);
+              $("#route-delete-message").fadeIn("slow");
+              $('#route-delete-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#route-delete-message').fadeOut('slow');
+              }, 3000);
+            }
+          }else {
+//            $('#message-text').html(data.message);
+//            $('#successModal').modal('show');
+            swal({
+             //pede to ilagay sa success modal di ko mahanap kung saan
+              title: data.message,
+              type: 'success',
+              confirmButtonText: 'Okay',
+              confirmButtonClass: 'btn btn-success btn-fix',
+              buttonsStyling: false
+            }).then(
+              function () {
+                window.location.reload();
+              }
+            )
+          }
+        }
+      });
     }, function (dismiss) {
       if (dismiss === 'cancel') {
         swal({
-          title: 'CANCELLED',
+          title: 'Cancelled',
           type: 'error',
           confirmButtonText: 'Okay',
           confirmButtonClass: 'btn btn-default btn-fix',
-          buttonsStyling: false
+          buttonsStyling: false,
+          timer: 3000
+          
         })
       }
     })
-    if(confirm('Do you really want to delete this Route Record ??')){
-      // DITO ILALAGAY YUNG CONDITION NA PAG MAY BUS PANG NAKAASSIGN DUN SA DRIVER, YUN MUNA YUNG IDIDELETE MO
-      if(false)
-      {
-        // $(window).scrollTop(0);
-        // $("#user-delete-message").fadeIn("slow");
-        // $('#user-delete-message').html("Cannot delete your own account!").addClass('alert alert-danger');
-        // setTimeout(function() {
-        //     $('#user-delete-message').fadeOut('slow');
-        // }, 3000);
-      }
-      else
-      {
-        $.ajax({
-          url: "<?php echo site_url('routes/delete_Route') ?>",
-          type: 'POST',
-          dataType: 'json',
-          data: 'route_id='+route_id,
-          encode:true,
-          success:function(data) {
-            if(!data.success){
-              if(data.errors){
-                $(window).scrollTop(0);
-                $("#route-delete-message").fadeIn("slow");
-                $('#route-delete-message').html(data.errors).addClass('alert alert-danger');
-                setTimeout(function() {
-                    $('#route-delete-message').fadeOut('slow');
-                }, 3000);
-              }
-            }else {
-              $('#message-text').html(data.message);
-              $('#successModal').modal('show');
-            }
-          }
-        });
-      }
-    }
-  }
+  }    
+
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////

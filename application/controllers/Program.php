@@ -16,6 +16,16 @@
 			$this->load->model('routes_model', 'Route');
 			$this->load->model('ads_model', 'Ad');
 
+			$this->load->model('orders_model', 'Order');
+			$this->load->model('order_slots_model', 'Tslot');
+			$this->load->model('order_routes_model', 'RouteOrder');
+
+			$this->load->model('timeslots_model', 'Timeslot');
+			$this->load->model('salesmen_model', 'Sales');
+
+			$this->load->model('nschedules_model', 'nSched');
+
+			// DI NA KELANGAN
 			$this->load->model('schedules_model', 'Schedule');
 			$this->load->model('ad_schedules_model', 'Ad_Schedule');
 			$this->load->model('airtimes_model', 'Airtime');
@@ -132,15 +142,15 @@
             $this->load->view("template/footer", $data);
         }
         
-		public function order()
+		public function browseOrder()
         {
             $data = array();
             $data['role'] = $this->logged_out_check();
-            $data['title']='New Ad Order';
-            $data['page_description'] = 'Approve/Cancel Orders';
+            $data['title']='Browse Approved Ad Order';
+            $data['page_description'] = 'List Of Approved Ad Orders';
             $data['breadcrumbs']=array
             (
-                array('New Ad Order','program/order'),
+                array('Browse Approve Ad Order','program/browseOrder'),
             );
             $data['css']=array
             (
@@ -172,6 +182,33 @@
 				);
 			}
             $data['treeActive'] = 'program_schedule';
+            $data['childActive'] = 'browse_approve_ad' ;
+
+            $this->load->view("template/header", $data);
+            $this->load->view("program/browse_approve_ad", $data);
+            $this->load->view("template/footer", $data);
+        }
+        
+		public function order()
+        {
+            $data = array();
+            $data['role'] = $this->logged_out_check();
+            $data['title']='New Ad Order';
+            $data['page_description'] = 'Approve/Cancel Orders';
+            $data['breadcrumbs']=array
+            (
+                array('New Ad Order','program/order'),
+            );
+            $data['css']=array
+            (
+
+            );
+            $data['script']=array
+            (
+
+            );
+
+            $data['treeActive'] = 'program_schedule';
             $data['childActive'] = 'new_ad_order' ;
 
             $this->load->view("template/header", $data);
@@ -179,6 +216,304 @@
             $this->load->view("template/footer", $data);
         }
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+		//                    A  P  P  R  O  V  E      F  U  N  C  T  I  O  N  S                          //
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+        public function showOrders()
+        {
+        	$table = $this->Order->getpending();
+			$data = array();
+			foreach ($table as $rows) {
+				$order_date = new DateTime($rows['order_date']);
+				$advertiser = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
+				array_push($data,
+					array(
+						$rows['order_id'],
+						$advertiser['advertiser_name'],
+						$order_date->format('M / d / Y'),
+						'<button type="button" class="btn btn-success" onclick="openModal('."'".$rows['order_id']."'".')">Manage Order</button>',
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
+        public function editOrders()
+        {
+        	$id=$this->input->post('order_id');
+			$data=$this->Order->edit($id);
+
+			$advertiser = $this->Advertiser->edit_Advertiser_Data($data['advertiser_id']);
+			$data['advertiser_name'] = $advertiser['advertiser_name'];
+
+			$data['route_id'] = array();
+			$route = $this->RouteOrder->getRoutes($data['order_id']);
+			foreach ($route as $rows) {
+				$route_data = $this->Route->edit_Route_Data($rows['route_id']);
+				array_push($data['route_id'],
+					array(
+						$route_data['route_name'],
+						'<button type="button" class="btn btn-danger routeDel" id="route'.$rows['orderroutes_id'].'" onclick="deleteRoute('."'".$rows['orderroutes_id']."'".')">Delete</button>',
+					)
+				);
+			}
+
+			$data['tslot_id'] = array();
+			$tslot = $this->Tslot->getTslots($data['order_id']);
+			foreach ($tslot as $rows) {
+				$display = '';
+				if($rows['display_type'] == 1)
+				{
+					$display = 'Normal';
+				}
+				else if($rows['display_type'] == 2)
+				{
+					$display = 'Split Main';
+				}
+				else if($rows['display_type'] == 3)
+				{
+					$display = 'Star 8 Content';
+				}
+				else if($rows['display_type'] == 4)
+				{
+					$display = 'Split Top Right';
+				}
+				else if($rows['display_type'] == 5)
+				{
+					$display = 'Split Bottom Right';
+				}
+				$tslot_data = $this->Timeslot->edit($rows['tslot_id']);
+				array_push($data['tslot_id'],
+					array(
+						$tslot_data['tslot_time'],
+						$display,
+						$rows['times_repeat'].'x',
+						'<button type="button" class="btn btn-danger slotDel" id="tslot'.$rows['orderslot_id'].'" onclick="deleteSlot('."'".$rows['orderslot_id']."'".')">Delete</button>',
+					)
+				);
+			}
+
+			$date_start = new DateTime($data['date_start']);
+			$date_end = new DateTime($data['date_end']);
+			if($data['date_end'] != NULL)
+			{
+				$data['dates'] = $date_start->format('M / d / Y').' to '.$date_end->format('M / d / Y');
+			}
+			else
+			{
+				$data['dates'] = $date_start->format('M / d / Y');
+			}
+
+			$ads = $this->Ad->get_Ad_Data($data['advertiser_id']);
+			$data['advertisement_id'] = array();
+			foreach ($ads as $rows) {
+				array_push($data['advertisement_id'],
+					array(
+						$rows['ad_id'],
+						'
+							<button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>
+
+							<div id="modal'.$rows['ad_id'].'" class="modal fade" role="dialog" style="width:100%;z-index:1100;">
+							  <div class="modal-dialog modal-lg">
+							    <div class="modal-content browser-style">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							        <h4 class="modal-title">'.$rows['ad_filename'].'</h4>
+							      </div>
+							      <div class="modal-body">
+							        <video id="v'.$rows["ad_id"].'" width="100%" controls>
+							  			<source src="'.base_url("assets/ads/".$rows["ad_filename"]).'" type="video/mp4">
+							  			Your browser does not support HTML5 video.
+									</video>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Close</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						',
+						$rows['ad_name'],
+						$rows['ad_duration']." seconds",
+						'<button type="button" class="btn btn-info selectAd" id="ad'.$rows['ad_id'].'" onclick="selectAd('."'".$rows['ad_id']."'".')">Select</button>',
+					)
+				);
+			}
+
+
+			$sales = $this->Sales->edit($data['sales_id']);
+			$data['salesman'] = $sales['sales_fname']." ".$sales['sales_lname'];
+
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+        }
+        public function cancelOrder()
+        {
+        	$validate = array (
+				array('field'=>'order_id','label'=>'Order Id','rules'=>'required'),
+			);
+			$this->form_validation->set_rules($validate);
+			if ($this->form_validation->run()===FALSE) 
+			{
+				$info['success']=FALSE;
+				$info['errors']=validation_errors();
+			}
+			else
+			{
+				$info['success']=TRUE;
+
+				$this->Order->cancelOrder($this->input->post('order_id'));
+
+				$info['message']="<p class='success-message'>You have successfully canceled <span class='message-name'>Order Number ".$this->input->post('order_id')."</span>!</p>";
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode($info));
+        }
+        public function approveOrder()
+        {
+        	$validate = array (
+				array('field'=>'ad_id','label'=>'Ad Id','rules'=>'required'),
+			);
+			$this->form_validation->set_rules($validate);
+			if ($this->form_validation->run()===FALSE) 
+			{
+				$info['success']=FALSE;
+				$info['errors']='Please select Advertisement';
+			}
+			else
+			{
+				$info['success']=TRUE;
+
+				$date = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
+				$data=array(
+					'order_id'=>$this->input->post('order_id'),
+					'ad_id'=>$this->input->post('ad_id'),
+					'order_status'=>1,
+					'status_date'=>$date->format('Y-m-d H:i:s'),
+				);
+
+				$this->Order->acceptOrder($data);
+
+				$selected_route = json_decode($this->input->post('deleted_route'), TRUE);
+				foreach ($selected_route as $rows) {
+					$this->RouteOrder->deleteOrder($this->input->post('order_id'), $rows);
+				}
+
+				$selected_tslot = json_decode($this->input->post('deleted_tslot'), TRUE);
+				foreach ($selected_tslot as $rows) {
+					$this->Tslot->deleteTslot($this->input->post('order_id'), $rows);
+				}
+				$this->assignNewSchedule($data['order_id']);
+				$info['message']="<p class='success-message'>You have successfully approved <span class='message-name'>Order Number ".$this->input->post('order_id')."</span>!</p>";
+			}
+
+			$this->output->set_content_type('application/json')->set_output(json_encode($info));
+        }
+        public function assignNewSchedule($order_id)
+        {
+        	// GET ( AD ID, AD DURATION, DATE_START, DATE_END )
+        	$order = $this->Order->edit($order_id);
+        	// GET ( TSLOT ID, DISPLAY_TYPE, TIMES_REPEAT ) TIMESLOTS FROM ORDER_SLOTS(ORDER_ID)
+        	$tslot = $this->Tslot->getTslots($order_id);
+        	// GET ( ROUTE ID ) ROUTES FROM ORDER_ROUTES(ORDER_ID)
+        	$orderroute = $this->RouteOrder->getRoutes($order_id);
+        	// FOREACH TSLOT AS SLOT
+        	foreach ($tslot as $slot) {
+        		$display = 0;
+        		$win = 0;
+        		if($slot['display_type'] == 2)
+        		{
+        			$win = 1;
+        			$display = 2;
+        		}
+        		else if($slot['display_type'] == 4)
+        		{
+        			$win = 2;
+        			$display = 2;
+        		}
+        		else if($slot['display_type'] == 5)
+        		{
+        			$win = 3;
+        			$display = 2;
+        		}
+        		else
+        		{
+        			$win = 0;
+        		}
+        		//    FOREACH ORDERROUTE AS ROWS
+        		foreach ($orderroute as $row) {
+        			$data=array(
+						'ad_id'=>$order['ad_id'],
+						'paid_duration'=>$order['ad_duration'],
+						'date_start'=>$order['date_start'],
+						'date_end'=>$order['date_end'],
+						'timeslot'=>$slot['tslot_id'],
+						'times_repeat'=>$slot['times_repeat'],
+						'display_type'=>$display,
+						'win_123'=>$win,
+						'route_id'=>$row['route_id'],
+						'order_id'=>$order_id,
+						'status'=>0,
+					);
+					$this->nSched->create($data);
+        		}
+        	}
+        	return TRUE;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+        public function showApprovedOrders()
+        {
+        	// Order Id , Advertiser, Ad Title, Ad Duration, Air Dates, Date Ordered, Date Approved
+        	// orders.order_id
+        	// advertisers.advertiser_name(orders.advertiser_id)
+        	// ads.ad_name(orders.ad_id)
+        	// orders.ad_duration
+        	// orders.date_start and/or orders.date_end
+        	// orders.order_date
+        	// orders.status_date
+
+        	$table = $this->Order->getapproved();
+			$data = array();
+			foreach ($table as $rows) {
+				//advertiser
+				$advertiser = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
+				// ads
+				$ads = $this->Ad->edit_Ad_Data($rows['ad_id']);
+				// datestart
+				$date_start = new DateTime($rows['date_start']);
+				// dateend
+				$date_end = new DateTime($rows['date_end']);
+				// order date
+				$order_date = new DateTime($rows['order_date']);
+				// status date
+				$status_date = new DateTime($rows['status_date']);
+				$dates = "";
+				if($rows['date_end'] != NULL)
+				{
+					$dates = $date_start->format('M / d / Y').' to '.$date_end->format('M / d / Y');
+				}
+				else
+				{
+					$dates = $date_start->format('M / d / Y');
+				}
+
+				array_push($data,
+					array(
+						$rows['order_id'],
+						'<button type="button" class="btn btn-link" onclick="getAdvertiserData('."'".$advertiser['advertiser_id']."'".')">'.$advertiser['advertiser_name'].'</button>',
+						// $advertiser['advertiser_name'],
+						'<button type="button" class="btn btn-link" onclick="getAdvertisementData('."'".$ads['ad_id']."'".')">'.$ads['ad_name'].'</button>',
+						// $ads['ad_name'],
+						$rows['ad_duration'].' seconds',
+						$dates,
+						$order_date->format('M / d / Y'),
+						$status_date->format('M / d / Y'),
+						// '<button type="button" class="btn btn-success" onclick="openModal('."'".$rows['order_id']."'".')">Manage Order</button>',
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                     R  E  G  U  L  A  R     F  U  N  C  T  I  O  N  S                          //
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -190,7 +525,6 @@
 			$data = $this->advertisementPush($ad_table);
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-
 		public function appendAd($ad_id)
 		{
 			$selected_table = $this->Ad->find_Ad_Data($ad_id);
@@ -198,7 +532,6 @@
 			$data = $this->selectedPush($selected_table);
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-
 		public function advertisementPush($table)
 		{
 			$pushdata = array();
@@ -237,7 +570,6 @@
 			}
 			return $pushdata;
 		}
-
 		public function selectedPush($table)
 		{
 			$pushdata = array();
@@ -297,10 +629,6 @@
 			$this->output->set_content_type('application/json')->set_output(json_encode($info));
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-		//            E  N  D     O  F     R  E  G  U  L  A  R     F  U  N  C  T  I  O  N  S              //
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                  S  C  H  E  D  U  L  E  D     F  U  N  C  T  I  O  N  S                       //
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		public function showAdSched($advertiser_id)
@@ -311,7 +639,6 @@
 			$data = $this->advertisementPushSched($ad_table);
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-
 		public function appendAdSched($ad_id)
 		{
 			$selected_table = $this->Ad->find_Ad_Data($ad_id);
@@ -319,7 +646,6 @@
 			$data = $this->selectedPushSched($selected_table);
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-
 		public function advertisementPushSched($table)
 		{
 			$pushdata = array();
@@ -363,7 +689,6 @@
 			}
 			return $pushdata;
 		}
-
 		public function selectedPushSched($table)
 		{
 			$pushdata = array();
@@ -380,11 +705,9 @@
 			}
 			return $pushdata;
 		}
-
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
-
 		// C R E A T E
 		public function saveScheduleProgram()
 		{
@@ -429,15 +752,6 @@
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode($info));
 		}
-
-		////////////////////////////////////////////////////////////////
-		// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
-		////////////////////////////////////////////////////////////////
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		//         E  N  D     O  F     S  C  H  E  D  U  L  E  D     F  U  N  C  T  I  O  N  S           //
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		//////////////////////////////////////////////////////////////////////////////////////////////
 		//                  B  L  O  C  K  E  D     F  U  N  C  T  I  O  N  S                       //
 		//////////////////////////////////////////////////////////////////////////////////////////////
@@ -448,7 +762,6 @@
 			$data = $this->advertisementPushBlock($ad_table);
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-
 		public function appendAdBlock($ad_id)
 		{
 			$selected_table = $this->Ad->find_Ad_Data($ad_id);
@@ -456,7 +769,6 @@
 			$data = $this->selectedPushBlock($selected_table);
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-
 		public function advertisementPushBlock($table)
 		{
 			$pushdata = array();
@@ -500,7 +812,6 @@
 			}
 			return $pushdata;
 		}
-
 		public function selectedPushBlock($table)
 		{
 			$pushdata = array();
@@ -575,18 +886,9 @@
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode($info));
 		}
-		////////////////////////////////////////////////////////////////
-		// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
-		////////////////////////////////////////////////////////////////
-
-		//////////////////////////////////////////////////////////////////////////////////////////////
-		//         E  N  D     O  F     B  L  O  C  K  E  D     F  U  N  C  T  I  O  N  S           //
-		//////////////////////////////////////////////////////////////////////////////////////////////
-
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		//                     B  R  O  W  S  E     F  U  N  C  T  I  O  N  S                          //
 		/////////////////////////////////////////////////////////////////////////////////////////////////
-
 		public function overall_Table()
 		{
 			$ad_table = $this->Schedule->get_Schedule_All();
@@ -596,7 +898,6 @@
 
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-        
         public function advertiser_Table($advertiser_id)
 		{
 			$ad_table = $this->Schedule->get_Schedule_Data($advertiser_id);
@@ -606,7 +907,6 @@
 
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-
 		public function route_Table($route_id)
 		{
 			$ad_table = $this->Schedule->get_Schedule_Route($route_id);
@@ -616,7 +916,6 @@
 
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-
 		public function type_Table($type_id)
 		{
 			$type_table = $this->Schedule->get_Schedule_Type($type_id);
@@ -624,7 +923,6 @@
 			$data = $this->typeShowPush($type_table);
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 		}
-        
         public function overallShowPush($table)
 		{
 			$pushdata = array();
@@ -735,7 +1033,6 @@
 			}
 			return $pushdata;
 		}
-        
 		public function advertisementShowPush($table, $advertiser)
 		{
 			$pushdata = array();
@@ -843,7 +1140,6 @@
 			}
 			return $pushdata;
 		}
-
 		public function routeShowPush($table, $route)
 		{
 			$pushdata = array();
@@ -952,7 +1248,6 @@
 			}
 			return $pushdata;
 		}
-
 		public function typeShowPush($table)
 		{
 			$pushdata = array();
@@ -1063,9 +1358,6 @@
 			}
 			return $pushdata;
 		}
-		/////////////////////////////////////////////////////////////////////////////////////////////////
-		//            E  N  D     O  F     B  R  O  W  S  E    F  U  N  C  T  I  O  N  S               //
-		/////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 
 // END OF PROGRAM SCHEDULE CONTROLLER

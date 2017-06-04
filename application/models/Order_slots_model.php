@@ -10,6 +10,7 @@ class Order_slots_model extends CI_Model
 	private $table = "order_slots";
 	private $query = "orderslot_id, order_id, tslot_id, display_type, times_repeat";
 	private $id = "orderslot_id";
+
 	public function getTslots($id)
 	{
 		$this->db->select($this->query);
@@ -18,6 +19,7 @@ class Order_slots_model extends CI_Model
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
 	public function find_Orders($id)
 	{
 		$this->db->select('order_id');
@@ -25,6 +27,7 @@ class Order_slots_model extends CI_Model
 		$this->db->where('tslot_id', $id);
 		$query = $this->db->get();
 	}
+
 	public function get_by_id($orderslot_id){
 		$this->db->select($this->query);
 		$this->db->from($this->table);
