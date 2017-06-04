@@ -127,6 +127,7 @@
       }
     })
   }
+
   function update_Ad() {
     $.ajax({
       url: "<?php echo site_url('ads_mngt/updateAd') ?>",
