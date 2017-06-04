@@ -464,8 +464,8 @@ class Mobileapp extends REST_Controller
 		$data1['ad_duration']   = $data['ad_duration'];
 		$data1['advertiser_id'] = $data['advertiser_id'];
 		$data1['order_status']  = 0;
-		$data1['date_start']    = new DateTime($data['date_start']);
-		$data1['date_end']      = new DateTime($data['date_end']);
+		$data1['date_start']    = $data['date_start'];
+		$data1['date_end']      = $data['date_end'];
 		
 		$data2['route_id'] = $data['route_id'];
 		
