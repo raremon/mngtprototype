@@ -36,6 +36,26 @@ class Fillers_model extends CI_Model{
 		
 	}
 
+	public function getMinFiller($where=null,$orwhere=null){
+
+		$this->db->select('MIN(filler_duration) AS min_time')
+			->from($this->table);			
+
+		if( isset($where) )
+			$this->db->where($where);
+
+		if( isset($orwhere) )
+			$this->db->or_where($orwhere);
+				
+		$query = $this->db->get();
+			
+		// echo $this->db->last_query();
+		// exit;
+			
+		return $query->result_array();
+		
+	}	
+
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
