@@ -82,19 +82,49 @@ class Mobileapp extends REST_Controller
 	// ----------------  DATA RETRIEVAL FUNCTIONS  ---------------- //
 	public function getinfo_post()
 	{
-		/* JSON method to get ad owner info for Android app */
+		/* JSON method to get ad owner or salesman info for Android app */
 		// http://[::1]/star8/api/mobileapp/getinfo
 		
 		$data = $this->post();
 		if( isset($data['owner_id']) && isset($data['user']) && isset($data['pass']) )
 		{
-			
 			// Goes to model to validate credentials
 			$response = $this->Owner_Accounts->validate_mobile($data);
-			if($response != -1)
+			if(isset($response['owner_id']))
 			{
-				// Goes to model to get ad owner data
-				$result = $this->Owners->get_by_id($data['owner_id']);
+				if($response['owner_id'] == $data['owner_id'])
+				{
+					// Goes to model to get ad owner data
+					$result = $this->Owners->get_by_id($response['advertiser_id']);
+				}
+				else
+				{
+					// If direct user access
+					$result = -1;
+				}
+			}
+			else
+			{
+				// If failed to validate or user changes password
+				$result = -1;
+			}
+		}
+		else if( isset($data['user_id']) && isset($data['user']) && isset($data['pass']) )
+		{
+			// Goes to model to validate credentials
+			$response = $this->Salesmen->validate_mobile($data);
+			if(isset($response['user_id']))
+			{
+				if($response['user_id'] == $data['user_id'])
+				{
+					// Goes to model to get salesman data (to be added)
+					//$result = $this->Owners->get_by_id($data['owner_id']);
+				}
+				else
+				{
+					// If direct user access
+					$result = -1;
+				}
 			}
 			else
 			{
@@ -110,6 +140,7 @@ class Mobileapp extends REST_Controller
 		// Returns an object or -1
 		$this->response($result);
 	}
+	
 	public function getschedavailability_get()
 	{
 		/* JSON method to get schedule availability */
