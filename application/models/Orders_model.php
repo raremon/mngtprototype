@@ -112,6 +112,27 @@ class Orders_model extends CI_Model
 		$this->db->delete($this->table);
 		return TRUE;
 	}
+
+	public function getOrders($where=null, $orwhere=null){
+		
+		$this->db->select('*')
+			->from($this->table)
+			->join('advertisers',$this->table.'.advertiser_id=advertisers.advertiser_id','inner');			
+
+		if( isset($where) )
+			$this->db->where($where);
+
+		if( isset($orwhere) )
+			$this->db->or_where($orwhere);
+				
+		$query = $this->db->get();
+			
+		// echo $this->db->last_query();
+		// exit;
+			
+		return $query->result_array();		
+	}
+	
 	////////////////////////////////////////////////////////////////
 	// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 	////////////////////////////////////////////////////////////////

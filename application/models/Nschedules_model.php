@@ -16,7 +16,7 @@ class Nschedules_model extends CI_Model
 		return $this->db->count_all_results();
 	}
 
-	public function getSchedules($where=null,$date=null){
+	public function getSchedules($where=null,$date=null,$orwhere=null){
 
 		$this->db->select('*')
 				->from($this->table)
@@ -199,6 +199,34 @@ class Nschedules_model extends CI_Model
 			$query = $this->db->get();
 			return $query->result_array();
 		}
+
+	public function getSchedulesDetailed($where=null,$date=null,$orwhere=null){
+
+		$this->db->select('*')
+				->from($this->table)
+				->join('ads',$this->table.'.ad_id=ads.ad_id','inner')
+				->join('advertisers','ads.advertiser_id=advertisers.advertiser_id','inner')
+				->join('timeslots',$this->table.'.timeslot=timeslots.tslot_id','inner');
+		
+		if( isset($where) )
+			$this->db->where($where);
+		
+		if( isset($date) ){
+			$this->db->where('date_start <',$date);
+			$this->db->where('date_end >',$date);
+		}
+
+		if( isset($orwhere) )
+			$this->db->or_where($orwhere);
+			
+		$query = $this->db->get();
+		
+		// echo $this->db->last_query();
+		// exit;
+		
+		return $query->result_array();
+	
+	}		
 
 		// // U P D A T E
 		// public function edit_Schedule_Data($ad_id)

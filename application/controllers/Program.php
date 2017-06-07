@@ -14,6 +14,7 @@
 
 			$this->load->model('advertisers_model', 'Advertiser');
 			$this->load->model('routes_model', 'Route');
+			$this->load->model('locations_model', 'Location');
 			$this->load->model('ads_model', 'Ad');
 
 			$this->load->model('orders_model', 'Order');
@@ -207,28 +208,6 @@
             (
 
             );
-
-			// $advertiser_data = $this->Advertiser->show_Advertiser();
-			// $data['advertiser'] = array();
-			// foreach ($advertiser_data as $rows) {
-			// 	array_push($data['advertiser'],
-			// 		array(
-			// 			$rows['advertiser_id'],
-			// 			$rows['advertiser_name'],
-			// 		)
-			// 	);
-			// }
-
-			// $route_data = $this->Route->show_Route();
-			// $data['route'] = array();
-			// foreach ($route_data as $rows) {
-			// 	array_push($data['route'],
-			// 		array(
-			// 			$rows['route_id'],
-			// 			$rows['route_name'],
-			// 		)
-			// 	);
-			// }
 
             $data['treeActive'] = 'program_schedule';
             $data['childActive'] = 'new_ad_order' ;
@@ -428,7 +407,6 @@
 
 			$this->output->set_content_type('application/json')->set_output(json_encode($info));
         }
-
         public function assignNewSchedule($order_id)
         {
         	// GET ( AD ID, AD DURATION, DATE_START, DATE_END )
@@ -462,7 +440,6 @@
         		}
         		//    FOREACH ORDERROUTE AS ROWS
         		foreach ($orderroute as $row) {
-     //    			//DATA = AD ID, AD DURATION, DATE START, DATE END, SLOT.TSLOT_ID, SLOT.TIMES_REPEAT, SLOT.DISPLAY_TYPE ( IF 2 , 4 , 5 { MAKE 2 }) , 2 = 1 ; 4 = 2 ; 5 = 3 ROWS.ROUTE_ID, ORDER_ID, STATUS=0
         			$data=array(
 						'ad_id'=>$order['ad_id'],
 						'paid_duration'=>$order['ad_duration'],
@@ -480,6 +457,177 @@
         		}
         	}
         	return TRUE;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+        public function showApprovedOrders()
+        {
+        	// Order Id , Advertiser, Ad Title, Ad Duration, Air Dates, Date Ordered, Date Approved
+        	// orders.order_id
+        	// advertisers.advertiser_name(orders.advertiser_id)
+        	// ads.ad_name(orders.ad_id)
+        	// orders.ad_duration
+        	// orders.date_start and/or orders.date_end
+        	// orders.order_date
+        	// orders.status_date
+
+        	$table = $this->Order->getapproved();
+			$data = array();
+			foreach ($table as $rows) {
+				//advertiser
+				$advertiser = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
+				// ads
+				$ads = $this->Ad->edit_Ad_Data($rows['ad_id']);
+				// datestart
+				$date_start = new DateTime($rows['date_start']);
+				// dateend
+				$date_end = new DateTime($rows['date_end']);
+				// order date
+				$order_date = new DateTime($rows['order_date']);
+				// status date
+				$status_date = new DateTime($rows['status_date']);
+				$dates = "";
+				if($rows['date_end'] != NULL)
+				{
+					$dates = $date_start->format('M / d / Y').' to '.$date_end->format('M / d / Y');
+				}
+				else
+				{
+					$dates = $date_start->format('M / d / Y');
+				}
+
+				array_push($data,
+					array(
+						$rows['order_id'],
+						'<button type="button" class="btn btn-link" onclick="getAdvertiserData('."'".$advertiser['advertiser_id']."'".')">'.$advertiser['advertiser_name'].'</button>',
+						// $advertiser['advertiser_name'],
+						'<button type="button" class="btn btn-link" onclick="getAdvertisementData('."'".$ads['ad_id']."'".')">'.$ads['ad_name'].'</button>',
+						// $ads['ad_name'],
+						$rows['ad_duration'].' seconds',
+						$dates,
+						$order_date->format('M / d / Y'),
+						$status_date->format('M / d / Y'),
+						'<button type="button" class="btn btn-info" onclick="seeMore('."'".$rows['order_id']."'".')"><span class="fa fa-eye"></span></button>',
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
+
+        public function seeMore()
+        {		
+        	$order=$this->input->post('order_id');
+        	// $ctr = 0;
+
+			$orderRoute = $this->RouteOrder->getRoutes($order);
+			$routes = array();
+			foreach($orderRoute as $row)
+			{
+				$route_data = $this->Route->edit_Route_Data($row['route_id']);
+				$location_from = $this->Location->get_Name( $route_data['location_from'] );
+				$location_to = $this->Location->get_Name( $route_data['location_to'] );
+				array_push($routes,
+					array(
+						$route_data['route_name'],
+						$route_data['route_description'],
+						$location_from['location_name'].' to '.$location_to['location_name'],
+						// "<div id='table-map-canvas-".$ctr.$order."' class='table-canvas'> </div>
+						//   <script type='text/javascript'>
+						//////////////////////////////////////////////////////
+						//  MAP NOT WORKING YET
+						//  CANT INITIALIZE IN MODAL
+						//////////////////////////////////////////////////////
+						//   	var Xmarkers".$ctr.$order." = [
+						// 		[ '".$location_from['location_name']."' , ".$location_from['latitude']." , ".$location_from['longitude']." ],
+						// 		[ '".$location_to['location_name']."' , ".$location_to['latitude']." , ".$location_to['longitude']." ]
+						// 	];
+
+						//     initialize".$ctr.$order."(Xmarkers".$ctr.$order.");
+
+						// 	function initialize".$ctr.$order."(markers) 
+						// 	{
+						// 		var bounds = new google.maps.LatLngBounds();
+						// 		var mapOptions = {
+						// 		    mapTypeId: 'roadmap',
+						// 		    navigationControl: false,
+						// 		    mapTypeControl: false,
+						// 		    scrollwheel: false,
+						// 		    scaleControl: false,
+						// 		    draggable: false,
+						// 		    disableDefaultUI: true,
+						// 		};
+
+						// 		var map = new google.maps.Map( document.getElementById('table-map-canvas-".$ctr.$order."'), mapOptions);
+						// 		map.setTilt(45);
+
+						// 		for( i = 0; i < markers.length; i++ ) {
+						// 		    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+						// 		    bounds.extend(position);
+						// 		    marker = new google.maps.Marker({
+						// 		        position: position,
+						// 		        map: map,
+						// 		        title: markers[i][0]
+						// 		    });
+						// 		}
+						// 		    map.fitBounds(bounds);
+
+						// 		google.maps.event.addListenerOnce(map, 'zoom_changed', function() {
+						// 		  map.setZoom(map.getZoom()-1);
+						// 		});
+						// 	}
+						//   </script>
+						// ",
+					)
+				);
+				// $ctr += 1;
+			}
+			$data['route_data'] = $routes;
+        	// ROUTE ID , ROUTE NAME, ROUTE DESC, LOCATION FROM, LOCATION TO
+
+			$data['tslot_data'] = array();
+			$tslot = $this->Tslot->getTslots($order);
+			foreach ($tslot as $rows) {
+				$display = '';
+				if($rows['display_type'] == 1)
+				{
+					$display = 'Normal';
+				}
+				else if($rows['display_type'] == 2)
+				{
+					$display = 'Split Main';
+				}
+				else if($rows['display_type'] == 3)
+				{
+					$display = 'Star 8 Content';
+				}
+				else if($rows['display_type'] == 4)
+				{
+					$display = 'Split Top Right';
+				}
+				else if($rows['display_type'] == 5)
+				{
+					$display = 'Split Bottom Right';
+				}
+				$tslot_data = $this->Timeslot->edit($rows['tslot_id']);
+				array_push($data['tslot_data'],
+					array(
+						$tslot_data['tslot_time'],
+						$display,
+						$rows['times_repeat'].'x',
+					)
+				);
+			}
+
+			$order_data = $this->Order->edit($order);
+			$salesman = $this->Sales->edit($order_data['sales_id']);
+			$data['salesman_data'] = $salesman['sales_fname'].' '.$salesman['sales_lname'];
+
+        	
+
+			// $data=$this->Ad->edit_Ad_Data($ad_id);
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
         }
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                     R  E  G  U  L  A  R     F  U  N  C  T  I  O  N  S                          //
