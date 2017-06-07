@@ -261,3 +261,7 @@ _:-moz-tree-row(hover), .browser-style {
         width:94%;
         position:fixed;
 }       
+
+#program-list-table >tbody > tr > td{
+    cursor: grab;
+}

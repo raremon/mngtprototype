@@ -58,8 +58,8 @@ class Salesman extends MY_Controller {
 		);
 		$data['page_description']='View Available Schedules';
 
-		$data['treeActive'] = 'salesman';
-		$data['childActive'] = '' ;
+		$data['treeActive'] = 'program_schedule';
+		$data['childActive'] = 'create_program_schedule' ;
 
 		//REGION
 		$region_data = $this->Region->show_Region();
