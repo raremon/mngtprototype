@@ -305,10 +305,10 @@ class Mobileapp extends REST_Controller
 		// http://[::1]/star8/api/mobileapp/getroute/city/*
 		
 		$data = $this->get();
-		if( isset($data['city']) )
+		if( isset($data['location']) )
 		{
 			// Goes to model to query all routes according to the city specified
-			$result = $this->Routes->get_by_location($data['city']);	
+			$result = $this->Routes->get_by_location($data['location']);	
 		}
 		else
 		{
