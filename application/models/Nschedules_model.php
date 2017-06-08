@@ -202,6 +202,14 @@ class Nschedules_model extends CI_Model
 
 	public function getSchedulesDetailed($where=null,$date=null,$orwhere=null){
 
+		// SELECT *
+		// FROM `n_schedules`
+		// INNER JOIN `ads` ON `n_schedules`.`ad_id`=`ads`.`ad_id`
+		// INNER JOIN `advertisers` ON `ads`.`advertiser_id`=`advertisers`.`advertiser_id`
+		// INNER JOIN `timeslots` ON `n_schedules`.`timeslot`=`timeslots`.`tslot_id`
+		// WHERE `timeslot` = '4' AND `route_id` = '1'
+		// AND now() >= date_start and now() <= date_end
+	
 		$this->db->select('*')
 				->from($this->table)
 				->join('ads',$this->table.'.ad_id=ads.ad_id','inner')
@@ -212,8 +220,8 @@ class Nschedules_model extends CI_Model
 			$this->db->where($where);
 		
 		if( isset($date) ){
-			$this->db->where('date_start <',$date);
-			$this->db->where('date_end >',$date);
+			$this->db->where('now() >= date_start');
+			$this->db->where('now() <= date_end');
 		}
 
 		if( isset($orwhere) )
@@ -226,7 +234,35 @@ class Nschedules_model extends CI_Model
 		
 		return $query->result_array();
 	
-	}		
+	}	
+
+	public function getDistinct($fields=null,$where=null,$orwhere=null){
+
+		// SELECT *
+		// FROM `n_schedules`
+		// INNER JOIN `ads` ON `n_schedules`.`ad_id`=`ads`.`ad_id`
+		// INNER JOIN `advertisers` ON `ads`.`advertiser_id`=`advertisers`.`advertiser_id`
+		// INNER JOIN `timeslots` ON `n_schedules`.`timeslot`=`timeslots`.`tslot_id`
+		// WHERE `timeslot` = '4' AND `route_id` = '1'
+		// AND now() >= date_start and now() <= date_end
+	
+		$this->db->select($fields)
+				->from($this->table);
+		
+		if( isset($where) )
+			$this->db->where($where);
+
+		if( isset($orwhere) )
+			$this->db->or_where($orwhere);
+			
+		$query = $this->db->get();
+		
+		// echo $this->db->last_query();
+		// exit;
+		
+		return $query->result_array();
+	
+	}	
 
 		// // U P D A T E
 		// public function edit_Schedule_Data($ad_id)

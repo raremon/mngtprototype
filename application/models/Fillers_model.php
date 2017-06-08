@@ -54,6 +54,24 @@ class Fillers_model extends CI_Model{
 			
 		return $query->result_array();
 		
+	}
+
+	public function getTotalFillTime($where=null,$orwhere=null){
+
+		// SELECT SUM(filler_duration) FROM `fillers` WHERE status=0
+		$this->db->select('SUM(filler_duration) AS total_time')
+			->from($this->table);			
+
+		if( isset($where) )
+			$this->db->where($where);
+
+		if( isset($orwhere) )
+			$this->db->or_where($orwhere);
+				
+		$query = $this->db->get();
+			
+		return $query->result_array();
+		
 	}	
 
 	////////////////////////////////////////////////////////////////
