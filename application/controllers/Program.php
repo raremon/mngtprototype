@@ -421,6 +421,7 @@
 					$this->Tslot->deleteTslot($this->input->post('order_id'), $rows);
 				}
 				$this->assignNewSchedule($data['order_id']);
+				$this->generate_list($data['order_id']);
 				$info['message']="<p class='success-message'>You have successfully approved <span class='message-name'>Order Number ".$this->input->post('order_id')."</span>!</p>";
 			}
 
@@ -460,7 +461,12 @@
         	}
         	return TRUE;
         }
-
+        public function generate_list($order_id){
+			$this->load->library("auto_schedule");
+			$where = array('order_id'=>$order_id);
+			$details = $this->nSched->getSchedules($where);
+			$schedule = $this->auto_schedule->auto($details);
+		}
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
 		///////////////////////////////////////////////////////////////////////////////////////////////////
