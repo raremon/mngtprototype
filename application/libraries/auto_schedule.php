@@ -6,15 +6,14 @@ class Auto_schedule {
 	private $fillers = array();
 	private $fillerFlag;
 	
+	private $airtime=0;
+	
 	// public $tmp = array();
 	
-	private $oink = array();
+	private $prog_list = array();
 
 	public function __construct() {
 		$this->CI =& get_instance();
-
-		$this->setFillers();
-		$this->fillerFlag = 0;
 	}
 	
 	public function getTotalAirTime($ads){
@@ -57,104 +56,283 @@ class Auto_schedule {
 		}
 		return array($stack,$temp);
 	}
-	
-	private static function my_sort($a,$b){
-		if ($a==$b) return 0;
-		return ($a<$b)?-1:1;
-	}
-	
-	public function do_sort($a){
-		usort($a, array($this, 'my_sort'));
-		return $a;
-	}
-	
-	public function custom_sort($list){
+
+	// public function auto($timeslot, $route, $order_detail=array()){
+	public function auto($order_detail){
 		
-		$sorted = array();
-		array_push($sorted,$list[0]);
-		$init = $list[0];
-		array_splice($list,0,1);
+		$this->CI->load->model('orders_model');
+		$this->CI->load->model('playlist_model');
+		$this->CI->load->model('nschedules_model');			
+		$this->CI->load->model('fillers_model');			
+			
+		$fields = 'DISTINCT(route_id) AS route';
+		$where = array('order_id'=>$order_detail[0]['order_id']);		
+		$routes = $this->CI->nschedules_model->getDistinct($fields, $where);	
+		// $routes = $this->CI->nschedules_model->getSchedules($where);	
+		// print_r($fields);
+		// print_r($routes);
 		
-		while(count($list) != 0){
+		$fields = 'DISTINCT(timeslot) AS slots';
+		$where = array('order_id'=>$order_detail[0]['order_id']);				
+		$slots = $this->CI->nschedules_model->getDistinct($fields, $where);	
+		
+		// print_r($order_detail);	
+		// print_r($slots);
+
+		$schedule = array();
+	
+
+		foreach($routes as $r){
+			// echo "<hr />";			
+			// echo "<br />route: ".$r['route'];
 			
-			$ctr = 0;
-			foreach($list as $row){
-				// if( $init == $row)
-				$diff = array_diff_assoc($init, $row);
-			
-				if( $diff==0 ){    
-				   $ctr += 1;
+			foreach($slots as $s){
+				$this->airtime = 0;
+				$where = array('timeslot'=>$s['slots'],'route_id'=>$r['route'],'order_id'=>$order_detail[0]['order_id']);		
+				$ads_by_route_slot = $this->CI->nschedules_model->getSchedulesDetailed($where);	
+				
+				// $airtime = 0;
+				$by_hour = array();
+				$sdate = '';
+				$edate = '';
+				foreach($ads_by_route_slot as $ad){	
+					for( $i=0; $i<$ad['times_repeat']; $i++ ){
+						$info=array();
+						$info['id'] = $ad['schedule_id'];
+						$info['content_type'] = 'ad'; //content type is ad or filler
+						$info['content_id'] = $ad['ad_id'];
+						$info['date_start'] = $ad['date_start'];
+						$info['date_end'] = $ad['date_end'];
+						$info['timeslot'] = $ad['timeslot'];
+						$info['tslot_time'] = $ad['tslot_time'];
+						$info['times_repeat'] = $ad['times_repeat'];
+						$info['display_type'] = $ad['display_type'];
+						$info['win_123'] = $ad['win_123'];
+						$info['route_id'] = $r['route'];
+						$info['duration'] = $ad['paid_duration'];
+						$info['filename'] = $ad['ad_filename'];
+						$info['owner'] = $ad['advertiser_name'];
+						$info['length'] = $ad['ad_duration'];
+						$info['order_id'] = $ad['order_id'];
+						
+						$sdate = $ad['date_start'];
+						$edate = $ad['date_end'];
+						
+						$this->airtime += $ad['paid_duration'];
+						
+						array_push($by_hour, $info);	
+						// $by_hour[] = $info;	
+						$tslot_time = $ad['tslot_time'];
+						
+					}
+					// echo "<p>By Hour (New): ".count($by_hour)."</p>"; 
+				}	 		
+				
+				// echo "<br />";
+				// print_r($s);
+				// $info = array();
+				// array_push($schedule, $s);	
+				// $schedule = array_merge($schedule, $by_hour);	
+				
+				//get other approved ads on current time slots 
+				//content_type = ad
+				//timeslot = slots
+				//route = route_id
+				// $where = array('timeslot'=>$s['slots'],'route_id'=>$r['route'],'content_type'=>'ad','order_id<>'.$order_detail[0]['order_id']=>NULL);		
+				// $existing_ads = $this->CI->playlist_model->getSchedulesDetailed($where);	
+
+				$where = array('timeslot'=>$s['slots'],'route_id'=>$r['route'],'content_type'=>'ad','playlist.order_id<>'.$order_detail[0]['order_id']=>NULL);		
+				$existing_ads = $this->CI->playlist_model->getList($where);	
+				
+
+				// echo "<br />Total Existing: ".count($existing_ads);
+				// exit;
+				// echo print_r($existing_ads[0]);
+				
+				foreach($existing_ads as $ad){
+						$info=array();
+						$info['id'] = $ad['id'];
+						$info['content_type'] = $ad['content_type']; //content type is ad or filler
+						$info['content_id'] = $ad['content_id'];
+						$info['date_start'] = $ad['date_start'];
+						$info['date_end'] = $ad['date_end'];
+						$info['timeslot'] = $ad['timeslot'];
+						$info['tslot_time'] = $ad['tslot_time'];
+						$info['times_repeat'] = $ad['times_repeat'];
+						$info['display_type'] = $ad['display_type'];
+						$info['win_123'] = $ad['win_123'];
+						$info['route_id'] = $ad['route_id'];
+						$info['duration'] = $ad['duration'];
+						$info['filename'] = $ad['filename'];
+						$info['owner'] = $ad['advertiser_name'];
+						$info['length'] = $ad['ad_duration'];
+						$info['order_id'] = $ad['order_id'];
+						
+						$sdate = $ad['date_start'];
+						$edate = $ad['date_end'];
+						
+						$this->airtime += $ad['duration'];
+						
+						array_push($by_hour, $info);						
 				}
-				else{
-				   array_push($sorted,$row);
-				   $init = $row;
-				   //echo $list[$ctr]." ".$ctr." ";
-				   array_splice($list,$ctr,1);
+				
+				// echo "<p>By Hour (All): ".count($by_hour)."</p>"; 
+				// exit;
+				//delete the existing ads
+				$where = array('timeslot'=>$s['slots'],'route_id'=>$r['route'],'content_type'=>'ad','order_id<>'.$order_detail[0]['order_id']=>NULL);	
+				$delete_exising_ads = $this->CI->playlist_model->delete_(NULL,$where);
+				// echo "<br />Timeslot: ".$s['slots']." Route: ".$r['route']." Airtime: ".$this->airtime;
+				
+				//insert filler
+				
+				//check if total airtime is less than 3600
+				// echo "<br />Total Airtime for Timeslot: ".$airtime;
+				
+				//determine	airtime for ads
+				$filler_time = 3600 - $this->airtime;
+				
+				// echo "<br />Filler Time: $filler_time";
+				
+				//get minimum filler
+				$fill_least_time = $this->CI->fillers_model->getMinFiller(array('status'=>0));	
+				
+				if( $filler_time > $fill_least_time[0]['min_time'] ){
+					
+					//insert filler
+					$run_airtime = 0;
+					
+					// echo "ok";
+					// exit;
+					
+					$fillers = $this->CI->fillers_model->getFillers(array('status'=>0));	
+					
+					// echo "<br />Total No. of Fillers: ".count($fillers);
+					// exit;
+					
+					while( $run_airtime<=$filler_time ){
+						
+						foreach($fillers as $a){				
+							$info = array();
+							$info['id'] = $a['filler_id'];
+							$info['content_type'] = 'filler'; //content type is ad or filler
+							$info['content_id'] = $a['filler_id'];
+							$info['date_start'] = $sdate;
+							$info['date_end'] = $edate;
+							$info['timeslot'] = $s['slots'];
+							$info['tslot_time'] = $tslot_time;
+							$info['times_repeat'] = 0;
+							$info['display_type'] = '3';
+							$info['win_123'] = 0;
+							$info['route_id'] = $r['route'];
+							$info['duration'] = $a['filler_duration'];
+							$info['filename'] = $a['filler_file'];
+							$info['owner'] = 'star8';
+							$info['length'] = $a['filler_duration'];	
+							$info['order_id'] = 0;
+							
+							$run_airtime += $a['filler_duration'];
+							
+							// echo "<br />$run_airtime";
+							
+							if( $run_airtime <= $filler_time)
+								array_push($by_hour, $info);
+
+						}	
+					} 	 
 				}
+				else{ //no room for fillers
+					echo "no room for fillers";
+				}
+
+				// echo "<br />Total Items: ".count($by_hour);
+
+				$this->prog_list = array();
+				$list = $this->boosort($by_hour);
+				
+				$schedule = array_merge($schedule, $list);
+
+				$ctr=1;
+				foreach($list as $s){
+
+					$data = array(
+									'id'=>$s['id'],
+									'content_type'=>$s['content_type'],
+									'content_id'=>$s['content_id'], 
+									'date_start'=>$s['date_start'],
+									'date_end'=>$s['date_end'], 
+									'timeslot'=>$s['timeslot'], 
+									'tslot_time'=>$s['tslot_time'], 
+									'times_repeat'=>$s['times_repeat'], 
+									'display_type'=>$s['display_type'],
+									'win_123'=>$s['win_123'], 
+									'route_id'=>$s['route_id'], 
+									'duration'=>$s['duration'],  
+									'filename'=>$s['filename'], 
+									'play_order'=>$ctr, 
+									'order_id'=>$s['order_id']				
+								);
+					$ctr += 1;
+
+					$id = $this->CI->playlist_model->create($data);
+				}				
+				// echo "<p>Total After: ".count($list)."</p>";
+				
+				// print_r($by_hour);
+				// exit;
+				$schedule = array_merge($schedule, $by_hour);	
+
 			}
 		}
-		return $sorted;
+	
+		//update the table playlist_updates for the mediabox
+		
+		$this->CI->load->model('order_routes_model');
+		$routes = $this->CI->order_routes_model->get_by_order_id($order_detail[0]['order_id']);
+		
+		// print_r($routes);
+		// exit;
+		
+		$this->CI->load->model('playlist_updates_model');
+		
+
+		foreach($routes as $r){ //insert to playlist_updates
+			$data = array(
+						'route_id'=>$r['route_id']
+						);			
+			$insert = $this->CI->playlist_updates_model->create($data);
+		}
+		
+		
+		// return $msg;
+		
+		return $schedule;
+
 	}
 	
 	public function boosort($list){
 		
-		// $new = array();
-		
-		// $tmp = $list[0];
-		// array_push($this->oink, $tmp);
-		// array_splice($list, 0, 1);
-		
-		// echo "<br />count: ".count($this->oink);
-		
 		for($i=0; $i<=count($list); $i++){
-			// echo "<br />list ".count($list);	
-			$list = $this->haha($list);
-			// array_push($new, $n);
-			// echo "<br />New count: ".count($this->oink);
+			$list = $this->custom_sort($list);
 		}
-		
-		
-		// echo count($list);
-		// exit;
-		// while( count($list)>0 ){
-			// $ctr=0;
-			// foreach($list as $row){
-				// if( $row == $tmp ){
-					// $ctr += 1;
-				// }else{
-					// array_push($new, $row);
-					// $tmp = $row;
-					// array_splice($list, $ctr, 1);
-				// }
-				// echo "<p>List count: ".count($list)."</p>";
-					
-			// }			
-				
-		// }
-		
-		return $this->oink;
+			
+		return $this->prog_list;
 	}
 	
-	private function haha($list){
+	private function custom_sort($list){
 		
-		// echo "<br />Total list in haha: ".count($list);
-		// echo "<br />count list in list[0]: ".count($list[0]);
-		// print_r($list[0]);
-		// exit;
 		$tmp = array();
 		$tmp = $list[0];
-		array_push($this->oink,$tmp);
-		// echo "<br />Oink count...: ".count($this->oink);
+		array_push($this->prog_list,$tmp);
+
 		array_splice($list, 0, 1);
 		
 		$ctr=0;
 		foreach($list as $row){
-			// echo $ctr;
 			if( $row == $tmp ){
 				$ctr += 1;
 			}else{
 				$tmp = $row;
-				array_push($this->oink, $row);
+				array_push($this->prog_list, $row);
 				array_splice($list, $ctr, 1);
 			}	
 			
@@ -162,109 +340,5 @@ class Auto_schedule {
 		
 		return $list;  			
 	}
-
-	private function checkAdTotalAir($ads) {
-		$total = 0;
-		log_message('info', 'check total start');
-		foreach($ads as $ad) {
-			log_message('debug', 'ad id = '.$ad['ad_id']);
-			log_message('debug', 'ad total airtime = '.$ad['totalAirTime']);
-			log_message('debug', 'ad repeat count = '.$ad['times_repeat']);
-
-			$adTotal = $ad['totalAirTime'] * $ad['times_repeat'];
-
-			$total += $adTotal;
-
-			log_message('debug', 'total length = '.$total);
-		}
-
-		log_message('info', 'check total end');
-
-		if($total == $this->totalSecs)
-			return false;
-
-		return true;
-	}
-
-	private function getFiller() {
-		log_message('info', 'start get filler');
-		log_message('debug', 'fillerFlag = '.$this->fillerFlag);
-		log_message('debug', 'fillers = '.print_r($this->fillers, true));
-		
-		$count = count($this->fillers) - 1;
-		$index = rand(0, $count);
-		
-		log_message('debug', 'filler random index = '.$index);
-		
-		$filler = $this->fillers[$index];
-
-		return $filler;
-	}
-
-	private function setFillers() {
-		$this->CI->load->model('fillers_model');
-
-		$fillers = $this->CI->fillers_model->getFillers(array('status' => 0));
-
-		$count = count($fillers);
-		for($i = 0; $i < $count; $i++) {
-			$fillers[$i]['totalAirTime'] = $this->provideAirtime($fillers[$i]['filler_duration']);
-		}
-
-		$this->fillers = $fillers;
-	}
-
-	private function provideAirtime($duration) {
-
-		$totalAdLength = 0;
-		$length = $duration;
-
-		log_message('debug', 'init length = '.$length);
-		log_message('debug', 'init total length = '.$totalAdLength);
-
-		while($length > 0) {
-
-			if($length >= 60 && $length > 45) {
-				$length -= 60;
-				$totalAdLength += 60;
-
-				log_message('debug', '60 length = '.$length);
-				log_message('debug', '60 total length = '.$totalAdLength);
-			}
-
-			if($length <= 45 && $length > 30) {
-				$length -= 45;
-				$totalAdLength += 45;
-
-				log_message('debug', '45 length = '.$length);
-				log_message('debug', '45 total length = '.$totalAdLength);
-			}
-
-			if($length <= 30 && $length > 15) {
-				$length -= 30;
-				$totalAdLength += 30;
-
-				log_message('debug', '30 length = '.$length);
-				log_message('debug', '30 total length = '.$totalAdLength);
-			}
-
-			if($length <= 15 && $length > 30 && $length >= 10) {
-				$length -= 15;
-				$totalAdLength += 15;
-
-				log_message('debug', '15 length = '.$length);
-				log_message('debug', '15 total length = '.$totalAdLength);
-			}
-
-			if($length <= 10 && $length > 0){
-				$totalAdLength += 10;
-				$length = 0;
-
-				log_message('debug', '10 length = '.$length);
-				log_message('debug', '10 total length = '.$totalAdLength);
-			}
-		}
-
-		return $totalAdLength;
-	}
+	
 }

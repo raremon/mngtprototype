@@ -276,19 +276,26 @@
 				}
 				else if($rows['display_type'] == 2)
 				{
-					$display = 'Split Main';
+					if($rows['win_123'] == 1)
+					{
+						$display = 'Split Main';
+					}
+					else if($rows['win_123'] == 2)
+					{
+						$display = 'Split Top Right';
+					}
+					else if($rows['win_123'] == 3)
+					{
+						$display = 'Split Bottom Right';
+					}
+					else
+					{
+						$display = 'invalid';
+					}
 				}
 				else if($rows['display_type'] == 3)
 				{
 					$display = 'Star 8 Content';
-				}
-				else if($rows['display_type'] == 4)
-				{
-					$display = 'Split Top Right';
-				}
-				else if($rows['display_type'] == 5)
-				{
-					$display = 'Split Bottom Right';
 				}
 				$tslot_data = $this->Timeslot->edit($rows['tslot_id']);
 				array_push($data['tslot_id'],
@@ -410,6 +417,7 @@
 					$this->Tslot->deleteTslot($this->input->post('order_id'), $rows);
 				}
 				$this->assignNewSchedule($data['order_id']);
+				$this->generate_list($data['order_id']);
 				$info['message']="<p class='success-message'>You have successfully approved <span class='message-name'>Order Number ".$this->input->post('order_id')."</span>!</p>";
 			}
 
@@ -425,26 +433,9 @@
         	$orderroute = $this->RouteOrder->getRoutes($order_id);
         	// FOREACH TSLOT AS SLOT
         	foreach ($tslot as $slot) {
-        		$display = 0;
-        		$win = 0;
-        		if($slot['display_type'] == 2)
+        		if($order['date_end'] == NULL)
         		{
-        			$win = 1;
-        			$display = 2;
-        		}
-        		else if($slot['display_type'] == 4)
-        		{
-        			$win = 2;
-        			$display = 2;
-        		}
-        		else if($slot['display_type'] == 5)
-        		{
-        			$win = 3;
-        			$display = 2;
-        		}
-        		else
-        		{
-        			$win = 0;
+        			$order['date_end'] = $order['date_start'];
         		}
         		//    FOREACH ORDERROUTE AS ROWS
         		foreach ($orderroute as $row) {
@@ -455,8 +446,8 @@
 						'date_end'=>$order['date_end'],
 						'timeslot'=>$slot['tslot_id'],
 						'times_repeat'=>$slot['times_repeat'],
-						'display_type'=>$display,
-						'win_123'=>$win,
+						'display_type'=>$slot['display_type'],
+						'win_123'=>$slot['win_123'],
 						'route_id'=>$row['route_id'],
 						'order_id'=>$order_id,
 						'status'=>0,
@@ -466,6 +457,14 @@
         	}
         	return TRUE;
         }
+
+        public function generate_list($order_id){
+			    $this->load->library("auto_schedule");
+			    $where = array('order_id'=>$order_id);
+			    $details = $this->nSched->getSchedules($where);
+			    $schedule = $this->auto_schedule->auto($details);
+		    }
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
 		///////////////////////////////////////////////////////////////////////////////////////////////////
