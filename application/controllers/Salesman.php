@@ -29,10 +29,10 @@ class Salesman extends MY_Controller {
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Schedule Availability';
+		$data['title']='Place Ad Order';
 		$data['breadcrumbs']=array
 		(
-			array('Salesman','salesman'),
+			array('Place Ad Order','schedules'),
 		);
 		$data['css']=array
 		(
@@ -59,7 +59,7 @@ class Salesman extends MY_Controller {
 		$data['page_description']='View Available Schedules';
 
 		$data['treeActive'] = 'program_schedule';
-		$data['childActive'] = 'create_program_schedule' ;
+		$data['childActive'] = 'place_ad_order' ;
 
 		//REGION
 		$region_data = $this->Region->show_Region();
