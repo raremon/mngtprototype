@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Timeslots_model extends CI_Model
+class Playlists_model extends CI_Model
 {
 	// Constructor
 	public function __construct()
@@ -10,36 +10,18 @@ class Timeslots_model extends CI_Model
 		parent::__construct();
 	}
 
-	private $table = "timeslots";
-	private $query = "tslot_id, tslot_session, tslot_code, tslot_time, created_at";
-	private $id = "tslot_id";
-
-	public function getmorning()
-	{
-		$this->db->select($this->query);
+	private $table = "playlist";
+	private $query = "play_id, id, content_type, content_id, date_start, date_end, timeslot, tslot_time, times_repeat, display_type, win_123, route_id, duration, filename, play_order, order_id";
+	private $id = "play_id";
+    
+    public function getTimeslot($id)
+    {
+        $this->db->select($this->query);
 		$this->db->from($this->table);
-		$this->db->where('tslot_session', 'am');
-		$query=$this->db->get();
-		return $query->result_array();
-	}
-
-	public function getafternoon()
-	{
-		$this->db->select($this->query);
-		$this->db->from($this->table);
-		$this->db->where('tslot_session', 'pm');
-		$query=$this->db->get();
-		return $query->result_array();
-	}
-
-	public function getevening()
-	{
-		$this->db->select($this->query);
-		$this->db->from($this->table);
-		$this->db->where('tslot_session', 'eve');
-		$query=$this->db->get();
-		return $query->result_array();
-	}
+		$this->db->where('timeslot', $id);
+		$query = $this->db->get();
+        return $query->result_array();
+    }
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
@@ -80,4 +62,4 @@ class Timeslots_model extends CI_Model
 	////////////////////////////////////////////////////////////////
 }
 
-// END OF TIMESLOTS MODEL
+// END OF PLAYLIST MODEL

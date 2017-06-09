@@ -265,3 +265,7 @@ _:-moz-tree-row(hover), .browser-style {
 #program-list-table >tbody > tr > td{
     cursor: grab;
 }
+
+#morning-table >tbody{
+    cursor: pointer;
+}
