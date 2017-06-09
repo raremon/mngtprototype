@@ -205,18 +205,19 @@
              </div> 
           </div>
             <div class="form-group">
-              <label>Select Filler Image</label>
-              <input name="image_file" id="image_file" type="file" class="file">
-              <div class="input-group col-xs-12">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-camera"></i></span>
-                <input type="text" class="form-control input-md" disabled placeholder="Upload Image">
-                <input name="advertiser_image" type="text" class="form-control input-md hidden">
-                <span class="input-group-btn">
-                  <button class="browse btn btn-success input-md" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
-                </span>
-              </div>
-              <!-- TAGGING PAUL -->
-              <img id="loading_img" src="<?php echo base_url('assets/public/loading.gif') ?>" class="hidden">
+                <label>Select Filler Image:</label>
+                  <div class="image-editor">
+                    <label for="browsebutton" class="browselabel">Browse your image.</label>
+                    <input type="file" name="imageup" id="browsebutton" class="cropit-image-input">
+                    <div class="cropit-preview"></div>
+                    <div class="image-size-label" style="font-size: 24px;">
+                            s &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; B
+                    </div>
+                    <input type="range" id="slider" class="cropit-image-zoom-input">
+                    <button class="rotate-ccw" id="rotatebutton">&olarr;</button>
+                    <button class="rotate-cw" id="rotatebutton2">&orarr;</button>
+                    <input type="hidden" name="image-data" class="hidden-image-data" />
+                </div>
             </div>
           <div class="col-md-12">
             <div class="form-group">
@@ -381,6 +382,7 @@
 
 
 <script>
+  $('.image-editor').cropit();
   $('body').on('hidden.bs.modal', '.modal', function () {
   $('video').trigger('pause');
   });

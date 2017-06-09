@@ -1,3 +1,141 @@
+<div class="modal fade" id="byAdvertiserModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Program Listing</h4>
+      </div>
+
+      <div class="modal-body">
+       <div class="container-fluid">
+         <div class="col-md-12">
+              <div class="form-group">
+                <label for="route_list">Route:</label>
+                <select id="route_id" name="route_id" class="form-control select2" style="width:100%;">
+                  <?php 
+                    foreach($route as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+                <a class="btn btn-link pull-right" href="<?php echo site_url('routes/add') ?>">New Route</a>
+              </div>  
+            <div class="form-group">
+            <label>Timeslot:</label>
+            <input id="timeslot_form" type="text" class="form-control" id="" readonly>
+            </div>
+            <div class="form-group">
+            <label>Airing Dates:</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
+              <input name="date_start" id="date_start" type="text" class="hidden">
+              <input name="date_end" id="date_end" type="text" class="hidden">
+            </div>
+            </div> 
+            <div class="form-group">
+              <table id="program-list-table" class="table table-hover" width="100%">
+                <thead>
+                  <tr>
+                    <th class="index">No.</th>
+                    <th>Title</th>
+                    <th>Duration</th>
+                    <th>Airtime</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+         </div>
+       </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="byRouteModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Program Listing</h4>
+      </div>
+
+      <div class="modal-body">
+       <div class="container-fluid">
+         <div class="col-md-12">
+              <div class="form-group">
+                <label>Agency/Advertiser:</label>
+                <select id="advertiser_id" name="advertiser_id" class="form-control select2" style="width:100%;">
+                  <?php 
+                    foreach($advertiser as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+                <a class="btn btn-link pull-right" href="<?php echo site_url('advertisers/add') ?>">New Advertiser</a>
+              </div>   
+            <div class="form-group">
+            <label>Timeslot:</label>
+            <input id="timeslot_form1" type="text" class="form-control" id="" readonly>
+            </div>
+            <div class="form-group">
+            <label>Airing Dates:</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
+              <input name="date_start" id="date_start" type="text" class="hidden">
+              <input name="date_end" id="date_end" type="text" class="hidden">
+            </div>
+            </div> 
+            <div class="form-group">
+              <table id="program-list-table1" class="table table-hover" width="100%">
+                <thead>
+                  <tr>
+                    <th class="index">No.</th>
+                    <th>Title</th>
+                    <th>Duration</th>
+                    <th>Airtime</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+         </div>
+       </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Browse Program Schedule</h3>
@@ -120,160 +258,6 @@
   </div><!-- box-footer -->
 </div><!-- /.box -->
 
-<div class="box box-success" id="byAdvertiserBox">
-  <div class="box-header with-border">
-    <h3 class="box-title">Program Listing</h3>
-    <div class="box-tools pull-right">
-      <!-- Buttons, labels, and many other things can be placed here! -->
-    </div><!-- /.box-tools -->
-  </div><!-- /.box-header -->
-
-  <div class="box-body">
-   <div class="container-fluid">
-     <div class="col-md-12">
-          <div class="form-group">
-            <label for="route_list">Route:</label>
-            <select id="route_id" name="route_id" class="form-control select2" style="width:100%;">
-              <?php 
-                foreach($route as $row)
-                {
-              ?>
-                <option value= <?php echo $row[0];?> >
-                  <?php echo $row[1]; ?>
-                </option>
-              <?php 
-                }
-              ?>
-            </select>
-            <a class="btn btn-link pull-right" href="<?php echo site_url('routes/add') ?>">New Route</a>
-          </div>  
-        <div class="form-group">
-        <label>Timeslot:</label>
-        <input type="text" class="form-control" id="" readonly>
-        </div>
-        <div class="form-group">
-        <label>Airing Dates:</label>
-        <div class="input-group">
-          <div class="input-group-addon">
-            <i class="fa fa-calendar"></i>
-          </div>
-          <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
-          <input name="date_start" id="date_start" type="text" class="hidden">
-          <input name="date_end" id="date_end" type="text" class="hidden">
-        </div>
-        </div> 
-        <div class="form-group">
-          <table id="program-list-table" class="table table-hover" width="100%">
-            <thead>
-              <tr>
-                <th class="index">No.</th>
-                <th>Title</th>
-                <th>Duration</th>
-                <th>Airtime</th>
-                <th>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="index">1</td>
-                <td>YKK Zipper</td>
-                <td>70s</td>
-                <td>90s</td>
-                <td>Ads</td>
-              </tr>
-              <tr>
-                <td class="index">2</td>
-                <td>Eagle Cement</td>
-                <td>70s</td>
-                <td>90s</td>
-                <td>Ads</td>
-              </tr>
-              <tr>
-                <td class="index">3</td>
-                <td>Rhea Alcohol</td>
-                <td>70s</td>
-                <td>90s</td>
-                <td>Ads</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-     </div>
-   </div>
-  </div><!-- /.box-body -->
-     
-  <div class="box-footer">
-    <button type="button" class="btn btn-success pull-right" onclick="">Save</button>
-    <button type="button" class="btn btn-primary pull-right" onclick="" style="margin-right:10px;">Update</button>
-  </div><!-- box-footer -->
-</div><!-- /.box -->
-
-<div class="box box-success hidden" id="byRouteBox">
-  <div class="box-header with-border">
-    <h3 class="box-title">Program Listing</h3>
-    <div class="box-tools pull-right">
-      <!-- Buttons, labels, and many other things can be placed here! -->
-    </div><!-- /.box-tools -->
-  </div><!-- /.box-header -->
-
-  <div class="box-body">
-   <div class="container-fluid">
-     <div class="col-md-12">
-          <div class="form-group">
-            <label>Agency/Advertiser:</label>
-            <select id="advertiser_id" name="advertiser_id" class="form-control select2" style="width:100%;">
-              <?php 
-                foreach($advertiser as $row)
-                {
-              ?>
-                <option value= <?php echo $row[0];?> >
-                  <?php echo $row[1]; ?>
-                </option>
-              <?php 
-                }
-              ?>
-            </select>
-            <a class="btn btn-link pull-right" href="<?php echo site_url('advertisers/add') ?>">New Advertiser</a>
-          </div>   
-        <div class="form-group">
-        <label>Timeslot:</label>
-        <input type="text" class="form-control" id="" readonly>
-        </div>
-        <div class="form-group">
-        <label>Airing Dates:</label>
-        <div class="input-group">
-          <div class="input-group-addon">
-            <i class="fa fa-calendar"></i>
-          </div>
-          <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
-          <input name="date_start" id="date_start" type="text" class="hidden">
-          <input name="date_end" id="date_end" type="text" class="hidden">
-        </div>
-        </div> 
-        <div class="form-group">
-          <table id="program-list-table" class="table table-hover" width="100%">
-            <thead>
-              <tr>
-                <th class="index">No.</th>
-                <th>Title</th>
-                <th>Duration</th>
-                <th>Airtime</th>
-                <th>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-     </div>
-   </div>
-  </div><!-- /.box-body -->
-     
-  <div class="box-footer">
-    <button type="button" class="btn btn-success pull-right" onclick="">Save</button>
-    <button type="button" class="btn btn-primary pull-right" onclick="" style="margin-right:10px;">Update</button>
-  </div><!-- box-footer -->
-</div><!-- /.box -->
 <script type="text/javascript">
   $(".select2").select2();
   $('.select2-selection__rendered').removeAttr('title');
@@ -340,25 +324,56 @@
         "type":"POST"
       }
     })
-    
+    var modalBox = "advertiser";
     $("#program-list-table").DataTable();
+    $("#program-list-table1").DataTable();
+    //
+    $("#byRoute").click(function(){
+       $("#byAdvertiserBox").addClass("hidden");
+       $("#byRouteBox").removeClass("hidden");
+       modalBox = "route";
+    });
     
+    $("#byAdvertiser").click(function(){
+       $("#byAdvertiserBox").removeClass("hidden");
+       $("#byRouteBox").addClass("hidden");
+       modalBox = "advertiser";
+    });
     //ROW CLICK
+    var timeslotData;
     $('#morning-table tbody').on('click', 'tr', function () {
         var data = morning_table.row( this ).data();
+        timeslotData = data[1];
         programListing(data[0]);
-//        alert( 'Timeslot: '+data[0]+' Selected' );
+        programListing1(data[0]);
+        var input_timeslot = document.getElementById('timeslot_form');
+        input_timeslot.value = timeslotData;
+        var input_timeslot1 = document.getElementById('timeslot_form1');
+        input_timeslot1.value = timeslotData;
+//        alert( 'Timeslot: '+timeslotData+' Selected' );
     });
     
     $('#afternoon-table tbody').on('click', 'tr', function () {
         var data = afternoon_table.row( this ).data();
+        timeslotData = data[1];
         programListing(data[0]);
+        programListing1(data[0]);
+        var input_timeslot = document.getElementById('timeslot_form');
+        input_timeslot.value = timeslotData;
+        var input_timeslot1 = document.getElementById('timeslot_form1');
+        input_timeslot1.value = timeslotData;
 //        alert( 'Timeslot: '+data[0]+' Selected' );
     });
     
     $('#evening-table tbody').on('click', 'tr', function () {
         var data = evening_table.row( this ).data();
+        timeslotData = data[1];
         programListing(data[0]);
+        programListing1(data[0]);
+        var input_timeslot = document.getElementById('timeslot_form');
+        input_timeslot.value = timeslotData;
+        var input_timeslot1 = document.getElementById('timeslot_form1');
+        input_timeslot1.value = timeslotData;
 //        alert( 'Timeslot: '+data[0]+' Selected' );
     });
     
@@ -372,21 +387,44 @@
           if(program.length > 0)
           {
             $("#program-list-table").dataTable().fnAddData(program);
+            if (modalBox == "advertiser") {
+                $('#byAdvertiserModal').modal('show');
+            } else {
+                $('#byRouteModal').modal('show');
+            }
           }
           else
           {
-              alert('WALANG PROGRAM DUN SA TIMESLOT');
+              alert('TIMESLOT EMPTY');
           }
         });
     }
     
-    $("#byRoute").click(function(){
-       $("#byAdvertiserBox").addClass("hidden");
-       $("#byRouteBox").removeClass("hidden");
-    });
-    
-    $("#byAdvertiser").click(function(){
-       $("#byAdvertiserBox").removeClass("hidden");
-       $("#byRouteBox").addClass("hidden");
-    });
+    function programListing1(tslot_id)
+    {
+        
+        $.get("<?php echo site_url('program/programListing/" + tslot_id + "') ?>", function(data){
+          var basic = $.map(data, function(el) { return el; });
+          var program = basic;
+          $("#program-list-table1").dataTable().fnClearTable();
+          if(program.length > 0)
+          {
+            $("#program-list-table1").dataTable().fnAddData(program);
+            if (modalBox == "advertiser") {
+                $('#byAdvertiserModal').modal('show');
+            } else {
+                $('#byRouteModal').modal('show');
+            }
+          }
+        });
+    }
+
+//    $(document).on('hidden.bs.modal','#byAdvertiserModal', function () {
+//          $('#program-list-table').DataTable().clear().destroy();
+//
+//    });
+//    $(document).on('hidden.bs.modal','#byRouteModal', function () {
+//        $('#program-list-table').DataTable().clear().destroy();
+//
+//    });
 </script>

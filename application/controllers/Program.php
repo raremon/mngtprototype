@@ -167,7 +167,7 @@
             );
             $data['script']=array
             (
-
+                'assets/js/jquery.cropit.js',
             );
 			$advertiser_data = $this->Advertiser->show_Advertiser();
 			$data['advertiser'] = array();
