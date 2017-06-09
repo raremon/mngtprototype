@@ -16,6 +16,7 @@ class Mobileapp extends REST_Controller
 		$this->load->model('Orders_model', 'Orders');
 		$this->load->model('Order_slots_model', 'Order_slots');
 		$this->load->model('Order_routes_model', 'Order_routes');
+		$this->load->model('Users_model', 'Salesmen');
 	}
 	
 	// ----------------  LOGIN FUNCTIONS  ---------------- //
@@ -25,16 +26,17 @@ class Mobileapp extends REST_Controller
 		/* JSON method to authenticate ad owner in Android app */
 		// http://[::1]/star8/api/mobileapp/login
 		
-		$d = $this->post();
-		if( isset($d['user']) && isset($d['pass']) )
+		$data = $this->post();
+		if( isset($data['user']) && isset($data['pass']) )
 		{
 			// Goes to ad owner model to validate username and password
-			$result = $this->Owner_Accounts->validate_mobile($d);
+			$result = $this->Owner_Accounts->validate_mobile($data);
+			
 			// If no account is found
 			if($result == -2)
 			{
 				// Goes to users model to validate username and password
-				$result = $this->Salesmen->validate_mobile($d);
+				$result = $this->Salesmen->validate_mobile($data);
 			}
 		}
 		else
@@ -51,11 +53,22 @@ class Mobileapp extends REST_Controller
 		/* JSON method to log ad owner out of Android app */
 		// http://[::1]/star8/api/mobileapp/logout
 		
-		$d = $this->post();
-		if( isset($d['owner_id']) )
+		$data = $this->post();
+		if( isset($data['owner_id']) && isset($data['owner_uname']) && isset($data['owner_upass']) )
 		{
-			// Goes to model to update owner data
-			$response = $this->Owner_Accounts->logout_mobile($d['owner_id']);	
+			// Goes to model to update ad owner login status
+			$response = $this->Owner_Accounts->logout_mobile($data);	
+		}
+		else if(isset($data['user_id']) && isset($data['user_name']) && isset($data['user_password']))
+		{
+			if($data['user_type'] == 2){
+				// Goes to model to update salesman login status
+				$response = $this->Salesmen->logout_mobile($data);
+			}			
+			else{
+				// If direct user access
+				$response = -1;
+			}
 		}
 		else
 		{
@@ -69,19 +82,49 @@ class Mobileapp extends REST_Controller
 	// ----------------  DATA RETRIEVAL FUNCTIONS  ---------------- //
 	public function getinfo_post()
 	{
-		/* JSON method to get ad owner info for Android app */
+		/* JSON method to get ad owner or salesman info for Android app */
 		// http://[::1]/star8/api/mobileapp/getinfo
 		
 		$data = $this->post();
 		if( isset($data['owner_id']) && isset($data['user']) && isset($data['pass']) )
 		{
-			
 			// Goes to model to validate credentials
 			$response = $this->Owner_Accounts->validate_mobile($data);
-			if($response != -1)
+			if(isset($response['owner_id']))
 			{
-				// Goes to model to get ad owner data
-				$result = $this->Owners->get_by_id($data['owner_id']);
+				if($response['owner_id'] == $data['owner_id'])
+				{
+					// Goes to model to get ad owner data
+					$result = $this->Owners->get_by_id($response['advertiser_id']);
+				}
+				else
+				{
+					// If direct user access
+					$result = -1;
+				}
+			}
+			else
+			{
+				// If failed to validate or user changes password
+				$result = -1;
+			}
+		}
+		else if( isset($data['user_id']) && isset($data['user']) && isset($data['pass']) )
+		{
+			// Goes to model to validate credentials
+			$response = $this->Salesmen->validate_mobile($data);
+			if(isset($response['user_id']))
+			{
+				if($response['user_id'] == $data['user_id'])
+				{
+					// Goes to model to get salesman data (to be added)
+					//$result = $this->Owners->get_by_id($data['owner_id']);
+				}
+				else
+				{
+					// If direct user access
+					$result = -1;
+				}
 			}
 			else
 			{
@@ -97,6 +140,7 @@ class Mobileapp extends REST_Controller
 		// Returns an object or -1
 		$this->response($result);
 	}
+	
 	public function getschedavailability_get()
 	{
 		/* JSON method to get schedule availability */
@@ -261,10 +305,10 @@ class Mobileapp extends REST_Controller
 		// http://[::1]/star8/api/mobileapp/getroute/city/*
 		
 		$data = $this->get();
-		if( isset($data['city']) )
+		if( isset($data['location']) )
 		{
 			// Goes to model to query all routes according to the city specified
-			$result = $this->Routes->get_by_location($data['city']);	
+			$result = $this->Routes->get_by_location($data['location']);	
 		}
 		else
 		{
