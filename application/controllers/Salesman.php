@@ -306,10 +306,36 @@ class Salesman extends MY_Controller {
 			$selected_tslot = json_decode($this->input->post('tslots_selected'), TRUE);
 			foreach($selected_tslot as $row)
 			{
+				$win_123 = 0;
+				$display_type = 0;
+				if($this->input->post('display_type') == 1)
+				{
+					$display_type = 1;
+				}
+				else if($this->input->post('display_type') == 2)
+				{
+					$display_type = 2;
+					$win_123 = 1;
+				}
+				else if($this->input->post('display_type') == 4)
+				{
+					$display_type = 2;
+					$win_123 = 2;
+				}
+				else if($this->input->post('display_type') == 5)
+				{
+					$display_type = 2;
+					$win_123 = 3;
+				}
+				else
+				{
+					$display_type = 3;
+				}
 				$tslot = array(
 					'order_id'=>$order_id,
 					'tslot_id'=>$row,
-					'display_type'=>$this->input->post('display_type'),
+					'display_type'=>$display_type,
+					'win_123'=>$win_123,
 					'times_repeat'=>$this->input->post('times_repeat'),
 				);
 				$this->Tslot->create($tslot);

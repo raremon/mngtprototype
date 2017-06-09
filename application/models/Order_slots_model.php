@@ -8,7 +8,7 @@ class Order_slots_model extends CI_Model
 		parent::__construct();
 	}
 	private $table = "order_slots";
-	private $query = "orderslot_id, order_id, tslot_id, display_type, times_repeat";
+	private $query = "orderslot_id, order_id, tslot_id, display_type, win_123, times_repeat";
 	private $id = "orderslot_id";
 
 	public function getTslots($id)
@@ -26,6 +26,7 @@ class Order_slots_model extends CI_Model
 		$this->db->from($this->table);
 		$this->db->where('tslot_id', $id);
 		$query = $this->db->get();
+		return $query->result_array();
 	}
 
 	public function get_by_id($orderslot_id){
@@ -56,6 +57,7 @@ class Order_slots_model extends CI_Model
 		$this->db->select($this->query);
 		$this->db->from($this->table);
 		$this->db->where('display_type',2);
+		$this->db->where('win_123',1);
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -70,14 +72,16 @@ class Order_slots_model extends CI_Model
 	public function getsplittop(){
 		$this->db->select($this->query);
 		$this->db->from($this->table);
-		$this->db->where('display_type',4);
+		$this->db->where('display_type',2);
+		$this->db->where('win_123',2);
 		$query=$this->db->get();
 		return $query->result_array();
 	}
 	public function getsplitbottom(){
 		$this->db->select($this->query);
 		$this->db->from($this->table);
-		$this->db->where('display_type',5);
+		$this->db->where('display_type',2);
+		$this->db->where('win_123',3);
 		$query=$this->db->get();
 		return $query->result_array();
 	}
