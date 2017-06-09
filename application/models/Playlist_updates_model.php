@@ -2,9 +2,9 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Playlist_model extends CI_Model
+class Playlist_updates_model extends CI_Model
 {
-	private $table = 'playlist';
+	private $table = 'playlist_updates';
 	
 	public function __construct()
 	{
@@ -23,10 +23,13 @@ class Playlist_model extends CI_Model
 	}
 
 	// R E A D
-	public function read($date=null,$where=null,$orwhere=null){
-	
+	public function get_last_update($where=null,$orwhere=null){
+		// SELECT * FROM `playlist_updates` WHERE route_id=3 ORDER BY update_id DESC LIMIT 1
+		
 		$this->db->select('*')
-				->from($this->table);	
+				->from($this->table)
+				->order_by('update_id','DESC')
+				->limit(1);	
 
 		if( isset($where) )
 			$this->db->where($where);
@@ -38,6 +41,26 @@ class Playlist_model extends CI_Model
 			$this->db->where("date_start <= \"$date\"",NULL,FALSE);
 			$this->db->where("date_end >= \"$date\"",NULL,FALSE);
 		}
+		
+		$query = $this->db->get();
+		
+		// echo "<br />".$this->db->last_query();
+		// exit;
+		
+		return $query->result_array();
+	
+	}	
+	
+	public function read($where=null,$orwhere=null){
+		
+		$this->db->select('*')
+				->from($this->table);	
+
+		if( isset($where) )
+			$this->db->where($where);
+		
+		if( isset($orwhere) )
+			$this->db->or_where($orwhere,FALSE);
 		
 		$query = $this->db->get();
 		

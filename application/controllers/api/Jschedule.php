@@ -14,6 +14,7 @@ class Jschedule extends REST_Controller {
 
 		$this->load->model('nschedules_model', 'Nschedule');		
 		$this->load->model('playlist_model', 'Playlist');		
+		$this->load->model('playlist_updates_model', 'Play_Updates');		
 		
     }
 		
@@ -34,6 +35,19 @@ class Jschedule extends REST_Controller {
 		}
 
 		$this->response($response);
+	}
+	
+	public function checkupdates_get(){
+		
+		$d = $this->get();
+		
+		$this->load->model('playlist_updates_model');
+		
+		$where = array('route_id'=>$d['route']);
+		
+		$updates = $this->playlist_updates_model->get_last_update($where);
+		
+		$this->response($updates);
 	}
 	
 	public function scheduledads_get() {
@@ -83,7 +97,7 @@ class Jschedule extends REST_Controller {
 	
 		$schedule = array();	
 		
-		if( count($ads)==0 ){
+		// if( count($ads)==0 ){
 			//get order_id in n_schedules
 			// $where = array('order_id'=>$data['order_id']);			
 			// $where = array('timeslot'=>$data['time']);			
@@ -94,6 +108,7 @@ class Jschedule extends REST_Controller {
 			// exit;
 			
 			//get all route_id in n_schedules for chosen order_id
+
 			$fields = 'DISTINCT(route_id) AS route';
 			// $where = array('order_id'=>$data['order_id']);	
 			$where = array('timeslot'=>$data['time']);	
@@ -236,10 +251,10 @@ class Jschedule extends REST_Controller {
 				// array_push($schedule, $list);
 					
 			}
-		}
-		else{ //there is already a playlist in the table
+		// }
+		// else{ //there is already a playlist in the table
 			
-		}
+		// }
 
 		// print_r($schedule);				
 		$ctr=1;
