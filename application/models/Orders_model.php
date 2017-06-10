@@ -45,12 +45,37 @@ class Orders_model extends CI_Model
 
 	public function get_Time($id)
 	{
-		$this->db->select('ad_duration');
+		$this->db->select($this->query);
 		$this->db->from($this->table);
 		$this->db->where($this->id, $id);
 		$query = $this->db->get();
 		$row = $query->row_array();
-		return $row['ad_duration'];
+		// if($row['order_status'] == 0 || $row['order_status'] == 1)
+		if($row['order_status'] == 1)
+		{
+			return $row['ad_duration'];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	public function countAds($id)
+	{
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		if($row['ad_id'] == 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
 	}
 	
 	public function getpending(){
