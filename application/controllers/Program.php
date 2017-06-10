@@ -26,6 +26,7 @@
 			$this->load->model('salesmen_model', 'Sales');
 
 			$this->load->model('nschedules_model', 'nSched');
+
 			$this->load->model('playlists_model', 'Playlist');
 		}
 		
@@ -199,7 +200,7 @@
             $this->load->view("template/footer", $data);
         }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    A  P  P  R  O  V  E      F  U  N  C  T  I  O  N  S                          //
 		////////////////////////////////////////////////////////////////////////////////////////////////////
         public function showOrders()
@@ -431,15 +432,13 @@
         	}
         	return TRUE;
         }
-
         public function generate_list($order_id){
-			    $this->load->library("auto_schedule");
-			    $where = array('order_id'=>$order_id);
-			    $details = $this->nSched->getSchedules($where);
-			    $schedule = $this->auto_schedule->auto($details);
-		    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
+			$this->load->library("auto_schedule");
+			$where = array('order_id'=>$order_id);
+			$details = $this->nSched->getSchedules($where);
+			$schedule = $this->auto_schedule->auto($details);
+		}
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
 		///////////////////////////////////////////////////////////////////////////////////////////////////
         public function showApprovedOrders()
