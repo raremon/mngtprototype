@@ -16,6 +16,7 @@
 			$this->load->model('routes_model', 'Route');
 			$this->load->model('locations_model', 'Location');
 			$this->load->model('ads_model', 'Ad');
+			$this->load->model('fillers_model', 'Filler');
 
 			$this->load->model('orders_model', 'Order');
 			$this->load->model('order_slots_model', 'Tslot');
@@ -800,14 +801,25 @@
             $table = $this->Playlist->getTimeslot($id);
 			$data = array();
 			foreach ($table as $rows) {
-//                if($rows['content_type'] == 'Ad')
-//                {
-                    $ad_data = $this->Ad->edit_Ad_Data($rows['content_id']);
+				$content_name = "";
+				$content_duration = "";
+                if($rows['content_type'] == 'ad')
+                {
+                	$ad_data = $this->Ad->edit_Ad_Data($rows['content_id']);
+                	$content_name = $ad_data['ad_name'];
+                	$content_duration = $ad_data['ad_duration'];
+				}
+				else if($rows['content_type'] == 'filler')
+                {
+                	$filler_data = $this->Filler->edit_Filler($rows['content_id']);
+                	$content_name = $filler_data['filler_title'];
+                	$content_duration = $filler_data['filler_duration'];
+				}
                     array_push($data,
                         array(
                             $rows['play_order'],
-                            $ad_data['ad_name'],
-                            $ad_data['ad_duration'],
+                            $content_name,
+                            $content_duration,
                             $rows['duration'],
                             $rows['content_type'],
                         )
