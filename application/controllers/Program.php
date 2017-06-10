@@ -16,6 +16,7 @@
 			$this->load->model('routes_model', 'Route');
 			$this->load->model('locations_model', 'Location');
 			$this->load->model('ads_model', 'Ad');
+			$this->load->model('fillers_model', 'Filler');
 
 			$this->load->model('orders_model', 'Order');
 			$this->load->model('order_slots_model', 'Tslot');
@@ -25,6 +26,7 @@
 			$this->load->model('salesmen_model', 'Sales');
 
 			$this->load->model('nschedules_model', 'nSched');
+
 			$this->load->model('playlists_model', 'Playlist');
 		}
 		
@@ -198,7 +200,7 @@
             $this->load->view("template/footer", $data);
         }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    A  P  P  R  O  V  E      F  U  N  C  T  I  O  N  S                          //
 		////////////////////////////////////////////////////////////////////////////////////////////////////
         public function showOrders()
@@ -430,15 +432,13 @@
         	}
         	return TRUE;
         }
-
         public function generate_list($order_id){
-			    $this->load->library("auto_schedule");
-			    $where = array('order_id'=>$order_id);
-			    $details = $this->nSched->getSchedules($where);
-			    $schedule = $this->auto_schedule->auto($details);
-		    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
+			$this->load->library("auto_schedule");
+			$where = array('order_id'=>$order_id);
+			$details = $this->nSched->getSchedules($where);
+			$schedule = $this->auto_schedule->auto($details);
+		}
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
 		///////////////////////////////////////////////////////////////////////////////////////////////////
         public function showApprovedOrders()
@@ -656,95 +656,6 @@
 			// $data=$this->Ad->edit_Ad_Data($ad_id);
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
         }
-        public function morningTslot()
-        {
-        	$table = $this->Timeslot->getmorning();
-			$data = array();
-			foreach ($table as $rows) {
-				$orders = 0;
-				$tslot = $this->Tslot->find_Orders($rows['tslot_id']);
-				foreach($tslot as $cols)
-				{
-					$orders = $orders + $this->Order->countAds($cols['order_id']);
-				}
-
-				array_push($data,
-					array(
-                        $rows['tslot_id'],
-						$rows['tslot_time'],
-						$orders,
-					)
-				);
-			}
-			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-        }
-        public function afternoonTslot()
-        {
-        	$table = $this->Timeslot->getafternoon();
-			$data = array();
-			foreach ($table as $rows) {
-				$orders = 0;
-				$tslot = $this->Tslot->find_Orders($rows['tslot_id']);
-				foreach($tslot as $cols)
-				{
-					$orders = $orders + $this->Order->countAds($cols['order_id']);
-				}
-
-				array_push($data,
-					array(
-						$rows['tslot_id'],
-                        $rows['tslot_time'],
-						$orders,
-					)
-				);
-			}
-			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-        }
-        public function eveningTslot()
-        {
-        	$table = $this->Timeslot->getevening();
-			$data = array();
-			foreach ($table as $rows) {
-				$orders = 0;
-				$tslot = $this->Tslot->find_Orders($rows['tslot_id']);
-				foreach($tslot as $cols)
-				{
-					$orders = $orders + $this->Order->countAds($cols['order_id']);
-				}
-
-				array_push($data,
-					array(
-						$rows['tslot_id'],
-                        $rows['tslot_time'],
-						$orders,
-					)
-				);
-			}
-			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-        }
-        public function programListing($id)
-        {
-//        	$id=$this->input->post('tslot_id');
-            
-            $table = $this->Playlist->getTimeslot($id);
-			$data = array();
-			foreach ($table as $rows) {
-//                if($rows['content_type'] == 'Ad')
-//                {
-                    $ad_data = $this->Ad->edit_Ad_Data($rows['content_id']);
-                    array_push($data,
-                        array(
-                            $rows['play_order'],
-                            $ad_data['ad_name'],
-                            $ad_data['ad_duration'],
-                            $rows['duration'],
-                            $rows['content_type'],
-                        )
-                    );
-//                }
-			}
-			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-        }
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                     R  E  G  U  L  A  R     F  U  N  C  T  I  O  N  S                          //
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -890,14 +801,25 @@
             $table = $this->Playlist->getTimeslot($id);
 			$data = array();
 			foreach ($table as $rows) {
-//                if($rows['content_type'] == 'Ad')
-//                {
-                    $ad_data = $this->Ad->edit_Ad_Data($rows['content_id']);
+				$content_name = "";
+				$content_duration = "";
+                if($rows['content_type'] == 'ad')
+                {
+                	$ad_data = $this->Ad->edit_Ad_Data($rows['content_id']);
+                	$content_name = $ad_data['ad_name'];
+                	$content_duration = $ad_data['ad_duration'];
+				}
+				else if($rows['content_type'] == 'filler')
+                {
+                	$filler_data = $this->Filler->edit_Filler($rows['content_id']);
+                	$content_name = $filler_data['filler_title'];
+                	$content_duration = $filler_data['filler_duration'];
+				}
                     array_push($data,
                         array(
                             $rows['play_order'],
-                            $ad_data['ad_name'],
-                            $ad_data['ad_duration'],
+                            $content_name,
+                            $content_duration,
                             $rows['duration'],
                             $rows['content_type'],
                         )
