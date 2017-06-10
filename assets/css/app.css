@@ -270,6 +270,14 @@ _:-moz-tree-row(hover), .browser-style {
     cursor: pointer;
 }
 
+#evening-table >tbody{
+    cursor: pointer;
+}
+
+#afternoon-table >tbody{
+    cursor: pointer;
+}
+
 /*CROP*/
 .cropit-preview {
     background-color: white;

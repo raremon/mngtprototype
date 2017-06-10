@@ -327,8 +327,12 @@
       }
     })
     var modalBox = "advertiser";
-    var table1 = $("#program-list-table").DataTable();
-    var table2 = $("#program-list-table1").DataTable();
+    var table1 = $("#program-list-table").DataTable({
+        "paging":   false,
+    });
+    var table2 = $("#program-list-table1").DataTable({
+        "paging":   false,
+    });
     //
     $("#byRoute").click(function(){
        $("#byAdvertiserBox").addClass("hidden");
