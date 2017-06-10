@@ -362,6 +362,8 @@ class Salesman extends MY_Controller {
 					$this->RouteOrder->create($routes);
 				}
 			// }
+				
+			// $info['message']=count($selected_route);
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'> Order # ".$order_id."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
