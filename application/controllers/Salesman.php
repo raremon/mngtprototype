@@ -300,6 +300,7 @@ class Salesman extends MY_Controller {
 				'date_end'=>$end,
 				'ad_id'=>0,
 				'order_status'=>0,
+				'filler_image'=>0,
 			);
 
 			$order_id = $this->Order->create($order);
