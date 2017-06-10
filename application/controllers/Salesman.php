@@ -32,7 +32,7 @@ class Salesman extends MY_Controller {
 		$data['title']='Place Ad Order';
 		$data['breadcrumbs']=array
 		(
-			array('Place Ad Order','schedules'),
+			array('Place Ad Order','salesman/schedules'),
 		);
 		$data['css']=array
 		(
@@ -343,16 +343,16 @@ class Salesman extends MY_Controller {
 			}
 
 			$selected_route = json_decode($this->input->post('route_selected'), TRUE);
-			// if(count($selected_route) < 2)
-			// {
-			// 	$routes = array(
-			// 		'order_id'=>$order_id,
-			// 		'route_id'=>$selected_route,
-			// 	);
-			// 	$this->RouteOrder->create($routes);
-			// }
-			// else
-			// {
+		 if(count($selected_route) < 2)
+			 {
+			 	$routes = array(
+		   		'order_id'=>$order_id,
+			 		'route_id'=>$selected_route,
+			 	);
+			  $this->RouteOrder->create($routes);
+			}
+			else
+			{
 				foreach($selected_route as $row)
 				{
 					$routes = array(
@@ -361,8 +361,7 @@ class Salesman extends MY_Controller {
 					);
 					$this->RouteOrder->create($routes);
 				}
-			// }
-				
+			}
 			// $info['message']=count($selected_route);
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'> Order # ".$order_id."</span>!</p>";
 		}
