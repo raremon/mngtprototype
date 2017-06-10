@@ -215,7 +215,7 @@
                     <input type="range" id="slider" class="cropit-image-zoom-input">
                     <button class="rotate-ccw" id="rotatebutton">&olarr;</button>
                     <button class="rotate-cw" id="rotatebutton2">&orarr;</button>
-                    <input name="image-data" class="hidden-image-data" />
+                    <input type="hidden" name="image-data" class="hidden-image-data" />
                 </div>
             </div>
           <div class="col-md-12">
