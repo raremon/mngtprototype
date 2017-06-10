@@ -32,7 +32,7 @@ class Salesman extends MY_Controller {
 		$data['title']='Place Ad Order';
 		$data['breadcrumbs']=array
 		(
-			array('Place Ad Order','salesman'),
+			array('Place Ad Order','salesman/schedules'),
 		);
 		$data['css']=array
 		(
@@ -59,7 +59,7 @@ class Salesman extends MY_Controller {
 		$data['page_description']='View Available Schedules';
 
 		$data['treeActive'] = 'program_schedule';
-		$data['childActive'] = 'create_program_schedule' ;
+		$data['childActive'] = 'place_ad_order' ;
 
 		//REGION
 		$region_data = $this->Region->show_Region();

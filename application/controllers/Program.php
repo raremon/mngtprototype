@@ -25,7 +25,7 @@
 			$this->load->model('salesmen_model', 'Sales');
 
 			$this->load->model('nschedules_model', 'nSched');
-            $this->load->model('playlists_model', 'Playlist');
+			$this->load->model('playlists_model', 'Playlist');
 		}
 		
 		// Index Function
@@ -167,7 +167,7 @@
             );
             $data['script']=array
             (
-                'assets/js/jquery.cropit.js',
+            	'assets/js/jquery.cropit.js',
             );
 			$advertiser_data = $this->Advertiser->show_Advertiser();
 			$data['advertiser'] = array();
@@ -197,35 +197,8 @@
             $this->load->view("program/browse_approve_ad", $data);
             $this->load->view("template/footer", $data);
         }
-        
-		// public function order()
-  //       {
-  //           $data = array();
-  //           $data['role'] = $this->logged_out_check();
-  //           $data['title']='New Ad Order';
-  //           $data['page_description'] = 'Approve/Cancel Orders';
-  //           $data['breadcrumbs']=array
-  //           (
-  //               array('New Ad Order','program/order'),
-  //           );
-  //           $data['css']=array
-  //           (
 
-  //           );
-  //           $data['script']=array
-  //           (
-
-  //           );
-
-  //           $data['treeActive'] = 'program_schedule';
-  //           $data['childActive'] = 'new_ad_order' ;
-
-  //           $this->load->view("template/header", $data);
-  //           $this->load->view("program/new_ad_order", $data);
-  //           $this->load->view("template/footer", $data);
-  //       }
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    A  P  P  R  O  V  E      F  U  N  C  T  I  O  N  S                          //
 		////////////////////////////////////////////////////////////////////////////////////////////////////
         public function showOrders()
@@ -465,7 +438,7 @@
 			    $schedule = $this->auto_schedule->auto($details);
 		    }
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
 		///////////////////////////////////////////////////////////////////////////////////////////////////
         public function showApprovedOrders()
@@ -526,49 +499,49 @@
         	// Order Id , Advertiser, Ad Title, Ad Duration, Air Dates, Date Ordered, Date Approved
         	// orders.order_id
         	// advertisers.advertiser_name(orders.advertiser_id)
-        	// ads.ad_name(orders.ad_id)
-        	// orders.ad_duration
-        	// orders.date_start and/or orders.date_end
-        	// orders.order_date
-        	// orders.status_date
-
-        	$table = $this->Order->getcancelled();
-			$data = array();
-			foreach ($table as $rows) {
-				//advertiser
-				$advertiser = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
-				// datestart
-				$date_start = new DateTime($rows['date_start']);
-				// dateend
-				$date_end = new DateTime($rows['date_end']);
-				// order date
-				$order_date = new DateTime($rows['order_date']);
-				// status date
-				$status_date = new DateTime($rows['status_date']);
-				$dates = "";
-				if($rows['date_end'] != NULL)
-				{
-					$dates = $date_start->format('M / d / Y').' to '.$date_end->format('M / d / Y');
-				}
-				else
-				{
-					$dates = $date_start->format('M / d / Y');
-				}
-
-				array_push($data,
-					array(
-						$rows['order_id'],
-						'<button type="button" class="btn btn-link" onclick="getAdvertiserData('."'".$advertiser['advertiser_id']."'".')">'.$advertiser['advertiser_name'].'</button>',
-						// $advertiser['advertiser_name'],
-						$rows['ad_duration'].' seconds',
-						$dates,
-						$order_date->format('M / d / Y'),
-						$status_date->format('M / d / Y'),
-						'<button type="button" class="btn btn-info" onclick="seeMore('."'".$rows['order_id']."'".')"><span class="fa fa-eye"></span></button>',
-					)
-				);
-			}
-			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+         	// ads.ad_name(orders.ad_id)
+         	// orders.ad_duration
+         	// orders.date_start and/or orders.date_end
+         	// orders.order_date
+         	// orders.status_date
+ 
+         	$table = $this->Order->getcancelled();
+ 			$data = array();
+ 			foreach ($table as $rows) {
+ 				//advertiser
+ 				$advertiser = $this->Advertiser->edit_Advertiser_Data($rows['advertiser_id']);
+ 				// datestart
+ 				$date_start = new DateTime($rows['date_start']);
+ 				// dateend
+ 				$date_end = new DateTime($rows['date_end']);
+ 				// order date
+ 				$order_date = new DateTime($rows['order_date']);
+ 				// status date
+ 				$status_date = new DateTime($rows['status_date']);
+ 				$dates = "";
+ 				if($rows['date_end'] != NULL)
+ 				{
+ 					$dates = $date_start->format('M / d / Y').' to '.$date_end->format('M / d / Y');
+ 				}
+ 				else
+ 				{
+ 					$dates = $date_start->format('M / d / Y');
+ 				}
+ 
+ 				array_push($data,
+ 					array(
+ 						$rows['order_id'],
+ 						'<button type="button" class="btn btn-link" onclick="getAdvertiserData('."'".$advertiser['advertiser_id']."'".')">'.$advertiser['advertiser_name'].'</button>',
+ 						// $advertiser['advertiser_name'],
+ 						$rows['ad_duration'].' seconds',
+ 						$dates,
+ 						$order_date->format('M / d / Y'),
+ 						$status_date->format('M / d / Y'),
+ 						'<button type="button" class="btn btn-info" onclick="seeMore('."'".$rows['order_id']."'".')"><span class="fa fa-eye"></span></button>',
+ 					)
+ 				);
+ 			}
+ 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
         }
         public function seeMore()
         {		
@@ -844,6 +817,95 @@
 			}
 			return $pushdata;
 		}
+		public function morningTslot()
+        {
+        	$table = $this->Timeslot->getmorning();
+			$data = array();
+			foreach ($table as $rows) {
+				$orders = 0;
+				$tslot = $this->Tslot->find_Orders($rows['tslot_id']);
+				foreach($tslot as $cols)
+				{
+					$orders = $orders + $this->Order->countAds($cols['order_id']);
+				}
+
+				array_push($data,
+					array(
+                        $rows['tslot_id'],
+						$rows['tslot_time'],
+						$orders,
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
+        public function afternoonTslot()
+        {
+        	$table = $this->Timeslot->getafternoon();
+			$data = array();
+			foreach ($table as $rows) {
+				$orders = 0;
+				$tslot = $this->Tslot->find_Orders($rows['tslot_id']);
+				foreach($tslot as $cols)
+				{
+					$orders = $orders + $this->Order->countAds($cols['order_id']);
+				}
+
+				array_push($data,
+					array(
+						$rows['tslot_id'],
+                        $rows['tslot_time'],
+						$orders,
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
+        public function eveningTslot()
+        {
+        	$table = $this->Timeslot->getevening();
+			$data = array();
+			foreach ($table as $rows) {
+				$orders = 0;
+				$tslot = $this->Tslot->find_Orders($rows['tslot_id']);
+				foreach($tslot as $cols)
+				{
+					$orders = $orders + $this->Order->countAds($cols['order_id']);
+				}
+
+				array_push($data,
+					array(
+						$rows['tslot_id'],
+                        $rows['tslot_time'],
+						$orders,
+					)
+				);
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
+        public function programListing($id)
+        {
+//        	$id=$this->input->post('tslot_id');
+            
+            $table = $this->Playlist->getTimeslot($id);
+			$data = array();
+			foreach ($table as $rows) {
+//                if($rows['content_type'] == 'Ad')
+//                {
+                    $ad_data = $this->Ad->edit_Ad_Data($rows['content_id']);
+                    array_push($data,
+                        array(
+                            $rows['play_order'],
+                            $ad_data['ad_name'],
+                            $ad_data['ad_duration'],
+                            $rows['duration'],
+                            $rows['content_type'],
+                        )
+                    );
+//                }
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////

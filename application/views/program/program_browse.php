@@ -61,6 +61,7 @@
       </div>
 
       <div class="modal-footer">
+        <button type="button" class="btn btn-info" onclick="updateSched()">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -130,6 +131,7 @@
       </div>
 
       <div class="modal-footer">
+        <button type="button" class="btn btn-info" onclick="updateSched()">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -325,8 +327,8 @@
       }
     })
     var modalBox = "advertiser";
-    $("#program-list-table").DataTable();
-    $("#program-list-table1").DataTable();
+    var table1 = $("#program-list-table").DataTable();
+    var table2 = $("#program-list-table1").DataTable();
     //
     $("#byRoute").click(function(){
        $("#byAdvertiserBox").addClass("hidden");
@@ -419,6 +421,15 @@
         });
     }
 
+    function updateSched() {
+      table1.draw();
+      var plainArray;
+      plainArray = table1
+            .data()
+            .toArray();
+          console.log(plainArray);
+      
+    }
 //    $(document).on('hidden.bs.modal','#byAdvertiserModal', function () {
 //          $('#program-list-table').DataTable().clear().destroy();
 //

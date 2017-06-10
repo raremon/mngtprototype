@@ -121,7 +121,7 @@
 <div class="modal fade" id="approve-modal" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-
+      <?php echo form_open_multipart('', array('id'=>'order')); ?>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Media Details</h4>
@@ -129,7 +129,6 @@
 
       <div class="modal-body">
         <div class="container-fluid">
-        <?php echo form_open('', array('id'=>'order')); ?>
           <div class="col-md-12">
             <div class="form-group" id="order-message"></div>            
           </div>
@@ -208,7 +207,7 @@
                 <label>Select Filler Image:</label>
                   <div class="image-editor">
                     <label for="browsebutton" class="browselabel">Browse your image.</label>
-                    <input type="file" name="imageup" id="browsebutton" class="cropit-image-input">
+                    <input type="file" name="filler_image" id="browsebutton" class="cropit-image-input">
                     <div class="cropit-preview"></div>
                     <div class="image-size-label" style="font-size: 24px;">
                             s &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; B
@@ -216,7 +215,7 @@
                     <input type="range" id="slider" class="cropit-image-zoom-input">
                     <button class="rotate-ccw" id="rotatebutton">&olarr;</button>
                     <button class="rotate-cw" id="rotatebutton2">&orarr;</button>
-                    <input type="hidden" name="image-data" class="hidden-image-data" />
+                    <input name="image-data" class="hidden-image-data" />
                 </div>
             </div>
           <div class="col-md-12">
@@ -232,15 +231,15 @@
             <input type="text" class="form-control" id="pending_sales_id" readonly>
             </div>            
           </div>
-        <?php echo form_close(); ?>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" onclick="approveOrder()">Approve Order</button>
+        <button type="submit" class="btn btn-success">Approve Order</button>
         <button type="button" class="btn btn-danger" onclick="cancelOrder()">Cancel Order</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
+      <?php echo form_close(); ?>
     </div>
   </div>
 </div>
@@ -252,134 +251,122 @@
     </div>
   </div>
   <div class="box-body">
-            <div class="nav-tabs-custom tab-success">
-              <ul class="nav nav-tabs">
-                <li class="active"><a href="#advertiser_tab_0" data-toggle="tab">Pending Orders</a></li>
-                <li><a href="#advertiser_tab_1" data-toggle="tab">Approved Orders</a></li>
-                <li><a href="#advertiser_tab_2" data-toggle="tab">Cancelled Orders</a></li>
-              </ul>
-              <div class="tab-content">
-
-                <div class="tab-pane active" id="advertiser_tab_0">
-                    
-
-                    <div class="box box-success">
-                      <div class="box-header with-border">
-                        <h3 class="box-title">Process Ad Order</h3>
-                        <div class="box-tools pull-right">
-                        </div>
-                      </div>
-                      <div class="box-body">
-                        <div class="container-fluid">
-                          <div class="col-md-12">
-                            <label>List:</label>
-                            <table id="order_data" class="table table-hover" width="100%">
-                              <thead>
-                                <tr>
-                                  <th>Order ID</th>
-                                  <th>Advertiser</th>
-                                  <th>Date Created</th>
-                                  <th>Manage Order</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td><button type="button" class="btn btn-success" onclick="openModal()">Manage Order</button></td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                      </div>
-                      <div class="box-footer">
-                      </div>
-                    </div>
-                </div>
-                  </div>
-
-
-                <div class="tab-pane" id="advertiser_tab_1">
-
-                    <div class="box box-success">
-                      <div class="box-header with-border">
-                        <h3 class="box-title">Approved Ad Order List</h3>
-                        <div class="box-tools pull-right">
-                        </div>
-                      </div>
-                      <div class="box-body">
-                        <div class="container-fluid">
-                          <div class="col-md-12">
-                            <table id="approved" class="table table-hover" width="100%">
-                              <thead>
-                                <tr>
-                                  <th>Order ID</th>
-                                  <th>Advertiser</th>
-                                  <th>Ad Title</th>
-                                  <th>Ad Duration</th>
-                                  <th>Air Dates</th>
-                                  <th>Date Ordered</th>
-                                  <th>Date Approved</th>
-                                  <th></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              </tbody>
-                            </table>
-                          </div>
-                      </div>
-                      <div class="box-footer">
-                      </div>
-                    </div>
-                    </div>
-                  
-
-                </div>
-                  
-                <div class="tab-pane" id="advertiser_tab_2">  
-
-                    <div class="box box-success">
-                      <div class="box-header with-border">
-                        <h3 class="box-title">Cancelled Ad Order List</h3>
-                        <div class="box-tools pull-right">
-                        </div>
-                      </div>
-                      <div class="box-body">
-                        <div class="container-fluid">
-                          <div class="col-md-12">
-                            <table id="cancelled" class="table table-hover" width="100%">
-                              <thead>
-                                <tr>
-                                  <th>Order ID</th>
-                                  <th>Advertiser</th>
-                                  <th>Ad Duration</th>
-                                  <th>Air Dates</th>
-                                  <th>Date Ordered</th>
-                                  <th>Date Cancelled</th>
-                                  <th></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              </tbody>
-                            </table>
-                          </div>
-                      </div>
-                      <div class="box-footer">
-                      </div>
-                    </div>
-                    </div>
-                  
-
-                </div>
-              <!-- /.tab-content -->
+    <div class="nav-tabs-custom tab-success">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#advertiser_tab_0" data-toggle="tab">Pending Orders</a></li>
+        <li><a href="#advertiser_tab_1" data-toggle="tab">Approved Orders</a></li>
+        <li><a href="#advertiser_tab_2" data-toggle="tab">Cancelled Orders</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="advertiser_tab_0">
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Process Ad Order</h3>
+              <div class="box-tools pull-right">
+              </div>
             </div>
-            <!-- nav-tabs-custom -->
-  </div>
-  <div class="box-footer">
+            <div class="box-body">
+              <div class="container-fluid">
+                <div class="col-md-12">
+                  <label>List:</label>
+                  <table id="order_data" class="table table-hover" width="100%">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Advertiser</th>
+                        <th>Date Created</th>
+                        <th>Manage Order</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><button type="button" class="btn btn-success" onclick="openModal()">Manage Order</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="box-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="advertiser_tab_1">
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Approved Ad Order List</h3>
+              <div class="box-tools pull-right">
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="container-fluid">
+                <div class="col-md-12">
+                  <table id="approved" class="table table-hover" width="100%">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Advertiser</th>
+                        <th>Ad Title</th>
+                        <th>Ad Duration</th>
+                        <th>Air Dates</th>
+                        <th>Date Ordered</th>
+                        <th>Date Approved</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="box-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+                      
+        <div class="tab-pane" id="advertiser_tab_2">  
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Cancelled Ad Order List</h3>
+              <div class="box-tools pull-right">
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="container-fluid">
+                <div class="col-md-12">
+                  <table id="cancelled" class="table table-hover" width="100%">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Advertiser</th>
+                        <th>Ad Duration</th>
+                        <th>Air Dates</th>
+                        <th>Date Ordered</th>
+                        <th>Date Cancelled</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="box-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box-footer">
+    </div>
   </div>
 </div>
-
 
 <script>
   $('.image-editor').cropit();
@@ -559,29 +546,59 @@
     }
   })
 
-  function approveOrder() {
-    $.ajax({
-      url: "<?php echo site_url('program/approveOrder') ?>",
-      type: 'POST',
-      dataType: 'json',
-      data: $('#order').serialize(),
-      encode:true,
-      success:function (data) {
-        if(!data.success){
-            $('.modal').scrollTop(0);
-            $("#order-message").fadeIn("slow");
-            $('#order-message').html(data.errors).addClass('alert alert-danger');
-            setTimeout(function() {
-                $('#order-message').fadeOut('slow');
-            }, 3000);
-        }else {
-          $('#message-text').html(data.message);
-          $('#approve-modal').modal('hide');
-          $('#successModal').modal('show');
+  // function approveOrder() {
+  //   $.ajax({
+  //     url: "<?php echo site_url('program/approveOrder') ?>",
+  //     type: 'POST',
+  //     dataType: 'json',
+  //     data: $('#order').serialize(),
+  //     encode:true,
+  //     success:function (data) {
+  //       if(!data.success){
+  //           $('.modal').scrollTop(0);
+  //           $("#order-message").fadeIn("slow");
+  //           $('#order-message').html(data.errors).addClass('alert alert-danger');
+  //           setTimeout(function() {
+  //               $('#order-message').fadeOut('slow');
+  //           }, 3000);
+  //       }else {
+  //         $('#message-text').html(data.message);
+  //         $('#approve-modal').modal('hide');
+  //         $('#successModal').modal('show');
+  //       }
+  //     }
+  //   })
+  // }
+
+  $(document).ready(function(){
+    $('#order').on('submit', function(e){
+      e.preventDefault();
+
+      $.ajax({
+        url: "<?php echo site_url('program/approveOrder') ?>",
+        method: 'POST',
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData: false,
+        success:function(data) {
+          if(!data.success){
+              $('.modal').scrollTop(0);
+              $("#order-message").fadeIn("slow");
+              $('#order-message').html(data.errors).addClass('alert alert-danger');
+              setTimeout(function() {
+                  $('#order-message').fadeOut('slow');
+              }, 3000);
+          }else {
+            $('#message-text').html(data.message);
+            $('#approve-modal').modal('hide');
+            $('#successModal').modal('show');
+          }
         }
-      }
-    })
-  }
+      });
+
+    });
+  });
 
   function cancelOrder() {
     $.ajax({
@@ -607,10 +624,10 @@
     })
   }
 
-$(document).on('hidden.bs.modal', function (event) {
-  $('video').trigger('pause');
-  if ($('.modal:visible').length) {
-    $('body').addClass('modal-open');
-  }
-});
+  $(document).on('hidden.bs.modal', function (event) {
+    $('video').trigger('pause');
+    if ($('.modal:visible').length) {
+      $('body').addClass('modal-open');
+    }
+  });
 </script>
