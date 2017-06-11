@@ -236,7 +236,7 @@
                 <li class="header">Main Menu</li>
                 <li id="dashboard"><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
                 <li id="ads_management" class="treeview">
-        					<a href="#"><i class="fa fa-upload"></i> <span>Ads Management</span>
+        					<a href="#"><i class="fa fa-file-movie-o"></i> <span>Ads Management</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>					
