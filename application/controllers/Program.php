@@ -157,8 +157,8 @@
         {
             $data = array();
             $data['role'] = $this->logged_out_check();
-            $data['title']='Browse Approved Ad Order';
-            $data['page_description'] = 'List Of Approved Ad Orders';
+            $data['title']='Ad Orders';
+            $data['page_description'] = 'Ad Orders Management';
             $data['breadcrumbs']=array
             (
                 array('Browse Approve Ad Order','program/browseOrder'),
