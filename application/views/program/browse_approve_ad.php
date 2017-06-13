@@ -248,6 +248,7 @@
   <div class="box-header with-border">
     <h3 class="box-title">Ad Order List</h3>
     <div class="box-tools pull-right">
+        <a class="btn btn-link add-link" href="<?php echo base_url('salesman/schedules') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>New Order</a>
     </div>
   </div>
   <div class="box-body">

@@ -64,6 +64,7 @@
                 <th>ID</th>
                 <th>NAME</th>
                 <th>ADVERTISER</th>
+                <th>AD DURATION</th>
                 <th>VIDEO</th>
                 <th></th>
               </tr>
