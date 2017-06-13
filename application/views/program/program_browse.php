@@ -263,7 +263,7 @@
 <script type="text/javascript">
   $(".select2").select2();
   $('.select2-selection__rendered').removeAttr('title');
-    
+
     //Dragging and Updating Index of Rows
     var fixHelperModified = function(e, tr) {
         var $originals = tr.children();
@@ -277,11 +277,12 @@
             $('td.index', ui.item.parent()).each(function (i) {
                 $(this).html(i + 1);
             });
+            
         };
-
+    var testing;
     $("#program-list-table tbody").sortable({
         helper: fixHelperModified,
-        stop: updateIndex
+        stop: updateIndex,
     }).disableSelection();
 
     // READ
@@ -329,9 +330,11 @@
     var modalBox = "advertiser";
     var table1 = $("#program-list-table").DataTable({
         "paging":   false,
+        "stateSave": true,
     });
     var table2 = $("#program-list-table1").DataTable({
         "paging":   false,
+        "stateSave": true,
     });
     //
     $("#byRoute").click(function(){
