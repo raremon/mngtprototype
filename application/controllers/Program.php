@@ -14,6 +14,7 @@
 
 			$this->load->model('advertisers_model', 'Advertiser');
 			$this->load->model('routes_model', 'Route');
+			$this->load->model('locations_model', 'Location');
 			$this->load->model('ads_model', 'Ad');
 
 			$this->load->model('orders_model', 'Order');
@@ -508,11 +509,125 @@
 						$dates,
 						$order_date->format('M / d / Y'),
 						$status_date->format('M / d / Y'),
-						// '<button type="button" class="btn btn-success" onclick="openModal('."'".$rows['order_id']."'".')">Manage Order</button>',
+						'<button type="button" class="btn btn-info" onclick="seeMore('."'".$rows['order_id']."'".')"><span class="fa fa-eye"></span></button>',
 					)
 				);
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
+
+        public function seeMore()
+        {		
+        	$order=$this->input->post('order_id');
+        	// $ctr = 0;
+
+			$orderRoute = $this->RouteOrder->getRoutes($order);
+			$routes = array();
+			foreach($orderRoute as $row)
+			{
+				$route_data = $this->Route->edit_Route_Data($row['route_id']);
+				$location_from = $this->Location->get_Name( $route_data['location_from'] );
+				$location_to = $this->Location->get_Name( $route_data['location_to'] );
+				array_push($routes,
+					array(
+						$route_data['route_name'],
+						$route_data['route_description'],
+						$location_from['location_name'].' to '.$location_to['location_name'],
+						// "<div id='table-map-canvas-".$ctr.$order."' class='table-canvas'> </div>
+						//   <script type='text/javascript'>
+						//////////////////////////////////////////////////////
+						//  MAP NOT WORKING YET
+						//  CANT INITIALIZE IN MODAL
+						//////////////////////////////////////////////////////
+						//   	var Xmarkers".$ctr.$order." = [
+						// 		[ '".$location_from['location_name']."' , ".$location_from['latitude']." , ".$location_from['longitude']." ],
+						// 		[ '".$location_to['location_name']."' , ".$location_to['latitude']." , ".$location_to['longitude']." ]
+						// 	];
+
+						//     initialize".$ctr.$order."(Xmarkers".$ctr.$order.");
+
+						// 	function initialize".$ctr.$order."(markers) 
+						// 	{
+						// 		var bounds = new google.maps.LatLngBounds();
+						// 		var mapOptions = {
+						// 		    mapTypeId: 'roadmap',
+						// 		    navigationControl: false,
+						// 		    mapTypeControl: false,
+						// 		    scrollwheel: false,
+						// 		    scaleControl: false,
+						// 		    draggable: false,
+						// 		    disableDefaultUI: true,
+						// 		};
+
+						// 		var map = new google.maps.Map( document.getElementById('table-map-canvas-".$ctr.$order."'), mapOptions);
+						// 		map.setTilt(45);
+
+						// 		for( i = 0; i < markers.length; i++ ) {
+						// 		    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+						// 		    bounds.extend(position);
+						// 		    marker = new google.maps.Marker({
+						// 		        position: position,
+						// 		        map: map,
+						// 		        title: markers[i][0]
+						// 		    });
+						// 		}
+						// 		    map.fitBounds(bounds);
+
+						// 		google.maps.event.addListenerOnce(map, 'zoom_changed', function() {
+						// 		  map.setZoom(map.getZoom()-1);
+						// 		});
+						// 	}
+						//   </script>
+						// ",
+					)
+				);
+				// $ctr += 1;
+			}
+			$data['route_data'] = $routes;
+        	// ROUTE ID , ROUTE NAME, ROUTE DESC, LOCATION FROM, LOCATION TO
+
+			$data['tslot_data'] = array();
+			$tslot = $this->Tslot->getTslots($order);
+			foreach ($tslot as $rows) {
+				$display = '';
+				if($rows['display_type'] == 1)
+				{
+					$display = 'Normal';
+				}
+				else if($rows['display_type'] == 2)
+				{
+					$display = 'Split Main';
+				}
+				else if($rows['display_type'] == 3)
+				{
+					$display = 'Star 8 Content';
+				}
+				else if($rows['display_type'] == 4)
+				{
+					$display = 'Split Top Right';
+				}
+				else if($rows['display_type'] == 5)
+				{
+					$display = 'Split Bottom Right';
+				}
+				$tslot_data = $this->Timeslot->edit($rows['tslot_id']);
+				array_push($data['tslot_data'],
+					array(
+						$tslot_data['tslot_time'],
+						$display,
+						$rows['times_repeat'].'x',
+					)
+				);
+			}
+
+			$order_data = $this->Order->edit($order);
+			$salesman = $this->Sales->edit($order_data['sales_id']);
+			$data['salesman_data'] = $salesman['sales_fname'].' '.$salesman['sales_lname'];
+
+        	
+
+			// $data=$this->Ad->edit_Ad_Data($ad_id);
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
         }
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		//                     R  E  G  U  L  A  R     F  U  N  C  T  I  O  N  S                          //
