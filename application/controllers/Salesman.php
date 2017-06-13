@@ -29,10 +29,10 @@ class Salesman extends MY_Controller {
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Schedule Availability';
+		$data['title']='Place Ad Order';
 		$data['breadcrumbs']=array
 		(
-			array('Salesman','salesman'),
+			array('Place Ad Order','salesman/schedules'),
 		);
 		$data['css']=array
 		(
@@ -58,8 +58,8 @@ class Salesman extends MY_Controller {
 		);
 		$data['page_description']='View Available Schedules';
 
-		$data['treeActive'] = 'salesman';
-		$data['childActive'] = '' ;
+		$data['treeActive'] = 'program_schedule';
+		$data['childActive'] = 'place_ad_order' ;
 
 		//REGION
 		$region_data = $this->Region->show_Region();
@@ -300,29 +300,56 @@ class Salesman extends MY_Controller {
 				'date_end'=>$end,
 				'ad_id'=>0,
 				'order_status'=>0,
+				'filler_image'=>0,
 			);
 
 			$order_id = $this->Order->create($order);
 			$selected_tslot = json_decode($this->input->post('tslots_selected'), TRUE);
 			foreach($selected_tslot as $row)
 			{
+				$win_123 = 0;
+				$display_type = 0;
+				if($this->input->post('display_type') == 1)
+				{
+					$display_type = 1;
+				}
+				else if($this->input->post('display_type') == 2)
+				{
+					$display_type = 2;
+					$win_123 = 1;
+				}
+				else if($this->input->post('display_type') == 4)
+				{
+					$display_type = 2;
+					$win_123 = 2;
+				}
+				else if($this->input->post('display_type') == 5)
+				{
+					$display_type = 2;
+					$win_123 = 3;
+				}
+				else
+				{
+					$display_type = 3;
+				}
 				$tslot = array(
 					'order_id'=>$order_id,
 					'tslot_id'=>$row,
-					'display_type'=>$this->input->post('display_type'),
+					'display_type'=>$display_type,
+					'win_123'=>$win_123,
 					'times_repeat'=>$this->input->post('times_repeat'),
 				);
 				$this->Tslot->create($tslot);
 			}
 
 			$selected_route = json_decode($this->input->post('route_selected'), TRUE);
-			if(count($selected_route) < 2)
-			{
-				$routes = array(
-					'order_id'=>$order_id,
-					'route_id'=>$selected_route,
-				);
-				$this->RouteOrder->create($routes);
+		 if(count($selected_route) < 2)
+			 {
+			 	$routes = array(
+		   		'order_id'=>$order_id,
+			 		'route_id'=>$selected_route,
+			 	);
+			  $this->RouteOrder->create($routes);
 			}
 			else
 			{
@@ -335,6 +362,7 @@ class Salesman extends MY_Controller {
 					$this->RouteOrder->create($routes);
 				}
 			}
+			// $info['message']=count($selected_route);
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'> Order # ".$order_id."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));

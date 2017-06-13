@@ -1,3 +1,143 @@
+<div class="modal fade" id="byAdvertiserModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Program Listing</h4>
+      </div>
+
+      <div class="modal-body">
+       <div class="container-fluid">
+         <div class="col-md-12">
+              <div class="form-group">
+                <label for="route_list">Route:</label>
+                <select id="route_id" name="route_id" class="form-control select2" style="width:100%;">
+                  <?php 
+                    foreach($route as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+                <a class="btn btn-link pull-right" href="<?php echo site_url('routes/add') ?>">New Route</a>
+              </div>  
+            <div class="form-group">
+            <label>Timeslot:</label>
+            <input id="timeslot_form" type="text" class="form-control" id="" readonly>
+            </div>
+            <div class="form-group">
+            <label>Airing Dates:</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
+              <input name="date_start" id="date_start" type="text" class="hidden">
+              <input name="date_end" id="date_end" type="text" class="hidden">
+            </div>
+            </div> 
+            <div class="form-group">
+              <table id="program-list-table" class="table table-hover" width="100%">
+                <thead>
+                  <tr>
+                    <th class="index">No.</th>
+                    <th>Title</th>
+                    <th>Duration</th>
+                    <th>Airtime</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+         </div>
+       </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" onclick="updateSched()">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="byRouteModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Program Listing</h4>
+      </div>
+
+      <div class="modal-body">
+       <div class="container-fluid">
+         <div class="col-md-12">
+              <div class="form-group">
+                <label>Agency/Advertiser:</label>
+                <select id="advertiser_id" name="advertiser_id" class="form-control select2" style="width:100%;">
+                  <?php 
+                    foreach($advertiser as $row)
+                    {
+                  ?>
+                    <option value= <?php echo $row[0];?> >
+                      <?php echo $row[1]; ?>
+                    </option>
+                  <?php 
+                    }
+                  ?>
+                </select>
+                <a class="btn btn-link pull-right" href="<?php echo site_url('advertisers/add') ?>">New Advertiser</a>
+              </div>   
+            <div class="form-group">
+            <label>Timeslot:</label>
+            <input id="timeslot_form1" type="text" class="form-control" id="" readonly>
+            </div>
+            <div class="form-group">
+            <label>Airing Dates:</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
+              <input name="date_start" id="date_start" type="text" class="hidden">
+              <input name="date_end" id="date_end" type="text" class="hidden">
+            </div>
+            </div> 
+            <div class="form-group">
+              <table id="program-list-table1" class="table table-hover" width="100%">
+                <thead>
+                  <tr>
+                    <th class="index">No.</th>
+                    <th>Title</th>
+                    <th>Duration</th>
+                    <th>Airtime</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+         </div>
+       </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" onclick="updateSched()">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Browse Program Schedule</h3>
@@ -8,38 +148,17 @@
 
   <div class="box-body">
 
-    <div class="nav-tabs-custom">
+    <div class="nav-tabs-custom tab-success">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_0" data-toggle="tab">Overall</a></li>
-        <li><a href="#tab_1" data-toggle="tab">By Advertiser</a></li>
-        <li><a href="#tab_2" data-toggle="tab">By Route</a></li>
-        <li><a href="#tab_3" data-toggle="tab">By Schedule Type</a></li>
-        <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
+        <li class="active"><a href="#tab_0" data-toggle="tab" id="byAdvertiser">By Advertiser</a></li>
+        <li><a href="#tab_1" data-toggle="tab" id="byRoute">By Route</a></li>
       </ul>
       <div class="tab-content">
-
+      <div></div>
         <div class="tab-pane active" id="tab_0">
-          <div class="col-md-12">
-            <table id="overallTable" class="table table-hover table-bordered" width="100%">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>ROUTE</th>
-                  <th>STARTING DATE</th>
-                  <th>ENDING DATE</th>
-                  <th>SCHEDULE TYPE</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-        </div>
-          
-        <div class="tab-pane" id="tab_1">
           <div class="form-group">
-            <label>Select Advertiser:</label>
-            <select id="advertiser_id" class="form-control">
+            <label>Select Agency/Advertiser:</label>
+            <select id="advertiser_id" name="advertiser_id" class="form-control select2" style="width:100%;">
               <?php 
                 foreach($advertiser as $row)
                 {
@@ -51,28 +170,14 @@
                 }
               ?>
             </select>
-          </div>
-          <div class="col-md-12">
-            <table id="advertiserTable" class="table table-hover table-bordered" width="100%">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>ROUTE</th>
-                  <th>STARTING DATE</th>
-                  <th>ENDING DATE</th>
-                  <th>SCHEDULE TYPE</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
+            <a class="btn btn-link pull-right" href="<?php echo site_url('advertisers/add') ?>">New Advertiser</a>
+          </div> 
         </div>
 
-        <div class="tab-pane" id="tab_2">
+        <div class="tab-pane" id="tab_1">
           <div class="form-group">
             <label for="route_list">Select Route:</label>
-            <select id="route_id" class="form-control">
+            <select id="route_id" name="route_id" class="form-control select2" style="width:100%;">
               <?php 
                 foreach($route as $row)
                 {
@@ -84,55 +189,71 @@
                 }
               ?>
             </select>
-          </div>
-          <div class="col-md-12">
-            <table id="routeTable" class="table table-hover table-bordered" width="100%">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>ADVERTISER</th>
-                  <th>STARTING DATE</th>
-                  <th>ENDING DATE</th>
-                  <th>SCHEDULE TYPE</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
+            <a class="btn btn-link pull-right" href="<?php echo site_url('routes/add') ?>">New Route</a>
           </div>
         </div>
 
-        <div class="tab-pane" id="tab_3">
-          <div class="form-group">
-            <label for="type_list">Select Schedule Type:</label>
-            <select id="type_id" class="form-control">
-              <option value="1">Regular</option>
-              <option value="2">Scheduled</option>
-              <option value="3">Block</option>
-            </select>
-          </div>
-          <div class="col-md-12">
-            <table id="typeTable" class="table table-hover table-bordered" width="100%">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>ADVERTISER</th>
-                  <th>ROUTE</th>
-                  <th>STARTING DATE</th>
-                  <th>ENDING DATE</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
+      </div>
+      <!-- /.tab-content -->
+    <!-- nav-tabs-custom -->
+    <!--2nd Nav Tabs-->
+    <div class="nav-tabs-custom tab-success">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#advertiser_tab_0" data-toggle="tab">Morning</a></li>
+        <li><a href="#advertiser_tab_1" data-toggle="tab">Afternoon</a></li>
+        <li><a href="#advertiser_tab_2" data-toggle="tab">Evening</a></li>
+      </ul>
+      <div class="tab-content">
+
+        <div class="tab-pane active" id="advertiser_tab_0">
+          <table id="morning-table" class="table table-hover" width="100%">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Timeslot</th>
+                <th>No. of Ads</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
         </div>
 
+
+        <div class="tab-pane" id="advertiser_tab_1">
+          <table id="afternoon-table" class="table table-hover" width="100%">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Timeslot</th>
+                <th>No. of Ads</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
         </div>
+          
+        
+        <div class="tab-pane" id="advertiser_tab_2">
+          <table id="evening-table" class="table table-hover" width="100%">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Timeslot</th>
+                <th>No. of Ads</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
       <!-- /.tab-content -->
     </div>
     <!-- nav-tabs-custom -->
 
+    </div>
   </div><!-- /.box-body -->
     
   <div class="box-footer">
@@ -140,107 +261,185 @@
 </div><!-- /.box -->
 
 <script type="text/javascript">
-  $( document ).ready(function() { 
-    $("#overallTable").DataTable({
-      ajax:{
-        url:"<?php echo site_url('program/overall_Table') ?>",
-        type:"POST",
-      },
-      "columns": [
-        null,
-        null,
-        null,
-        null,
-        null,
-      ]
-    })
-  });
+  $(".select2").select2();
+  $('.select2-selection__rendered').removeAttr('title');
     
-  $( document ).ready(function() { 
-    var selectedAdvertiser = $('#advertiser_id').val();
-    $("#advertiserTable").DataTable({
-      ajax:{
-        url:"<?php echo site_url('program/advertiser_Table/" + selectedAdvertiser + "') ?>",
-        type:"POST",
-      },
-      "columns": [
-        null,
-        null,
-        null,
-        null,
-        null,
-      ]
-    })
-  });
+    //Dragging and Updating Index of Rows
+    var fixHelperModified = function(e, tr) {
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function(index) {
+            $(this).width($originals.eq(index).width())
+        });
+        return $helper;
+    },
+        updateIndex = function(e, ui) {
+            $('td.index', ui.item.parent()).each(function (i) {
+                $(this).html(i + 1);
+            });
+        };
 
-  $("#advertiser_id").change(function() {
-    var advertiser = $('#advertiser_id').val();
-    $.get("<?php echo site_url('program/advertiser_Table/" + advertiser + "') ?>", function(data){
-      var ads_tbl = $.map(data, function(el) { return el; });
-      $('#advertiserTable').dataTable().fnClearTable();
-      if(ads_tbl.length > 0)
-      {
-        $('#advertiserTable').dataTable().fnAddData(ads_tbl);
+    $("#program-list-table tbody").sortable({
+        helper: fixHelperModified,
+        stop: updateIndex
+    }).disableSelection();
+
+    // READ
+    var morning_table = $("#morning-table").DataTable({
+     "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+        ],
+      "ajax":{
+        "url":"<?php echo site_url('program/morningTslot') ?>",
+        "type":"POST"
       }
-    });     
-  });
-
-  $( document ).ready(function() {
-    var selectedRoute = $('#route_id').val();
-    $("#routeTable").DataTable({
-      ajax:{
-        url:"<?php echo site_url('program/route_Table/" + selectedRoute + "') ?>",
-        type:"POST",
-      },
-      "columns": [
-        null,
-        null,
-        null,
-        null,
-        null,
-      ]
     })
-  });
 
-  $("#route_id").change(function() {
-    var route = $('#route_id').val();
-    $.get("<?php echo site_url('program/route_Table/" + route + "') ?>", function(data){
-      var ads_tbl = $.map(data, function(el) { return el; });
-      $('#routeTable').dataTable().fnClearTable();
-      if(ads_tbl.length > 0)
-      {
-        $('#routeTable').dataTable().fnAddData(ads_tbl);
+    var afternoon_table = $("#afternoon-table").DataTable({
+     "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+        ],
+      "ajax":{
+        "url":"<?php echo site_url('program/afternoonTslot') ?>",
+        "type":"POST"
       }
-    });     
-  });
-
-  $( document ).ready(function() {
-    var selectedType = $('#type_id').val();
-    $("#typeTable").DataTable({
-      ajax:{
-        url:"<?php echo site_url('program/type_Table/" + selectedType + "') ?>",
-        type:"POST",
-      },
-      "columns": [
-        null,
-        null,
-        null,
-        null,
-        null,
-      ]
     })
-  });
 
-  $("#type_id").change(function() {
-    var type = $('#type_id').val();
-    $.get("<?php echo site_url('program/type_Table/" + type + "') ?>", function(data){
-      var ads_tbl = $.map(data, function(el) { return el; });
-      $('#typeTable').dataTable().fnClearTable();
-      if(ads_tbl.length > 0)
-      {
-        $('#typeTable').dataTable().fnAddData(ads_tbl);
+    var evening_table = $("#evening-table").DataTable({
+     "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+        ],
+      "ajax":{
+        "url":"<?php echo site_url('program/eveningTslot') ?>",
+        "type":"POST"
       }
-    });     
-  });
+    })
+    var modalBox = "advertiser";
+    var table1 = $("#program-list-table").DataTable({
+        "paging":   false,
+    });
+    var table2 = $("#program-list-table1").DataTable({
+        "paging":   false,
+    });
+    //
+    $("#byRoute").click(function(){
+       $("#byAdvertiserBox").addClass("hidden");
+       $("#byRouteBox").removeClass("hidden");
+       modalBox = "route";
+    });
+    
+    $("#byAdvertiser").click(function(){
+       $("#byAdvertiserBox").removeClass("hidden");
+       $("#byRouteBox").addClass("hidden");
+       modalBox = "advertiser";
+    });
+    //ROW CLICK
+    var timeslotData;
+    $('#morning-table tbody').on('click', 'tr', function () {
+        var data = morning_table.row( this ).data();
+        timeslotData = data[1];
+        programListing(data[0]);
+        programListing1(data[0]);
+        var input_timeslot = document.getElementById('timeslot_form');
+        input_timeslot.value = timeslotData;
+        var input_timeslot1 = document.getElementById('timeslot_form1');
+        input_timeslot1.value = timeslotData;
+//        alert( 'Timeslot: '+timeslotData+' Selected' );
+    });
+    
+    $('#afternoon-table tbody').on('click', 'tr', function () {
+        var data = afternoon_table.row( this ).data();
+        timeslotData = data[1];
+        programListing(data[0]);
+        programListing1(data[0]);
+        var input_timeslot = document.getElementById('timeslot_form');
+        input_timeslot.value = timeslotData;
+        var input_timeslot1 = document.getElementById('timeslot_form1');
+        input_timeslot1.value = timeslotData;
+//        alert( 'Timeslot: '+data[0]+' Selected' );
+    });
+    
+    $('#evening-table tbody').on('click', 'tr', function () {
+        var data = evening_table.row( this ).data();
+        timeslotData = data[1];
+        programListing(data[0]);
+        programListing1(data[0]);
+        var input_timeslot = document.getElementById('timeslot_form');
+        input_timeslot.value = timeslotData;
+        var input_timeslot1 = document.getElementById('timeslot_form1');
+        input_timeslot1.value = timeslotData;
+//        alert( 'Timeslot: '+data[0]+' Selected' );
+    });
+    
+    function programListing(tslot_id)
+    {
+        
+        $.get("<?php echo site_url('program/programListing/" + tslot_id + "') ?>", function(data){
+          var basic = $.map(data, function(el) { return el; });
+          var program = basic;
+          $("#program-list-table").dataTable().fnClearTable();
+          if(program.length > 0)
+          {
+            $("#program-list-table").dataTable().fnAddData(program);
+            if (modalBox == "advertiser") {
+                $('#byAdvertiserModal').modal('show');
+            } else {
+                $('#byRouteModal').modal('show');
+            }
+          }
+          else
+          {
+              alert('TIMESLOT EMPTY');
+          }
+        });
+    }
+    
+    function programListing1(tslot_id)
+    {
+        
+        $.get("<?php echo site_url('program/programListing/" + tslot_id + "') ?>", function(data){
+          var basic = $.map(data, function(el) { return el; });
+          var program = basic;
+          $("#program-list-table1").dataTable().fnClearTable();
+          if(program.length > 0)
+          {
+            $("#program-list-table1").dataTable().fnAddData(program);
+            if (modalBox == "advertiser") {
+                $('#byAdvertiserModal').modal('show');
+            } else {
+                $('#byRouteModal').modal('show');
+            }
+          }
+        });
+    }
 
+    function updateSched() {
+      table1.draw();
+      var plainArray;
+      plainArray = table1
+            .data()
+            .toArray();
+          console.log(plainArray);
+      
+    }
+//    $(document).on('hidden.bs.modal','#byAdvertiserModal', function () {
+//          $('#program-list-table').DataTable().clear().destroy();
+//
+//    });
+//    $(document).on('hidden.bs.modal','#byRouteModal', function () {
+//        $('#program-list-table').DataTable().clear().destroy();
+//
+//    });
 </script>

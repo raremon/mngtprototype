@@ -238,6 +238,7 @@
 						$rows['ad_id'],
 						$rows['ad_name'],
 						$advertiser['advertiser_name'],
+						$rows['ad_duration']." seconds",
 						'
 
 							<button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modal'.$rows['ad_id'].'">Play</button>

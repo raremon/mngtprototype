@@ -30,7 +30,7 @@
     <div class="small-box bg-yellow">
       <div class="inner">
         <h3><?php echo $advertiser_count;?></h3>
-        <p>New Ad Owner</p>
+        <p>Ad Owners</p>
       </div>
       <div class="icon">
         <i class="ion ion-person-stalker"></i>

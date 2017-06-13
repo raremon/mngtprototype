@@ -261,3 +261,105 @@ _:-moz-tree-row(hover), .browser-style {
         width:94%;
         position:fixed;
 }       
+
+#program-list-table >tbody > tr > td{
+    cursor: grab;
+}
+
+#morning-table >tbody{
+    cursor: pointer;
+}
+
+#evening-table >tbody{
+    cursor: pointer;
+}
+
+#afternoon-table >tbody{
+    cursor: pointer;
+}
+
+/*CROP*/
+.cropit-preview {
+    background-color: white;
+    background-size: cover;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 0 1px 0 rgba(0,0,0,0.2);
+    margin: 7px 10px 5px 10px;
+    width: 569px;
+    height: 320px;
+    z-index: 6;
+    float: left;
+}
+
+#rotatebutton{
+    background-color: transparent;
+    border: none;
+    margin-left: 67px;
+    font-size: 40px;
+    color: #555;
+}
+
+#browsebutton{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+#upbutton{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+
+.browselabel{
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 76px;
+    padding: 10px 50px 10px 50px;
+    opacity: 1;
+    transition:opacity linear 0.15s;
+    color: white;
+    background-color: #339440;
+    display: inline-block;
+}
+
+.browselabel:hover{
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 76px;
+    padding: 10px 50px 10px 50px;
+    opacity: 1;
+    transition:opacity linear 0.15s;
+    color: white;
+    background-color: #3fb14e;
+    display: inline-block;
+}
+
+#rotatebutton2{
+    background-color: transparent;
+    border: none;
+    font-size: 40px;
+    color: #555;
+}
+
+#slider{
+    width: 233px;
+}
+
+.cropit-preview-image-container {
+    cursor: move;
+}
+
+.image-size-label {
+    margin-top: 10px;
+}
+
+
