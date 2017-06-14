@@ -266,6 +266,18 @@ _:-moz-tree-row(hover), .browser-style {
     cursor: grab;
 }
 
+#program-list-table >tbody > tr > td + td{
+    cursor: default;
+}
+
+#program-list-table1 >tbody > tr > td{
+    cursor: grab;
+}
+
+#program-list-table1 >tbody > tr > td + td{
+    cursor: default;
+}
+
 #morning-table >tbody{
     cursor: pointer;
 }
