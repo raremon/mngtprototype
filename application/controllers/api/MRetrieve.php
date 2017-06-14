@@ -23,7 +23,7 @@ class MRetrieve extends REST_Controller
 	public function getinfo_post()
 	{
 		/* JSON method to get ad owner or salesman info for Android app */
-		// http://[::1]/star8/api/mobileapp/getinfo
+		// http://[::1]/star8/api/MRetrieve/getinfo
 		
 		$data = $this->post();
 		if( isset($data['owner_id']) && isset($data['user']) && isset($data['pass']) )
@@ -84,7 +84,7 @@ class MRetrieve extends REST_Controller
 	public function getschedavailability_get()
 	{
 		/* JSON method to get schedule availability */
-		// http://[::1]/star8/api/mobileapp/getschedavailability/from/2017-02-03/to/2017-03-02
+		// http://[::1]/star8/api/MRetrieve/getschedavailability/from/*/to/*
 		
 		$data=$this->get();
 		$orders=$this->Orders->getapproved();
@@ -152,7 +152,7 @@ class MRetrieve extends REST_Controller
 	public function getregions_get()
 	{
 		/* JSON method to get all regions for Android app */
-		// http://[::1]/star8/api/mobileapp/getregions
+		// http://[::1]/star8/api/MRetrieve/getregions
 		
 		// Goes to model to query all regions
 		$result = $this->Regions->show_region();
@@ -164,7 +164,7 @@ class MRetrieve extends REST_Controller
 	public function getcities_get()
 	{
 		/* JSON method to get all cities for Android app */
-		// http://[::1]/star8/api/mobileapp/getcities
+		// http://[::1]/star8/api/MRetrieve/getcities
 		
 		// Goes to model to query all cities
 		$result = $this->Cities->show_City();
@@ -176,7 +176,7 @@ class MRetrieve extends REST_Controller
 	public function getcity_get()
 	{
 		/* JSON method to get all cities from a specific region for Android app */
-		// http://[::1]/star8/api/mobileapp/getcity/region/*
+		// http://[::1]/star8/api/MRetrieve/getcity/region/*
 		
 		$data = $this->get();
 		if( isset($data['region']) )
@@ -197,7 +197,7 @@ class MRetrieve extends REST_Controller
 	public function getlocations_get()
 	{
 		/* JSON method to get all locations for Android app */
-		// http://[::1]/star8/api/mobileapp/getlocations
+		// http://[::1]/star8/api/MRetrieve/getlocations
 		
 		// Goes to model to query all locations
 		$result = $this->Locations->read();
@@ -209,7 +209,7 @@ class MRetrieve extends REST_Controller
 	public function getlocation_get()
 	{
 		/* JSON method to get all locations from a specific city for Android app */
-		// http://[::1]/star8/api/mobileapp/getlocation/city/*
+		// http://[::1]/star8/api/MRetrieve/getlocation/city/*
 		
 		$data = $this->get();
 		if( isset($data['city']) )
@@ -230,7 +230,7 @@ class MRetrieve extends REST_Controller
 	public function getvehicletypes_get()
 	{
 		/* JSON method to get all vehicle types for Android app */
-		// http://[::1]/star8/api/mobileapp/getvehicletype
+		// http://[::1]/star8/api/MRetrieve/getvehicletypes
 		
 		// Goes to model to query all vehicle types
 		$result = $this->Vehicle_types->show_Vehicle_type();
@@ -242,7 +242,7 @@ class MRetrieve extends REST_Controller
 	public function getroute_get()
 	{
 		/* JSON method to get all routes from a specific city for Android app */
-		// http://[::1]/star8/api/mobileapp/getroute/city/*
+		// http://[::1]/star8/api/MRetrieve/getroute/city/*
 		
 		$data = $this->get();
 		if( isset($data['location']) )
@@ -263,7 +263,7 @@ class MRetrieve extends REST_Controller
 	public function getroutes_get()
 	{
 		/* JSON method to get all routes for Android app */
-		// http://[::1]/star8/api/mobileapp/getroutes
+		// http://[::1]/star8/api/MRetrieve/getroutes
 		
 		// Goes to model to query all routes
 		$result = $this->Routes->show_Route();
@@ -275,7 +275,7 @@ class MRetrieve extends REST_Controller
 	public function gettimeslots_get()
 	{
 		/* JSON method to get all time slots for Android app */
-		// http://[::1]/star8/api/mobileapp/gettimeslots
+		// http://[::1]/star8/api/MRetrieve/gettimeslots
 		
 		// Goes to model to query all time slots
 		$result = $this->Timeslots->read();
@@ -287,7 +287,7 @@ class MRetrieve extends REST_Controller
 	public function getsalesorders_get()
 	{
 		/* JSON method to get all orders from a specified salesman for Android app */
-		// http://[::1]/star8/api/mobileapp/getsalesorders/id/*
+		// http://[::1]/star8/api/MRetrieve/getsalesorders/id/*
 		$data = $this->get();
 		
 		if(isset($data['id']))
@@ -321,7 +321,7 @@ class MRetrieve extends REST_Controller
 	public function getorders_get()
 	{
 		/* JSON method to get all orders for Android app */
-		// http://[::1]/star8/api/mobileapp/getorders/ordertype/*
+		// http://[::1]/star8/api/MRetrieve/getorders/ordertype/*
 		$data = $this->get();
 		
 		if(isset($data['ordertype']))
@@ -374,7 +374,7 @@ class MRetrieve extends REST_Controller
 	public function getadvertisers_get()
 	{
 		/* JSON method to get all advertisers for Android app */
-		// http://[::1]/star8/api/mobileapp/getadvertisers
+		// http://[::1]/star8/api/MRetrieve/getadvertisers
 		
 		// Goes to model to get all order slots
 		$result = $this->Owners->show_Advertiser();

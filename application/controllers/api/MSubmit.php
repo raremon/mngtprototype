@@ -17,7 +17,7 @@ class MSubmit extends REST_Controller
 	public function changepass_post()
 	{
 		/* JSON method to change ad owner password in Android app */
-		// http://[::1]/star8/api/mobileapp/changepass
+		// http://[::1]/star8/api/MSubmit/changepass
 		
 		$data = $this->post();
 		if( isset($data['user']) && isset($data['pass']) && isset($data['newpass']) )
@@ -37,7 +37,7 @@ class MSubmit extends REST_Controller
 	public function requestresetpass_post()
 	{
 		/* JSON method to request reset of ad owner password in Android app */
-		// http://[::1]/star8/api/mobileapp/requestresetpass
+		// http://[::1]/star8/api/MSubmit/requestresetpass
 		
 		$data = $this->post();
 		if( isset($data['user']) )
@@ -67,7 +67,7 @@ class MSubmit extends REST_Controller
 	public function resetpass_post()
 	{
 		/* JSON method reset ad owner password in Android app */
-		// http://[::1]/star8/api/mobileapp/requestresetpass
+		// http://[::1]/star8/api/MSubmit/requestresetpass
 		
 		$data = $this->post();
 		if( isset($data['user'])&& isset($data['ticket']) )
@@ -102,7 +102,7 @@ class MSubmit extends REST_Controller
 	public function putrequestschedule_post()
 	{
 		/* JSON method to submit a schedule request from Android app */
-		// http://[::1]/star8/api/mobileapp/putrequestschedule
+		// http://[::1]/star8/api/MSubmit/putrequestschedule
 		
 		$data = $this->post();
 		

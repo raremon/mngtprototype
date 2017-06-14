@@ -13,7 +13,7 @@ class MValidate extends REST_Controller
 	public function login_post()
 	{
 		/* JSON method to authenticate ad owner in Android app */
-		// http://[::1]/star8/api/mobileapp/login
+		// http://[::1]/star8/api/MValidate/login
 		
 		$data = $this->post();
 		if( isset($data['user']) && isset($data['pass']) )
@@ -40,7 +40,7 @@ class MValidate extends REST_Controller
 	public function logout_post()
 	{
 		/* JSON method to log ad owner out of Android app */
-		// http://[::1]/star8/api/mobileapp/logout
+		// http://[::1]/star8/api/MValidate/logout
 		
 		$data = $this->post();
 		if( isset($data['owner_id']) && isset($data['owner_uname']) && isset($data['owner_upass']) )
