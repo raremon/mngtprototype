@@ -17,6 +17,7 @@ class Mobileapp extends REST_Controller
 		$this->load->model('Order_slots_model', 'Order_slots');
 		$this->load->model('Order_routes_model', 'Order_routes');
 		$this->load->model('Users_model', 'Salesmen');
+		$this->load->model('Vehicle_types_model', 'Vehicle_types');
 	}
 	
 	// ----------------  LOGIN FUNCTIONS  ---------------- //
@@ -293,7 +294,7 @@ class Mobileapp extends REST_Controller
 		// http://[::1]/star8/api/mobileapp/getvehicletype
 		
 		// Goes to model to query all vehicle types
-		$result = $this->Regions->show_Vehicle_type();
+		$result = $this->Vehicle_types->show_Vehicle_type();
 		
 		// Returns an array of vehicle types or []
 		$this->response($result);
@@ -341,6 +342,40 @@ class Mobileapp extends REST_Controller
 		$result = $this->Timeslots->read();
 		
 		// Returns an array of time slots or []
+		$this->response($result);
+	}
+	
+	public function getsalesorders_get()
+	{
+		/* JSON method to get all orders from a specified salesman for Android app */
+		// http://[::1]/star8/api/mobileapp/getorders/ordertype/*
+		$data = $this->get();
+		
+		if(isset($data['id']))
+		{
+			// Goes to model to get all orders specified in ordertype
+			$result = $this->Orders->get_by_salesman($data['id']);
+			if( $result != -1 )
+			{
+				foreach($result as &$value)
+				{
+					// Goes to model to add corresponding order slots and routes
+					$value['order_slots'] = $this->Order_slots->get_by_order_id($value['order_id']);
+					$value['order_routes'] = $this->Order_routes->get_by_order_id($value['order_id']);
+				}
+			}
+			else
+			{
+				// If no data is retrieved
+				$result = -1;
+			}
+		}
+		else
+		{
+			// If direct controller access
+			$result = -1;
+		}
+		// Returns an array of orders or -1
 		$this->response($result);
 	}
 	
@@ -393,7 +428,7 @@ class Mobileapp extends REST_Controller
 			// If direct controller access
 			$result = -1;
 		}
-		// Returns an array of slots or -1
+		// Returns an array of orders or -1
 		$this->response($result);
 	}
 	
