@@ -348,7 +348,7 @@ class Mobileapp extends REST_Controller
 	public function getsalesorders_get()
 	{
 		/* JSON method to get all orders from a specified salesman for Android app */
-		// http://[::1]/star8/api/mobileapp/getorders/ordertype/*
+		// http://[::1]/star8/api/mobileapp/getsalesorders/id/*
 		$data = $this->get();
 		
 		if(isset($data['id']))
