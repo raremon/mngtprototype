@@ -13,6 +13,12 @@ $(document).ready(function () {
   $(".connectedSortable .info-box, .connectedSortable .nav-tabs-custom").css("cursor", "move");
 
   //Date range picker
+    $('#datepicker1').datepicker({
+      autoclose: true
+    });
+    $('#datepicker2').datepicker({
+      autoclose: true
+    });
   $('#reservation').daterangepicker();
   $('#reservation1').daterangepicker();
   $('#reservation2').daterangepicker();

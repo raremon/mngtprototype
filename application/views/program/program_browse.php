@@ -30,14 +30,13 @@
                 <input id="timeslot_form" type="text" class="form-control" id="" readonly>
               </div>
               <div class="form-group">
-                <label>Airing Dates:</label>
-                <div class="input-group">
+                <label>Date:</label>
+
+                <div class="input-group date">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
-                  <input name="date_start" id="date_start" type="text" class="hidden">
-                  <input name="date_end" id="date_end" type="text" class="hidden">
+                  <input type="text" class="form-control pull-right" id="datepicker1">
                 </div>
               </div>
               <div class="form-group">
@@ -96,17 +95,16 @@
               <label>Timeslot:</label>
               <input id="timeslot_form1" type="text" class="form-control" id="" readonly>
             </div>
-            <div class="form-group">
-              <label>Airing Dates:</label>
-              <div class="input-group">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
+              <div class="form-group">
+                <label>Date:</label>
+
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" id="datepicker2">
                 </div>
-                <input name="date_reg" type="text" class="form-control pull-left" id="reservation">
-                <input name="date_start" id="date_start" type="text" class="hidden">
-                <input name="date_end" id="date_end" type="text" class="hidden">
               </div>
-            </div>
             <div class="form-group">
               <table id="program-list-table1" class="table table-hover" width="100%">
                 <thead>
