@@ -213,8 +213,8 @@
                             s &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; B
                     </div>
                     <input type="range" id="slider" class="cropit-image-zoom-input">
-                    <button class="rotate-ccw" id="rotatebutton">&olarr;</button>
-                    <button class="rotate-cw" id="rotatebutton2">&orarr;</button>
+                    <button type="button" class="rotate-ccw" id="rotatebutton">&olarr;</button>
+                    <button type="button" class="rotate-cw" id="rotatebutton2">&orarr;</button>
                     <input type="hidden" name="image-data" class="hidden-image-data" />
                 </div>
             </div>
@@ -248,6 +248,7 @@
   <div class="box-header with-border">
     <h3 class="box-title">Ad Order List</h3>
     <div class="box-tools pull-right">
+        <a class="btn btn-link add-link" href="<?php echo base_url('salesman/schedules') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>New Order</a>
     </div>
   </div>
   <div class="box-body">
@@ -370,6 +371,14 @@
 
 <script>
   $('.image-editor').cropit();
+  $('.image-editor').cropit('minZoom', 'fit');
+  $('.rotate-cw').click(function() {
+      $('.image-editor').cropit('rotateCW');
+  });
+  $('.rotate-ccw').click(function() {
+      $('.image-editor').cropit('rotateCCW');
+  });
+
   $('body').on('hidden.bs.modal', '.modal', function () {
   $('video').trigger('pause');
   });
