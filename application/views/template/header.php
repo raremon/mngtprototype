@@ -35,6 +35,7 @@
       <script src="<?php echo base_url('assets/plugins/jQueryUI/jquery-ui.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/plugins/select2/select2.full.min.js') ?>"></script>
       <script src="<?php echo base_url('assets/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
+      <script src="https://cdn.datatables.net/rowreorder/1.2.0/js/dataTables.rowReorder.min.js"></script>
       <script>
         $.widget.bridge('uibutton', $.ui.button);
       </script>
