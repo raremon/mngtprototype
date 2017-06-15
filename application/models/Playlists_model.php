@@ -22,6 +22,12 @@ class Playlists_model extends CI_Model
 		$query = $this->db->get();
         return $query->result_array();
     }
+    public function updateSchedule($play_id, $play_order)
+    {
+    	$this->db->where(array('play_id'=>$play_id));
+		$this->db->update($this->table, array('play_order'=>$play_order));
+		return TRUE;
+    }
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////

@@ -688,30 +688,49 @@
       $('#date_start').val(dates[0]);
       $('#date_end').val(dates[1]);
     }
+    getAvailability(dates[0], dates[1]);
   }
+
   $("#reservation").change(function() {
     getDates();
   });
   //////////////////////
 
   // TIMESLOT
+  var supert = [];
+
+  function getAvailability(fromD, toD) {
+    var dateFrom = fromD.split('/');
+    var dateTo = toD.split('/');
+    var dateFr = dateFrom[2]+'-'+dateFrom[0]+'-'+dateFrom[1];
+    var dateT = dateTo[2]+'-'+dateTo[0]+'-'+dateTo[1];
+    $.get("<?php echo site_url('api/MRetrieve/getschedavailability/from/"+dateFr+"/to/"+dateT+"') ?>", function(data){
+      var basic = $.map(data, function(el) { return el; });
+      supert = basic;
+      timefilter();
+    });
+  }
+
   var amcheck = '';
   var pmcheck = '';
   var evecheck = '';
   function  timefilter() {
+    amcheck = '';
+    pmcheck = '';
+    evecheck = '';
     for(var a = 0; a < timeslot.length; a++)
     {
       if(timeslot[a][2] == "am")
       {
-        amcheck = amcheck + '<tr><td><input name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat morning-box" onclick="selectTs()"></td><td>'+timeslot[a][1]+'</td><td>'+timeslot[a][3]+'</td></tr>';
+        amcheck = amcheck + '<tr><td><input name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat morning-box" onclick="selectTs()"></td><td>'+timeslot[a][1]+'</td><td>'+supert[a]+'%</td></tr>';
       }
       else if(timeslot[a][2] == "pm")
       {
-        pmcheck = pmcheck + '<tr><td><input name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat afternoon-box" onclick="selectTs()"></td><td>'+timeslot[a][1]+'</td><td>'+timeslot[a][3]+'</td></tr>';
+        pmcheck = pmcheck + '<tr><td><input name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat afternoon-box" onclick="selectTs()"></td><td>'+timeslot[a][1]+'</td><td>'+supert[a]+'%</td></tr>';
       }
       else if(timeslot[a][2] == "eve")
       {
-        evecheck = evecheck + '<tr><td><input name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat evening-box" onclick="selectTs()"></td><td>'+timeslot[a][1]+'</td><td>'+timeslot[a][3]+'</td></tr>';
+        evecheck = evecheck + '<tr><td><input name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat evening-box" onclick="selectTs()"></td><td>'+timeslot[a][1]+'</td><td>'+supert[a]+'%</td></tr>';
       }
     }
     $('#morning-table tbody').html(amcheck);

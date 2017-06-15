@@ -120,6 +120,36 @@ class Orders_model extends CI_Model
 			return -1;
 		}
 	}
+
+	public function getAdvertiser($id)
+	{
+		$this->db->select('advertiser_id');
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['advertiser_id'];
+	}
+
+	public function getDateStart($id)
+	{
+		$this->db->select('date_start');
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['date_start'];
+	}
+
+	public function getDateEnd($id)
+	{
+		$this->db->select('date_end');
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['date_end'];
+	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
