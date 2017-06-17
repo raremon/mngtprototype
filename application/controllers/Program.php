@@ -161,7 +161,7 @@
             $data['page_description'] = 'Ad Orders Management';
             $data['breadcrumbs']=array
             (
-                array('Browse Approve Ad Order','program/browseOrder'),
+                array('Browse Ad Orders','program/browseOrder'),
             );
             $data['css']=array
             (
@@ -192,8 +192,8 @@
 					)
 				);
 			}
-            $data['treeActive'] = 'program_schedule';
-            $data['childActive'] = 'browse_approve_ad' ;
+            $data['treeActive'] = 'ads_management';
+            $data['childActive'] = 'browse_ad_orders' ;
 
             $this->load->view("template/header", $data);
             $this->load->view("program/browse_approve_ad", $data);

@@ -329,11 +329,13 @@
     var modalBox = "advertiser";
     var table1 = $("#program-list-table").DataTable({
         "paging":   false,
+        "bFilter": false,
         "stateSave": true,
         rowReorder: true
     });
     var table2 = $("#program-list-table1").DataTable({
         "paging":   false,
+        "bFilter": false,
         "stateSave": true,
         rowReorder: true
     });

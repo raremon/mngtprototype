@@ -239,8 +239,8 @@
 						$rows['filler_title'],
 						$rows['filler_description'],
 						$content,
-						'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="edit_filler('."'".$rows['filler_id']."'".')">Edit</a>'.
-						'<a href="javascript:void(0)" class="btn btn-danger btn-sm pull-right" onclick="delete_filler('."'".$rows['filler_id']."'".')">Delete</a>'
+						'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_filler('."'".$rows['filler_id']."'".')">Edit</a>'.
+						'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_filler('."'".$rows['filler_id']."'".')">Delete</a>'
 
 					)
 				);

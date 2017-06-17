@@ -10,8 +10,8 @@
 			parent::__construct();
 		}
 
-		private $query = "advertiser_name, advertiser_address, advertiser_contact, advertiser_email, advertiser_website, advertiser_description, created_at";
 		private $table = "advertisers";
+		private $query = "advertiser_id, advertiser_name, advertiser_address, advertiser_contact, advertiser_email, advertiser_website, advertiser_description, agency_id, created_at";
 		private $id = "advertiser_id";
 		
 		public function count_Advertiser()
@@ -37,6 +37,31 @@
 			$account = $this->db->get();
 			return $account->row_array();
 		}
+
+		// FIND AGENCIES ON ADVERTISER
+		public function findAgency($id)
+		{
+			$this->db->select("agency_id");
+			$this->db->from($this->table);
+			$this->db->where('agency_id', $id);
+			$query=$this->db->get();
+			if ($query->num_rows() > 0){
+		        return true;
+		    }
+		    else{
+		        return false;
+		    }
+		}
+
+		public function getAgency($id)
+		{
+			$this->db->select($this->query.",SUBSTRING_INDEX(advertiser_description,' ',15) AS info");
+			$this->db->from($this->table);
+			$this->db->where('agency_id', $id);
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
@@ -51,8 +76,8 @@
 		// R E A D
 		public function show_Advertiser()
 		{
-			$this->db->select("*,SUBSTRING_INDEX(advertiser_description,' ',15) AS info");
-			$this->db->from('advertisers');
+			$this->db->select($this->query.",SUBSTRING_INDEX(advertiser_description,' ',15) AS info");
+			$this->db->from($this->table);
 			$query=$this->db->get();
 			return $query->result_array();
 		}
@@ -60,25 +85,25 @@
 		// U P D A T E
 		public function edit_Advertiser_Data($advertiser_id)
 		{
-			$this->db->select("*");
-			$this->db->from('advertisers');
-			$this->db->where('advertiser_id', $advertiser_id);
+			$this->db->select($this->query);
+			$this->db->from($this->table);
+			$this->db->where($this->id, $advertiser_id);
 			$query = $this->db->get();
 			return $query->row_array();
 		}
 
 		public function update_Advertiser_Data($data)
 		{
-			$this->db->where(array('advertiser_id'=>$data['advertiser_id']));
-			$this->db->update('advertisers', $data);
+			$this->db->where(array($this->id=>$data['advertiser_id']));
+			$this->db->update($this->table, $data);
 			return TRUE;
 		}
 
 		// D E L E T E
 		public function delete_Advertiser_Data($data)
 		{
-			$this->db->where(array('advertiser_id'=>$data['advertiser_id']));
-			$this->db->delete('advertisers');
+			$this->db->where(array($this->id=>$data['advertiser_id']));
+			$this->db->delete($this->table);
 			return TRUE;
 		}
 
