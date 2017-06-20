@@ -11,35 +11,6 @@ class Agencies extends MY_Controller {
 
 		$this->load->model('agencies_model', 'Agency');
 		$this->load->model('advertisers_model', 'Advertiser');
-	}	
-	public function add()
-	{
-		$data = array();
-		$data['role'] = $this->logged_out_check();
-		$data['title']='Add Agency';
-		$data['breadcrumbs']=array
-		(
-			array('Browse Agencies','agencies/browse'),
-			array('Add Agency','agencies/add'),
-		);
-		$data['css']=array
-		(
-			'assets/css/browse_style.css',
-			'assets/css/jquery.switchButton.css',
-		);
-		$data['script']=array
-		(
-			'assets/js/jquery.form.js',
-			'assets/js/jquery.switchButton.js',
-		);
-		$data['page_description']='Add Agency Companies';
-
-		$data['treeActive'] = 'ad_companies';
-		$data['childActive'] = 'browse_agencies' ;
-
-		$this->load->view("template/header", $data);
-		$this->load->view("ads_mngt/agency_add", $data);
-		$this->load->view("template/footer", $data);
 	}
 	public function browse()
 	{
@@ -95,16 +66,15 @@ class Agencies extends MY_Controller {
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
-	// C R E A T E
 	public function save()
 	{
 		$validate = array (
-			array('field'=>'agency_name','label'=>'Company Name','rules'=>'trim|required|is_unique[agencies.agency_name]|min_length[2]','errors' => array('required' => 'You must enter your %s.',),),
-			array('field'=>'agency_address','label'=>'Company Address','rules'=>'trim|required|is_unique[agencies.agency_address]|min_length[8]','errors' => array('required' => 'You must enter a %s.',),),
-			array('field'=>'agency_contact','label'=>'Contact Information','rules'=>'trim|required|is_unique[agencies.agency_contact]|min_length[5]','errors' => array('required' => 'You must enter your company\'s %s.',),),
-			array('field'=>'agency_email','label'=>'Email Address','rules'=>'trim|required|is_unique[agencies.agency_email]|valid_email|min_length[10]','errors' => array('required' => 'You must enter an %s.',),),
-			array('field'=>'agency_website','label'=>'Company Website','rules'=>'trim|required|is_unique[agencies.agency_website]|valid_url|min_length[9]','errors' => array('required' => 'You must enter the Website of your Company.',),),
-			array('field'=>'agency_image','label'=>'Company Logo','rules'=>'trim|required|is_unique[agencies.agency_image]','errors' => array('required' => 'Please upload your %s.',),),
+			array('field'=>'agency_name-add','label'=>'Company Name','rules'=>'trim|required|is_unique[agencies.agency_name]|min_length[2]','errors' => array('required' => 'You must enter your %s.',),),
+			array('field'=>'agency_address-add','label'=>'Company Address','rules'=>'trim|required|is_unique[agencies.agency_address]|min_length[8]','errors' => array('required' => 'You must enter a %s.',),),
+			array('field'=>'agency_contact-add','label'=>'Contact Information','rules'=>'trim|required|is_unique[agencies.agency_contact]|min_length[5]','errors' => array('required' => 'You must enter your company\'s %s.',),),
+			array('field'=>'agency_email-add','label'=>'Email Address','rules'=>'trim|required|is_unique[agencies.agency_email]|valid_email|min_length[10]','errors' => array('required' => 'You must enter an %s.',),),
+			array('field'=>'agency_website-add','label'=>'Company Website','rules'=>'trim|required|is_unique[agencies.agency_website]|valid_url|min_length[9]','errors' => array('required' => 'You must enter the Website of your Company.',),),
+			array('field'=>'agency_image-add','label'=>'Company Logo','rules'=>'trim|required|is_unique[agencies.agency_image]','errors' => array('required' => 'Please upload your %s.',),),
 		);
 		$this->form_validation->set_rules($validate);
 		if ($this->form_validation->run()===FALSE) 
@@ -118,7 +88,7 @@ class Agencies extends MY_Controller {
 			$config['upload_path'] = "./assets/agency_logo/";
 			$config['allowed_types'] = 'jpeg|jpg|png|gif';
 			$config['max_size'] = '10000';
-			$config['file_name'] = $this->input->post('agency_name');
+			$config['file_name'] = $this->input->post('agency_name-add');
 			$this->load->library('upload', $config);
 			if( ! $this->upload->do_upload('agency_file'))
 			{
@@ -129,14 +99,14 @@ class Agencies extends MY_Controller {
 			{
 				$info['success']=TRUE;
 				$data=array(
-					'agency_name'=>$this->input->post('agency_name'),
-					'agency_address'=>$this->input->post('agency_address'),
-					'agency_contact'=>$this->input->post('agency_contact'),
-					'agency_email'=>$this->input->post('agency_email'),
-					'agency_website'=>$this->input->post('agency_website'),
+					'agency_name'=>$this->input->post('agency_name-add'),
+					'agency_address'=>$this->input->post('agency_address-add'),
+					'agency_contact'=>$this->input->post('agency_contact-add'),
+					'agency_email'=>$this->input->post('agency_email-add'),
+					'agency_website'=>$this->input->post('agency_website-add'),
 					'agency_image'=> str_replace(' ', '_', preg_replace("/ {2,}/", " ", $config['file_name'].".".$ext) ),
-					'agency_description'=>$this->input->post('agency_description'),
-					'billable'=>$this->input->post('billable'),
+					'agency_description'=>$this->input->post('agency_description-add'),
+					'billable'=>$this->input->post('billable-add'),
 				);
 				$this->Agency->create($data);
 				$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['agency_name']."</span>!</p>";
@@ -144,11 +114,11 @@ class Agencies extends MY_Controller {
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
-	// R E A D
 	public function show()
 	{
 		$table = $this->Agency->read();
 		$assigned="";
+		$bill="";
 		$data = array();
 		foreach ( $table as $rows ) {
 			if( $this->Advertiser->findAgency($rows['agency_id']) )
@@ -159,14 +129,23 @@ class Agencies extends MY_Controller {
 			{
 				$assigned = '<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_agency('."'".$rows['agency_id']."'".')">Delete</a>';
 			}
+			if( $rows['billable'] )
+			{
+				$bill = 'Billable';
+			}
+			else
+			{
+				$bill = 'Not Billable';
+			}
 			array_push($data,
 				array(
-					$rows['agency_name'],
+					'<a href="javascript:void(0)" class="btn btn-link" onclick="show_image('."'".$rows['agency_image']."'".')">'.$rows['agency_name'].'</a>',
 					$rows['agency_address'],
 					$rows['agency_contact'],
 					$rows['agency_email'],
 					'<a href="http://'.$rows['agency_website'].'" class="btn btn-sm btn-block btn-info" title="Visit '.$rows['agency_name'].' Website" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>',
 					$rows['info'].' ... ',
+					$bill,
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_agency('."'".$rows['agency_id']."'".')">Edit</a>'.
 					$assigned,
 				)
@@ -174,7 +153,6 @@ class Agencies extends MY_Controller {
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 	}
-	// U P D A T E
 	public function edit()
 	{
 		$id=$this->input->post('agency_id');
@@ -215,7 +193,6 @@ class Agencies extends MY_Controller {
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
-	// D E L E T E
 	public function delete()
 	{
 		$validate=array(

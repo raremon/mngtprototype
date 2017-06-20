@@ -1,63 +1,63 @@
-<div class="modal fade" id="card-add" role="dialog">
+<div class="modal fade" id="pos-add" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-    <?php echo form_open('card_readers/save', array('id'=>'card-add-form')); ?>
+    <?php echo form_open('pos/save', array('id'=>'pos-add-form')); ?>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Card Reader Details</h4>
+        <h4 class="modal-title">POS Details</h4>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
           <div class="col-md-12">
-            <div id="card-message-add"></div>
+            <div id="pos-message-add"></div>
             <div class="form-group">
-              <label>Card Reader Serial</label>
-              <input type="text" name="card_serial-add" class="form-control" placeholder="Enter Card Reader Serial"/>
+              <label>POS Serial</label>
+              <input type="text" name="pos_serial-add" class="form-control" placeholder="Enter POS Serial"/>
             </div>
             <div class="form-group">
               <label>Description</label>
-              <textarea name="card_description-add" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
+              <textarea name="pos_description-add" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary save" onclick="save_Card()">Save</button>
+        <button type="button" class="btn btn-primary save" onclick="save_Pos()">Save</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     <?php echo form_close(); ?>
     </div>
   </div>
 </div>
-<div class="modal fade" id="card-box" role="dialog">
+<div class="modal fade" id="pos-box" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Card Reader Details</h4>
+        <h4 class="modal-title">POS Details</h4>
       </div>
       <div class="modal-body">
           <div class="container-fluid">
             <div class="col-md-12">
-              <div id="card-message"></div>
-              <?php echo form_open('card_readers/update', array('id'=>'card')); ?>
+              <div id="pos-message"></div>
+              <?php echo form_open('pos/update', array('id'=>'pos')); ?>
               <div class="form-group">
-                <input type="text" name="card_id" class="form-control hidden"/>
+                <input type="text" name="pos_id" class="form-control hidden"/>
               </div>
               <div class="form-group">
-                <label>Card Reader Serial</label>
-                <input type="text" name="card_serial" class="form-control" placeholder="Enter Card Reader Serial"/>
+                <label>POS Serial</label>
+                <input type="text" name="pos_serial" class="form-control" placeholder="Enter POS Serial"/>
               </div>
               <div class="form-group">
                 <label>Description</label>
-                <textarea name="card_description" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
+                <textarea name="pos_description" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
               </div>
               <?php echo form_close(); ?>
             </div>
           </div> 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Card()">Update</button>
+        <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Pos()">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -65,17 +65,17 @@
 </div>
 <div class="box box-success">
   <div class="box-header with-border">
-    <h3 class="box-title">Card Reader Data</h3>
+    <h3 class="box-title">POS Data</h3>
     <div class="box-tools pull-right">
-      <a class="btn btn-link add-link" href="javascript:void(0);" data-toggle="modal" data-target="#card-add"><i class="fa fa-plus-square-o">&nbsp;</i>New Card Reader</a>
+      <a class="btn btn-link add-link" href="javascript:void(0);" data-toggle="modal" data-target="#pos-add"><i class="fa fa-plus-square-o">&nbsp;</i>New POS</a>
     </div>
   </div>
   <div class="box-body">
-    <div id="card-delete-message"></div>
+    <div id="pos-delete-message"></div>
     <div class="row">
       <div class="container-fluid">
         <div class="col-md-12">
-          <table id="card_data" class="table table-hover table-bordered">
+          <table id="pos_data" class="table table-hover table-bordered">
             <thead>
               <tr>
                 <th>SERIAL</th>
@@ -98,34 +98,34 @@
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-  function save_Card() {
+  function save_Pos() {
     $.ajax({
-      url: "<?php echo site_url('card_readers/save') ?>",
+      url: "<?php echo site_url('pos/save') ?>",
       type: 'POST',
       dataType: 'json',
-      data: $('#card-add-form').serialize(),
+      data: $('#pos-add-form').serialize(),
       encode:true,
       success:function(data) {
         if(!data.success){
           if(data.errors){
             $(window).scrollTop(0);
-            $("#card-message-add").fadeIn("slow");
-            $('#card-message-add').html(data.errors).addClass('alert alert-danger');
+            $("#pos-message-add").fadeIn("slow");
+            $('#pos-message-add').html(data.errors).addClass('alert alert-danger');
             setTimeout(function() {
-                $('#card-message-add').fadeOut('slow');
+                $('#pos-message-add').fadeOut('slow');
             }, 3000);
           }
         }else {
           $('#message-text').html(data.message);
-          $('#card-add').modal('hide');
+          $('#pos-add').modal('hide');
           $('#successModal').modal('show');
         }
       }
     })
   }
-  $("#card_data").DataTable({
+  $("#pos_data").DataTable({
     "ajax":{
-      "url":"<?php echo site_url('card_readers/show') ?>",
+      "url":"<?php echo site_url('pos/show') ?>",
       "type":"POST"
     },
     "columns": [
@@ -135,46 +135,46 @@
       null
     ]
   })
-  function edit_card(id) {
-    $('#card-box').modal('show');
+  function edit_pos(id) {
+    $('#pos-box').modal('show');
     $.ajax({
-      url: "<?php echo site_url('card_readers/edit') ?>",
+      url: "<?php echo site_url('pos/edit') ?>",
       type: 'POST',
       dataType: 'json',
-      data: 'card_id='+id,
+      data: 'pos_id='+id,
       encode:true,
       success:function (data) {
         $('.update').removeAttr('disabled');
-        $('input[name="card_id"]').val(data.card_id);
-        $('input[name="card_serial"]').val(data.card_serial);
-        $('textarea[name="card_description"]').val(data.card_description);
+        $('input[name="pos_id"]').val(data.pos_id);
+        $('input[name="pos_serial"]').val(data.pos_serial);
+        $('textarea[name="pos_description"]').val(data.pos_description);
       }
     })
   }
-  function update_Card() {
+  function update_Pos() {
     $.ajax({
-      url: "<?php echo site_url('card_readers/update') ?>",
+      url: "<?php echo site_url('pos/update') ?>",
       type: 'POST',
       dataType: 'json',
-      data: $('#card').serialize(),
+      data: $('#pos').serialize(),
       encode:true,
       success:function (data) {
         if(!data.success){
             $(window).scrollTop(0);
-            $("#card-message").fadeIn("slow");
-            $('#card-message').html(data.errors).addClass('alert alert-danger');
+            $("#pos-message").fadeIn("slow");
+            $('#pos-message').html(data.errors).addClass('alert alert-danger');
             setTimeout(function() {
-                $('#card-message').fadeOut('slow');
+                $('#pos-message').fadeOut('slow');
             }, 3000);
         }else {
           $('#message-text').html(data.message);
-          $('#card-box').modal('hide');
+          $('#pos-box').modal('hide');
           $('#successModal').modal('show');
         }
       }
     })
   }
-  function delete_card(id) {
+  function delete_pos(id) {
     swal({
       title: 'Are you sure you want to delete?',
       text: "You cannot revert this action!",
@@ -189,19 +189,19 @@
       buttonsStyling: false
     }).then(function () {
       $.ajax({
-        url: "<?php echo site_url('card_readers/delete/') ?>",
+        url: "<?php echo site_url('pos/delete/') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'card_id='+id,
+        data: 'pos_id='+id,
         encode:true,
         success:function(data) {
           if(!data.success){
             if(data.errors){
               $(window).scrollTop(0);
-              $("#card-delete-message").fadeIn("slow");
-              $('#card-delete-message').html(data.errors).addClass('alert alert-danger');
+              $("#pos-delete-message").fadeIn("slow");
+              $('#pos-delete-message').html(data.errors).addClass('alert alert-danger');
               setTimeout(function() {
-                  $('#card-delete-message').fadeOut('slow');
+                  $('#pos-delete-message').fadeOut('slow');
               }, 3000);
             }
           }else {
@@ -232,7 +232,7 @@
       }
     })
   }
-  function unassign_card(id) {
+  function unassign_pos(id) {
     swal({
       title: 'Are you sure you want to unassign?',
       text: "You cannot revert this action!",
@@ -247,19 +247,19 @@
       buttonsStyling: false
     }).then(function () {
       $.ajax({
-        url: "<?php echo site_url('card_readers/unassign/') ?>",
+        url: "<?php echo site_url('pos/unassign/') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'card_id='+id,
+        data: 'pos_id='+id,
         encode:true,
         success:function(data) {
           if(!data.success){
             if(data.errors){
               $(window).scrollTop(0);
-              $("#card-delete-message").fadeIn("slow");
-              $('#card-delete-message').html(data.errors).addClass('alert alert-danger');
+              $("#pos-delete-message").fadeIn("slow");
+              $('#pos-delete-message').html(data.errors).addClass('alert alert-danger');
               setTimeout(function() {
-                  $('#card-delete-message').fadeOut('slow');
+                  $('#pos-delete-message').fadeOut('slow');
               }, 3000);
             }
           }else {
@@ -291,15 +291,15 @@
     })
   }    
   var data_length = 0;
-  function cardInit() {
-    $(".card_status").switchButton({
+  function posInit() {
+    $(".pos_status").switchButton({
       on_label: 'ON',
       off_label: 'OFF',
       width: 100,
       height: 40,
       button_width: 60,
     });
-    data_length = $('#card_data tr').length - 1;
+    data_length = $('#pos_data tr').length - 1;
   }
   var gready = 1;
   function switchStatus(id) {
@@ -348,10 +348,10 @@
       buttonsStyling: false
     }).then(function () {
       $.ajax({
-        url: "<?php echo site_url('card_readers/toggle_Status/') ?>",
+        url: "<?php echo site_url('pos/toggle_Status/') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'card_id='+id,
+        data: 'pos_id='+id,
         encode:true,
         success:function(data) {
           if(!data.success){
@@ -393,12 +393,12 @@
         })
       }
       gready = 0;
-      $("#card"+id).switchButton({checked: Xrevert});
+      $("#pos"+id).switchButton({checked: Xrevert});
       gready = 1;
     })
   }
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-  // END OF CARD READER BROWSE JAVASCRIPT
+  // END OF IP CAMERA BROWSE JAVASCRIPT
 </script>

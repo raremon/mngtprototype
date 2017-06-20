@@ -11,7 +11,7 @@
 		}
 
 		private $table = "advertisers";
-		private $query = "advertiser_id, advertiser_name, advertiser_address, advertiser_contact, advertiser_email, advertiser_website, advertiser_description, agency_id, created_at";
+		private $query = "advertiser_id, advertiser_name, advertiser_address, advertiser_contact, advertiser_email, advertiser_website, advertiser_description, advertiser_image, agency_id, created_at";
 		private $id = "advertiser_id";
 		
 		public function count_Advertiser()

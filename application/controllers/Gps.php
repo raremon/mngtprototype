@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Gps extends MY_Controller {
-
 	// Constructor
 	public function __construct()
 	{
@@ -10,65 +9,37 @@ class Gps extends MY_Controller {
 		$this->load->model('users_model', 'User');
 		$this->load->model('roles_model', 'Role');
 
-		$this->load->model('gps_model', 'GPS');
+		$this->load->model('gps_model', 'Gps');
 		$this->load->model('ready_vehicles_model', 'Media');
 	}
-			
-	public function add()
-	{
-		$data = array();
-		$data['role'] = $this->logged_out_check();
-		$data['title']='New GPS';
-		$data['breadcrumbs']=array
-		(
-			array('Browse GPS\'','gps/browse'),
-			array('New GPS','gps/add'),
-		);
-		$data['css']=array
-		(
-			
-		);
-		$data['script']=array
-		(
-			
-		);
-		$data['page_description']='Add New Global Positioning System Records';
-
-		$data['treeActive'] = 'settings';
-		$data['childActive'] = 'browse_gps' ;
-
-		$this->load->view("template/header", $data);
-		$this->load->view("vehicles/gps_add", $data);
-		$this->load->view("template/footer", $data);
-	}
-
 	public function browse()
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Browse GPS\'';
+		$data['title']='Browse GPS';
 		$data['breadcrumbs']=array
 		(
-			array('Browse GPS\'','gps/browse'),
+			array('Browse GPS','gps/browse'),
 		);
 		$data['css']=array
 		(
-			
+			'assets/css/browse_style.css',
+			'assets/css/jquery.switchButton.css',
 		);
 		$data['script']=array
 		(
-			
+			'assets/js/jquery.form.js',
+			'assets/js/jquery.switchButton.js',
 		);
-		$data['page_description']='Browse Global Positioning System Records';
+		$data['page_description']='Browse GPS Records';
 
 		$data['treeActive'] = 'settings';
-		$data['childActive'] = 'browse_gps' ;
+		$data['childActive'] = 'browse_gps';
 
 		$this->load->view("template/header", $data);
 		$this->load->view("vehicles/gps_browse", $data);
 		$this->load->view("template/footer", $data);
 	}
-
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 	////////////////////////////////////////////////////////////////
@@ -76,8 +47,8 @@ class Gps extends MY_Controller {
 	public function save()
 	{
 		$validate = array (
-			array('field'=>'gps_serial','label'=>'GPS\' Serial','rules'=>'required|min_length[2]|is_unique[card_readers.card_serial]'),
-			array('field'=>'gps_description','label'=>'GPS\' Description','rules'=>'required|min_length[2]'),
+			array('field'=>'gps_serial-add','label'=>'GPS Serial','rules'=>'trim|required|min_length[2]|is_unique[gps.gps_serial]'),
+			array('field'=>'gps_description-add','label'=>'Description','rules'=>'trim|required'),
 		);
 
 		$this->form_validation->set_rules($validate);
@@ -91,10 +62,10 @@ class Gps extends MY_Controller {
 			$info['success']=TRUE;
 
 			$data=array(
-				'gps_serial'=>$this->input->post('gps_serial'),
-				'gps_description'=>$this->input->post('gps_description'),
+				'gps_serial'=>$this->input->post('gps_serial-add'),
+				'gps_description'=>$this->input->post('gps_description-add'),
 			);
-			$this->GPS->create($data);
+			$this->Gps->create($data);
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['gps_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
@@ -102,11 +73,11 @@ class Gps extends MY_Controller {
 	// R E A D
 	public function show()
 	{
-		$table = $this->GPS->read();
+		$table = $this->Gps->read();
 		$assigned="";
+		$status="";
 		$data = array();
 		foreach ($table as $rows) {
-			$creation = new DateTime($rows['created_at']); 
 			if($this->Media->find_Gps($rows['gps_id']))
 			{
 				$assigned = '<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="unassign_gps('."'".$rows['gps_id']."'".')">Unassign</a>';
@@ -115,15 +86,31 @@ class Gps extends MY_Controller {
 			{
 				$assigned = '<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_gps('."'".$rows['gps_id']."'".')">Delete</a>';
 			}
+			if($rows['gps_status'])
+			{
+				$status =  '<div class="switch-wrapper">
+			                  <input id="gps'.$rows['gps_id'].'" value="'.$rows['gps_id'].'" class="gps_status" onchange="switchStatus(\'#gps'.$rows['gps_id'].'\')" type="checkbox" checked>
+			                </div>';
+			}
+			else
+			{
+				$status =  '<div class="switch-wrapper">
+			                  <input id="gps'.$rows['gps_id'].'" value="'.$rows['gps_id'].'" class="gps_status" onchange="switchStatus(\'#gps'.$rows['gps_id'].'\')" type="checkbox">
+			                </div>';
+			}
 			array_push($data,
 				array(
 					$rows['gps_serial'],
-					$rows['gps_description'],
-					$creation->format('M / d / Y'),
+					$rows['info']."...",
+					$status,
 					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_gps('."'".$rows['gps_id']."'".')">Edit</a>'.
 					$assigned,
 				)
 			);
+		}
+		if(count($data) > 0)
+		{
+			$data[0][2] = $data[0][2]."<script> gpsInit(); </script>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 	}
@@ -131,14 +118,14 @@ class Gps extends MY_Controller {
 	public function edit()
 	{
 		$id=$this->input->post('gps_id');
-		$data=$this->GPS->edit($id);
+		$data=$this->Gps->edit($id);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 	public function update()
 	{
 		$validate = array (
-			array('field'=>'gps_serial','label'=>'GPS\' Serial','rules'=>'required|min_length[2]'),
-			array('field'=>'gps_description','label'=>'GPS\' Description','rules'=>'required|min_length[2]'),
+			array('field'=>'gps_serial','label'=>'GPS Serial','rules'=>'trim|required|min_length[2]'),
+			array('field'=>'gps_description','label'=>'Description','rules'=>'trim|required'),
 		);
 		$this->form_validation->set_rules($validate);
 		if ($this->form_validation->run()===FALSE) 
@@ -154,7 +141,7 @@ class Gps extends MY_Controller {
 				'gps_serial'=>$this->input->post('gps_serial'),
 				'gps_description'=>$this->input->post('gps_description'),
 			);
-			$this->GPS->update($data);
+			$this->Gps->update($data);
 			$info['message']="<p class='success-message'>You have successfully updated <span class='message-name'>".$data['gps_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
@@ -181,8 +168,8 @@ class Gps extends MY_Controller {
 				$data=array(
 					'gps_id'=>$this->input->post('gps_id')
 				);
-				$this->GPS->delete($data);
-				$info['message']='GPS Successfully Deleted';
+				$this->Gps->delete($data);
+				$info['message']='Data Successfully Deleted';
 			}
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
@@ -207,9 +194,34 @@ class Gps extends MY_Controller {
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
+	// T O G G L E   S T A T U S
+	public function toggle_Status()
+	{
+		$validate=array(
+			array('field'=>'gps_id','rules'=>'required')
+		);
+		$this->form_validation->set_rules($validate);
+		if ($this->form_validation->run()===FALSE) {
+			$info['success']=FALSE;
+			$info['errors']=validation_errors();
+		}else{
+			$info['success']=TRUE;
+			$data=array(
+				'gps_id'=>$this->input->post('gps_id')
+			);
+			$status = $this->Gps->toggle_Status($data);
+			$info['message']='GPS Successfully '.$status;
+			// $this->sendLog($data['gps_id'], $status);
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($info));
+	}
+	// S E N D   L O G S   T H A T   G P S   I S   T O G G L E D
+	public function sendLog($id, $status)
+	{
+		
+	}
 	////////////////////////////////////////////////////////////////
 	// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 	////////////////////////////////////////////////////////////////
 }
-
 // END OF GPS CONTROLLER

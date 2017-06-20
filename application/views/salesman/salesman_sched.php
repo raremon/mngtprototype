@@ -704,6 +704,7 @@
     var dateTo = toD.split('/');
     var dateFr = dateFrom[2]+'-'+dateFrom[0]+'-'+dateFrom[1];
     var dateT = dateTo[2]+'-'+dateTo[0]+'-'+dateTo[1];
+    console.log("<?php echo site_url('api/MRetrieve/getschedavailability/from/"+dateFr+"/to/"+dateT+"') ?>");
     $.get("<?php echo site_url('api/MRetrieve/getschedavailability/from/"+dateFr+"/to/"+dateT+"') ?>", function(data){
       var basic = $.map(data, function(el) { return el; });
       supert = basic;
