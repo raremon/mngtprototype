@@ -21,12 +21,14 @@ class Playlist_model extends CI_Model
 		$this->db->insert($this->table, $data);
 		return $this->db->insert_id();				
 	}
-
+	
 	// R E A D
 	public function read($date=null,$where=null,$orwhere=null){
 	
 		$this->db->select('*')
-				->from($this->table);	
+				->from($this->table)
+				->join('deployment','playlist.route_id=deployment.route_id','inner')
+				->join('tvs','deployment.tv_id=tvs.tv_id','inner');				
 
 		if( isset($where) )
 			$this->db->where($where);
