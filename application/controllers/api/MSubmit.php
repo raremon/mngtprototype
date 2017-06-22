@@ -118,8 +118,8 @@ class MSubmit extends REST_Controller
 		
 		$tslot_array           = explode(",",$data['tslot_id']);
 		$tslot_array_count     = count($tslot_array);
+		$times_repeat_array=explode(",",$data['times_repeat']);
 		$data3['display_type'] = $data['display_type'];
-		$data3['times_repeat'] = $data['times_repeat'];
 		
 		if( isset($data['sales_id']) || isset($data['advertiser_id']) )
 		{	
@@ -138,6 +138,7 @@ class MSubmit extends REST_Controller
 					for($i = 0; $i < $tslot_array_count;$i++)
 					{
 						$data3['tslot_id'] = $tslot_array[$i];
+						$data3['times_repeat']=$times_repeat_array[$i];
 						$orderslot_id[$i] = $this->Order_slots->create($data3);
 					}
 					if($orderslot_id[0] > 0)
