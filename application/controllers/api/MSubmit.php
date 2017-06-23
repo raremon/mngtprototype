@@ -120,6 +120,7 @@ class MSubmit extends REST_Controller
 		$tslot_array_count     = count($tslot_array);
 		$times_repeat_array    = explode(",",$data['times_repeat']);
 		$data3['display_type'] = $data['display_type'];
+		$data3['win_123']      = $data['win_123'];
 		
 		if( isset($data['sales_id']) || isset($data['advertiser_id']) )
 		{	
