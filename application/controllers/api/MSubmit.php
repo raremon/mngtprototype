@@ -118,28 +118,28 @@ class MSubmit extends REST_Controller
 		
 		$tslot_array           = explode(",",$data['tslot_id']);
 		$tslot_array_count     = count($tslot_array);
-		$times_repeat_array=explode(",",$data['times_repeat']);
+		$times_repeat_array    = explode(",",$data['times_repeat']);
 		$data3['display_type'] = $data['display_type'];
 		
 		if( isset($data['sales_id']) || isset($data['advertiser_id']) )
 		{	
 			// Submits first part of data to orders_model and returns order id
 			$order_id = $this->Orders->create($data1);
-			$data2['order_id']=$order_id;
+			$data2['order_id'] = $order_id;
 			if( $order_id > 0 )
 			{
 				// Submits second part of data to order_routes model and returns orderroutes id
 				$data2['order_id'] = $order_id;
-				$orderroutes_id = $this->Order_routes->create($data2);
+				$orderroutes_id    = $this->Order_routes->create($data2);
 				if( $orderroutes_id > 0 )
 				{
 					// Submits third part of data to order slots model and returns orderslot id
 					$data3['order_id'] = $order_id;
 					for($i = 0; $i < $tslot_array_count;$i++)
 					{
-						$data3['tslot_id'] = $tslot_array[$i];
-						$data3['times_repeat']=$times_repeat_array[$i];
-						$orderslot_id[$i] = $this->Order_slots->create($data3);
+						$data3['tslot_id']    = $tslot_array[$i];
+						$data3['times_repeat']= $times_repeat_array[$i];
+						$orderslot_id[$i]     = $this->Order_slots->create($data3);
 					}
 					if($orderslot_id[0] > 0)
 					{
@@ -149,7 +149,7 @@ class MSubmit extends REST_Controller
 					else
 					{
 						// If failure to insert data, deletes previous entries from order_model and order_routes_model
-						$delete['order_id'] = $order_id;
+						$delete['order_id']        = $order_id;
 						$delete2['orderroutes_id'] = $orderroutes_id;
 						$this->Orders->delete($delete);
 						$this->Order_routes->delete($delete2);
