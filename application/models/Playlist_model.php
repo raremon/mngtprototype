@@ -78,6 +78,18 @@ class Playlist_model extends CI_Model
 	
 	}
 	
+	public function getListMobile($query)
+	{
+		$this->db->select('*')->from($this->table);	
+
+		$this->db->where("date_start <= ",$query['date']);
+		$this->db->where("date_end >=",$query['date']);
+		$this->db->where("route_id",$query['route_id']);
+		$this->db->where("timeslot",$query['timeslot']);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	
 	// U P D A T E
 	public function update($data,$where)
 	{
