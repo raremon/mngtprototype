@@ -11,7 +11,7 @@
 		public function save_Mediabox($data)
 		{
 			$this->db->insert($this->table, $data);
-			return TRUE;
+			return $this->db->insert_id();
 		}
 		// R E A D
 		public function show_Mediabox()

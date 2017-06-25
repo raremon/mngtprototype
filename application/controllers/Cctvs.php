@@ -10,7 +10,8 @@ class Cctvs extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('cctvs_model', 'CCTV');
-		$this->load->model('ready_vehicles_model', 'Media');
+		// $this->load->model('ready_vehicles_model', 'Media');
+		$this->load->model('deployment_model', 'Media');
 	}
 	public function browse()
 	{
@@ -65,7 +66,8 @@ class Cctvs extends MY_Controller {
 				'cctv_serial'=>$this->input->post('cctv_serial-add'),
 				'cctv_description'=>$this->input->post('cctv_description-add'),
 			);
-			$this->CCTV->create($data);
+			$info['id'] = $this->CCTV->create($data);
+			$info['tag'] = $data['cctv_serial'];
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['cctv_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));

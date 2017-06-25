@@ -246,14 +246,14 @@
         					</a>
                   <ul class="treeview-menu">
                     <!--<li id="upload_new_ad"><a href="<?php echo base_url('ads_mngt/upload') ?>">Upload New Ad</a></li>-->
-                    <li id="browse_ad_orders" class="alert alert-danger"><a href="<?php echo base_url('program/browseOrder') ?>">Ad Orders</a></li>
-                    <li id="browse_ads" class="alert alert-danger"><a href="<?php echo base_url('ads_mngt/browse') ?>">Ads</a></li>
+                    <li id="browse_ad_orders"><a href="<?php echo base_url('program/browseOrder') ?>">Ad Orders</a></li>
+                    <li id="browse_ads"><a href="<?php echo base_url('ads_mngt/browse') ?>">Ads</a></li>
                     <!-- <li id="ad_report"><a href="<?php echo base_url('ads_mngt/report') ?>">Ad Report</a></li> -->
-                    <li id="browse_fillers" class="alert alert-danger"><a href="<?php echo base_url('fillers/browse') ?>">Fillers</a></li>
+                    <li id="browse_fillers"><a href="<?php echo base_url('fillers/browse') ?>">Fillers</a></li>
                   </ul>				
         				</li>
 
-                <li id="program_schedule" class="alert alert-danger"><a href="<?php echo base_url('program/browse') ?>"><i class="fa fa-tv"></i> <span>Program Schedule</span></a></li>		
+                <li id="program_schedule"><a href="<?php echo base_url('program/browse') ?>"><i class="fa fa-tv"></i> <span>Program Schedule</span></a></li>		
                 
                 <li id="ad_companies" class="treeview">
         					<a href="#"><i class="fa fa-briefcase"></i> <span>Agencies + Advertisers</span>
@@ -268,7 +268,7 @@
                   </ul>				
             		</li>
 
-                <li id="program_schedule" class="alert alert-danger"><a href="<?php echo base_url('program/browse') ?>"><i class="fa fa-paper-plane"></i> <span>Deploy Vehicle</span></a></li>	
+                <li id="deploy_vehicle"><a href="javascript:void(0)"><i class="fa fa-paper-plane"></i> <span>Deploy Vehicle</span></a></li>	
 
                 <li id="route_management" class="treeview">
                   <a href="#"><i class="fa fa-road"></i> <span>Route Management</span>
@@ -277,14 +277,14 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="browse_routes" class="alert alert-danger"><a href="<?php echo base_url('routes/browse') ?>">Routes</a></li>
-                    <li id="locations" class="alert alert-danger"><a href="<?php echo base_url('locations/browse') ?>">Locations</a></li>
-                    <li id="browse_cities" class="alert alert-danger"><a href="<?php echo base_url('cities/browse') ?>">Cities</a></li>
-                    <li id="browse_regions" class="alert alert-danger"><a href="<?php echo base_url('regions/browse') ?>">Regions</a></li>
+                    <li id="browse_routes"><a href="<?php echo base_url('routes/browse') ?>">Routes</a></li>
+                    <!-- <li id="locations"><a href="<?php echo base_url('locations/browse') ?>">Locations</a></li> -->
+                    <!-- <li id="browse_cities"><a href="<?php echo base_url('cities/browse') ?>">Cities</a></li> -->
+                    <!-- <li id="browse_regions"><a href="<?php echo base_url('regions/browse') ?>">Regions</a></li> -->
                   </ul>
                 </li>
 
-  	            <li id="program_schedule" class="alert alert-danger"><a href="<?php echo base_url('program/browse') ?>"><i class="fa fa-money"></i> <span>E-Payment</span></a></li>				
+  	            <li id="e_payment"><a href="javascript:void(0)"><i class="fa fa-money"></i> <span>E-Payment</span></a></li>				
                 
                 <li id="settings" class="treeview">
                   <a href="#"><i class="fa fa-gear"></i> <span>Settings</span>
@@ -293,9 +293,9 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="browse_users" class="alert alert-danger"><a href="<?php echo base_url('users/browse') ?>">Users</a></li>
-                    <li id="browse_drivers" class="alert alert-danger"><a href="<?php echo base_url('drivers/browse') ?>">Drivers</a></li>
-                    <li id="browse_salesmen" class="alert alert-danger"><a href="<?php echo base_url('salesman/browse') ?>">Sales Agents</a></li>
+                    <li id="browse_users"><a href="<?php echo base_url('users/browse') ?>">Users</a></li>
+                    <li id="browse_drivers"><a href="<?php echo base_url('drivers/browse') ?>">Drivers</a></li>
+                    <li id="browse_salesmen"><a href="<?php echo base_url('salesman/browse') ?>">Sales Agents</a></li>
                     <li id="browse_vehicles"><a href="<?php echo base_url('vehicles/browse') ?>">Vehicles</a></li>
                     <li id="browse_tvs"><a href="<?php echo base_url('tvs/browse') ?>">TVs</a></li>
                     <li id="browse_mediaboxes"><a href="<?php echo base_url('mediaboxes/browse') ?>">Mediaboxes</a></li>
@@ -304,7 +304,7 @@
                     <li id="browse_card_readers"><a href="<?php echo base_url('card_readers/browse') ?>">Card Readers</a></li>
                     <li id="browse_gps"><a href="<?php echo base_url('gps/browse') ?>">GPS Devices</a></li>
                     <li id="browse_pos"><a href="<?php echo base_url('pos/browse') ?>">POS Devices</a></li>
-                    <li id="browse_assignment" class="alert alert-danger"><a href="<?php echo base_url('media/browse') ?>">Media Assignment</a></li>
+                    <li id="browse_assignment"><a href="<?php echo base_url('media/assign') ?>">Media Assignment</a></li>
                   </ul>
                 </li>
 
@@ -315,7 +315,7 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="active_buses" class="alert alert-danger"><a href="#">Active Buses</a></li>
+                    <li id="active_buses"><a href="#">Active Buses</a></li>
                   </ul>
                 </li>
               </ul>

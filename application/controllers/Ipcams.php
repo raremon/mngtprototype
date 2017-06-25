@@ -10,7 +10,8 @@ class Ipcams extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('ipcams_model', 'Ipcam');
-		$this->load->model('ready_vehicles_model', 'Media');
+		// $this->load->model('ready_vehicles_model', 'Media');
+		$this->load->model('deployment_model', 'Media');
 	}
 	public function browse()
 	{
@@ -65,7 +66,8 @@ class Ipcams extends MY_Controller {
 				'ipcam_serial'=>$this->input->post('ipcam_serial-add'),
 				'ipcam_description'=>$this->input->post('ipcam_description-add'),
 			);
-			$this->Ipcam->create($data);
+			$info['id'] = $this->Ipcam->create($data);
+			$info['tag'] = $data['ipcam_serial'];
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['ipcam_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));

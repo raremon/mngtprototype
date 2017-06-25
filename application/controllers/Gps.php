@@ -10,7 +10,8 @@ class Gps extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('gps_model', 'Gps');
-		$this->load->model('ready_vehicles_model', 'Media');
+		// $this->load->model('ready_vehicles_model', 'Media');
+		$this->load->model('deployment_model', 'Media');
 	}
 	public function browse()
 	{
@@ -65,7 +66,8 @@ class Gps extends MY_Controller {
 				'gps_serial'=>$this->input->post('gps_serial-add'),
 				'gps_description'=>$this->input->post('gps_description-add'),
 			);
-			$this->Gps->create($data);
+			$info['id'] = $this->Gps->create($data);
+			$info['tag'] = $data['gps_serial'];
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['gps_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));

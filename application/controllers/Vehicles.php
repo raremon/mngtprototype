@@ -12,7 +12,8 @@ class Vehicles extends MY_Controller {
 
 		$this->load->model('vehicle_types_model', 'Type');
 		$this->load->model('vehicles_model', 'Vehicle');
-		$this->load->model('ready_vehicles_model', 'Media');
+		// $this->load->model('ready_vehicles_model', 'Media');
+		$this->load->model('deployment_model', 'Media');
 
 		$this->load->model('mediaboxes_model', 'Box');
 		$this->load->model('tvs_model', 'Tv');
@@ -191,6 +192,9 @@ class Vehicles extends MY_Controller {
 	{
 		$table = $this->Media->get_Info($id);
 		$data = array();
+		// ROUTE PA
+
+
 		// BOX
 		if($table['box_id']!=null)
 		{
@@ -328,7 +332,7 @@ class Vehicles extends MY_Controller {
 			if($this->Media->find_Vehicle($this->input->post('vehicle_id')))
 			{
 				$info['success']=FALSE;
-				$info['errors']="Cannot Delete Vehicle that have Devices!";
+				$info['errors']="Cannot Delete Vehicle that have Devices and/or Route!";
 			}
 			else
 			{

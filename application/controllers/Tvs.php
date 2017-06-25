@@ -10,7 +10,8 @@ class Tvs extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('tvs_model', 'TV');
-		$this->load->model('ready_vehicles_model', 'Media');
+		// $this->load->model('ready_vehicles_model', 'Media');
+		$this->load->model('deployment_model', 'Media');
 	}
 	public function browse()
 	{
@@ -65,7 +66,8 @@ class Tvs extends MY_Controller {
 				'tv_serial'=>$this->input->post('tv_serial-add'),
 				'tv_description'=>$this->input->post('tv_description-add'),
 			);
-			$this->TV->create($data);
+			$info['id'] = $this->TV->create($data);
+			$info['tag'] = $data['tv_serial'];
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['tv_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));

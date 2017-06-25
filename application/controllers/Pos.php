@@ -10,7 +10,8 @@ class Pos extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('pos_model', 'Pos');
-		$this->load->model('ready_vehicles_model', 'Media');
+		// $this->load->model('ready_vehicles_model', 'Media');
+		$this->load->model('deployment_model', 'Media');
 	}
 	public function browse()
 	{
@@ -65,7 +66,8 @@ class Pos extends MY_Controller {
 				'pos_serial'=>$this->input->post('pos_serial-add'),
 				'pos_description'=>$this->input->post('pos_description-add'),
 			);
-			$this->Pos->create($data);
+			$info['id'] = $this->Pos->create($data);
+			$info['tag'] = $data['pos_serial'];
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['pos_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));

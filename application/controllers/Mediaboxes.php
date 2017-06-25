@@ -10,7 +10,8 @@ class Mediaboxes extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('mediaboxes_model', 'Box');
-		$this->load->model('ready_vehicles_model', 'Media');
+		// $this->load->model('ready_vehicles_model', 'Media');
+		$this->load->model('deployment_model', 'Media');
 	}
 	public function browse()
 	{
@@ -65,8 +66,10 @@ class Mediaboxes extends MY_Controller {
 				'box_tag'=>$this->input->post('box_tag-add'),
 				'box_description'=>$this->input->post('box_description-add'),
 			);
-			$this->Box->save_Mediabox($data);
+			$info['id'] = $this->Box->save_Mediabox($data);
+			$info['tag'] = $data['box_tag'];
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['box_tag']."</span>!</p>";
+
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}

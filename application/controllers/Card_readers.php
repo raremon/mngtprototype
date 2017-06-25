@@ -10,7 +10,8 @@ class Card_readers extends MY_Controller {
 		$this->load->model('roles_model', 'Role');
 
 		$this->load->model('card_readers_model', 'Card');
-		$this->load->model('ready_vehicles_model', 'Media');
+		// $this->load->model('ready_vehicles_model', 'Media');
+		$this->load->model('deployment_model', 'Media');
 	}
 	public function browse()
 	{
@@ -65,7 +66,8 @@ class Card_readers extends MY_Controller {
 				'card_serial'=>$this->input->post('card_serial-add'),
 				'card_description'=>$this->input->post('card_description-add'),
 			);
-			$this->Card->create($data);
+			$info['id'] = $this->Card->create($data);
+			$info['tag'] = $data['card_serial'];
 			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['card_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
