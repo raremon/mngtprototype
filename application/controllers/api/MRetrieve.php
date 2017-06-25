@@ -1,89 +1,29 @@
 <?php
 require(APPPATH.'libraries/REST_Controller.php');
-class Mobileapp extends REST_Controller 
+class MRetrieve extends REST_Controller 
 {
 	
 	public function __construct() 
 	{
         parent::__construct();
 		$this->load->model('Adowneraccounts_model', 'Owner_Accounts');
-		$this->load->model('Advertisers_model', 'Owners');
-		$this->load->model('Regions_model', 'Regions');
-		$this->load->model('Cities_model', 'Cities');
-		$this->load->model('Locations_model', 'Locations');
-		$this->load->model('Routes_model', 'Routes');
-		$this->load->model('Timeslots_model', 'Timeslots');
-		$this->load->model('Orders_model', 'Orders');
-		$this->load->model('Order_slots_model', 'Order_slots');
-		$this->load->model('Order_routes_model', 'Order_routes');
-		$this->load->model('Users_model', 'Salesmen');
+		$this->load->model('Advertisers_model'    , 'Owners');
+		$this->load->model('Cities_model'         , 'Cities');
+		$this->load->model('Locations_model'      , 'Locations');
+		$this->load->model('Orders_model'         , 'Orders');
+		$this->load->model('Order_slots_model'    , 'Order_slots');
+		$this->load->model('Order_routes_model'   , 'Order_routes');
+		$this->load->model('Regions_model'        , 'Regions');
+		$this->load->model('Routes_model'         , 'Routes');
+		$this->load->model('Timeslots_model'      , 'Timeslots');
+		$this->load->model('Users_model'          , 'Users');
+		$this->load->model('Vehicle_types_model'  , 'Vehicle_types');
 	}
 	
-	// ----------------  LOGIN FUNCTIONS  ---------------- //
-
-	public function login_post()
-	{
-		/* JSON method to authenticate ad owner in Android app */
-		// http://[::1]/star8/api/mobileapp/login
-		
-		$data = $this->post();
-		if( isset($data['user']) && isset($data['pass']) )
-		{
-			// Goes to ad owner model to validate username and password
-			$result = $this->Owner_Accounts->validate_mobile($data);
-			
-			// If no account is found
-			if($result == -2)
-			{
-				// Goes to users model to validate username and password
-				$result = $this->Salesmen->validate_mobile($data);
-			}
-		}
-		else
-		{
-			// If direct controller access
-			$result = -1;
-		}
-		// Returns an object or -1
-		$this->response($result);	
-	}
-	
-	public function logout_post()
-	{
-		/* JSON method to log ad owner out of Android app */
-		// http://[::1]/star8/api/mobileapp/logout
-		
-		$data = $this->post();
-		if( isset($data['owner_id']) && isset($data['owner_uname']) && isset($data['owner_upass']) )
-		{
-			// Goes to model to update ad owner login status
-			$response = $this->Owner_Accounts->logout_mobile($data);	
-		}
-		else if(isset($data['user_id']) && isset($data['user_name']) && isset($data['user_password']))
-		{
-			if($data['user_type'] == 2){
-				// Goes to model to update salesman login status
-				$response = $this->Salesmen->logout_mobile($data);
-			}			
-			else{
-				// If direct user access
-				$response = -1;
-			}
-		}
-		else
-		{
-			// If direct controller access
-			$response = -1;
-		}
-		// Returns 1 or -1
-		$this->response($response);
-	}
-	
-	// ----------------  DATA RETRIEVAL FUNCTIONS  ---------------- //
 	public function getinfo_post()
 	{
 		/* JSON method to get ad owner or salesman info for Android app */
-		// http://[::1]/star8/api/mobileapp/getinfo
+		// http://[::1]/star8/api/MRetrieve/getinfo
 		
 		$data = $this->post();
 		if( isset($data['owner_id']) && isset($data['user']) && isset($data['pass']) )
@@ -112,13 +52,13 @@ class Mobileapp extends REST_Controller
 		else if( isset($data['user_id']) && isset($data['user']) && isset($data['pass']) )
 		{
 			// Goes to model to validate credentials
-			$response = $this->Salesmen->validate_mobile($data);
-			if(isset($response['user_id']))
+			$response = $this->Users->validate_mobile($data);
+			if(isset($response['user_id']) && $response['user_id'] == $data['user_id'])
 			{
 				if($response['user_id'] == $data['user_id'])
 				{
 					// Goes to model to get salesman data (to be added)
-					//$result = $this->Owners->get_by_id($data['owner_id']);
+					$result = $this->Users->validate_mobile($data);
 				}
 				else
 				{
@@ -144,7 +84,7 @@ class Mobileapp extends REST_Controller
 	public function getschedavailability_get()
 	{
 		/* JSON method to get schedule availability */
-		// http://[::1]/star8/api/mobileapp/getschedavailability/from/2017-02-03/to/2017-03-02
+		// http://[::1]/star8/api/MRetrieve/getschedavailability/from/*/to/*
 		
 		$data=$this->get();
 		$orders=$this->Orders->getapproved();
@@ -212,7 +152,7 @@ class Mobileapp extends REST_Controller
 	public function getregions_get()
 	{
 		/* JSON method to get all regions for Android app */
-		// http://[::1]/star8/api/mobileapp/getregions
+		// http://[::1]/star8/api/MRetrieve/getregions
 		
 		// Goes to model to query all regions
 		$result = $this->Regions->show_region();
@@ -224,7 +164,7 @@ class Mobileapp extends REST_Controller
 	public function getcities_get()
 	{
 		/* JSON method to get all cities for Android app */
-		// http://[::1]/star8/api/mobileapp/getcities
+		// http://[::1]/star8/api/MRetrieve/getcities
 		
 		// Goes to model to query all cities
 		$result = $this->Cities->show_City();
@@ -236,7 +176,7 @@ class Mobileapp extends REST_Controller
 	public function getcity_get()
 	{
 		/* JSON method to get all cities from a specific region for Android app */
-		// http://[::1]/star8/api/mobileapp/getcity/region/*
+		// http://[::1]/star8/api/MRetrieve/getcity/region/*
 		
 		$data = $this->get();
 		if( isset($data['region']) )
@@ -257,7 +197,7 @@ class Mobileapp extends REST_Controller
 	public function getlocations_get()
 	{
 		/* JSON method to get all locations for Android app */
-		// http://[::1]/star8/api/mobileapp/getlocations
+		// http://[::1]/star8/api/MRetrieve/getlocations
 		
 		// Goes to model to query all locations
 		$result = $this->Locations->read();
@@ -269,7 +209,7 @@ class Mobileapp extends REST_Controller
 	public function getlocation_get()
 	{
 		/* JSON method to get all locations from a specific city for Android app */
-		// http://[::1]/star8/api/mobileapp/getlocation/city/*
+		// http://[::1]/star8/api/MRetrieve/getlocation/city/*
 		
 		$data = $this->get();
 		if( isset($data['city']) )
@@ -287,13 +227,13 @@ class Mobileapp extends REST_Controller
 		$this->response($result);
 	}
 	
-	public function getvehicletype_get()
+	public function getvehicletypes_get()
 	{
 		/* JSON method to get all vehicle types for Android app */
-		// http://[::1]/star8/api/mobileapp/getvehicletype
+		// http://[::1]/star8/api/MRetrieve/getvehicletypes
 		
 		// Goes to model to query all vehicle types
-		$result = $this->Regions->show_Vehicle_type();
+		$result = $this->Vehicle_types->show_Vehicle_type();
 		
 		// Returns an array of vehicle types or []
 		$this->response($result);
@@ -302,7 +242,7 @@ class Mobileapp extends REST_Controller
 	public function getroute_get()
 	{
 		/* JSON method to get all routes from a specific city for Android app */
-		// http://[::1]/star8/api/mobileapp/getroute/city/*
+		// http://[::1]/star8/api/MRetrieve/getroute/city/*
 		
 		$data = $this->get();
 		if( isset($data['location']) )
@@ -323,7 +263,7 @@ class Mobileapp extends REST_Controller
 	public function getroutes_get()
 	{
 		/* JSON method to get all routes for Android app */
-		// http://[::1]/star8/api/mobileapp/getroutes
+		// http://[::1]/star8/api/MRetrieve/getroutes
 		
 		// Goes to model to query all routes
 		$result = $this->Routes->show_Route();
@@ -335,7 +275,7 @@ class Mobileapp extends REST_Controller
 	public function gettimeslots_get()
 	{
 		/* JSON method to get all time slots for Android app */
-		// http://[::1]/star8/api/mobileapp/gettimeslots
+		// http://[::1]/star8/api/MRetrieve/gettimeslots
 		
 		// Goes to model to query all time slots
 		$result = $this->Timeslots->read();
@@ -344,10 +284,44 @@ class Mobileapp extends REST_Controller
 		$this->response($result);
 	}
 	
+	public function getsalesorders_get()
+	{
+		/* JSON method to get all orders from a specified salesman for Android app */
+		// http://[::1]/star8/api/MRetrieve/getsalesorders/id/*
+		$data = $this->get();
+		
+		if(isset($data['id']))
+		{
+			// Goes to model to get all orders specified in ordertype
+			$result = $this->Orders->get_by_salesman($data['id']);
+			if( $result != -1 )
+			{
+				foreach($result as &$value)
+				{
+					// Goes to model to add corresponding order slots and routes
+					$value['order_slots'] = $this->Order_slots->get_by_order_id($value['order_id']);
+					$value['order_routes'] = $this->Order_routes->get_by_order_id($value['order_id']);
+				}
+			}
+			else
+			{
+				// If no data is retrieved
+				$result = -1;
+			}
+		}
+		else
+		{
+			// If direct controller access
+			$result = -1;
+		}
+		// Returns an array of orders or -1
+		$this->response($result);
+	}
+	
 	public function getorders_get()
 	{
 		/* JSON method to get all orders for Android app */
-		// http://[::1]/star8/api/mobileapp/getorders/ordertype/*
+		// http://[::1]/star8/api/MRetrieve/getorders/ordertype/*
 		$data = $this->get();
 		
 		if(isset($data['ordertype']))
@@ -400,7 +374,7 @@ class Mobileapp extends REST_Controller
 	public function getadvertisers_get()
 	{
 		/* JSON method to get all advertisers for Android app */
-		// http://[::1]/star8/api/mobileapp/getadvertisers
+		// http://[::1]/star8/api/MRetrieve/getadvertisers
 		
 		// Goes to model to get all order slots
 		$result = $this->Owners->show_Advertiser();
@@ -409,169 +383,50 @@ class Mobileapp extends REST_Controller
 		$this->response($result);
 	}
 	
-	// ----------------  FORM DATA SUBMISSION FUNCTIONS  ---------------- //	
-	
-	public function changepass_post()
+	public function getplaylist_post()
 	{
-		/* JSON method to change ad owner password in Android app */
-		// http://[::1]/star8/api/mobileapp/changepass
+		/* JSON method to get specific playlists for Android app */
+		// http://[::1]/star8/api/MRetrieve/getplaylist
 		
 		$data = $this->post();
-		if( isset($data['user']) && isset($data['pass']) && isset($data['newpass']) )
+		if(isset($data['user_id']) && isset($data['user']) && isset($data['pass'])
+			&& isset($data['route_id']) && isset($data['date']) && isset($data['timeslot']))
 		{
-			// Goes to model to validate username and password and change password if successful
-			$response = $this->Owner_Accounts->change_pass($data);
-		}
-		else
-		{
-			// If direct controller access
-			$response = -1;
-		}
-		// Returns 1 or -1
-		$this->response($response);	
-	}
-	
-	public function requestresetpass_post()
-	{
-		/* JSON method to request reset of ad owner password in Android app */
-		// http://[::1]/star8/api/mobileapp/requestresetpass
-		
-		$data = $this->post();
-		if( isset($data['user']) )
-		{
-			// Gets advertiser id from username
-			$query = $this->Owner_Accounts->request_reset_pass($data);
-			if($query > 0)
+			if( $data['user_id'] > 0 && $data['user_id'] != NULL && $data['user_id'] != "" && $data['user'] != NULL && $data['user'] != "" &&
+			$data['pass'] != NULL && $data['pass'] != "" && $data['route_id'] != NULL && $data['route_id'] != "" &&
+			$data['date'] != NULL && $data['date'] != "" && $data['timeslot'] != NULL && $data['timeslot'] != "")
 			{
-				// Gets advertiser email from advertiser id
-				$result = $this->Owners->get_email($query);
-			}
-			else
-			{
-				// Account not found
-				$result = -1;
-			}
-		}
-		else
-		{
-			// If direct controller access
-			$result = -1;
-		}
-		// Returns advertiser email or -1
-		$this->response($result);	
-	}
-	
-	public function resetpass_post()
-	{
-		/* JSON method reset ad owner password in Android app */
-		// http://[::1]/star8/api/mobileapp/requestresetpass
-		
-		$data = $this->post();
-		if( isset($data['user'])&& isset($data['ticket']) )
-		{
-			// Generates a new password based on md5
-			$data['newpass'] = substr(md5(uniqid(rand(), true)),0,12);
-			
-			// Goes to model to reset user password
-			$result = $this->Owner_Accounts->reset_pass($data);
-			
-			if($result == 1)
-			{
-				// Returns reset password
-				$result = $data['newpass'];
-			}
-			else
-			{
-				// If server error
-				$result = -1;
-			}
-		}
-		else
-		{
-			// If direct controller access
-			$result = -1;
-		}
-		
-		// Returns a password or -1
-		$this->response($result);	
-			
-	}
-	public function putrequestschedule_post()
-	{
-		/* JSON method to submit a schedule request from Android app */
-		// http://[::1]/star8/api/mobileapp/putrequestschedule
-		
-		$data = $this->post();
-		
-		// Splits $data to three parts
-		$data1['sales_id']      = $data['sales_id'];
-		$data1['ad_duration']   = $data['ad_duration'];
-		$data1['advertiser_id'] = $data['advertiser_id'];
-		$data1['order_status']  = 0;
-		$data1['date_start']    = $data['date_start'];
-		$data1['date_end']      = $data['date_end'];
-		
-		$data2['route_id'] = $data['route_id'];
-		
-		$tslot_array           = explode(",",$data['tslot_id']);
-		$tslot_array_count     = count($tslot_array);
-		$data3['display_type'] = $data['display_type'];
-		$data3['times_repeat'] = $data['times_repeat'];
-		
-		if( isset($data['sales_id']) || isset($data['advertiser_id']) )
-		{	
-			// Submits first part of data to orders_model and returns order id
-			$order_id = $this->Orders->create($data1);
-			$data2['order_id']=$order_id;
-			if( $order_id > 0 )
-			{
-				// Submits second part of data to order_routes model and returns orderroutes id
-				$data2['order_id'] = $order_id;
-				$orderroutes_id = $this->Order_routes->create($data2);
-				if( $orderroutes_id > 0 )
+				$data1['user'] = $data['user'];
+				$data1['pass'] = $data['pass'];
+				// Goes to model to validate account (check 1)
+				$validate = $this->Users->validate_mobile($data1);
+				// Checks if credentials match current manager's user id and is a manager (check 2 & 3)
+				if($validate['user_id'] == $data['user_id'] && $validate['user_role'] == 3)
 				{
-					// Submits third part of data to order slots model and returns orderslot id
-					$data3['order_id'] = $order_id;
-					for($i = 0; $i < $tslot_array_count;$i++)
-					{
-						$data3['tslot_id'] = $tslot_array[$i];
-						$orderslot_id[$i] = $this->Order_slots->create($data3);
-					}
-					if($orderslot_id[0] > 0)
-					{
-						// If entries are successful
-						$response = 1;
-					}
-					else
-					{
-						// If failure to insert data, deletes previous entries from order_model and order_routes_model
-						$delete['order_id'] = $order_id;
-						$delete2['orderroutes_id'] = $orderroutes_id;
-						$this->Orders->delete($delete);
-						$this->Order_routes->delete($delete2);
-						$response = -1;
-					}
+					$data2['route_id'] = $data['route_id'];
+					$data2['date']     = $data['date'];
+					$data2['timeslot'] = $data['timeslot'];
+					// Goes to model to get specific play list
+					$result = $this->Playlists->getListMobile($data2);
 				}
 				else
 				{
-					// If failure to insert data, deletes previous entry from order_model
-					$delete['order_id'] = $order_id;
-					$this->Orders->delete($delete);
-					$response = -1;
+					// If manager validation failed
+					$result = -1;
 				}
 			}
 			else
 			{
-				// If failure to insert data
-				$response = -1;
+				// If empty data values
+				$result = -1;
 			}
 		}
 		else
 		{
 			// If direct controller access
-			$response = -1;
+			$result = -1;
 		}
-		// Returns 1 or -1
-		$this->response($response);
+		// Returns an array of playlists or -1
+		$this->response($result);
 	}
 }

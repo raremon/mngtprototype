@@ -78,7 +78,8 @@ class Orders_model extends CI_Model
 		}
 	}
 
-	public function getpending(){
+	public function getpending()
+	{
 		$this->db->select($this->query);
 		$this->db->from($this->table);
 		$this->db->where('order_status',0);
@@ -86,7 +87,8 @@ class Orders_model extends CI_Model
 		return $query->result_array();
 	}
 
-	public function getapproved(){
+	public function getapproved()
+	{
 		$this->db->select($this->query);
 		$this->db->from($this->table);
 		$this->db->where('order_status',1);
@@ -94,12 +96,59 @@ class Orders_model extends CI_Model
 		return $query->result_array();
 	}
 	
-	public function getcancelled(){
+	public function getcancelled()
+	{
 		$this->db->select($this->query);
 		$this->db->from($this->table);
 		$this->db->where('order_status',2);
 		$query=$this->db->get();
 		return $query->result_array();
+	}
+	
+	public function get_by_salesman($sales_id)
+	{
+		$this->db->select($this->query);
+		$this->db->from($this->table);
+		$this->db->where('sales_id',$sales_id);
+		$query=$this->db->get();
+		if ($query->num_rows())
+		{
+			return $query->result_array();
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	public function getAdvertiser($id)
+	{
+		$this->db->select('advertiser_id');
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['advertiser_id'];
+	}
+
+	public function getDateStart($id)
+	{
+		$this->db->select('date_start');
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['date_start'];
+	}
+
+	public function getDateEnd($id)
+	{
+		$this->db->select('date_end');
+		$this->db->from($this->table);
+		$this->db->where($this->id, $id);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['date_end'];
 	}
 	////////////////////////////////////////////////////////////////
 	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //

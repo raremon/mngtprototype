@@ -32,7 +32,7 @@ class Locations_model extends CI_Model
 	//Get name by Location Id
 	public function get_Name($id)
 	{
-		$this->db->select("location_name, latitude, longitude");
+		$this->db->select("location_name, latitude, longitude, city_id");
 		$this->db->from($this->table);
 		$this->db->where('location_id', $id);
 		$query = $this->db->get();

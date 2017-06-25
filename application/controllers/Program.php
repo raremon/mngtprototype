@@ -728,8 +728,12 @@
 			}
 			return $pushdata;
 		}
-		public function morningTslot()
+		public function morningTslot($month, $day, $year)
         {
+			$date_from_user = $year.'-'.$month.'-'.$day;
+			$date_start;
+			$date_end;
+
         	$table = $this->Timeslot->getmorning();
 			$data = array();
 			foreach ($table as $rows) {
@@ -737,7 +741,16 @@
 				$tslot = $this->Tslot->find_Orders($rows['tslot_id']);
 				foreach($tslot as $cols)
 				{
-					$orders = $orders + $this->Order->countAds($cols['order_id']);
+					$date_start = $this->Order->getDateStart($cols['order_id']);
+					$date_end = $this->Order->getDateEnd($cols['order_id']);
+					if($date_end == NULL)
+					{
+						$date_end = $date_start;
+					}
+					if($this->check_in_range($date_start, $date_end, $date_from_user))
+					{
+						$orders = $orders + $this->Order->countAds($cols['order_id']);
+					}
 				}
 
 				array_push($data,
@@ -750,8 +763,12 @@
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
         }
-        public function afternoonTslot()
+        public function afternoonTslot($month, $day, $year)
         {
+        	$date_from_user = $year.'-'.$month.'-'.$day;
+			$date_start;
+			$date_end;
+
         	$table = $this->Timeslot->getafternoon();
 			$data = array();
 			foreach ($table as $rows) {
@@ -759,7 +776,16 @@
 				$tslot = $this->Tslot->find_Orders($rows['tslot_id']);
 				foreach($tslot as $cols)
 				{
-					$orders = $orders + $this->Order->countAds($cols['order_id']);
+					$date_start = $this->Order->getDateStart($cols['order_id']);
+					$date_end = $this->Order->getDateEnd($cols['order_id']);
+					if($date_end == NULL)
+					{
+						$date_end = $date_start;
+					}
+					if($this->check_in_range($date_start, $date_end, $date_from_user))
+					{
+						$orders = $orders + $this->Order->countAds($cols['order_id']);
+					}
 				}
 
 				array_push($data,
@@ -772,8 +798,12 @@
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
         }
-        public function eveningTslot()
+        public function eveningTslot($month, $day, $year)
         {
+        	$date_from_user = $year.'-'.$month.'-'.$day;
+			$date_start;
+			$date_end;
+
         	$table = $this->Timeslot->getevening();
 			$data = array();
 			foreach ($table as $rows) {
@@ -781,7 +811,16 @@
 				$tslot = $this->Tslot->find_Orders($rows['tslot_id']);
 				foreach($tslot as $cols)
 				{
-					$orders = $orders + $this->Order->countAds($cols['order_id']);
+					$date_start = $this->Order->getDateStart($cols['order_id']);
+					$date_end = $this->Order->getDateEnd($cols['order_id']);
+					if($date_end == NULL)
+					{
+						$date_end = $date_start;
+					}
+					if($this->check_in_range($date_start, $date_end, $date_from_user))
+					{
+						$orders = $orders + $this->Order->countAds($cols['order_id']);
+					}
 				}
 
 				array_push($data,
@@ -794,15 +833,35 @@
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
         }
-        public function programListing($id)
+        public function check_in_range($start_date, $end_date, $date_from_user)
+		{
+		  // Convert to timestamp
+		  $start_ts = strtotime($start_date);
+		  $end_ts = strtotime($end_date);
+		  $user_ts = strtotime($date_from_user);
+
+		  // Check that user date is between start & end
+		  return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+		}
+        public function programListing($id, $month, $day, $year)
         {
-//        	$id=$this->input->post('tslot_id');
-            
+            $date_from_user = $year.'-'.$month.'-'.$day;
+			$date_start;
+			$date_end;
+
             $table = $this->Playlist->getTimeslot($id);
 			$data = array();
 			foreach ($table as $rows) {
 				$content_name = "";
 				$content_duration = "";
+				if($rows['order_id']!=0)
+				{
+					$advertiser = $this->Order->getAdvertiser($rows['order_id']);
+				}
+				else
+				{
+					$advertiser = 0;
+				}
                 if($rows['content_type'] == 'ad')
                 {
                 	$ad_data = $this->Ad->edit_Ad_Data($rows['content_id']);
@@ -815,18 +874,42 @@
                 	$content_name = $filler_data['filler_title'];
                 	$content_duration = $filler_data['filler_duration'];
 				}
+				$date_start = $rows['date_start'];
+				$date_end = $rows['date_end'];
+				if($date_end == NULL)
+				{
+					$date_end = $date_start;
+				}
+				if($this->check_in_range($date_start, $date_end, $date_from_user))
+				{
+				$ggez = $this->check_in_range($date_start, $date_end, $date_from_user);
                     array_push($data,
                         array(
                             $rows['play_order'],
+                        	$rows['play_id'],
                             $content_name,
                             $content_duration,
                             $rows['duration'],
                             $rows['content_type'],
+                            $rows['route_id'],
+                            $advertiser,
                         )
                     );
-//                }
+               }
 			}
 			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
+        public function scheduleUpdate()
+        {
+        	$schedules_update = json_decode($this->input->post('scheduleData'), TRUE);
+        	$info['message'] = "";
+        	foreach($schedules_update as $rows)
+        	{
+        		$this->Playlist->updateSchedule($rows[1], $rows[0]);
+        	}
+        	$info['success']=true;
+        	$info['message']='Successfully updated the Playlist';
+			$this->output->set_content_type('application/json')->set_output(json_encode($info));
         }
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //

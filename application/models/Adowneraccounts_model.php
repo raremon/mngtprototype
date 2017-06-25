@@ -126,7 +126,7 @@ class Adowneraccounts_model extends CI_Model
 			if ($row['owner_upass'] == sha1($data['pass'])){
 				
 				// Updates owner password
-				$row['owner_upass'] = $data['newpass'];
+				$row['owner_upass'] = sha1($data['newpass']);
 				$this->db->where("owner_id", $row['owner_id']);
 				$this->db->update($this->table, $row);
 				
