@@ -1683,6 +1683,15 @@
 			}
 			return $pushdata;
 		}
+		
+		public function testAutoSched($slot, $month, $day, $routeId) {
+			$this->load->library('dynamic_schedule');
+			
+			$result = $this->dynamic_schedule->generateAdHour($slot, $month, $day, $routeId);
+			
+			debug(json_encode($result), true);
+		}
+		
 	}
 
 // END OF PROGRAM SCHEDULE CONTROLLER
