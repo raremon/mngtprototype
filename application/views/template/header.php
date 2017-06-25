@@ -381,6 +381,17 @@
                     <li id="active_buses"><a href="#">Active Buses</a></li>
                   </ul>
                 </li>
+                <li id="epayment" class="treeview">
+                  <a href="#"><i class="fa fa-money"></i> <span>E-Payment</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                  <ul class="treeview-menu">
+                    <li id="sales_report"><a href="<?php ?>">Sales Report</a></li>
+                    <li id="fares"><a href="<?php echo base_url('fares') ?>">Fares</a></li>
+                  </ul>
+                </li>
               </ul>
 
             </section>

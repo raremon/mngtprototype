@@ -382,4 +382,51 @@ class MRetrieve extends REST_Controller
 		// Returns an array of advertisers or []
 		$this->response($result);
 	}
+	
+	public function getplaylist_post()
+	{
+		/* JSON method to get specific playlists for Android app */
+		// http://[::1]/star8/api/MRetrieve/getplaylist
+		
+		$data = $this->post();
+		if(isset($data['user_id']) && isset($data['user']) && isset($data['pass'])
+			&& isset($data['route_id']) && isset($data['date']) && isset($data['timeslot']))
+		{
+			if( $data['user_id'] > 0 && $data['user_id'] != NULL && $data['user_id'] != "" && $data['user'] != NULL && $data['user'] != "" &&
+			$data['pass'] != NULL && $data['pass'] != "" && $data['route_id'] != NULL && $data['route_id'] != "" &&
+			$data['date'] != NULL && $data['date'] != "" && $data['timeslot'] != NULL && $data['timeslot'] != "")
+			{
+				$data1['user'] = $data['user'];
+				$data1['pass'] = $data['pass'];
+				// Goes to model to validate account (check 1)
+				$validate = $this->Users->validate_mobile($data1);
+				// Checks if credentials match current manager's user id and is a manager (check 2 & 3)
+				if($validate['user_id'] == $data['user_id'] && $validate['user_role'] == 3)
+				{
+					$data2['route_id'] = $data['route_id'];
+					$data2['date']     = $data['date'];
+					$data2['timeslot'] = $data['timeslot'];
+					// Goes to model to get specific play list
+					$result = $this->Playlists->getListMobile($data2);
+				}
+				else
+				{
+					// If manager validation failed
+					$result = -1;
+				}
+			}
+			else
+			{
+				// If empty data values
+				$result = -1;
+			}
+		}
+		else
+		{
+			// If direct controller access
+			$result = -1;
+		}
+		// Returns an array of playlists or -1
+		$this->response($result);
+	}
 }
