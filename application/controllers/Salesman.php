@@ -18,6 +18,7 @@ class Salesman extends MY_Controller {
 		$this->load->model('timeslots_model', 'Timeslot');
 
 		$this->load->model('advertisers_model', 'Advertiser');
+		$this->load->model('agencies_model', 'Agency');
 
 		$this->load->model('salesmen_model', 'Sales');
 		$this->load->model('orders_model', 'Order');
@@ -41,10 +42,12 @@ class Salesman extends MY_Controller {
 		'assets/plugins/datepicker/datepicker3.css',
 		'assets/plugins/select2/select2.min.css',
 		'assets/plugins/iCheck/all.css',
-		'assets/plugins/timepicker/bootstrap-timepicker.min.css'
+		'assets/plugins/timepicker/bootstrap-timepicker.min.css',
+		'assets/css/browse_style.css',
 		);
 		$data['script']=array
 		(
+        'assets/js/jquery.form.js',
 		'assets/plugins/jQuerySteps/jquery.steps.min.js',
         'assets/js/moment.min.js',
 		'assets/plugins/input-mask/jquery.inputmask.js',
@@ -54,12 +57,12 @@ class Salesman extends MY_Controller {
 		'assets/plugins/datepicker/bootstrap-datepicker.js',
 		'assets/plugins/select2/select2.full.min.js',
 		'assets/plugins/iCheck/icheck.min.js',
-        'assets/js/program_sched.js'
+        'assets/js/program_sched.js',
 		);
 		$data['page_description']='View Available Schedules';
 
-		$data['treeActive'] = 'program_schedule';
-		$data['childActive'] = 'place_ad_order' ;
+		$data['treeActive'] = 'ads_management';
+        $data['childActive'] = 'browse_ad_orders' ;
 
 		//REGION
 		$region_data = $this->Region->show_Region();
@@ -103,12 +106,16 @@ class Salesman extends MY_Controller {
 		$route_data = $this->Route->show_Route();
 		$data['route'] = array();
 		foreach ($route_data as $rows) {
+			$city_from = $this->Location->edit($rows['location_from']);
+			$city_to = $this->Location->edit($rows['location_to']);
 			array_push($data['route'],
 				array(
 					$rows['route_id'],
 					$rows['route_name'],
-					$rows['location_from'],
-					$rows['location_to'],
+					$city_from['city_id'],
+					$city_to['city_id'],
+					// $rows['location_from'],
+					// $rows['location_to'],
 				)
 			);
 		}
@@ -157,6 +164,17 @@ class Salesman extends MY_Controller {
 				array(
 					$rows['sales_id'],
 					$rows['sales_fname']." ".$rows['sales_lname'],
+				)
+			);
+		}
+		
+		$agency_data = $this->Agency->read();
+		$data['agency'] = array();
+		foreach ($agency_data as $rows) {
+			array_push($data['agency'],
+				array(
+					$rows['agency_id'],
+					$rows['agency_name'],
 				)
 			);
 		}
@@ -266,7 +284,6 @@ class Salesman extends MY_Controller {
 			array('field'=>'tslots_selected','label'=>'Timeslots','rules'=>'trim|required'),
 			array('field'=>'advertiser_id','label'=>'Advertiser','rules'=>'trim|required'),
 			array('field'=>'ad_duration','label'=>'Ad Duration','rules'=>'trim|required'),
-			array('field'=>'times_repeat','label'=>'Repeat Times','rules'=>'trim|required'),
 			array('field'=>'sales_id','label'=>'Salesman','rules'=>'trim|required'),
 			array('field'=>'display_type','label'=>'Display Type','rules'=>'trim|required'),
 		);
@@ -337,7 +354,8 @@ class Salesman extends MY_Controller {
 					'tslot_id'=>$row,
 					'display_type'=>$display_type,
 					'win_123'=>$win_123,
-					'times_repeat'=>$this->input->post('times_repeat'),
+					// 'times_repeat'=>$this->input->post('times_repeat'),
+					'times_repeat'=>$this->input->post('time-'.(string)$row),
 				);
 				$this->Tslot->create($tslot);
 			}

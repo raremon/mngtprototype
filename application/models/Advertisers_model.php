@@ -70,7 +70,7 @@
 		public function save_Advertiser($data)
 		{
 			$this->db->insert('advertisers', $data);
-			return TRUE;
+			return $this->db->insert_id();
 		}
 
 		// R E A D

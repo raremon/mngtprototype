@@ -120,7 +120,8 @@ class Advertisers extends MY_Controller {
 					'advertiser_image'=> str_replace(' ', '_', preg_replace("/ {2,}/", " ", $config['file_name'].".".$ext) ),
 					'advertiser_description'=>$this->input->post('advertiser_description-add'),
 				);
-				$this->Advertiser->save_Advertiser($data);
+				$info['id'] = $this->Advertiser->save_Advertiser($data);
+				$info['name'] = $data['advertiser_name'];
 				$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['advertiser_name']."</span>!</p>";
 			}
 		}

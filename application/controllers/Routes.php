@@ -171,7 +171,8 @@ class Routes extends MY_Controller {
 				'location_from'=>$this->input->post('location_from'),
 				'location_to'=>$this->input->post('location_to'),
 			);
-			$this->Route->save_Route($data);
+			$info['id'] = $this->Route->save_Route($data);
+			$info['name'] = $data['route_name'];
 			$info['message']="You have successfully saved your data!";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));

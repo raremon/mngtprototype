@@ -29,7 +29,7 @@ class Routes_model extends CI_Model
 	public function save_Route($data)
 	{
 		$this->db->insert('routes', $data);
-		return TRUE;
+		return $this->db->insert_id();
 	}
 
 	// R E A D
