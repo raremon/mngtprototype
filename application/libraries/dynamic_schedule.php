@@ -35,11 +35,7 @@ class Dynamic_schedule {
 		$rundown = array();
 		$i = $this->totalSecs;
 		$x = 0;
-		while($i > 0) {
-			if($i > 3000) {
-				
-			}
-			
+		while($i > 0) {			
 			if($ads[$x]['display_type'] == 1) {
 				if($ads[$x]['repeatCount'] < $ads[$x]['times_repeat']) {
 					$ads[$x]['repeatCount'] = $ads[$x]['repeatCount'] + 1;
@@ -123,10 +119,151 @@ class Dynamic_schedule {
 		return $rundown;
 	}
 	
-	private function generateFirstFill() {
-		
-	}
+	public function generateAdHourV2($timeslot, $month = null, $day = null, $route = null) {
+		$this->CI->load->model('nschedules_model');
 
+		// get the ads based on status, timeslot and route ID
+		$where = array('status' => 0, 'timeslot' => $timeslot, 'route_id'=>$route);
+		$adDate = date('Y').'-'.$month.'-'.$day;
+		$ads = $this->CI->nschedules_model->getSchedules($where, $adDate);
+		
+		// fill up the airtime per advertisement
+		$count = count($ads);
+		for($i = 0; $i < $count; $i++) {
+			log_message('info', 'start filling ad airtime for = '.$ads[$i]['ad_id']);
+			$ads[$i]['totalAirTime'] = $this->provideAirtime((int)$ads[$i]['ad_duration']);
+			$ads[$i]['totalLogoAirtime'] = $ads[$i]['totalAirTime'] - (int)$ads[$i]['ad_duration'];
+			$ads[$i]['repeatCount'] = (int) 0;
+		}
+
+		$fillerFlag = $this->checkAdTotalAir($ads);
+
+		$rundown = array();
+		$i = $this->totalSecs;
+		$x = 0;
+		while($i > 0) {
+			if(isset($ads[$x]) && $ads[$x]['repeatCount'] < $ads[$x]['times_repeat']) {
+				$ads[$x]['repeatCount'] = $ads[$x]['repeatCount'] + 1;
+				$rundown[] = $ads[$x];
+				$i -= $ads[$x]['totalAirTime'];
+			}
+
+			$j = $i;
+			$filler = $this->getFiller();
+			$j = $j - $filler['totalAirTime'];
+			
+			if($j > 0) {
+				$i -= $filler['totalAirTime'];
+				$filler['timeslot'] = $timeslot;
+				$rundown[] = $filler;
+			} else {
+				break;
+			}
+			
+			$x++;
+			
+			if($x == $count)
+				$x = 0;
+		}
+		
+		return $this->formatRundown($rundown, $route);
+	}
+	
+	private function formatRundown(&$rundown, $routeId) {
+		$this->CI->load->model('orders_model');
+		
+		$count = count($rundown);
+		$finalOutput = array();
+		for($i = 0; $i < $count; $i++) {
+			if(isset($rundown[$i]['order_id']) && $rundown[$i]['order_id'] > 0)
+				$advertiser = $this->CI->orders_model->getAdvertiser($rundown[$i]['order_id']);
+			else
+				$advertiser = 0;
+			
+			$finalOutput[] = array (
+				0,
+                0,
+                (isset($rundown[$i]['ad_name']) ? $rundown[$i]['ad_name'] : $rundown[$i]['filler_title']),
+                (isset($rundown[$i]['paid_duration']) ? $rundown[$i]['paid_duration'] : 0),
+                $rundown[$i]['totalAirTime'],
+                (isset($rundown[$i]['filler_id']) ? 'filler' : 'ad'),
+                $routeId,
+                $advertiser
+			);
+		}
+		
+		debug($finalOutput, true);
+		
+		return $rundown;
+	} 
+	
+	public function programListing($id, $month, $day, $year)
+        {
+            $date_from_user = $year.'-'.$month.'-'.$day;
+			$date_start;
+			$date_end;
+
+            $table = $this->Playlist->getTimeslot($id);
+			$data = array();
+			foreach ($table as $rows) {
+				$content_name = "";
+				$content_duration = "";
+
+                if($rows['content_type'] == 'ad')
+                {
+                	$ad_data = $this->Ad->edit_Ad_Data($rows['content_id']);
+                	$content_name = $ad_data['ad_name'];
+                	$content_duration = $ad_data['ad_duration'];
+				}
+				else if($rows['content_type'] == 'filler')
+                {
+                	$filler_data = $this->Filler->edit_Filler($rows['content_id']);
+                	$content_name = $filler_data['filler_title'];
+                	$content_duration = $filler_data['filler_duration'];
+				}
+				$date_start = $rows['date_start'];
+				$date_end = $rows['date_end'];
+				if($date_end == NULL)
+				{
+					$date_end = $date_start;
+				}
+				if($this->check_in_range($date_start, $date_end, $date_from_user))
+				{
+				$ggez = $this->check_in_range($date_start, $date_end, $date_from_user);
+                    array_push($data,
+                        array(
+                            $rows['play_order'],
+                        	$rows['play_id'],
+                            $content_name,
+                            $content_duration,
+                            $rows['duration'],
+                            $rows['content_type'],
+                            $rows['route_id'],
+                            $advertiser,
+                        )
+                    );
+               }
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
+        }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private function checkAdTotalAir($ads) {
 		$total = 0;
 		log_message('info', 'check total start');
@@ -195,7 +332,7 @@ class Dynamic_schedule {
 
 				log_message('debug', '60 length = '.$length);
 				log_message('debug', '60 total length = '.$totalAdLength);
-			} else
+			} 
 
 			if($length <= 45 && $length > 30) {
 				$length -= 45;
@@ -203,7 +340,7 @@ class Dynamic_schedule {
 
 				log_message('debug', '45 length = '.$length);
 				log_message('debug', '45 total length = '.$totalAdLength);
-			} else
+			} 
 
 			if($length <= 30 && $length > 15) {
 				$length -= 30;
@@ -211,15 +348,23 @@ class Dynamic_schedule {
 
 				log_message('debug', '30 length = '.$length);
 				log_message('debug', '30 total length = '.$totalAdLength);
-			} else
-
-			{
+			} 
+			
+			if($length <= 15 && $length > 30 && $length >= 10) {
 				$length -= 15;
 				$totalAdLength += 15;
 
 				log_message('debug', '15 length = '.$length);
 				log_message('debug', '15 total length = '.$totalAdLength);
 			}
+			
+			if($length <= 10 && $length > 0){
+ 				$totalAdLength += 10;
+ 				$length = 0;
+ 
+ 				log_message('debug', '10 length = '.$length);
+ 				log_message('debug', '10 total length = '.$totalAdLength);
+ 			}
 		}
 
 		return $totalAdLength;
