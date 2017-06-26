@@ -19,10 +19,37 @@ class MValidate extends REST_Controller
 		if( isset($data['user']) && isset($data['pass']) )
 		{
 			// Goes to ad owner model to validate username and password
+			$result = $this->Owner_Accounts->login_mobile($data);
+			
+			// If no account is found
+			if($result == -1)
+			{
+				// Goes to users model to validate username and password
+				$result = $this->Users->login_mobile($data);
+			}
+		}
+		else
+		{
+			// If direct controller access
+			$result = -1;
+		}
+		// Returns an object or -1
+		$this->response($result);	
+	}
+	
+	public function validate_post()
+	{
+		/* JSON method to authenticate ad owner, salesman, or manager in Android app */
+		// http://[::1]/star8/api/MValidate/validate
+		
+		$data = $this->post();
+		if( isset($data['user']) && isset($data['pass']) )
+		{
+			// Goes to ad owner model to validate username and password
 			$result = $this->Owner_Accounts->validate_mobile($data);
 			
 			// If no account is found
-			if($result == -2)
+			if($result == -1)
 			{
 				// Goes to users model to validate username and password
 				$result = $this->Users->validate_mobile($data);
@@ -50,14 +77,8 @@ class MValidate extends REST_Controller
 		}
 		else if(isset($data['user_id']) && isset($data['user_name']) && isset($data['user_password']))
 		{
-			if($data['user_type'] == 2){
-				// Goes to model to update salesman login status
-				$response = $this->Users->logout_mobile($data);
-			}			
-			else{
-				// If direct user access
-				$response = -1;
-			}
+			// Goes to model to update salesman or manager login status
+			$response = $this->Users->logout_mobile($data);
 		}
 		else
 		{
