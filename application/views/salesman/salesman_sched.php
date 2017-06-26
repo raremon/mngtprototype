@@ -258,7 +258,7 @@
               <table id="morning-table" class="table table-hover" width="100%">
                 <thead>
                   <tr>
-                    <th><input id="all-morning-box" type="checkbox" class="flat-grey">Morning</th>
+                    <th><input id="all-morning-box" type="checkbox" class="flat-grey">AM</th>
                     <th>Time</th>
                     <th>Availability</th>
                     <th>Times Repeat</th>
@@ -272,7 +272,7 @@
               <table id="afternoon-table" class="table table-hover" width="100%">
                 <thead>
                   <tr>
-                    <th><input id="all-afternoon-box" type="checkbox" class="flat-grey">Afternoon</th>
+                    <th><input id="all-afternoon-box" type="checkbox" class="flat-grey">PM</th>
                     <th>Time</th>
                     <th>Availability</th>
                     <th>Times Repeat</th>
@@ -286,7 +286,7 @@
               <table id="evening-table" class="table table-hover" width="100%">
                 <thead>
                   <tr>
-                    <th><input id="all-evening-box" type="checkbox" class="flat-grey">Evening</th>
+                    <th><input id="all-evening-box" type="checkbox" class="flat-grey">EVE</th>
                     <th>Time</th>
                     <th>Availability</th>
                     <th>Times Repeat</th>

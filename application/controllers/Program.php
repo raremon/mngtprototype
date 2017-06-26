@@ -215,6 +215,7 @@
 						$rows['order_id'],
 						$advertiser['advertiser_name'],
 						$order_date->format('M / d / Y'),
+						date('m/d/Y', strtotime($rows['date_start'])).' - '.date('m/d/Y', strtotime($rows['date_end'])),
 						'<button type="button" class="btn btn-success" onclick="openModal('."'".$rows['order_id']."'".')">Manage Order</button>',
 					)
 				);

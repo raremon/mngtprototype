@@ -284,7 +284,7 @@
                   </ul>
                 </li>
 
-  	            <li id="e_payment"><a href="javascript:void(0)"><i class="fa fa-money"></i> <span>E-Payment</span></a></li>				
+  	            <!--<li id="e_payment"><a href="javascript:void(0)"><i class="fa fa-money"></i> <span>E-Payment</span></a></li>	-->			
                 
                 <li id="settings" class="treeview">
                   <a href="#"><i class="fa fa-gear"></i> <span>Settings</span>
