@@ -238,18 +238,17 @@
 
                 <li id="dashboard"><a href="<?php echo base_url('dashboard') ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
                   
-                <li id="ad_orders" class="treeview">
+                <!--<li id="ad_orders" class="treeview">
         					<a href="#"><i class="fa fa-list-ul"></i> <span>Ad Orders</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>					
         					</a>
                   <ul class="treeview-menu">
-                    <!--<li id="upload_new_ad"><a href="<?php echo base_url('ads_mngt/upload') ?>">Upload New Ad</a></li>-->
                     <li id="browse_ad_orders"><a href="<?php echo base_url('program/browseOrder') ?>">Browse Ad Orders</a></li>
                     <li id="place_ad_orders"><a href="<?php echo base_url('salesman/schedules') ?>">Place Ad Orders</a></li>
                   </ul>				
-               </li>
+               </li>-->
         
                 <li id="ads_management" class="treeview">
         					<a href="#"><i class="fa fa-file-movie-o"></i> <span>Ads Management</span>
@@ -258,6 +257,7 @@
                     </span>					
         					</a>
                   <ul class="treeview-menu">
+                    <li id="browse_ad_orders"><a href="<?php echo base_url('program/browseOrder') ?>">Ad Orders</a></li>				  
                     <!--<li id="upload_new_ad"><a href="<?php echo base_url('ads_mngt/upload') ?>">Upload New Ad</a></li>-->
                     <li id="browse_ads"><a href="<?php echo base_url('ads_mngt/browse') ?>">Ads</a></li>
                     <!-- <li id="ad_report"><a href="<?php echo base_url('ads_mngt/report') ?>">Ad Report</a></li> -->
