@@ -174,13 +174,14 @@ class Dynamic_schedule {
 		
 		$count = count($rundown);
 		$finalOutput = array();
+		
 		for($i = 0; $i < $count; $i++) {
 			if(isset($rundown[$i]['order_id']) && $rundown[$i]['order_id'] > 0)
 				$advertiser = $this->CI->orders_model->getAdvertiser($rundown[$i]['order_id']);
 			else
 				$advertiser = 0;
 			
-			$finalOutput[] = array (
+			$finalOutput['data'][] = array (
 				0,
                 0,
                 (isset($rundown[$i]['ad_name']) ? $rundown[$i]['ad_name'] : $rundown[$i]['filler_title']),
@@ -191,78 +192,9 @@ class Dynamic_schedule {
                 $advertiser
 			);
 		}
-		
-		debug($finalOutput, true);
-		
-		return $rundown;
-	} 
-	
-	public function programListing($id, $month, $day, $year)
-        {
-            $date_from_user = $year.'-'.$month.'-'.$day;
-			$date_start;
-			$date_end;
 
-            $table = $this->Playlist->getTimeslot($id);
-			$data = array();
-			foreach ($table as $rows) {
-				$content_name = "";
-				$content_duration = "";
-
-                if($rows['content_type'] == 'ad')
-                {
-                	$ad_data = $this->Ad->edit_Ad_Data($rows['content_id']);
-                	$content_name = $ad_data['ad_name'];
-                	$content_duration = $ad_data['ad_duration'];
-				}
-				else if($rows['content_type'] == 'filler')
-                {
-                	$filler_data = $this->Filler->edit_Filler($rows['content_id']);
-                	$content_name = $filler_data['filler_title'];
-                	$content_duration = $filler_data['filler_duration'];
-				}
-				$date_start = $rows['date_start'];
-				$date_end = $rows['date_end'];
-				if($date_end == NULL)
-				{
-					$date_end = $date_start;
-				}
-				if($this->check_in_range($date_start, $date_end, $date_from_user))
-				{
-				$ggez = $this->check_in_range($date_start, $date_end, $date_from_user);
-                    array_push($data,
-                        array(
-                            $rows['play_order'],
-                        	$rows['play_id'],
-                            $content_name,
-                            $content_duration,
-                            $rows['duration'],
-                            $rows['content_type'],
-                            $rows['route_id'],
-                            $advertiser,
-                        )
-                    );
-               }
-			}
-			$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
-        }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		return $finalOutput;
+	}
 	
 	private function checkAdTotalAir($ads) {
 		$total = 0;
