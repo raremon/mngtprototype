@@ -392,8 +392,10 @@
 				foreach ($selected_tslot as $rows) {
 					$this->Tslot->deleteTslot($this->input->post('order_id'), $rows);
 				}
-				$this->generate_list($data['order_id']);
+				
 				$this->assignNewSchedule($data['order_id']);
+				$this->generate_list($data['order_id']);	
+				
 				$info['message']="<p class='success-message'>You have successfully approved <span class='message-name'>Order Number ".$this->input->post('order_id')."</span>!</p>";
 			}
 
@@ -440,6 +442,7 @@
 			$details = $this->nschedules_model->getSchedules($where);
 			$schedule = $this->auto_schedule->auto($details);
 		}
+		
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
 		///////////////////////////////////////////////////////////////////////////////////////////////////
