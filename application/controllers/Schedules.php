@@ -147,18 +147,12 @@ class Schedules extends MY_Controller {
 	
 	public function generate_list($order_id){
 		
-		// echo $order_id;
-		// exit;
-		
 		$this->load->library("auto_schedule");
 				
 		$this->load->model('nschedules_model');
 		$where = array('order_id'=>$order_id);
 		
 		$details = $this->nschedules_model->getSchedules($where);
-		
-		// print_r($details);
-		// exit;
 		
 		$schedule = $this->auto_schedule->auto($details);
 		
