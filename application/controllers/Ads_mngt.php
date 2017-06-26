@@ -265,8 +265,8 @@
 							</div>
 						',
 
-						'<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="edit_ad('."'".$rows['ad_id']."'".')">Edit</a>'.
-						'<a href="javascript:void(0)" class="btn btn-danger btn-sm pull-right" onclick="delete_ad('."'".$rows['ad_id']."'".')">Delete</a>'
+						'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_ad('."'".$rows['ad_id']."'".')">Edit</a>'.
+						'<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_ad('."'".$rows['ad_id']."'".')">Delete</a>'
 
 					)
 				);

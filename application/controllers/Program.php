@@ -161,7 +161,7 @@
             $data['page_description'] = 'Ad Orders Management';
             $data['breadcrumbs']=array
             (
-                array('Browse Approve Ad Order','program/browseOrder'),
+                array('Browse Ad Orders','program/browseOrder'),
             );
             $data['css']=array
             (
@@ -192,8 +192,8 @@
 					)
 				);
 			}
-            $data['treeActive'] = 'program_schedule';
-            $data['childActive'] = 'browse_approve_ad' ;
+            $data['treeActive'] = 'ad_orders';
+            $data['childActive'] = 'browse_ad_orders' ;
 
             $this->load->view("template/header", $data);
             $this->load->view("program/browse_approve_ad", $data);
@@ -215,6 +215,7 @@
 						$rows['order_id'],
 						$advertiser['advertiser_name'],
 						$order_date->format('M / d / Y'),
+						date('m/d/Y', strtotime($rows['date_start'])).' - '.date('m/d/Y', strtotime($rows['date_end'])),
 						'<button type="button" class="btn btn-success" onclick="openModal('."'".$rows['order_id']."'".')">Manage Order</button>',
 					)
 				);
@@ -391,8 +392,10 @@
 				foreach ($selected_tslot as $rows) {
 					$this->Tslot->deleteTslot($this->input->post('order_id'), $rows);
 				}
+				
 				$this->assignNewSchedule($data['order_id']);
-				$this->generate_list($data['order_id']);
+				$this->generate_list($data['order_id']);	
+				
 				$info['message']="<p class='success-message'>You have successfully approved <span class='message-name'>Order Number ".$this->input->post('order_id')."</span>!</p>";
 			}
 
@@ -427,17 +430,19 @@
 						'order_id'=>$order_id,
 						'status'=>0,
 					);
-					$this->nSched->create($data);
+					$id = $this->nSched->create($data);
         		}
         	}
         	return TRUE;
         }
         public function generate_list($order_id){
 			$this->load->library("auto_schedule");
+			$this->load->model("nschedules_model");
 			$where = array('order_id'=>$order_id);
-			$details = $this->nSched->getSchedules($where);
+			$details = $this->nschedules_model->getSchedules($where);
 			$schedule = $this->auto_schedule->auto($details);
 		}
+		
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
 		///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -743,6 +748,7 @@
 				{
 					$date_start = $this->Order->getDateStart($cols['order_id']);
 					$date_end = $this->Order->getDateEnd($cols['order_id']);
+
 					if($date_end == NULL)
 					{
 						$date_end = $date_start;
@@ -752,12 +758,44 @@
 						$orders = $orders + $this->Order->countAds($cols['order_id']);
 					}
 				}
+				$ad = 0;
+				$filler = 0;
+				$programs = $this->Playlist->getTimeslot($rows['tslot_id']);
+				foreach($programs as $cols)
+				{
+					$date_start = $cols['date_start'];
+					$date_end = $cols['date_end'];
 
+					if($date_end == NULL)
+					{
+						$date_end = $date_start;
+					}
+					if($this->check_in_range($date_start, $date_end, $date_from_user))
+					{
+						if($cols['content_type'] == 'ad')
+						{
+							$ad = $ad+1;
+						}
+						else
+						{
+							$filler = $filler+1;
+						}
+					}
+				}
+				$adPercent = round(($ad/($ad+$filler))*100, 2);
+				if(!$adPercent){$adPercent='No Ads';}
+				else{$adPercent = $adPercent.'%';}
+				$fillerPercent = round(($filler/($ad+$filler))*100, 2);
+				if(!$fillerPercent){$fillerPercent='No Filler/ Content';}
+				else{$fillerPercent = $fillerPercent.'%';}
 				array_push($data,
 					array(
                         $rows['tslot_id'],
 						$rows['tslot_time'],
 						$orders,
+						$ad,
+						$adPercent,
+						$fillerPercent,
 					)
 				);
 			}
@@ -788,11 +826,44 @@
 					}
 				}
 
+				$ad = 0;
+				$filler = 0;
+				$programs = $this->Playlist->getTimeslot($rows['tslot_id']);
+				foreach($programs as $cols)
+				{
+					$date_start = $cols['date_start'];
+					$date_end = $cols['date_end'];
+
+					if($date_end == NULL)
+					{
+						$date_end = $date_start;
+					}
+					if($this->check_in_range($date_start, $date_end, $date_from_user))
+					{
+						if($cols['content_type'] == 'ad')
+						{
+							$ad = $ad+1;
+						}
+						else
+						{
+							$filler = $filler+1;
+						}
+					}
+				}
+				$adPercent = round(($ad/($ad+$filler))*100, 2);
+				if(!$adPercent){$adPercent='No Ads';}
+				else{$adPercent = $adPercent.'%';}
+				$fillerPercent = round(($filler/($ad+$filler))*100, 2);
+				if(!$fillerPercent){$fillerPercent='No Filler/ Content';}
+				else{$fillerPercent = $fillerPercent.'%';}
 				array_push($data,
 					array(
-						$rows['tslot_id'],
-                        $rows['tslot_time'],
+                        $rows['tslot_id'],
+						$rows['tslot_time'],
 						$orders,
+						$ad,
+						$adPercent,
+						$fillerPercent,
 					)
 				);
 			}
@@ -823,11 +894,44 @@
 					}
 				}
 
+				$ad = 0;
+				$filler = 0;
+				$programs = $this->Playlist->getTimeslot($rows['tslot_id']);
+				foreach($programs as $cols)
+				{
+					$date_start = $cols['date_start'];
+					$date_end = $cols['date_end'];
+
+					if($date_end == NULL)
+					{
+						$date_end = $date_start;
+					}
+					if($this->check_in_range($date_start, $date_end, $date_from_user))
+					{
+						if($cols['content_type'] == 'ad')
+						{
+							$ad = $ad+1;
+						}
+						else
+						{
+							$filler = $filler+1;
+						}
+					}
+				}
+				$adPercent = round(($ad/($ad+$filler))*100, 2);
+				if(!$adPercent){$adPercent='No Ads';}
+				else{$adPercent = $adPercent.'%';}
+				$fillerPercent = round(($filler/($ad+$filler))*100, 2);
+				if(!$fillerPercent){$fillerPercent='No Filler/ Content';}
+				else{$fillerPercent = $fillerPercent.'%';}
 				array_push($data,
 					array(
-						$rows['tslot_id'],
-                        $rows['tslot_time'],
+                        $rows['tslot_id'],
+						$rows['tslot_time'],
 						$orders,
+						$ad,
+						$adPercent,
+						$fillerPercent,
 					)
 				);
 			}

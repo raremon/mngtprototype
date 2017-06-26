@@ -276,11 +276,13 @@
                         <th>Order ID</th>
                         <th>Advertiser</th>
                         <th>Date Created</th>
+                        <th>Air Duration</th>
                         <th>Manage Order</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

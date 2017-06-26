@@ -1,79 +1,87 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
 	class Tvs_model extends CI_Model 
 	{
 		private $table = "tvs";
-
+		private $query = "tv_id, tv_serial, tv_description, tv_status, assigned_to, created_at";
+		private $id = "tv_id";
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
-		// C R E A T E
-		public function save_Tv($data)
+		public function create($data)
 		{
 			$this->db->insert($this->table, $data);
-			return TRUE;
+			return $this->db->insert_id();
 		}
-
-		// R E A D
-		public function show_Tv()
+		public function read()
 		{
-			$this->db->select("tv_id, tv_serial, tv_description, created_at");
+			$this->db->select($this->query.",SUBSTRING_INDEX(tv_description,' ',15) AS info");
 			$this->db->from($this->table);
 			$query=$this->db->get();
 			return $query->result_array();
 		}
-		
-		public function find_Tv()
+		public function find()
 		{
-			$this->db->select("tv_id, tv_serial");
+			$this->db->select($this->query);
 			$this->db->from($this->table);
 			$this->db->where('assigned_to', NULL);
+			$this->db->where('tv_status', true);
 			$query=$this->db->get();
 			return $query->result_array();
 		}
-
-		// U P D A T E
-		public function edit_Tv($tv_id)
+		public function edit($id)
 		{
-			$this->db->select("tv_id, tv_serial, tv_description");
+			$this->db->select($this->query);
 			$this->db->from($this->table);
-			$this->db->where('tv_id', $tv_id);
+			$this->db->where($this->id, $id);
 			$query = $this->db->get();
 			return $query->row_array();
 		}
-
-		public function update_Tv($data)
+		public function toggle_Status($data)
 		{
-			$this->db->where(array('tv_id'=>$data['tv_id']));
+			$this->db->select('tv_status');
+			$this->db->from($this->table);
+			$this->db->where(array($this->id=>$data['tv_id']));
+			$query = $this->db->get();
+			$status = $query->row_array();
+			if( $status['tv_status'] )
+			{
+				$this->db->where(array($this->id=>$data['tv_id']));
+				$this->db->update($this->table, array('tv_status'=>false));
+				return 'turned off';
+			}
+			else
+			{
+				$this->db->where(array($this->id=>$data['tv_id']));
+				$this->db->update($this->table, array('tv_status'=>true));
+				return 'turned on';
+			}
+		}
+		public function update($data)
+		{
+			$this->db->where(array($this->id=>$data['tv_id']));
 			$this->db->update($this->table, $data);
 			return TRUE;
 		}
-
-		public function assign_Media($media_id, $tv_id)
+		public function assign($media_id, $id)
 		{
-				$this->db->where(array('tv_id'=>$tv_id));
-				$this->db->update($this->table, array('assigned_to'=>$media_id));
-				return TRUE;
+			$this->db->where(array($this->id=>$id));
+			$this->db->update($this->table, array('assigned_to'=>$media_id));
+			return TRUE;
 		}
-
-		public function unassign_Media($media_id, $tv_id)
+		public function unassign($media_id, $id)
 		{
-				$this->db->where(array('tv_id'=>$tv_id));
-				$this->db->update($this->table, array('assigned_to'=>NULL));
-				return TRUE;
+			$this->db->where(array($this->id=>$id));
+			$this->db->update($this->table, array('assigned_to'=>NULL));
+			return TRUE;
 		}
-
-		// D E L E T E
-		public function delete_Tv($data)
+		public function delete($data)
 		{
-			$this->db->where(array('tv_id'=>$data['tv_id']));
+			$this->db->where(array($this->id=>$data['tv_id']));
 			$this->db->delete($this->table);
 			return TRUE;
 		}
 		////////////////////////////////////////////////////////////////
 		// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 		////////////////////////////////////////////////////////////////		
-
 	}
-
-// END OF TV MODEL
+// END OF TVS MODEL

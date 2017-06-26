@@ -1,3 +1,87 @@
+<div class="modal fade" id="advertiser-image" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" id="advertiser-img" style='border-radius: 50%; width: 600px; height: 600px; border: 15px solid #339440;'>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="advertiser-add" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <?php echo form_open_multipart('advertisers/saveAdvertiser', array('id'=>'advertiser-add-form')); ?>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Advertiser Details</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="container-fluid">
+            <div class="col-md-12">
+              <div id="advertiser-message-add"></div>
+                <div class="form-group">
+                  <label>Agency</label>
+                  <select name="agency_id-add" class="form-control select2">
+                    <?php 
+                      foreach($agency as $row)
+                      {
+                    ?>
+                      <option value= <?php echo $row[0];?> >
+                        <?php echo $row[1]; ?>
+                      </option>
+                    <?php 
+                      }
+                    ?>
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('agencies/browse') ?>">Browse Agencies</a>
+                </div>
+                <div class="form-group">
+                  <label>Advertiser Name</label>
+                  <input type="text" name="advertiser_name-add" class="form-control" placeholder="Enter Name"/>
+                </div>
+                <div class="form-group">
+                  <label>Company Address</label>
+                  <input type="text" name="advertiser_address-add" class="form-control" placeholder="Enter Address"/>
+                </div>
+                <div class="form-group">
+                  <label>Contact Information</label>
+                  <input type="text" name="advertiser_contact-add" class="form-control" placeholder="Enter Contact Information"/>
+                </div>
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <input type="text" name="advertiser_email-add" class="form-control" placeholder="Enter Email Address"/>
+                </div>
+                <div class="form-group">
+                  <label>Company Website</label>
+                  <input type="text" name="advertiser_website-add" class="form-control" placeholder="Enter Company Website"/>
+                </div>
+                <div class="form-group">
+                  <label>Company Logo</label>
+                  <input name="image_file" id="image_file" type="file" class="file">
+                  <div class="input-group col-xs-12">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-camera"></i></span>
+                    <input type="text" class="form-control input-md" disabled placeholder="Upload Image">
+                    <input name="advertiser_image-add" type="text" class="form-control input-md hidden">
+                    <span class="input-group-btn">
+                      <button class="browse btn btn-success input-md" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                    </span>
+                  </div>
+                  <img id="loading_img" src="<?php echo base_url('assets/public/loading.gif') ?>" class="hidden">
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea name="advertiser_description-add" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
+                </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary save">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    <?php echo form_close(); ?>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="advertiser-box" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -13,6 +97,22 @@
               <?php echo form_open('welcome', array('id'=>'advertiser')); ?>
                 <div class="form-group hidden">
                   <input type="text" name="advertiser_id" class="form-control"/>
+                </div>
+                <div class="form-group">
+                  <label>Agency</label>
+                  <select name="agency_id" class="form-control select2">
+                    <?php 
+                      foreach($agency as $row)
+                      {
+                    ?>
+                      <option value= <?php echo $row[0];?> >
+                        <?php echo $row[1]; ?>
+                      </option>
+                    <?php 
+                      }
+                    ?>
+                  </select>
+                  <a class="btn btn-link pull-right" href="<?php echo site_url('agencies/browse') ?>">Browse Agencies</a>
                 </div>
                 <div class="form-group">
                   <label>Advertiser Name</label>
@@ -50,12 +150,43 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="ad-list" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Advertisements List</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="container-fluid">
+            <div class="col-md-12">
+              <table id="advertiser_ads" class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>NAME</th>
+                    <th>AD DURATION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div> 
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">Advertiser Data</h3>
     <div class="box-tools pull-right">
-        <a class="btn btn-link add-link" href="<?php echo base_url('advertisers/add') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>New Advertiser</a>
+      <a class="btn btn-link add-link" href="javascript:void(0);" data-toggle="modal" data-target="#advertiser-add"><i class="fa fa-plus-square-o">&nbsp;</i>New Advertiser</a>
     </div>
   </div>
   <div class="box-body">
@@ -70,6 +201,7 @@
                 <th>CONTACT DETAILS</th>
                 <th>EMAIL ADDRESS</th>
                 <th>COMPANY WEBSITE</th>
+                <th>AGENCY</th>
                 <th>DESCRIPTION</th>
                 <th></th>
               </tr>
@@ -84,10 +216,55 @@
   </div>
 </div>
 <script type="text/javascript">
+  $(document).on('click', '.browse', function(){
+    var file = $(this).parent().parent().parent().find('.file');
+    file.trigger('click');
+  });
+  $(document).on('change', '.file', function(){
+    $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+  });
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-  // R E A D
+  $(document).ready(function(){
+    $('#advertiser-add-form').on('submit', function(e){
+      e.preventDefault();
+      if($('#image_file').val() == '')
+      {
+        $('#advertiser-message-add').html("The file upload cannot be empty!").addClass('alert alert-danger');
+      }
+      else
+      {
+        $('#loading_img').removeClass('hidden');
+        $.ajax({
+          url: "<?php echo site_url('advertisers/saveAdvertiser') ?>",
+          method: 'POST',
+          data: new FormData(this),
+          contentType: false,
+          cache: false,
+          processData: false,
+          success:function(data) {
+            if(!data.success){
+              if(data.errors){
+                $(window).scrollTop(0);
+                $("#advertiser-message-add").fadeIn("slow");
+                $('#advertiser-message-add').html(data.errors).addClass('alert alert-danger');
+                $('#loading_img').addClass('hidden');
+                setTimeout(function() {
+                    $('#advertiser-message-add').fadeOut('slow');
+                }, 3000);
+              }
+            }else {
+              $('#loading_img').addClass('hidden');
+              $('#message-text').html(data.message);
+              $('#advertiser-add').modal('hide');
+              $('#successModal').modal('show');
+            }
+          }
+        });
+      }
+    });
+  });
   $("#advertiser_data").DataTable({
     "ajax":{
       "url":"<?php echo site_url('advertisers/showAdvertiser') ?>",
@@ -101,9 +278,31 @@
       null,
       null,
       null,
+      null,
     ]
   })
-  // U P D A T E
+  $("#advertiser_ads").DataTable({
+    "paging":   false,
+    "bFilter": false,
+  });
+  function show_image(image) {
+    var advertiserimg = "<?php echo base_url('assets/company_logo/'); ?>" + image;
+    $(window).scrollTop(0);
+    $("#advertiser-image").modal('show');
+    $("#advertiser-img").html("<img src='"+advertiserimg+"' class='img img-circle' style='border-radius: 50%; width: 580px; height: 580px; margin: -5px;'>");
+  }
+  function see_ad(ad_id) {
+    $(window).scrollTop(0);
+    $("#ad-list").modal('show');
+    $.get("<?php echo site_url('advertisers/getAds/"+ad_id+"') ?>", function(data){
+      var basic = $.map(data, function(el) { return el; });
+      $("#advertiser_ads").dataTable().fnClearTable();
+      if(basic.length > 0)
+      {
+        $("#advertiser_ads").dataTable().fnAddData(basic);
+      }
+    });
+  }
   function edit_advertiser(advertiser_id) {
     $(window).scrollTop(0);
     $("#advertiser-box").modal('show');
@@ -121,6 +320,7 @@
         $('input[name="advertiser_contact"]').val(data.advertiser_contact);
         $('input[name="advertiser_email"]').val(data.advertiser_email);
         $('input[name="advertiser_website"]').val(data.advertiser_website);
+        $('select[name="agency_id"]').val(data.agency_id);
         $('textarea[name="advertiser_description"]').val(data.advertiser_description);
       }
     })
@@ -148,8 +348,7 @@
       }
     })
   }
-  // D E L E T E
-function delete_advertiser(advertiser_id) {
+  function delete_advertiser(advertiser_id) {
     swal({
       title: 'Are you sure you want to delete?',
       text: "You cannot revert this action!",
@@ -180,10 +379,7 @@ function delete_advertiser(advertiser_id) {
               }, 3000);
             }
           }else {
-//            $('#message-text').html(data.message);
-//            $('#successModal').modal('show');
             swal({
-             //pede to ilagay sa success modal di ko mahanap kung saan
               title: data.message,
               type: 'success',
               confirmButtonText: 'Okay',
@@ -206,7 +402,6 @@ function delete_advertiser(advertiser_id) {
           confirmButtonClass: 'btn btn-default btn-fix',
           buttonsStyling: false,
           timer: 3000
-          
         })
       }
     })
