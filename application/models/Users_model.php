@@ -5,6 +5,11 @@
 		private $table = "users";
 		private $_data = array();
 
+		public function get_data()
+		{
+			return $this->_data;
+		}
+		
 		public function validate()
 		{
 			$username = $this->input->post('username');
@@ -36,50 +41,7 @@
 				return ERR_INVALID_USERNAME;
 			}
 		}
-
-		public function validate_mobile($data)
-		{
-			//retrieval of data from controller
-			$username = $data["user"];
-			$password = $data["pass"];
-			$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
-			
-			$this->db->where("user_name", $username);
-			$query = $this->db->get($this->table);
-			if ($query->num_rows()) 
-			{	
-				$row = $query->row_array();
-				// Checks the password
-				if ($row['user_password'] == sha1($password)) 
-				{
-					// Sets status to online after logging in
-					$row['is_online'] = true;
-					$row['user_lastlogin'] = $lastlogin->format('Y-m-d H:i:s');
-					$this->db->where("user_id", $row['user_id']);
-					$this->db->update( $this->table , $row);
-					
-					// Unsets the password from the array
-					unset($row['user_password']);
-					unset($password);
-					return $row;
-				}
-				else
-				{
-					// Passwords do not match
-					return -1;
-				}
-			}
-			else {
-				// Account not found
-				return -1;
-			}
-		}
-
-		public function get_data()
-		{
-			return $this->_data;
-		}
-
+		
 		public function logout()
 		{
 			// Get Current Time
@@ -98,30 +60,75 @@
 			return TRUE;
 		}
 		
-		public function logout_mobile($data)
+		// MOBILE APP FUNCTIONS
+		public function login_mobile($data)
 		{
-			// Get Current Time
 			$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
 			
+			$this->db->where("user_name", $data["user"]);
+			$this->db->where("user_password", sha1($data["pass"]));
+			$query = $this->db->get($this->table);
+			if ($query->num_rows()) 
+			{	
+				$row = $query->row_array();
+				
+				// Sets status to online after logging in
+				$row['is_online'] = true;
+				$row['user_lastlogin'] = $lastlogin->format('Y-m-d H:i:s');
+				$this->db->where("user_id", $row['user_id']);
+				$this->db->update( $this->table , $row);
+					
+				// Unsets the password from the array
+				unset($row['user_password']);
+				return $row;
+			}
+			else {
+				// Account not found
+				return -1;
+			}
+		}
+
+		public function validate_mobile($data)
+		{
+			$this->db->where("user_name", $data['user']);
+			$this->db->where("user_password", sha1($data['pass']));
+			$query = $this->db->get($this->table);
+			if ($query->num_rows()) 
+			{	
+				$row = $query->row_array();
+				unset($row['user_password']);
+				return $row;
+			}
+			else {
+				// Account not found
+				return -1;
+			}
+		}
+		
+		public function logout_mobile($data)
+		{
+			$data['user_password'] = sha1($data['user_password']);
 			// Find User in DB
 			$this->db->where("user_id", $data['user_id']);
 			$this->db->where("user_name", $data['user_name']);
-			$this->db->where("user_password", sha1($data['user_password']));
-			$this->db->where("user_role", 2);
-			$data=array('is_online'=>false,
-			'user_lastlogin'=>$lastlogin->format('Y-m-d H:i:s'),);
+			$this->db->where("user_password", $data['user_password']);
+			$data['is_online']     = false;
 			
 			// Update the Database then return a value
 			$this->db->update($this->table,$data);
 			if($this->db->affected_rows() > 0)
 			{
+				unset($data['user_password']);
 				return 1;
 			}
 			else
 			{
+				unset($data['user_password']);
 				return -1; 
 			}
 		}
+		// END OF MOBILE APP FUNCTIONS
+		
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
