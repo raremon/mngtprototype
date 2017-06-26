@@ -192,7 +192,7 @@
 					)
 				);
 			}
-            $data['treeActive'] = 'ads_management';
+            $data['treeActive'] = 'ad_orders';
             $data['childActive'] = 'browse_ad_orders' ;
 
             $this->load->view("template/header", $data);

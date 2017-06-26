@@ -95,8 +95,8 @@
         <div class="small-box quick-links">
           <div class="inner">
 
-            <p style="font-size:22px;">Schedule</p>
-            <p style="font-size:22px;">Availability</p>
+            <p style="font-size:22px;">Place Ad</p>
+            <p style="font-size:22px;">Order</p>
           </div>
           <div class="icon">
             <i class="ion ion-android-calendar"></i>

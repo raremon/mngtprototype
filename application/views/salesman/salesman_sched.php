@@ -260,7 +260,7 @@
                   <tr>
                     <th><input id="all-morning-box" type="checkbox" class="flat-grey">Morning</th>
                     <th>Time</th>
-                    <th>Availability</th>
+                    <th>Availa- bility</th>
                     <th>Times Repeat</th>
                   </tr>
                 </thead>
@@ -274,7 +274,7 @@
                   <tr>
                     <th><input id="all-afternoon-box" type="checkbox" class="flat-grey">Afternoon</th>
                     <th>Time</th>
-                    <th>Availability</th>
+                    <th>Availa- bility</th>
                     <th>Times Repeat</th>
                   </tr>
                 </thead>
@@ -288,7 +288,7 @@
                   <tr>
                     <th><input id="all-evening-box" type="checkbox" class="flat-grey">Evening</th>
                     <th>Time</th>
-                    <th>Availability</th>
+                    <th>Availa- bility</th>
                     <th>Times Repeat</th>
                   </tr>
                 </thead>
@@ -431,7 +431,6 @@
         input_region1.value = $( "#region_id option:selected" ).text();
         var input_city = document.getElementById('selected_city');
         input_city.value = $( "#city_id option:selected" ).text();
-          
       },
       onFinished: function (event, currentIndex)
       {
@@ -898,7 +897,11 @@
       timefilter();
     });
   }
-
+  function numberMask(txt)
+  {
+  		if (/\D/g.test(txt.value))
+      		txt.value = txt.value.replace(/\D/g, '');
+  }
   var amcheck = '';
   var pmcheck = '';
   var evecheck = '';
@@ -915,15 +918,15 @@
       }
       if(timeslot[a][2] == "am")
       {
-        amcheck = amcheck + '<tr><td><input id="tslot-'+timeslot[a][0]+'" name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat morning-box" onclick="selectTs('+timeslot[a][0]+')"></td><td>'+timeslot[a][1]+'</td><td>'+supert[a]+'%</td><td><div class="input-group"><input type="text" class="form-control" id="ad-frequency" name="time-'+timeslot[a][0]+'" readonly="readOnly"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></td></tr>';
+        amcheck = amcheck + '<tr><td><input id="tslot-'+timeslot[a][0]+'" name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat morning-box" onclick="selectTs('+timeslot[a][0]+')"></td><td>'+timeslot[a][1]+'</td><td>'+supert[a]+'%</td><td><div class="input-group"><input type="text" class="form-control" id="ad-frequency" onkeyup="numberMask(this)" name="time-'+timeslot[a][0]+'" readonly="readOnly"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></td></tr>';
       }
       else if(timeslot[a][2] == "pm")
       {
-        pmcheck = pmcheck + '<tr><td><input id="tslot-'+timeslot[a][0]+'" name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat afternoon-box" onclick="selectTs('+timeslot[a][0]+')"></td><td>'+timeslot[a][1]+'</td><td>'+supert[a]+'%</td><td><div class="input-group"><input type="text" class="form-control" id="ad-frequency" name="time-'+timeslot[a][0]+'" readonly="readOnly"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></td></tr>';
+        pmcheck = pmcheck + '<tr><td><input id="tslot-'+timeslot[a][0]+'" name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat afternoon-box" onclick="selectTs('+timeslot[a][0]+')"></td><td>'+timeslot[a][1]+'</td><td>'+supert[a]+'%</td><td><div class="input-group"><input type="text" class="form-control" id="ad-frequency" onkeyup="numberMask(this)" name="time-'+timeslot[a][0]+'" readonly="readOnly"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></td></tr>';
       }
       else if(timeslot[a][2] == "eve")
       {
-        evecheck = evecheck + '<tr><td><input id="tslot-'+timeslot[a][0]+'" name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat evening-box" onclick="selectTs('+timeslot[a][0]+')"></td><td>'+timeslot[a][1]+'</td><td>'+supert[a]+'%</td><td><div class="input-group"><input type="text" class="form-control" id="ad-frequency" name="time-'+timeslot[a][0]+'" readonly="readOnly"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></td></tr>';
+        evecheck = evecheck + '<tr><td><input id="tslot-'+timeslot[a][0]+'" name="tslot_id" value="'+timeslot[a][0]+'" type="checkbox" class="flat evening-box" onclick="selectTs('+timeslot[a][0]+')"></td><td>'+timeslot[a][1]+'</td><td>'+supert[a]+'%</td><td><div class="input-group"><input type="text" class="form-control" id="ad-frequency" onkeyup="numberMask(this)" name="time-'+timeslot[a][0]+'" readonly="readOnly"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></td></tr>';
       }
     }
     $('#morning-table tbody').html(amcheck);

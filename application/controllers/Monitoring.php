@@ -1,0 +1,156 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Monitoring extends MY_Controller {
+
+	// Constructor
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('users_model', 'User');
+		$this->load->model('roles_model', 'Role');
+
+		$this->load->model('routes_model', 'Route');
+		$this->load->model('locations_model', 'Location');
+		$this->load->model('cities_model', 'City');
+		$this->load->model('regions_model', 'Region');
+
+		$this->load->model('timeslots_model', 'Timeslot');
+
+		$this->load->model('advertisers_model', 'Advertiser');
+		$this->load->model('agencies_model', 'Agency');
+
+		$this->load->model('salesmen_model', 'Sales');
+		$this->load->model('orders_model', 'Order');
+		$this->load->model('order_slots_model', 'Tslot');
+		$this->load->model('order_routes_model', 'RouteOrder');
+        
+		$this->load->model('vehicles_model', 'Vehicle');
+		$this->load->model('vehicle_types_model', 'Vehicle_Type');
+	}
+			
+	public function view()
+	{
+		$data = array();
+		$data['role'] = $this->logged_out_check();
+		$data['title']='Live Monitoring';
+		$data['breadcrumbs']=array
+		(
+			array('Live Monitoring','deploy/deploys'),
+		);
+		$data['css']=array
+		(
+		'assets/plugins/jQuerySteps/jquery.steps.css',	
+        'assets/plugins/daterangepicker/daterangepicker.css',
+		'assets/plugins/datepicker/datepicker3.css',
+		'assets/plugins/select2/select2.min.css',
+		'assets/plugins/iCheck/all.css',
+		'assets/plugins/timepicker/bootstrap-timepicker.min.css',
+		'assets/css/browse_style.css',
+		);
+		$data['script']=array
+		(
+        'assets/js/jquery.form.js',
+		'assets/plugins/jQuerySteps/jquery.steps.min.js',
+        'assets/js/moment.min.js',
+		'assets/plugins/input-mask/jquery.inputmask.js',
+		'assets/plugins/input-mask/jquery.inputmask.date.extensions.js',
+		'assets/plugins/input-mask/jquery.inputmask.extensions.js',
+		'assets/plugins/daterangepicker/daterangepicker.js',
+		'assets/plugins/datepicker/bootstrap-datepicker.js',
+		'assets/plugins/select2/select2.full.min.js',
+		'assets/plugins/iCheck/icheck.min.js',
+        'assets/js/program_sched.js',
+		);
+		$data['page_description']='Monitor Active/Inactive Vehicles';
+        
+		$vehicle_type_data = $this->Vehicle_Type->read();
+		$data['types'] = array();
+		foreach ($vehicle_type_data as $rows) {
+			array_push($data['types'],
+				array(
+					$rows['vehicle_type_id'],
+					$rows['vehicle_type_name'],
+				)
+			);
+		}
+
+		$vehicle_data = $this->Vehicle->find_Vehicle();
+		$data['vehicles'] = array();
+		foreach ($vehicle_data as $rows) {
+			array_push($data['vehicles'],
+				array(
+					$rows['vehicle_id'],
+					$rows['vehicle_name'],
+					$rows['vehicle_type'],
+				)
+			);
+		}
+        
+		//ROUTE
+		$route_data = $this->Route->show_Route();
+		$data['route'] = array();
+		foreach ($route_data as $rows) {
+			$city_from = $this->Location->edit($rows['location_from']);
+			$city_to = $this->Location->edit($rows['location_to']);
+			array_push($data['route'],
+				array(
+					$rows['route_id'],
+					$rows['route_name'],
+					$city_from['city_id'],
+					$city_to['city_id'],
+					// $rows['location_from'],
+					// $rows['location_to'],
+				)
+			);
+		}
+        
+        		//REGION
+		$region_data = $this->Region->show_Region();
+		$data['region'] = array();
+		foreach ($region_data as $rows) {
+			array_push($data['region'],
+				array(
+					$rows['region_id'],
+					$rows['region_abbr']." : ".$rows['region_name'],
+				)
+			);
+		}
+
+		//CITY
+		$city_data = $this->City->show_City();
+		$data['city'] = array();
+		foreach ($city_data as $rows) {
+			array_push($data['city'],
+				array(
+					$rows['city_id'],
+					$rows['city_name'],
+					$rows['region_id'],
+				)
+			);
+		}
+
+		//LOCATION
+		$location_data = $this->Location->read();
+		$data['location'] = array();
+		foreach ($location_data as $rows) {
+			array_push($data['location'],
+				array(
+					$rows['location_id'],
+					$rows['location_name'],
+					$rows['city_id']
+				)
+			);
+		}
+		$data['treeActive'] = 'live_monitoring';
+        $data['childActive'] = 'active_vehicles' ;
+
+		
+		$this->load->view("template/header", $data);
+		$this->load->view("live_monitoring/active_inactive_vehicles", $data);
+		$this->load->view("template/footer", $data);
+	}
+
+}
+
+// END OF MONITORING CONTROLLER
