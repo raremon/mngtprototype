@@ -337,8 +337,9 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="sales_report"><a href="<?php ?>">Sales Report</a></li>
+                    <li id="sales_report"><a href="<?php echo base_url('SalesReport') ?>">Sales Report</a></li>
                     <li id="fares"><a href="<?php echo base_url('fares') ?>">Fares</a></li>
+                    <li id="cashier"><a href="<?php echo base_url('cashiers') ?>">Cashier's Accounts</a></li>
                   </ul>
                 </li>
               </ul>
