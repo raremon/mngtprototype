@@ -374,4 +374,9 @@ _:-moz-tree-row(hover), .browser-style {
     margin-top: 10px;
 }
 
-
+#rounded {
+    border-radius: 50%;
+    width: 600px;
+    height: 600px;
+    border: 15px solid #000;
+}

@@ -1,63 +1,63 @@
-<div class="modal fade" id="card-add" role="dialog">
+<div class="modal fade" id="cctv-add" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-    <?php echo form_open('card_readers/save', array('id'=>'card-add-form')); ?>
+    <?php echo form_open('cctvs/save', array('id'=>'cctv-add-form')); ?>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Card Reader Details</h4>
+        <h4 class="modal-title">CCTV Details</h4>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
           <div class="col-md-12">
-            <div id="card-message-add"></div>
+            <div id="cctv-message-add"></div>
             <div class="form-group">
-              <label>Card Reader Serial</label>
-              <input type="text" name="card_serial-add" class="form-control" placeholder="Enter Card Reader Serial"/>
+              <label>CCTV Serial</label>
+              <input type="text" name="cctv_serial-add" class="form-control" placeholder="Enter CCTV Serial"/>
             </div>
             <div class="form-group">
               <label>Description</label>
-              <textarea name="card_description-add" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
+              <textarea name="cctv_description-add" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary save" onclick="save_Card()">Save</button>
+        <button type="button" class="btn btn-primary save" onclick="save_Cctv()">Save</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     <?php echo form_close(); ?>
     </div>
   </div>
 </div>
-<div class="modal fade" id="card-box" role="dialog">
+<div class="modal fade" id="cctv-box" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Card Reader Details</h4>
+        <h4 class="modal-title">CCTV Details</h4>
       </div>
       <div class="modal-body">
           <div class="container-fluid">
             <div class="col-md-12">
-              <div id="card-message"></div>
-              <?php echo form_open('card_readers/update', array('id'=>'card')); ?>
+              <div id="cctv-message"></div>
+              <?php echo form_open('cctvs/update', array('id'=>'cctv')); ?>
               <div class="form-group">
-                <input type="text" name="card_id" class="form-control hidden"/>
+                <input type="text" name="cctv_id" class="form-control hidden"/>
               </div>
               <div class="form-group">
-                <label>Card Reader Serial</label>
-                <input type="text" name="card_serial" class="form-control" placeholder="Enter Card Reader Serial"/>
+                <label>CCTV Serial</label>
+                <input type="text" name="cctv_serial" class="form-control" placeholder="Enter CCTV Serial"/>
               </div>
               <div class="form-group">
                 <label>Description</label>
-                <textarea name="card_description" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
+                <textarea name="cctv_description" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
               </div>
               <?php echo form_close(); ?>
             </div>
           </div> 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Card()">Update</button>
+        <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Cctv()">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -65,17 +65,17 @@
 </div>
 <div class="box box-success">
   <div class="box-header with-border">
-    <h3 class="box-title">Card Reader Data</h3>
+    <h3 class="box-title">CCTV Data</h3>
     <div class="box-tools pull-right">
-      <a class="btn btn-link add-link" href="javascript:void(0);" data-toggle="modal" data-target="#card-add"><i class="fa fa-plus-square-o">&nbsp;</i>New Card Reader</a>
+      <a class="btn btn-link add-link" href="javascript:void(0);" data-toggle="modal" data-target="#cctv-add"><i class="fa fa-plus-square-o">&nbsp;</i>New CCTV</a>
     </div>
   </div>
   <div class="box-body">
-    <div id="card-delete-message"></div>
+    <div id="cctv-delete-message"></div>
     <div class="row">
       <div class="container-fluid">
         <div class="col-md-12">
-          <table id="card_data" class="table table-hover table-bordered">
+          <table id="cctv_data" class="table table-hover table-bordered">
             <thead>
               <tr>
                 <th>SERIAL</th>
@@ -98,34 +98,34 @@
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-  function save_Card() {
+  function save_Cctv() {
     $.ajax({
-      url: "<?php echo site_url('card_readers/save') ?>",
+      url: "<?php echo site_url('cctvs/save') ?>",
       type: 'POST',
       dataType: 'json',
-      data: $('#card-add-form').serialize(),
+      data: $('#cctv-add-form').serialize(),
       encode:true,
       success:function(data) {
         if(!data.success){
           if(data.errors){
             $(window).scrollTop(0);
-            $("#card-message-add").fadeIn("slow");
-            $('#card-message-add').html(data.errors).addClass('alert alert-danger');
+            $("#cctv-message-add").fadeIn("slow");
+            $('#cctv-message-add').html(data.errors).addClass('alert alert-danger');
             setTimeout(function() {
-                $('#card-message-add').fadeOut('slow');
+                $('#cctv-message-add').fadeOut('slow');
             }, 3000);
           }
         }else {
           $('#message-text').html(data.message);
-          $('#card-add').modal('hide');
+          $('#cctv-add').modal('hide');
           $('#successModal').modal('show');
         }
       }
     })
   }
-  $("#card_data").DataTable({
+  $("#cctv_data").DataTable({
     "ajax":{
-      "url":"<?php echo site_url('card_readers/show') ?>",
+      "url":"<?php echo site_url('cctvs/show') ?>",
       "type":"POST"
     },
     "columns": [
@@ -135,46 +135,46 @@
       null
     ]
   })
-  function edit_card(id) {
-    $('#card-box').modal('show');
+  function edit_cctv(id) {
+    $('#cctv-box').modal('show');
     $.ajax({
-      url: "<?php echo site_url('card_readers/edit') ?>",
+      url: "<?php echo site_url('cctvs/edit') ?>",
       type: 'POST',
       dataType: 'json',
-      data: 'card_id='+id,
+      data: 'cctv_id='+id,
       encode:true,
       success:function (data) {
         $('.update').removeAttr('disabled');
-        $('input[name="card_id"]').val(data.card_id);
-        $('input[name="card_serial"]').val(data.card_serial);
-        $('textarea[name="card_description"]').val(data.card_description);
+        $('input[name="cctv_id"]').val(data.cctv_id);
+        $('input[name="cctv_serial"]').val(data.cctv_serial);
+        $('textarea[name="cctv_description"]').val(data.cctv_description);
       }
     })
   }
-  function update_Card() {
+  function update_Cctv() {
     $.ajax({
-      url: "<?php echo site_url('card_readers/update') ?>",
+      url: "<?php echo site_url('cctvs/update') ?>",
       type: 'POST',
       dataType: 'json',
-      data: $('#card').serialize(),
+      data: $('#cctv').serialize(),
       encode:true,
       success:function (data) {
         if(!data.success){
             $(window).scrollTop(0);
-            $("#card-message").fadeIn("slow");
-            $('#card-message').html(data.errors).addClass('alert alert-danger');
+            $("#cctv-message").fadeIn("slow");
+            $('#cctv-message').html(data.errors).addClass('alert alert-danger');
             setTimeout(function() {
-                $('#card-message').fadeOut('slow');
+                $('#cctv-message').fadeOut('slow');
             }, 3000);
         }else {
           $('#message-text').html(data.message);
-          $('#card-box').modal('hide');
+          $('#cctv-box').modal('hide');
           $('#successModal').modal('show');
         }
       }
     })
   }
-  function delete_card(id) {
+  function delete_cctv(id) {
     swal({
       title: 'Are you sure you want to delete?',
       text: "You cannot revert this action!",
@@ -189,19 +189,19 @@
       buttonsStyling: false
     }).then(function () {
       $.ajax({
-        url: "<?php echo site_url('card_readers/delete/') ?>",
+        url: "<?php echo site_url('cctvs/delete/') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'card_id='+id,
+        data: 'cctv_id='+id,
         encode:true,
         success:function(data) {
           if(!data.success){
             if(data.errors){
               $(window).scrollTop(0);
-              $("#card-delete-message").fadeIn("slow");
-              $('#card-delete-message').html(data.errors).addClass('alert alert-danger');
+              $("#cctv-delete-message").fadeIn("slow");
+              $('#cctv-delete-message').html(data.errors).addClass('alert alert-danger');
               setTimeout(function() {
-                  $('#card-delete-message').fadeOut('slow');
+                  $('#cctv-delete-message').fadeOut('slow');
               }, 3000);
             }
           }else {
@@ -232,7 +232,7 @@
       }
     })
   }
-  function unassign_card(id) {
+  function unassign_cctv(id) {
     swal({
       title: 'Are you sure you want to unassign?',
       text: "You cannot revert this action!",
@@ -247,19 +247,19 @@
       buttonsStyling: false
     }).then(function () {
       $.ajax({
-        url: "<?php echo site_url('card_readers/unassign/') ?>",
+        url: "<?php echo site_url('cctvs/unassign/') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'card_id='+id,
+        data: 'cctv_id='+id,
         encode:true,
         success:function(data) {
           if(!data.success){
             if(data.errors){
               $(window).scrollTop(0);
-              $("#card-delete-message").fadeIn("slow");
-              $('#card-delete-message').html(data.errors).addClass('alert alert-danger');
+              $("#cctv-delete-message").fadeIn("slow");
+              $('#cctv-delete-message').html(data.errors).addClass('alert alert-danger');
               setTimeout(function() {
-                  $('#card-delete-message').fadeOut('slow');
+                  $('#cctv-delete-message').fadeOut('slow');
               }, 3000);
             }
           }else {
@@ -291,15 +291,15 @@
     })
   }    
   var data_length = 0;
-  function cardInit() {
-    $(".card_status").switchButton({
+  function cctvInit() {
+    $(".cctv_status").switchButton({
       on_label: 'ON',
       off_label: 'OFF',
       width: 100,
       height: 40,
       button_width: 60,
     });
-    data_length = $('#card_data tr').length - 1;
+    data_length = $('#cctv_data tr').length - 1;
   }
   var gready = 1;
   function switchStatus(id) {
@@ -348,10 +348,10 @@
       buttonsStyling: false
     }).then(function () {
       $.ajax({
-        url: "<?php echo site_url('card_readers/toggle_Status/') ?>",
+        url: "<?php echo site_url('cctvs/toggle_Status/') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'card_id='+id,
+        data: 'cctv_id='+id,
         encode:true,
         success:function(data) {
           if(!data.success){
@@ -393,12 +393,12 @@
         })
       }
       gready = 0;
-      $("#card"+id).switchButton({checked: Xrevert});
+      $("#cctv"+id).switchButton({checked: Xrevert});
       gready = 1;
     })
   }
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-  // END OF CARD READER BROWSE JAVASCRIPT
+  // END OF CCTV BROWSE JAVASCRIPT
 </script>

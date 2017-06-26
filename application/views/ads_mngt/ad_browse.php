@@ -107,7 +107,8 @@
       null,
       null,
       null,
-      {"width": "12%"},
+      null,
+      null,
     ]
   })
   // U P D A T E
