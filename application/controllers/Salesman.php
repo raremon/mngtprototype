@@ -361,13 +361,13 @@ class Salesman extends MY_Controller {
 			}
 
 			$selected_route = json_decode($this->input->post('route_selected'), TRUE);
-		 if(count($selected_route) < 2)
-			 {
-			 	$routes = array(
-		   		'order_id'=>$order_id,
+		 	if(count($selected_route) < 2)
+			{
+			  	$routes = array(
+		   			'order_id'=>$order_id,
 			 		'route_id'=>$selected_route,
 			 	);
-			  $this->RouteOrder->create($routes);
+			  	$this->RouteOrder->create($routes);
 			}
 			else
 			{
