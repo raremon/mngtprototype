@@ -60,6 +60,8 @@ class Auto_schedule {
 	// public function auto($timeslot, $route, $order_detail=array()){
 	public function auto($order_detail){
 		
+		//temporary algo to produce program list
+		
 		$this->CI->load->model('orders_model');
 		$this->CI->load->model('playlist_model');
 		$this->CI->load->model('nschedules_model');			
