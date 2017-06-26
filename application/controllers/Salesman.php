@@ -61,8 +61,8 @@ class Salesman extends MY_Controller {
 		);
 		$data['page_description']='View Available Schedules';
 
-		$data['treeActive'] = 'ads_management';
-        $data['childActive'] = 'browse_ad_orders' ;
+		$data['treeActive'] = 'ad_orders';
+        $data['childActive'] = 'place_ad_orders' ;
 
 		//REGION
 		$region_data = $this->Region->show_Region();
@@ -361,13 +361,13 @@ class Salesman extends MY_Controller {
 			}
 
 			$selected_route = json_decode($this->input->post('route_selected'), TRUE);
-		 if(count($selected_route) < 2)
-			 {
-			 	$routes = array(
-		   		'order_id'=>$order_id,
+		 	if(count($selected_route) < 2)
+			{
+			  	$routes = array(
+		   			'order_id'=>$order_id,
 			 		'route_id'=>$selected_route,
 			 	);
-			  $this->RouteOrder->create($routes);
+			  	$this->RouteOrder->create($routes);
 			}
 			else
 			{
