@@ -1,9 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-	class Tvs_model extends CI_Model 
+	class Pos_model extends CI_Model 
 	{
-		private $table = "tvs";
-		private $query = "tv_id, tv_serial, tv_description, tv_status, assigned_to, created_at";
-		private $id = "tv_id";
+		private $table = "pos";
+		private $query = "pos_id, pos_serial, pos_description, pos_status, assigned_to, created_at";
+		private $id = "pos_id";
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
 		////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@
 		}
 		public function read()
 		{
-			$this->db->select($this->query.",SUBSTRING_INDEX(tv_description,' ',15) AS info");
+			$this->db->select($this->query.",SUBSTRING_INDEX(pos_description,' ',15) AS info");
 			$this->db->from($this->table);
 			$query=$this->db->get();
 			return $query->result_array();
@@ -24,7 +24,7 @@
 			$this->db->select($this->query);
 			$this->db->from($this->table);
 			$this->db->where('assigned_to', NULL);
-			$this->db->where('tv_status', true);
+			$this->db->where('pos_status', true);
 			$query=$this->db->get();
 			return $query->result_array();
 		}
@@ -38,27 +38,27 @@
 		}
 		public function toggle_Status($data)
 		{
-			$this->db->select('tv_status');
+			$this->db->select('pos_status');
 			$this->db->from($this->table);
-			$this->db->where(array($this->id=>$data['tv_id']));
+			$this->db->where(array($this->id=>$data['pos_id']));
 			$query = $this->db->get();
 			$status = $query->row_array();
-			if( $status['tv_status'] )
+			if( $status['pos_status'] )
 			{
-				$this->db->where(array($this->id=>$data['tv_id']));
-				$this->db->update($this->table, array('tv_status'=>false));
+				$this->db->where(array($this->id=>$data['pos_id']));
+				$this->db->update($this->table, array('pos_status'=>false));
 				return 'turned off';
 			}
 			else
 			{
-				$this->db->where(array($this->id=>$data['tv_id']));
-				$this->db->update($this->table, array('tv_status'=>true));
+				$this->db->where(array($this->id=>$data['pos_id']));
+				$this->db->update($this->table, array('pos_status'=>true));
 				return 'turned on';
 			}
 		}
 		public function update($data)
 		{
-			$this->db->where(array($this->id=>$data['tv_id']));
+			$this->db->where(array($this->id=>$data['pos_id']));
 			$this->db->update($this->table, $data);
 			return TRUE;
 		}
@@ -76,7 +76,7 @@
 		}
 		public function delete($data)
 		{
-			$this->db->where(array($this->id=>$data['tv_id']));
+			$this->db->where(array($this->id=>$data['pos_id']));
 			$this->db->delete($this->table);
 			return TRUE;
 		}
@@ -84,4 +84,4 @@
 		// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 		////////////////////////////////////////////////////////////////		
 	}
-// END OF TVS MODEL
+// END OF POS MODEL

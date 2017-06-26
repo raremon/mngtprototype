@@ -169,7 +169,10 @@
                 <tr>
                   <th></th>
                   <th>Timeslot</th>
-                  <th>No. of Ads</th>
+                  <th>No. of Ad Orders</th>
+                  <th>No. of Ads in Playlist</th>
+                  <th>% Ads</th>
+                  <th>% Content/ Filler</th>
                 </tr>
               </thead>
               <tbody>
@@ -182,7 +185,10 @@
                 <tr>
                   <th></th>
                   <th>Timeslot</th>
-                  <th>No. of Ads</th>
+                  <th>No. of Ad Orders</th>
+                  <th>No. of Ads in Playlist</th>
+                  <th>% Ads</th>
+                  <th>% Content/ Filler</th>
                 </tr>
               </thead>
               <tbody>
@@ -195,7 +201,10 @@
                 <tr>
                   <th></th>
                   <th>Timeslot</th>
-                  <th>No. of Ads</th>
+                  <th>No. of Ad Orders</th>
+                  <th>No. of Ads in Playlist</th>
+                  <th>% Ads</th>
+                  <th>% Content/ Filler</th>
                 </tr>
               </thead>
               <tbody>
@@ -329,11 +338,13 @@
     var modalBox = "advertiser";
     var table1 = $("#program-list-table").DataTable({
         "paging":   false,
+        "bFilter": false,
         "stateSave": true,
         rowReorder: true
     });
     var table2 = $("#program-list-table1").DataTable({
         "paging":   false,
+        "bFilter": false,
         "stateSave": true,
         rowReorder: true
     });
@@ -484,7 +495,7 @@
     function updateSched2() {
       var sched = [];
       table2.draw();
-      for (var i=0;i<10;i++) {
+      for (var i=0;i<program.length;i++) {
           // console.log(table2.cells({ row: i, column: 0 }).data()[0]);
           sched.push([table2.cells({ row: i, column: 0 }).data()[0], table2.cells({ row: i, column: 1 }).data()[0]]);
       } 

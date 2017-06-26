@@ -1,3 +1,34 @@
+<div class="modal fade" id="gps-add" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <?php echo form_open('gps/save', array('id'=>'gps-add-form')); ?>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">GPS Details</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="col-md-12">
+            <div id="gps-message-add"></div>
+            <div class="form-group">
+              <label>GPS Serial</label>
+              <input type="text" name="gps_serial-add" class="form-control" placeholder="Enter GPS Serial"/>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea name="gps_description-add" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary save" onclick="save_Gps()">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    <?php echo form_close(); ?>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="gps-box" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -9,21 +40,21 @@
           <div class="container-fluid">
             <div class="col-md-12">
               <div id="gps-message"></div>
-              <?php echo form_open('welcome', array('id'=>'gps')); ?>
+              <?php echo form_open('gps/update', array('id'=>'gps')); ?>
               <div class="form-group">
                 <input type="text" name="gps_id" class="form-control hidden"/>
               </div>
               <div class="form-group">
-                <label>GPS Serial</label>
-                <input type="text" name="gps_serial" class="form-control" placeholder="Enter GPS' Serial"/>
+                <label>IP Camera Serial</label>
+                <input type="text" name="gps_serial" class="form-control" placeholder="Enter GPS Serial"/>
               </div>
               <div class="form-group">
-                <label>GPS Description</label>
-                <textarea name="gps_description" class="form-control" cols="30" rows="7" placeholder="Enter GPS' Description"></textarea>
+                <label>Description</label>
+                <textarea name="gps_description" class="form-control" cols="30" rows="7" placeholder="Add Description"></textarea>
               </div>
               <?php echo form_close(); ?>
             </div>
-          </div>
+          </div> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success update" disabled="disabled" onclick="update_Gps()">Update</button>
@@ -32,12 +63,11 @@
     </div>
   </div>
 </div>
-
 <div class="box box-success">
   <div class="box-header with-border">
     <h3 class="box-title">GPS Data</h3>
     <div class="box-tools pull-right">
-        <a class="btn btn-link add-link" href="<?php echo base_url('gps/add') ?>"><i class="fa fa-plus-square-o">&nbsp;</i>New GPS</a>
+      <a class="btn btn-link add-link" href="javascript:void(0);" data-toggle="modal" data-target="#gps-add"><i class="fa fa-plus-square-o">&nbsp;</i>New GPS</a>
     </div>
   </div>
   <div class="box-body">
@@ -48,9 +78,9 @@
           <table id="gps_data" class="table table-hover table-bordered">
             <thead>
               <tr>
-                <th>GPS SERIAL</th>
-                <th>GPS DESCRIPTION</th>
-                <th>DATE CREATED</th>
+                <th>SERIAL</th>
+                <th>DESCRIPTION</th>
+                <th>STATUS</th>
                 <th></th>
               </tr>
             </thead>
@@ -68,25 +98,50 @@
   ////////////////////////////////////////////////////////////////
   //          C  R  U  D    F  U  N  C  T  I  O  N  S           //
   ////////////////////////////////////////////////////////////////
-  // O T H E R
-  function closebox() {
-    $('#form-box').addClass('hidden');
+  function save_Gps() {
+    $.ajax({
+      url: "<?php echo site_url('gps/save') ?>",
+      type: 'POST',
+      dataType: 'json',
+      data: $('#gps-add-form').serialize(),
+      encode:true,
+      success:function(data) {
+        if(!data.success){
+          if(data.errors){
+            $(window).scrollTop(0);
+            $("#gps-message-add").fadeIn("slow");
+            $('#gps-message-add').html(data.errors).addClass('alert alert-danger');
+            setTimeout(function() {
+                $('#gps-message-add').fadeOut('slow');
+            }, 3000);
+          }
+        }else {
+          $('#message-text').html(data.message);
+          $('#gps-add').modal('hide');
+          $('#successModal').modal('show');
+        }
+      }
+    })
   }
-  // R E A D
   $("#gps_data").DataTable({
     "ajax":{
       "url":"<?php echo site_url('gps/show') ?>",
       "type":"POST"
-    }
+    },
+    "columns": [
+      null,
+      null,
+      { "width": "15%" },
+      null
+    ]
   })
-  // U P D A T E
-  function edit_gps(gps_id) {
+  function edit_gps(id) {
     $('#gps-box').modal('show');
     $.ajax({
       url: "<?php echo site_url('gps/edit') ?>",
       type: 'POST',
       dataType: 'json',
-      data: 'gps_id='+gps_id,
+      data: 'gps_id='+id,
       encode:true,
       success:function (data) {
         $('.update').removeAttr('disabled');
@@ -119,8 +174,7 @@
       }
     })
   }
-  // D E L E T E
-function delete_gps(gps_id) {
+  function delete_gps(id) {
     swal({
       title: 'Are you sure you want to delete?',
       text: "You cannot revert this action!",
@@ -138,7 +192,7 @@ function delete_gps(gps_id) {
         url: "<?php echo site_url('gps/delete/') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'gps_id='+gps_id,
+        data: 'gps_id='+id,
         encode:true,
         success:function(data) {
           if(!data.success){
@@ -151,10 +205,7 @@ function delete_gps(gps_id) {
               }, 3000);
             }
           }else {
-//            $('#message-text').html(data.message);
-//            $('#successModal').modal('show');
             swal({
-             //pede to ilagay sa success modal di ko mahanap kung saan
               title: data.message,
               type: 'success',
               confirmButtonText: 'Okay',
@@ -176,14 +227,12 @@ function delete_gps(gps_id) {
           confirmButtonText: 'Okay',
           confirmButtonClass: 'btn btn-default btn-fix',
           buttonsStyling: false,
-          timer: 3000
-          
+          timer: 3000  
         })
       }
     })
-  }    
-  // U N A S S I G N
-function unassign_gps(gps_id) {
+  }
+  function unassign_gps(id) {
     swal({
       title: 'Are you sure you want to unassign?',
       text: "You cannot revert this action!",
@@ -201,7 +250,7 @@ function unassign_gps(gps_id) {
         url: "<?php echo site_url('gps/unassign/') ?>",
         type: 'POST',
         dataType: 'json',
-        data: 'gps_id='+gps_id,
+        data: 'gps_id='+id,
         encode:true,
         success:function(data) {
           if(!data.success){
@@ -214,10 +263,7 @@ function unassign_gps(gps_id) {
               }, 3000);
             }
           }else {
-//            $('#message-text').html(data.message);
-//            $('#successModal').modal('show');
             swal({
-             //pede to ilagay sa success modal di ko mahanap kung saan
               title: data.message,
               type: 'success',
               confirmButtonText: 'Okay',
@@ -239,14 +285,120 @@ function unassign_gps(gps_id) {
           confirmButtonText: 'Okay',
           confirmButtonClass: 'btn btn-default btn-fix',
           buttonsStyling: false,
-          timer: 3000
-          
+          timer: 3000 
         })
       }
     })
   }    
+  var data_length = 0;
+  function gpsInit() {
+    $(".gps_status").switchButton({
+      on_label: 'ON',
+      off_label: 'OFF',
+      width: 100,
+      height: 40,
+      button_width: 60,
+    });
+    data_length = $('#gps_data tr').length - 1;
+  }
+  var gready = 1;
+  function switchStatus(id) {
+    if(data_length != 0 && gready == 1)
+    {
+      if($(id).is(':checked'))
+      {
+        toggleStatus(1, $(id).val());
+      }
+      else
+      {
+        toggleStatus(0, $(id).val());
+      }
+    }
+  }
+  function toggleStatus(status, id) {
+    var Xtitle;
+    var Xtext;
+    var Xtype;
+    var Xrevert;
+    if(status)
+    {
+      Xtitle = "Turn On";
+      Xtext = "Are you sure you want to turn on the device?";
+      Xtype = "success";
+      Xrevert = 0;
+    }
+    else
+    {
+      Xtitle = "Turn Off";
+      Xtext = "Are you sure you want to turn off the device?";
+      Xtype = "warning";
+      Xrevert = 1;
+    }
+    swal({
+      title: Xtitle,
+      text: Xtext,
+      type: Xtype,
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+      confirmButtonClass: 'btn btn-success btn-fix',
+      cancelButtonClass: 'btn btn-default',
+      animation: false,
+      customClass: 'animated fadeInDown',
+      buttonsStyling: false
+    }).then(function () {
+      $.ajax({
+        url: "<?php echo site_url('gps/toggle_Status/') ?>",
+        type: 'POST',
+        dataType: 'json',
+        data: 'gps_id='+id,
+        encode:true,
+        success:function(data) {
+          if(!data.success){
+            if(data.errors){
+              swal({
+                title: 'Error',
+                text: 'Something Went Wrong',
+                type: 'error',
+                confirmButtonText: 'Okay',
+                confirmButtonClass: 'btn btn-default btn-fix',
+                buttonsStyling: false,
+                timer: 3000,
+              })
+            }
+          }else {
+            swal({
+              title: data.message,
+              type: 'success',
+              confirmButtonText: 'Okay',
+              confirmButtonClass: 'btn btn-success btn-fix',
+              buttonsStyling: false
+            }).then(
+              function () {
+                window.location.reload();
+              }
+            )
+          }
+        }
+      });
+    }, function (dismiss) {
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'Cancelled',
+          type: 'error',
+          confirmButtonText: 'Okay',
+          confirmButtonClass: 'btn btn-default btn-fix',
+          buttonsStyling: false,
+          timer: 3000,
+        })
+      }
+      gready = 0;
+      $("#gps"+id).switchButton({checked: Xrevert});
+      gready = 1;
+    })
+  }
   ////////////////////////////////////////////////////////////////
   // E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
   ////////////////////////////////////////////////////////////////
-  // END OF TV BROWSE JAVASCRIPT
+  // END OF IP CAMERA BROWSE JAVASCRIPT
 </script>

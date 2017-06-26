@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-	class Ready_vehicles_model extends CI_Model 
+	class Deployment_model extends CI_Model 
 	{
-		private $table = "ready_vehicles";
-		private $query = "ready_vehicle_id, vehicle_id, box_id, tv_id, gps_id, card_id, cctv_id, ipcam_id, pos_id, created_at";
-		private $id = "ready_vehicle_id";
+		private $table = "deployment";
+		private $query = "deploy_id, vehicle_id, box_id, tv_id, gps_id, card_id, cctv_id, ipcam_id, pos_id, route_id, created_at";
+		private $id = "deploy_id";
 
 		////////////////////////////////////////////////////////////////
 		//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
@@ -142,6 +142,21 @@
 		    }
 		}
 
+		public function find_Route($id)
+		{
+			$this->db->select($this->query);
+			$this->db->from($this->table);
+			$this->db->where('deploy_id', $id);
+			$query=$this->db->get();
+			$row = $query->row_array();
+			if ($row['route_id'] != NULL){
+		        return true;
+		    }
+		    else{
+		        return false;
+		    }
+		}
+
 		// U P D A T E
 		public function edit_Media($media_id)
 		{
@@ -213,7 +228,7 @@
 
 		public function update_Media($data)
 		{
-			$this->db->where(array($this->id=>$data['ready_vehicle_id']));
+			$this->db->where(array($this->id=>$data['deploy_id']));
 			$this->db->update($this->table, $data);
 			return TRUE;
 		}
@@ -221,7 +236,7 @@
 		// D E L E T E
 		public function delete_Media($data)
 		{
-			$this->db->where(array($this->id=>$data['ready_vehicle_id']));
+			$this->db->where(array($this->id=>$data['deploy_id']));
 			$this->db->delete($this->table);
 			return TRUE;
 		}
@@ -231,4 +246,4 @@
 
 	}
 
-// END OF CITY MODEL
+// END OF DEPLOYMENT MODEL

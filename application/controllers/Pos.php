@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Gps extends MY_Controller {
+class Pos extends MY_Controller {
 	// Constructor
 	public function __construct()
 	{
@@ -9,7 +9,7 @@ class Gps extends MY_Controller {
 		$this->load->model('users_model', 'User');
 		$this->load->model('roles_model', 'Role');
 
-		$this->load->model('gps_model', 'Gps');
+		$this->load->model('pos_model', 'Pos');
 		// $this->load->model('ready_vehicles_model', 'Media');
 		$this->load->model('deployment_model', 'Media');
 	}
@@ -17,10 +17,10 @@ class Gps extends MY_Controller {
 	{
 		$data = array();
 		$data['role'] = $this->logged_out_check();
-		$data['title']='Browse GPS';
+		$data['title']='Browse POS';
 		$data['breadcrumbs']=array
 		(
-			array('Browse GPS','gps/browse'),
+			array('Browse POS','pos/browse'),
 		);
 		$data['css']=array
 		(
@@ -32,13 +32,13 @@ class Gps extends MY_Controller {
 			'assets/js/jquery.form.js',
 			'assets/js/jquery.switchButton.js',
 		);
-		$data['page_description']='Browse GPS Records';
+		$data['page_description']='Browse POS Records';
 
 		$data['treeActive'] = 'settings';
-		$data['childActive'] = 'browse_gps';
+		$data['childActive'] = 'browse_pos' ;
 
 		$this->load->view("template/header", $data);
-		$this->load->view("vehicles/gps_browse", $data);
+		$this->load->view("vehicles/pos_browse", $data);
 		$this->load->view("template/footer", $data);
 	}
 	////////////////////////////////////////////////////////////////
@@ -48,8 +48,8 @@ class Gps extends MY_Controller {
 	public function save()
 	{
 		$validate = array (
-			array('field'=>'gps_serial-add','label'=>'GPS Serial','rules'=>'trim|required|min_length[2]|is_unique[gps.gps_serial]'),
-			array('field'=>'gps_description-add','label'=>'Description','rules'=>'trim|required'),
+			array('field'=>'pos_serial-add','label'=>'POS Serial','rules'=>'trim|required|min_length[2]|is_unique[pos.pos_serial]'),
+			array('field'=>'pos_description-add','label'=>'Description','rules'=>'trim|required'),
 		);
 
 		$this->form_validation->set_rules($validate);
@@ -63,71 +63,71 @@ class Gps extends MY_Controller {
 			$info['success']=TRUE;
 
 			$data=array(
-				'gps_serial'=>$this->input->post('gps_serial-add'),
-				'gps_description'=>$this->input->post('gps_description-add'),
+				'pos_serial'=>$this->input->post('pos_serial-add'),
+				'pos_description'=>$this->input->post('pos_description-add'),
 			);
-			$info['id'] = $this->Gps->create($data);
-			$info['tag'] = $data['gps_serial'];
-			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['gps_serial']."</span>!</p>";
+			$info['id'] = $this->Pos->create($data);
+			$info['tag'] = $data['pos_serial'];
+			$info['message']="<p class='success-message'>You have successfully saved <span class='message-name'>".$data['pos_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
 	// R E A D
 	public function show()
 	{
-		$table = $this->Gps->read();
+		$table = $this->Pos->read();
 		$assigned="";
 		$status="";
 		$data = array();
 		foreach ($table as $rows) {
-			if($this->Media->find_Gps($rows['gps_id']))
+			if($this->Media->find_Pos($rows['pos_id']))
 			{
-				$assigned = '<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="unassign_gps('."'".$rows['gps_id']."'".')">Unassign</a>';
+				$assigned = '<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="unassign_pos('."'".$rows['pos_id']."'".')">Unassign</a>';
 			}
 			else
 			{
-				$assigned = '<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_gps('."'".$rows['gps_id']."'".')">Delete</a>';
+				$assigned = '<a href="javascript:void(0)" class="btn btn-danger btn-sm btn-block" onclick="delete_pos('."'".$rows['pos_id']."'".')">Delete</a>';
 			}
-			if($rows['gps_status'])
+			if($rows['pos_status'])
 			{
 				$status =  '<div class="switch-wrapper">
-			                  <input id="gps'.$rows['gps_id'].'" value="'.$rows['gps_id'].'" class="gps_status" onchange="switchStatus(\'#gps'.$rows['gps_id'].'\')" type="checkbox" checked>
+			                  <input id="pos'.$rows['pos_id'].'" value="'.$rows['pos_id'].'" class="pos_status" onchange="switchStatus(\'#pos'.$rows['pos_id'].'\')" type="checkbox" checked>
 			                </div>';
 			}
 			else
 			{
 				$status =  '<div class="switch-wrapper">
-			                  <input id="gps'.$rows['gps_id'].'" value="'.$rows['gps_id'].'" class="gps_status" onchange="switchStatus(\'#gps'.$rows['gps_id'].'\')" type="checkbox">
+			                  <input id="pos'.$rows['pos_id'].'" value="'.$rows['pos_id'].'" class="pos_status" onchange="switchStatus(\'#pos'.$rows['pos_id'].'\')" type="checkbox">
 			                </div>';
 			}
 			array_push($data,
 				array(
-					$rows['gps_serial'],
+					$rows['pos_serial'],
 					$rows['info']."...",
 					$status,
-					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_gps('."'".$rows['gps_id']."'".')">Edit</a>'.
+					'<a href="javascript:void(0)" class="btn btn-info btn-sm btn-block" onclick="edit_pos('."'".$rows['pos_id']."'".')">Edit</a>'.
 					$assigned,
 				)
 			);
 		}
 		if(count($data) > 0)
 		{
-			$data[0][2] = $data[0][2]."<script> gpsInit(); </script>";
+			$data[0][2] = $data[0][2]."<script> posInit(); </script>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode(array('data'=>$data)));
 	}
 	// U P D A T E
 	public function edit()
 	{
-		$id=$this->input->post('gps_id');
-		$data=$this->Gps->edit($id);
+		$id=$this->input->post('pos_id');
+		$data=$this->Pos->edit($id);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 	public function update()
 	{
 		$validate = array (
-			array('field'=>'gps_serial','label'=>'GPS Serial','rules'=>'trim|required|min_length[2]'),
-			array('field'=>'gps_description','label'=>'Description','rules'=>'trim|required'),
+			array('field'=>'pos_serial','label'=>'POS Serial','rules'=>'trim|required|min_length[2]'),
+			array('field'=>'pos_description','label'=>'Description','rules'=>'trim|required'),
 		);
 		$this->form_validation->set_rules($validate);
 		if ($this->form_validation->run()===FALSE) 
@@ -139,12 +139,12 @@ class Gps extends MY_Controller {
 		{
 			$info['success']=TRUE;
 			$data=array(
-				'gps_id'=>$this->input->post('gps_id'),
-				'gps_serial'=>$this->input->post('gps_serial'),
-				'gps_description'=>$this->input->post('gps_description'),
+				'pos_id'=>$this->input->post('pos_id'),
+				'pos_serial'=>$this->input->post('pos_serial'),
+				'pos_description'=>$this->input->post('pos_description'),
 			);
-			$this->Gps->update($data);
-			$info['message']="<p class='success-message'>You have successfully updated <span class='message-name'>".$data['gps_serial']."</span>!</p>";
+			$this->Pos->update($data);
+			$info['message']="<p class='success-message'>You have successfully updated <span class='message-name'>".$data['pos_serial']."</span>!</p>";
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
@@ -152,25 +152,25 @@ class Gps extends MY_Controller {
 	public function delete()
 	{
 		$validate=array(
-			array('field'=>'gps_id','rules'=>'required')
+			array('field'=>'pos_id','rules'=>'required')
 		);
 		$this->form_validation->set_rules($validate);
 		if ($this->form_validation->run()===FALSE) {
 			$info['success']=FALSE;
 			$info['errors']=validation_errors();
 		}else{
-			if($this->Media->find_Gps($this->input->post('gps_id')))
+			if($this->Media->find_Pos($this->input->post('pos_id')))
 			{
 				$info['success']=FALSE;
-				$info['errors']="Cannot Delete Already Assigned GPS!";
+				$info['errors']="Cannot Delete Already Assigned POS!";
 			}
 			else
 			{
 				$info['success']=TRUE;
 				$data=array(
-					'gps_id'=>$this->input->post('gps_id')
+					'pos_id'=>$this->input->post('pos_id')
 				);
-				$this->Gps->delete($data);
+				$this->Pos->delete($data);
 				$info['message']='Data Successfully Deleted';
 			}
 		}
@@ -180,7 +180,7 @@ class Gps extends MY_Controller {
 	public function unassign()
 	{
 		$validate=array(
-			array('field'=>'gps_id','rules'=>'required')
+			array('field'=>'pos_id','rules'=>'required')
 		);
 		$this->form_validation->set_rules($validate);
 		if ($this->form_validation->run()===FALSE) {
@@ -189,10 +189,10 @@ class Gps extends MY_Controller {
 		}else{
 			$info['success']=TRUE;
 			$data=array(
-				'gps_id'=>$this->input->post('gps_id')
+				'pos_id'=>$this->input->post('pos_id')
 			);
-			$this->Media->unassign_Gps($data);
-			$info['message']='GPS Successfully Unassigned';
+			$this->Media->unassign_Pos($data);
+			$info['message']='POS Successfully Unassigned';
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
@@ -200,7 +200,7 @@ class Gps extends MY_Controller {
 	public function toggle_Status()
 	{
 		$validate=array(
-			array('field'=>'gps_id','rules'=>'required')
+			array('field'=>'pos_id','rules'=>'required')
 		);
 		$this->form_validation->set_rules($validate);
 		if ($this->form_validation->run()===FALSE) {
@@ -209,15 +209,15 @@ class Gps extends MY_Controller {
 		}else{
 			$info['success']=TRUE;
 			$data=array(
-				'gps_id'=>$this->input->post('gps_id')
+				'pos_id'=>$this->input->post('pos_id')
 			);
-			$status = $this->Gps->toggle_Status($data);
-			$info['message']='GPS Successfully '.$status;
-			// $this->sendLog($data['gps_id'], $status);
+			$status = $this->Pos->toggle_Status($data);
+			$info['message']='POS Successfully '.$status;
+			// $this->sendLog($data['pos_id'], $status);
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($info));
 	}
-	// S E N D   L O G S   T H A T   G P S   I S   T O G G L E D
+	// S E N D   L O G S   T H A T   I P C A M E R A   I S   T O G G L E D
 	public function sendLog($id, $status)
 	{
 		
@@ -226,4 +226,4 @@ class Gps extends MY_Controller {
 	// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
 	////////////////////////////////////////////////////////////////
 }
-// END OF GPS CONTROLLER
+// END OF POS CONTROLLER
