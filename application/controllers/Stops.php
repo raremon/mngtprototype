@@ -41,6 +41,42 @@ class Stops extends MY_Controller {
                         )
                     );
 		}
+                
+                $region_data = $this->Region->show_Region();
+		$data['region'] = array();
+		foreach ($region_data as $rows) {
+			array_push($data['region'],
+				array(
+					$rows['region_id'],
+					$rows['region_abbr']." : ".$rows['region_name'],
+				)
+			);
+		}
+		
+ 
+		$city_data = $this->City->show_City();
+		$data['city'] = array();
+		foreach ($city_data as $rows) {
+			array_push($data['city'],
+				array(
+					$rows['city_id'],
+					$rows['city_name'],
+					$rows['region_id'],
+				)
+			);
+		}
+
+		$location_data = $this->Location->read();
+		$data['location'] = array();
+		foreach ($location_data as $rows) {
+			array_push($data['location'],
+				array(
+					$rows['location_id'],
+					$rows['location_name'],
+					$rows['city_id'],
+				)
+			);
+		}
 
 		
 
@@ -75,7 +111,6 @@ class Stops extends MY_Controller {
                 
                 $region_data = $this->Region->show_Region();
 		$data['region'] = array();
-                
 		foreach ($region_data as $rows) {
 			array_push($data['region'],
 				array(
@@ -360,4 +395,82 @@ class Stops extends MY_Controller {
             }
             return round($fare);
         }
+        
+        public function editStop()
+	{
+		$stop_id=$this->input->post('stop_id');
+		$data=$this->Stops->edit_Stop_Data($stop_id);
+                
+                $location = $this->Location->edit($data['location']);
+
+		$city = $this->City->edit_City($location['city_id']);
+
+		array_push($data,
+			array(
+				'city'=>$city['city_id'],
+				'region'=>$city['region_id'],
+			)
+		);
+                
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+        
+        public function updateStop()
+	{
+
+		$validate = array (
+			array('field'=>'stop_name','label'=>'Stop Name','rules'=>'required|min_length[5]'),
+			array('field'=>'stop_description','label'=>'Stop Description','rules'=>'required'),
+			array('field'=>'location','label'=>'Location','rules'=>'required')
+		);
+
+		$this->form_validation->set_rules($validate);
+		if ($this->form_validation->run()===FALSE) 
+		{
+			$info['success']=FALSE;
+			$info['errors']=validation_errors();
+		}
+		else
+		{
+			$info['success']=TRUE;
+
+			$route = $this->Route->get_route_data($this->input->post('route'));
+                        $loc1 = $this->Location->get_Name( $route['location_from'] );
+                        $stop = $this->Location->get_Name($this->input->post('location'));
+                        $origin=array('lat'=>$loc1['latitude'],'long'=>$loc1['longitude']);
+                        $destination=array('lat'=>$stop['latitude'],'long'=>$stop['longitude']);
+			$data=array(
+				'route'=> $this->input->post('route'),
+				'stop_name'=>$this->input->post('stop_name'),
+				'stop_description'=>$this->input->post('stop_description'),
+				'location'=>$this->input->post('location'),
+                                'km_fromLoc1' => $this->Distance($origin, $destination),
+                                'stop_id' => $this->input->post('stop_id'),
+			);
+                        
+			$this->Stops->update_Stop_Data($data);
+			$info['message']="You have successfully updated your data!";
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($info));
+	}
+        
+        public function delete_Stop()
+	{
+		$validate=array(
+			array('field'=>'stop_id','rules'=>'required')
+		);
+		$this->form_validation->set_rules($validate);
+		if ($this->form_validation->run()===FALSE) {
+			$info['success']=FALSE;
+			$info['errors']=validation_errors();
+		}else{
+			$info['success']=TRUE;
+			$data=array(
+				'stop_id'=>$this->input->post('stop_id')
+			);
+			$this->Stops->delete_Stop_Data($data);
+			$info['message']='Data Successfully Deleted';
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($info));
+	}
 }
