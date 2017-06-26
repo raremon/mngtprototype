@@ -157,8 +157,8 @@ class Schedules extends MY_Controller {
 		
 		$details = $this->nschedules_model->getSchedules($where);
 		
-		print_r($details);
-		exit;
+		// print_r($details);
+		// exit;
 		
 		$schedule = $this->auto_schedule->auto($details);
 		
