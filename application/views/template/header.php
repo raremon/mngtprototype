@@ -315,7 +315,7 @@
                     </span>
                   </a>
                   <ul class="treeview-menu">
-                    <li id="active_buses"><a href="#">Active Buses</a></li>
+                    <li id="active_buses"><a href="#">Active/ Inactive Vehicles</a></li>
                   </ul>
                 </li>
               </ul>

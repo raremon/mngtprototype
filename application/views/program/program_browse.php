@@ -169,7 +169,10 @@
                 <tr>
                   <th></th>
                   <th>Timeslot</th>
-                  <th>No. of Ads</th>
+                  <th>No. of Ad Orders</th>
+                  <th>No. of Ads in Playlist</th>
+                  <th>% Ads</th>
+                  <th>% Content/ Filler</th>
                 </tr>
               </thead>
               <tbody>
@@ -182,7 +185,10 @@
                 <tr>
                   <th></th>
                   <th>Timeslot</th>
-                  <th>No. of Ads</th>
+                  <th>No. of Ad Orders</th>
+                  <th>No. of Ads in Playlist</th>
+                  <th>% Ads</th>
+                  <th>% Content/ Filler</th>
                 </tr>
               </thead>
               <tbody>
@@ -195,7 +201,10 @@
                 <tr>
                   <th></th>
                   <th>Timeslot</th>
-                  <th>No. of Ads</th>
+                  <th>No. of Ad Orders</th>
+                  <th>No. of Ads in Playlist</th>
+                  <th>% Ads</th>
+                  <th>% Content/ Filler</th>
                 </tr>
               </thead>
               <tbody>
