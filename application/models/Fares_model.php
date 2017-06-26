@@ -36,63 +36,36 @@ class Fares_model extends CI_Model
             $fare = $this->db->get_where('fares',array('route' => $route))->row_array();
             return $fare;
         }
+        
+        public function view_fare($fare_id){
+            $fare = $this->db->get_where('fares',array('fare_id' => $fare_id))->row_array();
+            return $fare;
+        }
+        
+        // U P D A T E
+	public function edit_Fare_Data($fare_id)
+	{
+		$this->db->select("*");
+		$this->db->from('fares');
+		$this->db->where('fare_id', $fare_id);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+        
+        public function update_Fare_Data($data)
+	{
+		$this->db->where(array('fare_id'=>$data['fare_id']));
+		$this->db->update('fares', $data);
+		return TRUE;
+	}
+        
+        public function delete_Fare_Data($data)
+	{
+		$this->db->where(array('fare_id'=>$data['fare_id']));
+		$this->db->delete('fares');
+		return TRUE;
+	}
 
-        // // Get route based on route ID
-	// public function get_route_data($id)
-	// {
-	// 	$route = $this->db->get_where('routes',array('route_id' => $id))->row_array();
- //        return $route;
-	// }
-
-
-	// public function find_Location($location_id)
-	// {
-	// 	$this->db->select("location_from");
-	// 	$this->db->from('routes');
-	// 	$this->db->where('location_from', $location_id);
-	// 	$location_from=$this->db->get();
-
-	// 	$this->db->select("location_to");
-	// 	$this->db->from('routes');
-	// 	$this->db->where('location_to', $location_id);
-	// 	$location_to=$this->db->get();
-
-	// 	if ($location_from->num_rows() > 0 || $location_to->num_rows() > 0){
-	//         return true;
-	//     }
-	//     else{
-	//         return false;
-	//     }
-	// }
-
-	// // U P D A T E
-	// public function edit_Route_Data($route_id)
-	// {
-	// 	$this->db->select("route_id, route_name, route_description, location_from, location_to");
-	// 	$this->db->from('routes');
-	// 	$this->db->where('route_id', $route_id);
-	// 	$query = $this->db->get();
-	// 	return $query->row_array();
-	// }
-
-	// public function update_Route_Data($data)
-	// {
-	// 	$this->db->where(array('route_id'=>$data['route_id']));
-	// 	$this->db->update('routes', $data);
-	// 	return TRUE;
-	// }
-
-	// // D E L E T E
-	// public function delete_Route_Data($data)
-	// {
-	// 	$this->db->where(array('route_id'=>$data['route_id']));
-	// 	$this->db->delete('routes');
-	// 	return TRUE;
-	// }
-
-	////////////////////////////////////////////////////////////////
-	// E  N  D    O  F    C  R  U  D    F  U  N  C  T  I  O  N  S //
-	////////////////////////////////////////////////////////////////
 
 }
 
