@@ -392,8 +392,8 @@
 				foreach ($selected_tslot as $rows) {
 					$this->Tslot->deleteTslot($this->input->post('order_id'), $rows);
 				}
-				$this->assignNewSchedule($data['order_id']);
 				$this->generate_list($data['order_id']);
+				$this->assignNewSchedule($data['order_id']);
 				$info['message']="<p class='success-message'>You have successfully approved <span class='message-name'>Order Number ".$this->input->post('order_id')."</span>!</p>";
 			}
 
@@ -428,15 +428,16 @@
 						'order_id'=>$order_id,
 						'status'=>0,
 					);
-					$this->nSched->create($data);
+					$id = $this->nSched->create($data);
         		}
         	}
         	return TRUE;
         }
         public function generate_list($order_id){
 			$this->load->library("auto_schedule");
+			$this->load->model("nschedules_model");
 			$where = array('order_id'=>$order_id);
-			$details = $this->nSched->getSchedules($where);
+			$details = $this->nschedules_model->getSchedules($where);
 			$schedule = $this->auto_schedule->auto($details);
 		}
         ///////////////////////////////////////////////////////////////////////////////////////////////////
