@@ -158,24 +158,27 @@ class Adowneraccounts_model extends CI_Model
 	
 	public function logout_mobile($data)
 	{
-		$data['owner_upass'] = sha1($data['owner_upass']);
 		//Find Ad owner in DB
-		$this->db->where("owner_id", $data['owner_id']);
+		$this->db->where($this->id, $data[$this->id]);
 		$this->db->where("owner_uname", $data['owner_uname']);
-		$this->db->where("owner_upass", $data['owner_upass']);
-		$data['is_online']   = false;
-		
-		// Update the Database then return a value
-		$this->db->update($this->table,$data);
-		if($this->db->affected_rows() > 0)
-		{
-			unset($data['owner_upass']);
+		$this->db->where("owner_upass", sha1($data['owner_upass']));
+		$query = $this->db->get($this->table);
+		if ($query->num_rows()) 
+		{	
+			$row = $query->row_array();
+			
+			// Sets status to offline after logging out
+			$row['is_online'] = false;
+			$this->db->where($this->id, $row[$this->id]);
+			$this->db->update( $this->table , $row);
+				
+			// Unsets the password from the array
+			unset($row['owner_upass']);
 			return 1;
 		}
-		else
-		{
-			unset($data['owner_upass']);
-			return -1; 
+		else {
+			// Account not found
+			return -1;
 		}
 	}
 	

@@ -3,6 +3,7 @@
 	class Users_model extends CI_Model 
 	{
 		private $table = "users";
+		private $id = "user_id";
 		private $_data = array();
 
 		public function get_data()
@@ -107,24 +108,26 @@
 		
 		public function logout_mobile($data)
 		{
-			$data['user_password'] = sha1($data['user_password']);
-			// Find User in DB
-			$this->db->where("user_id", $data['user_id']);
+			$this->db->where($this->id, $data[$this->id]);
 			$this->db->where("user_name", $data['user_name']);
-			$this->db->where("user_password", $data['user_password']);
-			$data['is_online']     = false;
-			
-			// Update the Database then return a value
-			$this->db->update($this->table,$data);
-			if($this->db->affected_rows() > 0)
-			{
-				unset($data['user_password']);
+			$this->db->where("user_password", sha1($data["user_password"]));
+			$query = $this->db->get($this->table);
+			if ($query->num_rows()) 
+			{	
+				$row = $query->row_array();
+				
+				// Sets status to offline after logging out
+				$row['is_online'] = false;
+				$this->db->where($this->id, $row[$this->id]);
+				$this->db->update( $this->table , $row);
+					
+				// Unsets the password from the array
+				unset($row['user_password']);
 				return 1;
 			}
-			else
-			{
-				unset($data['user_password']);
-				return -1; 
+			else {
+				// Account not found
+				return -1;
 			}
 		}
 		// END OF MOBILE APP FUNCTIONS
