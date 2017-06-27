@@ -3,7 +3,9 @@
 class Adowneraccounts_model extends CI_Model 
 {
 	private $table = "adowner_accounts";
+	private $id = "owner_id";
 	private $_data = array();
+	
 	public function validate(){
 			
 			$username = $this->input->post('username');
@@ -35,44 +37,52 @@ class Adowneraccounts_model extends CI_Model
 				return ERR_INVALID_USERNAME;
 			}
 	}
-	public function validate_mobile($data)
+	
+	public function login_mobile($data)
 	{
-			
-		//retrieval of data from controller
-		$username = $data["user"];
-		$password = $data["pass"];
 		$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
 		
-		$this->db->where("owner_uname", $username);
+		$this->db->where("owner_uname", $data["user"]);
+		$this->db->where("owner_upass", sha1($data["pass"]));
 		$query = $this->db->get($this->table);
 		if ($query->num_rows())
 		{
 			$row = $query->row_array();
 			
-			// Checks the password
-			if ($row['owner_upass'] == sha1($password))
-			{
-				// Sets status to online after logging in
-				$row['is_online'] = true;
-				$row['owner_lastlogin'] = $lastlogin->format('Y-m-d H:i:s');
-				$this->db->where("owner_id", $row['owner_id']);
-				$this->db->update($this->table, $row);
+			// Sets status to online after logging in
+			$row['is_online'] = true;
+			$row['owner_lastlogin'] = $lastlogin->format('Y-m-d H:i:s');
+			$this->db->where($this->id, $row[$this->id]);
+			$this->db->update($this->table, $row);
 				
-				// Unsets the password
-				unset($row['owner_upass']);
-				unset($password);
-				
-				return $row;
-			}
-			else
-			{
-				// Passwords do not match
-				return -1;
-			}
+			// Unsets the password
+			unset($row['owner_upass']);
+			return $row;
 		}
 		else {
 			// Account not found
-			return -2;
+			return -1;
+		}
+	}
+	
+	public function validate_mobile($data)
+	{
+		$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
+		
+		$this->db->where("owner_uname", $data["user"]);
+		$this->db->where("owner_upass", sha1($data["pass"]));
+		$query = $this->db->get($this->table);
+		if ($query->num_rows())
+		{
+			$row = $query->row_array();
+			
+			// Unsets the password
+			unset($row['owner_upass']);
+			return $row;
+		}
+		else {
+			// Account not found
+			return -1;
 		}
 	}
 	
@@ -148,27 +158,72 @@ class Adowneraccounts_model extends CI_Model
 	
 	public function logout_mobile($data)
 	{
-		// Get Current Time
-		$lastlogin = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
-		
-		$this->db->where("owner_id", $data['owner_id']);
+		//Find Ad owner in DB
+		$this->db->where($this->id, $data[$this->id]);
 		$this->db->where("owner_uname", $data['owner_uname']);
 		$this->db->where("owner_upass", sha1($data['owner_upass']));
-		$data=array(
-			'is_online'=>false,
-			'owner_lastlogin'=>$lastlogin->format('Y-m-d H:i:s'),
-		);
-		
-		// Update the Database then return a value
-		$this->db->update($this->table,$data);
-		if($this->db->affected_rows() > 0)
-		{
+		$query = $this->db->get($this->table);
+		if ($query->num_rows()) 
+		{	
+			$row = $query->row_array();
+			
+			// Sets status to offline after logging out
+			$row['is_online'] = false;
+			$this->db->where($this->id, $row[$this->id]);
+			$this->db->update( $this->table , $row);
+				
+			// Unsets the password from the array
+			unset($row['owner_upass']);
 			return 1;
 		}
-		else
-		{
-			return -1; 
+		else {
+			// Account not found
+			return -1;
 		}
 	}
+	
+	////////////////////////////////////////////////////////////////
+	//          C  R  U  D    F  U  N  C  T  I  O  N  S           //
+	////////////////////////////////////////////////////////////////
+	// C R E A T E
+	public function save($data)
+	{
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
+	
+	// R E A D
+	public function show()
+	{
+		$this->db->select("*");
+		$this->db->from($this->table);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
+	// U P D A T E
+	public function edit($owner_id)
+	{
+		$this->db->select("*");
+		$this->db->from($this->table);
+		$this->db->where($this->id, $owner_id);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+
+	public function update($data)
+	{
+		$this->db->where($this-id,$data[$this->id]);
+		$this->db->update($this->table, $data);
+		return TRUE;
+	}
+
+	// D E L E T E
+	public function delete($data)
+	{
+		$this->db->where($this-id,$data[$this->id]);
+		$this->db->delete($this->table);
+		return TRUE;
+	}
 }
-// END OF MODEL
+// END OF ADOWNER ACCOUNTS MODEL

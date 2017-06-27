@@ -61,8 +61,8 @@ class Salesman extends MY_Controller {
 		);
 		$data['page_description']='View Available Schedules';
 
-		$data['treeActive'] = 'ads_management';
-        $data['childActive'] = 'browse_ad_orders' ;
+		$data['treeActive'] = 'ad_orders';
+        $data['childActive'] = 'place_ad_orders' ;
 
 		//REGION
 		$region_data = $this->Region->show_Region();

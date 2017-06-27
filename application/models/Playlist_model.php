@@ -21,12 +21,14 @@ class Playlist_model extends CI_Model
 		$this->db->insert($this->table, $data);
 		return $this->db->insert_id();				
 	}
-
+	
 	// R E A D
 	public function read($date=null,$where=null,$orwhere=null){
 	
 		$this->db->select('*')
-				->from($this->table);	
+				->from($this->table)
+				->join('deployment','playlist.route_id=deployment.route_id','inner')
+				->join('tvs','deployment.tv_id=tvs.tv_id','inner');				
 
 		if( isset($where) )
 			$this->db->where($where);
@@ -74,6 +76,18 @@ class Playlist_model extends CI_Model
 		
 		return $query->result_array();
 	
+	}
+	
+	public function getListMobile($query)
+	{
+		$this->db->select('*')->from($this->table);	
+
+		$this->db->where("date_start <= ",$query['date']);
+		$this->db->where("date_end >=",$query['date']);
+		$this->db->where("route_id",$query['route_id']);
+		$this->db->where("timeslot",$query['timeslot']);
+		$query = $this->db->get();
+		return $query->result_array();
 	}
 	
 	// U P D A T E

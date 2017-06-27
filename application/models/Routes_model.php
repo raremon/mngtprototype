@@ -41,6 +41,13 @@ class Routes_model extends CI_Model
 		return $query->result_array();
 	}
 
+	// Get route based on route ID
+	public function get_route_data($id)
+	{
+		$route = $this->db->get_where('routes',array('route_id' => $id))->row_array();
+                return $route;
+	}
+
 	public function find_Location($location_id)
 	{
 		$this->db->select("location_from");
