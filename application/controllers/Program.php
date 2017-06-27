@@ -165,7 +165,7 @@
             );
             $data['css']=array
             (
-
+                'assets/css/browse_style.css'
             );
             $data['script']=array
             (
@@ -192,7 +192,7 @@
 					)
 				);
 			}
-            $data['treeActive'] = 'ad_orders';
+            $data['treeActive'] = 'ads_management';
             $data['childActive'] = 'browse_ad_orders' ;
 
             $this->load->view("template/header", $data);
