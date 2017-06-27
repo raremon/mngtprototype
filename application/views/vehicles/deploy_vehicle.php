@@ -1,4 +1,4 @@
-<div class="modal fade" id="add-route-box" role="dialog">
+<div class="modal fade" id="add-route-box" role="dialog" style="z-index: 1200 !important;">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -97,38 +97,34 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Vehicle Details</h4>
+        <h4 class="modal-title">Route List</h4>
       </div>
       <div class="modal-body">
           <div class="container-fluid">
             <div class="col-md-12">
               <div id="media-message"></div>
               <div class="form-group">
-                <label>Vehicle Type</label>
-                <select id="vehicle_type" class="form-control select2">
+                <label for="route_list">Select Route:</label>
+                <select id="route_id" name="route_id" class="form-control select2" style="width:100%;">
                   <?php 
-                    foreach($types as $row)
+                    foreach($route as $row)
                     {
-                  ?>
-                    <option value= <?php echo $row[0];?> >
-                      <?php echo $row[1]; ?>
-                    </option>
+                    ?>
+                  <option value= <?php echo $row[0];?> >
+                    <?php echo $row[1]; ?>
+                  </option>
                   <?php 
                     }
-                  ?>
+                    ?>
                 </select>
-              </div>
-              <div class="form-group">
-                <label>Vehicles</label>
-                <select id="vehicle" class="form-control select2">
-                </select>
+                <a class="btn btn-link pull-right" href="#/" onclick="addRoute()">Add Routes</a>
               </div>
               <?php echo form_close(); ?>
             </div>
           </div> 
       </div>
       <div class="modal-footer">
-        <button id="show-div" type="button" class="btn btn-success select" onclick="selectVehicle()">Select</button>
+        <button id="" type="button" class="btn btn-success">Deploy</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -143,59 +139,69 @@
   <div class="box-body">
       <div class="container-fluid">
         <div class="col-md-12">
-          <?php echo form_open('welcome', array('id'=>'media')); ?>
-            <div class="form-group hidden">
-              <input type="text" name="ready_vehicle_id" id="media_id" class="form-control" readonly>
-            </div>
-            <div class="input-group">
-              <div class="input-group-btn">
-                <button type="button" class="btn btn-success" onclick="openModal()">Select Vehicle</button>
-              </div>
-              <input type="text" id="vehicle_name" class="form-control" readonly>
-              <input type="text" name="vehicle_id" id="vehicle_id" class="form-control hidden" readonly>
-            </div></br>
-            <div id="hidden-form">
+            <div id="form-group">
               <div class="col-md-12">
                   <div class="form-group">
-                    <label for="route_list">Select Route:</label>
-                    <select id="route_id" name="route_id" class="form-control select2" style="width:100%;">
+                    <label>Select Vehicle Type</label>
+                    <select id="vehicle_type" class="form-control select2">
+                        <option selected value="def">
+                          Vehicle Types...
+                        </option>
                       <?php 
-                        foreach($route as $row)
+                        foreach($types as $row)
                         {
-                        ?>
-                      <option value= <?php echo $row[0];?> >
-                        <?php echo $row[1]; ?>
-                      </option>
+                      ?>
+                        <option value= <?php echo $row[0];?> >
+                          <?php echo $row[1]; ?>
+                        </option>
                       <?php 
                         }
-                        ?>
+                      ?>
                     </select>
-                    <a class="btn btn-link pull-right" href="#/" onclick="addRoute()">Add Routes</a>
                   </div>
               </div>
-              <button type="button" class="btn btn-success save" onclick="" style="float:right;">Deploy Vehicle</button>
+
             </div>
           <?php echo form_close(); ?>
         </div>
       </div> 
   </div>
   <div class="box-footer">
-      <h3 class="hidden-text text-center">Select Vehicle First</h3>
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <table id="sales_data" class="table table-hover table-bordered hidden-table">
+            <thead>
+              <tr>
+                <th>VEHICLE TYPE</th>
+                <th>VEHICLE NAME</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>VEHICLE TYPE</td>
+                <td>VEHICLE NAME</td>
+                <td><button type="button" class="btn btn-success" onclick="openModal()">Assign</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
   </div>
 </div>
 
 <script type="text/javascript">
-  $("#hidden-form").hide();
-  $(".select2").select2();
+$(".select2").select2();
 $('.select2-selection__rendered').removeAttr('title');
+$(".hidden-table").hide();
+$("#vehicle_type").change(function () {
+        $(".hidden-table").show();
+        $("#vehicle_type option[value='def']").remove();
+        $('.select2-selection__rendered').removeAttr('title');
+    });
   function addRoute() {
       $("#add-route-box").modal('show');
   }
-  $("#show-div").click(function(){
-     $(".hidden-text").hide();
-     $("#hidden-form").show();
-
-   });
   function openModal(){
     $('#vehicle-assign-box').modal('show');
   }     
