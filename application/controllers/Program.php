@@ -215,6 +215,7 @@
 						$rows['order_id'],
 						$advertiser['advertiser_name'],
 						$order_date->format('M / d / Y'),
+						date('m/d/Y', strtotime($rows['date_start'])).' - '.date('m/d/Y', strtotime($rows['date_end'])),
 						'<button type="button" class="btn btn-success" onclick="openModal('."'".$rows['order_id']."'".')">Manage Order</button>',
 					)
 				);
@@ -391,8 +392,10 @@
 				foreach ($selected_tslot as $rows) {
 					$this->Tslot->deleteTslot($this->input->post('order_id'), $rows);
 				}
+				
 				$this->assignNewSchedule($data['order_id']);
-				$this->generate_list($data['order_id']);
+				$this->generate_list($data['order_id']);	
+				
 				$info['message']="<p class='success-message'>You have successfully approved <span class='message-name'>Order Number ".$this->input->post('order_id')."</span>!</p>";
 			}
 
@@ -427,17 +430,19 @@
 						'order_id'=>$order_id,
 						'status'=>0,
 					);
-					$this->nSched->create($data);
+					$id = $this->nSched->create($data);
         		}
         	}
         	return TRUE;
         }
         public function generate_list($order_id){
 			$this->load->library("auto_schedule");
+			$this->load->model("nschedules_model");
 			$where = array('order_id'=>$order_id);
-			$details = $this->nSched->getSchedules($where);
+			$details = $this->nschedules_model->getSchedules($where);
 			$schedule = $this->auto_schedule->auto($details);
 		}
+		
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 		//                    B  R  O  W  S  E        F  U  N  C  T  I  O  N  S                          //
 		///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1782,6 +1787,15 @@
 			}
 			return $pushdata;
 		}
+		
+		public function testAutoSched($slot, $month, $day, $routeId) {
+			$this->load->library('dynamic_schedule');
+			
+			$result = $this->dynamic_schedule->generateAdHourV2($slot, $month, $day, $routeId);
+			
+			debug(json_encode($result), true);
+		}
+		
 	}
 
 // END OF PROGRAM SCHEDULE CONTROLLER

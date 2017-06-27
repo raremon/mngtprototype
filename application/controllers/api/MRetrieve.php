@@ -13,6 +13,7 @@ class MRetrieve extends REST_Controller
 		$this->load->model('Orders_model'         , 'Orders');
 		$this->load->model('Order_slots_model'    , 'Order_slots');
 		$this->load->model('Order_routes_model'   , 'Order_routes');
+		$this->load->model('Playlist_model'       , 'Playlists');
 		$this->load->model('Regions_model'        , 'Regions');
 		$this->load->model('Routes_model'         , 'Routes');
 		$this->load->model('Timeslots_model'      , 'Timeslots');
