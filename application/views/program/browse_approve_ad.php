@@ -1,5 +1,72 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJAq_K8XorLcD2nKKsrmB7BserF3Wh3Ss&libraries=places" type="text/javascript"></script>
 
+<div class="modal fade" id="upload-ad-box" role="dialog" style="z-index=9999;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Upload New Ad</h4>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+            <div class="col-md-12">
+                <div id="ad-message"></div>
+                <?php echo form_open_multipart('ads_mngt/saveAd', array('id'=>'ads')); ?>
+                  <div class="form-group">
+                    <label for="video_title">Title:</label>
+                    <input name="ad_name" type="text" class="form-control" id="video_title" placeholder="Title">
+                  </div>
+                  <div class="form-group">
+                    <input name="ad_duration" type="text" class="form-control hidden" id="video_duration">
+                  </div>
+                  <div class="form-group">
+                    <input name="video_filename" type="text" class="form-control hidden" id="video_filename">
+                  </div>
+                  <div id="material" class="hidden">
+                  </div>
+                  <div class="form-group">
+                    <div class="form-group">
+                      <label>Advertiser</label>
+                      <select name="advertiser_id" class="form-control select2">
+                        <?php 
+                          foreach($advertiser as $row)
+                          {
+                        ?>
+                          <option value= <?php echo $row[0];?> >
+                            <?php echo $row[1]; ?>
+                          </option>
+                        <?php 
+                          }
+                        ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <input name="ad_file" id="ad_file" type="file" class="file">
+                    <div class="input-group col-xs-12">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                      <input type="text" class="form-control input-md" disabled placeholder="Upload Video">
+                      <input name="ad_filename" type="text" class="form-control input-md hidden">
+                      <span class="input-group-btn">
+                        <button class="browse btn btn-success input-md" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                      </span>
+                    </div>
+                    <!-- TAGGING PAUL -->
+                    <img id="loading_img" src="<?php echo base_url('assets/public/loading.gif') ?>" class="hidden">
+                  </div>
+
+                  <button type="submit" class="btn btn-primary" name="upload" id="upload" value="upload">Upload</button>
+                <?php echo form_close(); ?>
+            </div>
+          </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="showApproveModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="advertiser" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -118,7 +185,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="approve-modal" role="dialog">
+<div class="modal fade" id="approve-modal" role="dialog" style="z-index=9998;">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <?php echo form_open_multipart('', array('id'=>'order')); ?>
@@ -187,8 +254,10 @@
           <div class="col-md-12">
             <input type="text" class="form-control hidden" id="pending_ad_id" name="ad_id">
              <div class="form-group">
-             <label>Select Ad:</label>
-                <table id="pending_advertisement_id" class="table table-hover" width="100%">
+                 <label>Select Ad:</label></br>
+                <button type="button" class="btn btn-success" onclick="showAdTable()" style="margin-bottom:20px;">Choose from existing ads.</button> 
+                <button type="button" class="btn btn-success" onclick="showUploadAd()" style="margin-bottom:20px;">Upload new ad.</button>
+                <table id="pending_advertisement_id" class="table table-hover hidden-ad-table" width="100%">
                   <thead>
                     <tr>
                       <th>Id</th>
@@ -372,6 +441,28 @@
 </div>
 
 <script>
+  $(".hidden-ad-table").hide();
+
+  function showAdTable() {
+        $(".hidden-ad-table").show();
+  }
+  function showApproveModal() {
+        $(".hidden-ad-table").hide();
+        $("#approve-modal").modal('show');
+  }
+  function showUploadAd() {
+        $(".hidden-ad-table").hide();
+        $("#approve-modal").modal('hide');
+        $("#upload-ad-box").modal('show');
+  }
+  $(document).on('click', '.browse', function(){
+    var file = $(this).parent().parent().parent().find('.file');
+    file.trigger('click');
+  });
+  //Placeholder Text End
+  $(document).on('change', '.file', function(){
+    $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+  });
   $('.image-editor').cropit();
   $('.image-editor').cropit('minZoom', 'fit');
   $('.rotate-cw').click(function() {
