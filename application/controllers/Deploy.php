@@ -151,6 +151,45 @@ class Deploy extends MY_Controller {
 		$this->load->view("template/footer", $data);
 	}
 
+	public function browse()
+	{
+		$data = array();
+		$data['role'] = $this->logged_out_check();
+
+		$data['title']='Browse Deployed Vehicles';
+
+		$data['breadcrumbs']=array
+		(
+			array('Browse Deployed Vehicles','deploy/browse'),
+		);
+		$data['css']=array
+		(
+			'assets/css/browse_style.css',
+		);
+		$data['script']=array
+		(
+			'assets/js/jquery.form.js',
+		);
+		$data['page_description']='Browse Deployed Vehicles';
+
+		// $agency_data = $this->Agency->read();
+		// $data['agency'] = array();
+		// foreach ($agency_data as $rows) {
+			// array_push($data['agency'],
+				// array(
+					// $rows['agency_id'],
+					// $rows['agency_name'],
+				// )
+			// );
+		// }
+
+		$data['treeActive'] = 'deploy_vehicle';
+		$data['childActive'] = 'browse_deployed' ;
+
+		$this->load->view("template/header", $data);
+		$this->load->view("vehicles/deployed_browse", $data);
+		$this->load->view("template/footer", $data);
+	}	
 }
 
 // END OF DEPLOY CONTROLLER

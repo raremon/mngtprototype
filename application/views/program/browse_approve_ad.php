@@ -202,8 +202,14 @@
           <input type="text" class="form-control hidden" id="pending_order_id" name="order_id">
           <div class="col-md-12">
             <div class="form-group">
+            <label>Advertisement Title:</label>
+            <input type="text" class="form-control" id="ad_title">
+            </div>            
+          </div>		  
+          <div class="col-md-12">
+            <div class="form-group">
             <label>Agency/Advertiser:</label>
-            <input type="text" class="form-control" id="pending_advertiser_id" readonly>
+            <input type="text" class="form-control" id="pending_advertiser_id" readonly="readonly">
             </div>            
           </div>
 
@@ -290,14 +296,14 @@
           <div class="col-md-12">
             <div class="form-group">
             <label>Ad Duration Ordered:</label>
-            <input type="text" class="form-control" id="pending_ad_duration" readonly>
+            <input type="text" class="form-control" id="pending_ad_duration">
             </div>            
           </div>
 
           <div class="col-md-12">
             <div class="form-group">
             <label>Sales Agent:</label>
-            <input type="text" class="form-control" id="pending_sales_id" readonly>
+            <input type="text" class="form-control" id="pending_sales_id" readonly="readonly">
             </div>            
           </div>
         </div>

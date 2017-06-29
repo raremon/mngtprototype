@@ -278,11 +278,28 @@
                     <li id="browse_agencies"><a href="<?php echo base_url('agencies/browse') ?>">Agencies</a></li>
                     <li id="browse_ad_companies"><a href="<?php echo base_url('advertisers/browse') ?>">Advertisers</a></li>
                   </ul>				
-            		</li>
+            	</li>
 
-                <li id="deploy_vehicle"><a href="<?php echo base_url('deploy/deploys') ?>"><i class="fa fa-paper-plane"></i> <span>Deploy Vehicle</span></a></li>
+                <!--<li id="deploy_vehicle" class="treeview">
+        			<a href="#"><i class="fa fa-briefcase"></i> <span>Deploy Vehicles</span>
+						<span class="pull-right-container">
+						  <i class="fa fa-angle-left pull-right"></i>
+						</span>					
+					</a>
+                  <ul class="treeview-menu">
+                    <li id="browse_deployed"><a href="<?php echo base_url('deploy/browse') ?>">Deployed Vehicles</a></li>
+                  </ul>				
+            	</li>-->
+				
+                <li id="deploy_vehicle">					
+					<a href="<?php echo base_url('deploy/browse') ?>"><i class="fa fa-paper-plane"></i> <span>Deployed Vehicles</span></a>
+				</li>
 
-                <li id="route_management" class="treeview">
+                <li id="route_management">					
+					<a href="<?php echo base_url('routes/browse') ?>"><i class="fa fa-road"></i> <span>Route Management</span></a>
+				</li>
+				
+                <!--<li id="route_management" class="treeview">
                   <a href="#"><i class="fa fa-road"></i> <span>Route Management</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
@@ -290,11 +307,11 @@
                   </a>
                   <ul class="treeview-menu">
                     <li id="browse_routes"><a href="<?php echo base_url('routes/browse') ?>">Routes</a></li>
-                    <!-- <li id="locations"><a href="<?php echo base_url('locations/browse') ?>">Locations</a></li> -->
-                    <!-- <li id="browse_cities"><a href="<?php echo base_url('cities/browse') ?>">Cities</a></li> -->
-                    <!-- <li id="browse_regions"><a href="<?php echo base_url('regions/browse') ?>">Regions</a></li> -->
+					<li id="locations"><a href="<?php echo base_url('locations/browse') ?>">Locations</a></li> 
+                    <li id="browse_cities"><a href="<?php echo base_url('cities/browse') ?>">Cities</a></li> 
+                    <li id="browse_regions"><a href="<?php echo base_url('regions/browse') ?>">Regions</a></li> 
                   </ul>
-                </li>
+                </li>-->
 
   	            <!--<li id="e_payment"><a href="javascript:void(0)"><i class="fa fa-money"></i> <span>E-Payment</span></a></li>	-->			
                 
@@ -320,7 +337,11 @@
                   </ul>
                 </li>
 
-                <li id="live_monitoring" class="treeview">
+                <li id="live_monitoring">					
+					<a href="<?php echo base_url('monitoring/view') ?>"><i class="fa fa-eye"></i> <span>Live Monitoring</span></a>
+				</li>
+				
+                <!--<li id="live_monitoring" class="treeview">
                   <a href="#"><i class="fa fa-eye"></i> <span>Live Monitoring</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
@@ -329,7 +350,8 @@
                   <ul class="treeview-menu">
                     <li id="active_vehicles"><a href="<?php echo base_url('monitoring/view') ?>">Active/ Inactive Vehicles</a></li>
                   </ul>
-                </li>
+                </li>-->
+				
                 <li id="epayment" class="treeview">
                   <a href="#"><i class="fa fa-money"></i> <span>E-Payment</span>
                     <span class="pull-right-container">
