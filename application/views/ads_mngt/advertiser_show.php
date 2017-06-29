@@ -197,12 +197,13 @@
             <thead>
               <tr>
                 <th>ADVERTISER NAME</th>
-                <th>COMPANY ADDRESS</th>
+                <th>NO. OF ADS</th>
+                <!--<th>COMPANY ADDRESS</th>-->
                 <th>CONTACT DETAILS</th>
                 <th>EMAIL ADDRESS</th>
-                <th>COMPANY WEBSITE</th>
+                <!--<th>COMPANY WEBSITE</th>
                 <th>AGENCY</th>
-                <th>DESCRIPTION</th>
+                <th>DESCRIPTION</th>-->
                 <th></th>
               </tr>
             </thead>
@@ -271,9 +272,6 @@
       "type":"POST"
     },
     "columns": [
-      null,
-      null,
-      null,
       null,
       null,
       null,
